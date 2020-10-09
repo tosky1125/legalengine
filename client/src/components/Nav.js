@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import logo from "../images/logo.svg";
-import "./Nav.css";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import logo from '../images/logo.svg';
+import './Nav.css';
+import { Link } from 'react-router-dom';
 
 class NavBar extends Component {
   /*constructor(props) {
@@ -9,9 +9,9 @@ class NavBar extends Component {
   }*/
   render() {
     return (
-      <div className="nav-form">
-        <Link to="/">
-          <img className="nav-logo" src={logo} alt="logo"></img>
+      <div className='nav-form'>
+        <Link to='/'>
+          <img className='nav-logo' src={logo} alt='logo'></img>
         </Link>
       </div>
     );
