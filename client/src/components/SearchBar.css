@@ -1,0 +1,30 @@
+.searchbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: calc(80vh - 70px - 2.9em);
+}
+
+.search-container {
+  background-color: orange;
+  width: 40rem;
+  height: 8rem;
+}
+
+.search-form {
+  width: 30rem;
+  height: 10rem;
+  box-sizing: border-box;
+}
+
+.search-word {
+}
+
+.search-date {
+}
+
+.date {
+  margin-left: 6.5rem;
+}

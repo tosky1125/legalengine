@@ -1,0 +1,11 @@
+.nav-form {
+  background-color: #ffffff;
+  height: 6rem;
+  border-bottom: 0.5px solid #eee;
+}
+
+.nav-logo {
+  height: 4rem;
+  width: 12rem;
+  margin: 1rem;
+}
