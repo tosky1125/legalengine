@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const parse = require('date-fns/parse');
 
 // sequelize
-const { law } = require('./models');
+const { LAW } = require('./models');
 const { Op } = require('sequelize');
 
 const app = express();
@@ -25,13 +25,13 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 app.get('/', (req, res) => res.send('hello world'));
-
 app.post('/laws', async (req, res) => {
-  // parse date from req.body.date
+console.log(req.body);
+	// parse date from req.body.date
   let date = parse(req.body.date, 'yyyy-MM-dd', new Date());
   let keyword = req.body.searchWord;
 
-  let searchResult = await law.findAll({
+  let searchResult = await LAW.findAll({
     where: {
       name: {
         [Op.substring]: keyword
