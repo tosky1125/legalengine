@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "tmflfkd1",
+    "password": "12345678",
     "database": "carillon",
     "host": "127.0.0.1",
     "dialect": "mysql"

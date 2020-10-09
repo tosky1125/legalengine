@@ -24,17 +24,8 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(morgan('combined'));
-// app.get('/', (req, res) => res.send('hello world'));
-// app.get('/data', (req, res) => {
-  axios.get("http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML").then(response => {
-    let data = convert.xml2json(response.data, {
-      compact: true,
-      spaces: 4
-    });
-    data = JSON.parse(data);
-    console.log(data);
-  });
-// });
+app.get('/', (req, res) => res.send('hello world'));
+
 app.post('/laws', async (req, res) => {
   // parse date from req.body.date
   let date = parse(req.body.date, 'yyyy-MM-dd', new Date());
@@ -54,13 +45,4 @@ app.post('/laws', async (req, res) => {
   res.send(searchResult);
 });
 
-// axios.get("http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&query=" + keyword)
-//   .then(response => {
-//     let data = convert.xml2json(response.data, {
-//       compact: true,
-//       spaces: 4
-//     });
-//     data = JSON.parse(data);
-//     console.log(data)
-//   })
-// app.listen(port, console.log(`server is listening to port ${port}`));
+app.listen(port, console.log(`server is listening to port ${port}`));
