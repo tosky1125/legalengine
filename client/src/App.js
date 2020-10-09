@@ -1,9 +1,9 @@
-import React from 'react';
-import axios from 'axios';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Main from './components/Main';
-import NavBar from './components/Nav';
-import SearchResult from './components/SearchResult';
+import React from "react";
+import axios from "axios";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Main from "./components/Main";
+import NavBar from "./components/Nav";
+import SearchResult from "./components/SearchResult";
 
 axios.default.withCredentrial = true;
 class App extends React.Component {
@@ -34,8 +34,8 @@ class App extends React.Component {
         <Router>
           <NavBar />
           <Switch>
-            <Route path='/' exact component={Main} />
-            <Route path='/search' component={SearchResult} />
+            <Route path="/" exact component={Main} />
+            <Route path="/search" component={SearchResult} />
           </Switch>
         </Router>
       </>

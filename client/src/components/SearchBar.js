@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import './SearchBar.css';
-import searchlist from '../modules/searchlist';
+import React, { Component } from "react";
+import axios from "axios";
+import "./SearchBar.css";
+import * as searchlist from "../modules/searchlist";
+import { connect } from "react-redux";
+
 class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchWord: '',
-      date: '',
+      searchWord: "",
+      date: "",
     };
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeWord = this.handleChangeWord.bind(this);
@@ -39,10 +41,10 @@ class SearchBar extends Component {
     const { searchlist } = this.props;
 
     axios
-      .post('http://13.125.112.243/laws', payload)
+      .post("http://13.125.112.243/laws", payload)
       .then((res) => {
         console.log(res.data);
-        searchlist(res.data);
+        searchlist(res.data); //searchlist는 함수가 아니라고 나옴 dispatch 해서 handleaction이 작동해야됨
       })
       .catch();
   }
@@ -51,33 +53,33 @@ class SearchBar extends Component {
     const { searchWord, date } = this.state;
     return (
       <>
-        <div className='searchbar'>
-          <div className='search-container'>
-            <form className='search-form' onSubmit={this.handleSearchSubmit}>
-              <div className='search-title'>
-                <span className='law'>법령</span>
-                <span className='date'>날짜</span>
+        <div className="searchbar">
+          <div className="search-container">
+            <form className="search-form" onSubmit={this.handleSearchSubmit}>
+              <div className="search-title">
+                <span className="law">법령</span>
+                <span className="date">날짜</span>
               </div>
-              <span className='search-word'>
+              <span className="search-word">
                 <input
-                  type='text'
-                  name='text'
-                  placeholder='검색어를 입력하세요'
+                  type="text"
+                  name="text"
+                  placeholder="검색어를 입력하세요"
                   value={searchWord}
-                  onChange={this.handleChangeWord('text')}
+                  onChange={this.handleChangeWord("text")}
                 />
               </span>
-              <span className='search-date'>
+              <span className="search-date">
                 <input
-                  type='date'
-                  name='date'
-                  placeholder='대상 날짜'
+                  type="date"
+                  name="date"
+                  placeholder="대상 날짜"
                   value={date}
-                  onChange={this.handleChangeDate('date')}
+                  onChange={this.handleChangeDate("date")}
                 />
               </span>
-              <span className='search-btn'>
-                <button type='submit'>검색</button>
+              <span className="search-btn">
+                <button type="submit">검색</button>
               </span>
             </form>
           </div>
@@ -87,4 +89,11 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+export default connect(
+  (state) => ({
+    lawlist: state.searchlist.lawlist,
+  }),
+  (dispatch) => ({
+    searchlist: (data) => dispatch(searchlist.searchlist(data)),
+  })
+)(SearchBar);
