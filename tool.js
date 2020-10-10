@@ -20,7 +20,7 @@ let deepSearch = async () => {
   } = data
   let searchDate = dateParse(enforcement_date)
   let url = `http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=${number}&efYd=${searchDate}&type=XML`
-  let res = await axios.get(url)
+  let res = await axios.get('http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=72241&efYd=20051214&type=XML')
 
   let json = await convert.xml2json(res.data, {
     compact: true,
@@ -29,6 +29,7 @@ let deepSearch = async () => {
   json = await JSON.parse(json);
   let lawContexts = json['법령']['기본정보']['법령명_한글']._cdata
 
+  
   // Chapter
   let jo = json['법령']['조문']['조문단위'];
   let chapter = [];
@@ -38,60 +39,68 @@ let deepSearch = async () => {
   let chapterNum;
   let articleNum;
   let clauseNum;
-  jo.forEach(ele => {
-    if (ele._attributes['조문키'][6] === '0') {
-      console.log(ele._attributes['조문키'])
-      chapter.push({
-        chapterNum: Number(ele._attributes['조문키']),
-        contexts: String(ele['조문내용']._cdata)
-      });
-      chapterNum = Number(ele._attributes['조문키'])
-    } else {
-      let contexts = '조문참고자료' in ele ? ele['조문내용']._cdata + ele['조문참고자료']._cdata : ele['조문내용']._cdata
-      article.push({
-        articleNum: Number(ele._attributes['조문키']),
-        contexts: String(contexts),
-        chapterNum: Number(chapterNum)
-      });
-      articleNum = ele._attributes['조문키'];
-      if ('항' in ele) {
-        if (Array.isArray(ele['항'])) {
-          ele['항'].forEach((e, index) => {
-            let contextsHang = '조문참고자료' in e ? e['항내용']._cdata + e['조문참고자료']._cdata : e['항내용']._cdata
-            clause.push({
-              chapterNum: Number(chapterNum),
-              articleNum: Number(articleNum),
-              clauseNum: Number(index + 1),
-              contexts: String(contextsHang)
-            })
-
-            clauseNum = index;
-            if ('호' in e) {
-              e['호'].forEach((elem, i) => {
-                item.push({
-                  chapterNum: Number(chapterNum),
-                  articleNum: Number(articleNum),
-                  clauseNum: Number(clauseNum),
-                  itemNum: Number(i + 1),
-                  contexts: String(elem['호내용'])
-                })
+  if (Array.isArray(jo)) {
+    jo.forEach(ele => {
+      if (ele._attributes['조문키'][6] === '0') {
+        
+        chapter.push({
+          chapterNum: Number(ele._attributes['조문키']),
+          contexts: String(ele['조문내용']._cdata)
+        });
+        chapterNum = Number(ele._attributes['조문키'])
+      } else {
+        let contexts = '조문참고자료' in ele ? ele['조문내용']._cdata + ele['조문참고자료']._cdata : ele['조문내용']._cdata
+        article.push({
+          articleNum: Number(ele._attributes['조문키']),
+          contexts: String(contexts),
+          chapterNum: Number(chapterNum)
+        });
+        articleNum = ele._attributes['조문키'];
+        if ('항' in ele) {
+          if (Array.isArray(ele['항'])) {
+            ele['항'].forEach((e, index) => {
+              let contextsHang = '조문참고자료' in e ? e['항내용']._cdata + e['조문참고자료']._cdata : e['항내용']._cdata
+              clause.push({
+                chapterNum: Number(chapterNum),
+                articleNum: Number(articleNum),
+                clauseNum: Number(index + 1),
+                contexts: String(contextsHang)
               })
-            }
-          })
-        } else if ('호' in ele['항']) {
-          ele['항']['호'].forEach((elem, i) => {
-            item.push({
-              chapterNum: Number(chapterNum),
-              articleNum: Number(articleNum),
-              clauseNum: Number(clauseNum),
-              itemNum: i,
-              contexts: String(elem['호내용'])
+
+              clauseNum = index;
+              if ('호' in e) {
+                e['호'].forEach((elem, i) => {
+                  item.push({
+                    chapterNum: Number(chapterNum),
+                    articleNum: Number(articleNum),
+                    clauseNum: Number(clauseNum),
+                    itemNum: Number(i + 1),
+                    contexts: String(elem['호내용'])
+                  })
+                })
+              }
             })
-          })
+          } else if ('호' in ele['항']) {
+            ele['항']['호'].forEach((elem, i) => {
+              item.push({
+                chapterNum: Number(chapterNum),
+                articleNum: Number(articleNum),
+                clauseNum: Number(clauseNum),
+                itemNum: i,
+                contexts: String(elem['호내용'])
+              })
+            })
+          }
         }
       }
-    }
-  })
+    })
+  }else {
+    chapter.push({
+      chapterNum: Number(json['법령']['조문']['조문단위']._attributes['조문키']),
+      contexts: String(json['법령']['조문']['조문단위']['조문내용']._cdata)
+    });
+  }
+  
   await LAW.update({
     contexts: lawContexts
   }, {
@@ -103,7 +112,6 @@ let deepSearch = async () => {
 
   if (chapter.length !== 0) {
     await chapter.forEach(ele => {
-      
       let {
         chapterNum,
         contexts
@@ -128,6 +136,7 @@ let deepSearch = async () => {
       })
     })
   }
+  
   if (clause.length !== 0) {
     await clause.forEach(ele => {
       CLAUSE.create({
@@ -140,6 +149,7 @@ let deepSearch = async () => {
       })
     })
   }
+  
   if (item.length !== 0) {
     await item.forEach(ele => {
       ITEM.create({
@@ -152,8 +162,8 @@ let deepSearch = async () => {
         contexts: ele.contexts
       })
     })
-    await i++
   }
+  await i++
 }
 const pad = (str) => {
   return str.length === 1 ? str.padStart(2, '0') : str
