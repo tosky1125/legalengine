@@ -86,6 +86,33 @@ class SearchBar extends Component {
       });
   }
 
+  renderSearchResults = () => {
+    const results = this.props.lawlist;
+    if (Object.keys(results).length && results.length) {
+      return (
+        <div className="results-container">
+          {results.map((result) => {
+            return (
+              <>
+                <a key={result.id} href="나중에 넣을 링크">
+                  <h3 className="name">{result.name}</h3>
+                  <span className="type">{result.type}</span>
+                  <span className="number">{result.number}</span>
+                  <span className="admendment">{result.amendment_status}</span>
+                  <span className="ministry">{result.ministry}</span>
+                  <span className="promulgation">
+                    {result.promulgation_date}
+                  </span>
+                  <span className="enforcement">{result.enforcement_date}</span>
+                </a>
+              </>
+            );
+          })}
+        </div>
+      );
+    }
+  };
+
   render() {
     const { searchWord, date } = this.state;
     return (
@@ -117,6 +144,7 @@ class SearchBar extends Component {
             <span className="search-btn">
               <button type="submit">검색</button>
             </span>
+            <div>ㅌㅔ스ㅌㅡ{this.renderSearchResults()}</div>
           </form>
         </div>
       </>
