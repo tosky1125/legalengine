@@ -10,7 +10,9 @@ class SearchBar extends Component {
     this.state = {
       searchWord: "",
       date: "",
+      message: "",
     };
+    this.cancel = "";
     this.handleChangeDate = this.handleChangeDate.bind(this);
     this.handleChangeWord = this.handleChangeWord.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
@@ -20,8 +22,34 @@ class SearchBar extends Component {
   // 검색창2: 날짜 달력아이콘 클릭하면 달력 모달 생성, 날짜 선택 하면 input 창에 날짜 입력됨 placeholder가 '대상 날짜'
   // 검색버튼: 클릭하면 검색어와 날짜 post
 
+  /* 이전 query(searchword) 요청을 취소하고 마지막 query만 요청해 퍼포먼스에 이득
+    fetchSearchResults = (updatedPageNo = "", searchword) => {
+    const pageNumber = updatedPageNo ? `$page=${updatedPageNo}` : "";
+    const searchUrl = `localhost:3000/search/${searchword}${pageNumber}`;
+
+    if (this.cancel) {
+      this.cancel.cancel();
+    }
+    this.cancle = axios.CancelToken.source();
+
+    axios
+      .get(searchUrl, {
+        cancelToken: this.cancel.token,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };*/
+
   handleChangeWord = () => (e) => {
-    this.setState({ searchWord: e.target.value });
+    const searchWord = e.target.value;
+    this.setState({ searchWord: searchWord });
+    /* this.setState({ searchWord: searchWord }, () => {
+      this.fetchSearchResults(1, searchWord);
+    }); */
     console.log(e.target.value);
   };
 
@@ -44,45 +72,52 @@ class SearchBar extends Component {
       .post("http://13.125.112.243/laws", payload)
       .then((res) => {
         console.log(res.data);
-        searchlist(res.data); //searchlist는 함수가 아니라고 나옴 dispatch 해서 handleaction이 작동해야됨
+        searchlist(res.data);
+        const resultNotFoundMsg = !this.props.lawlist.length
+          ? "검색 결과가 없습니다. 새로운 검색어를 입력해주세요"
+          : "";
+        this.setState({
+          message: resultNotFoundMsg,
+        });
+        console.log(this.state.message); //searchlist는 함수가 아니라고 나옴 dispatch 해서 handleaction이 작동해야됨
       })
-      .catch();
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
     const { searchWord, date } = this.state;
     return (
       <>
-        <div className="searchbar">
-          <div className="search-container">
-            <form className="search-form" onSubmit={this.handleSearchSubmit}>
-              <div className="search-title">
-                <span className="law">법령</span>
-                <span className="date">날짜</span>
-              </div>
-              <span className="search-word">
-                <input
-                  type="text"
-                  name="text"
-                  placeholder="검색어를 입력하세요"
-                  value={searchWord}
-                  onChange={this.handleChangeWord("text")}
-                />
-              </span>
-              <span className="search-date">
-                <input
-                  type="date"
-                  name="date"
-                  placeholder="대상 날짜"
-                  value={date}
-                  onChange={this.handleChangeDate("date")}
-                />
-              </span>
-              <span className="search-btn">
-                <button type="submit">검색</button>
-              </span>
-            </form>
-          </div>
+        <div className="search-container">
+          <form className="search-form" onSubmit={this.handleSearchSubmit}>
+            <div className="search-title">
+              <span className="law">법령</span>
+              <span className="date">날짜</span>
+            </div>
+            <label className="search-word">
+              <input
+                type="text"
+                name="text"
+                placeholder="검색어를 입력하세요"
+                value={searchWord}
+                onChange={this.handleChangeWord("text")}
+              />
+            </label>
+            <label className="search-date">
+              <input
+                type="date"
+                name="date"
+                placeholder="대상 날짜"
+                value={date}
+                onChange={this.handleChangeDate("date")}
+              />
+            </label>
+            <span className="search-btn">
+              <button type="submit">검색</button>
+            </span>
+          </form>
         </div>
       </>
     );

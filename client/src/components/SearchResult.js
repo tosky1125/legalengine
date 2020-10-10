@@ -6,6 +6,11 @@ import * as searchlist from "../modules/searchlist";
 class SearchResult extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      results: {},
+      message: "",
+    };
   }
 
   //필요 states: 페이지당 표시할 Post 수, 전체 post 데이터, 현재 페이지
@@ -55,6 +60,7 @@ class SearchResult extends Component {
                   ? "시행일:2020.10.01"
                   : this.props.lawlist[0].enforcement_date}
               </span>
+              <span></span>
             </div>
           </div>
           <div>1 2 3 4 5 </div>
