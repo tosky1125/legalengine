@@ -35,8 +35,7 @@ const linkUrl = () => {
         id: i
       }
     })
-  })
-  i++
+  }).then(() => i++);
 }
 
 let i = 1
