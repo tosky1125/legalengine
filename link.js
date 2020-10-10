@@ -35,9 +35,8 @@ const linkUrl = () => {
         id: i
       }
     })
-  })
-  i++
+  }).then(() => i++)
 }
 
 let i = 1
-setInterval(linkUrl, 100, i)
+setInterval(linkUrl, 300, i)
