@@ -22,12 +22,13 @@ const spec = async (url) => {
   let title = await page.evaluate(() => document.querySelector('#conTop').textContent);
   let subTitle = await page.evaluate(() => document.querySelector('.cont_subtit').textContent);
   let lawContexts = title + subTitle;
+
   let jang = await page.evaluate(() => {
     let array = Array.from(document.querySelectorAll('a[name*="J"]'));
     let text = array.map(ele => ele.id)
     return text;
   })
-  
+
   let jangText = await page.evaluate(() => {
     let array = Array.from(document.querySelectorAll('.pgroup'));
     let text = array.map(ele => {
@@ -41,6 +42,7 @@ const spec = async (url) => {
     })
     return text;
   })
+
   jang = jang.slice(0,jangText.length)
   let chapID;
   jang.forEach((ele, index) => {
@@ -122,4 +124,3 @@ let crawl = async () => {
 }
 
 setInterval(crawl, 7000, i);
-
