@@ -14,6 +14,9 @@ module.exports = {
       chapter_id: {
         type: Sequelize.INTEGER
       },
+      article_title: {
+        type: Sequelize.STRING
+      },
       article_number: {
         type: Sequelize.INTEGER
       },
