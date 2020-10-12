@@ -20,7 +20,7 @@ let deepSearch = async () => {
   } = data
   let searchDate = dateParse(enforcement_date)
   let url = `http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=${number}&efYd=${searchDate}&type=XML`
-  let res = await axios.get('http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=9672&efYd=19620403&type=XML')
+  let res = await axios.get('http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=213831&efYd=20210101&type=XML')
   console.log(url)
   let json = await convert.xml2json(res.data, {
     compact: true,

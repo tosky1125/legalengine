@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   LAW.init({
-    law_id: DataTypes.INTEGER,
     number: DataTypes.INTEGER,
     name: DataTypes.STRING,
     promulgation_date: DataTypes.DATE,
