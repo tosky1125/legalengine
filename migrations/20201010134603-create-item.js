@@ -20,6 +20,9 @@ module.exports = {
       clause_id: {
         type: Sequelize.INTEGER
       },
+      sub_id: {
+        type: Sequelize.INTEGER
+      },
       item_number: {
         type: Sequelize.INTEGER
       },
