@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class SUBPARAGRAPH extends Model {
+  class subparagraph extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      SUBPARAGRAPH.hasMany(models.ITEM, {
+      subparagraph.hasMany(models.item, {
         foreignKey: 'subparagraph_id'
       })
-      SUBPARAGRAPH.belongsTo(models.CLAUSE)
+      subparagraph.belongsTo(models.clause)
     }
   };
-  SUBPARAGRAPH.init({
+  subparagraph.init({
     law_id: DataTypes.INTEGER,
     chapter_id: DataTypes.INTEGER,
     article_id: DataTypes.INTEGER,
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     contexts: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'SUBPARAGRAPH',
+    modelName: 'subparagraph',
   });
-  return SUBPARAGRAPH;
+  return subparagraph;
 };
