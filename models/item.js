@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      ITEM.belongsTo(models.SUBPARAGRAPH)
     }
   };
   ITEM.init({
@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     chapter_id: DataTypes.INTEGER,
     article_id: DataTypes.INTEGER,
     clause_id: DataTypes.INTEGER,
-    sub_id: DataTypes.INTEGER,
+    subparagraph_id: DataTypes.INTEGER,
     item_number: DataTypes.INTEGER,
-    date: DataTypes.DATE,
+    date: DataTypes.STRING,
     contexts: DataTypes.TEXT
   }, {
     sequelize,

@@ -10,14 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      CHAPTER.hasMany(models.ARTICLE, {
+        foreignKey: 'chapter_id'
+      })
+      CHAPTER.belongsTo(models.LAW)
     }
   };
   CHAPTER.init({
     chapter_id: DataTypes.INTEGER,
     law_id: DataTypes.INTEGER,
     chapter_number: DataTypes.INTEGER,
-    date: DataTypes.DATE,
+    date: DataTypes.STRING,
     contexts: DataTypes.TEXT
   }, {
     sequelize,
