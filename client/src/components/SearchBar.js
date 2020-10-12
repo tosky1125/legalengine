@@ -10,7 +10,6 @@ class SearchBar extends Component {
     this.state = {
       searchWord: '',
       date: '',
-      pageCount: 0,
     };
     this.cancel = '';
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -70,9 +69,7 @@ class SearchBar extends Component {
       .post('http://13.125.112.243/laws', payload)
       .then((res) => {
         searchlist(res.data);
-        this.setState({
-          pageCount: Math.ceil(res.data.lawlist.length / 8),
-        });
+
         //searchlist는 함수가 아니라고 나옴 dispatch 해서 handleaction이 작동해야됨
       })
       .catch((error) => {

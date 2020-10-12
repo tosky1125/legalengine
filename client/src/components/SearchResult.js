@@ -8,6 +8,13 @@ import axios from 'axios';
 class SearchResult extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      offset: 0,
+      data: [],
+      elements: [],
+      perpage: 8,
+      currentPage: 0,
+    };
   }
 
   //필요 states: 페이지당 표시할 Post 수, 전체 post 데이터, 현재 페이지
@@ -57,15 +64,6 @@ class SearchResult extends Component {
     };
     axios.post('http://13.125.112.243/search/post', payload).then((res) => {
       console.log(res.data);
-    });
-  };
-
-  handlePageClick = (data) => {
-    let selected = data.selected;
-    let offset = Math.ceil(selected * this.props.perPage);
-
-    this.setState({ offset: offset }, () => {
-      this.loadCommentsFromServer();
     });
   };
 
