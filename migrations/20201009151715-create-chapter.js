@@ -2,14 +2,18 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('CHAPTERs', {
-      id: {
+      chapter_id: {
         allowNull : false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       law_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'LAWs',
+          key: 'law_id'
+        }
       },
       chapter_number: {
         type: Sequelize.INTEGER

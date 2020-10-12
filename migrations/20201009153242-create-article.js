@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('ARTICLEs', {
-      id: {
+      article_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -12,7 +12,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'CHAPTERs',
+          key: 'chapter_id'
+        }
       },
       article_title: {
         type: Sequelize.STRING

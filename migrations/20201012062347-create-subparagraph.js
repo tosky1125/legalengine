@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('SUBPARAGRAPHs', {
-      id: {
+      subparagraph_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -18,7 +18,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       clause_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'CLAUSEs',
+          key: 'clause_id'
+        }
       },
       sub_number: {
         type: Sequelize.INTEGER
