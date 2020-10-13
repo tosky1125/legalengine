@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Article.belongsTo(models.Chapter)
+      Article.hasMany(models.Clause, {
+        foreignKey: 'article_id'
+      })
     }
   };
   Article.init({
