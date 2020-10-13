@@ -13,10 +13,6 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        references: {
-          model: 'Ministries',
-          key: 'name'
-        }
       },
       promulgation_date: {
         type: Sequelize.DATE
@@ -38,7 +34,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       ministry: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        references: {
+          model: 'Ministries',
+          key: 'name'
+        }
       },
       context: {
         type: Sequelize.TEXT
