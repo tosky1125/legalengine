@@ -1,10 +1,13 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Main from './components/Main';
 import NavBar from './components/Nav';
 import SearchR from './components/SearchR';
 import ViewPage from './components/ViewPage';
-import PaginatedContent from './components/Pagination';
+import Pagination from "./components/Pagination";
+import SearchResult from "./components/SearchResult";
+
 
 function App() {
   return (
@@ -13,8 +16,8 @@ function App() {
         <NavBar />
         <Switch>
           <Route path='/' exact component={Main} />
-          <Route path='/search' component={SearchR} />
-          <Route path='/page' component={PaginatedContent} />
+          <Route path='/search' component={SearchResult} />
+          <Route path='/page' component={SerchR} />
           <Route path='/view' component={ViewPage} />
         </Switch>
       </Router>
