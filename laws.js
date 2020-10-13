@@ -13,7 +13,7 @@ let monthToDate = (string) => {
 }
 
 let getLaws = () => {
-  axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML&display=100&page=${i}`).then(response => {
+  axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML&display=1&page=${i}`).then(response => {
     let data = convert.xml2json(response.data, {
       compact: true,
       spaces: 4
@@ -21,19 +21,20 @@ let getLaws = () => {
     data = JSON.parse(data);
     data = data.LawSearch.law
     console.log(data);
-    data.forEach(ele => {
+    // data.forEach(ele => {
+      console.log(data['소관부처명']._text)
       Law.create({
-        name: ele['법령명한글']._cdata,
-        number: ele['법령일련번호']._text,
-        promulgation_date: monthToDate(ele['공포일자']._text),
-        promulgation_number: ele['공포번호']._text,
-        type: ele['법령구분명']._text,
-        enforcement_date: monthToDate(ele['시행일자']._text),
-        ministry: ele['소관부처명']._text,
-        amendment_status: ele['제개정구분명']._text,
-        contexts: ele['법령명한글']._cdata
+        name: data['법령명한글']._cdata,
+        number: data['법령일련번호']._text,
+        promulgation_date: monthToDate(data['공포일자']._text),
+        promulgation_number: data['공포번호']._text,
+        type: data['법령구분명']._text,
+        enforcement_date: monthToDate(data['시행일자']._text),
+        ministry: data['소관부처명']._text,
+        amendment_status: data['제개정구분명']._text,
+        contexts: data['법령명한글']._cdata
       })
-    })
+    // })
     i++;
   })
 }

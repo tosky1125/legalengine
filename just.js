@@ -1,11 +1,11 @@
 const puppeteer = require('puppeteer');
 const {
-  CHAPTER,
-  ARTICLE,
-  LAW,
-  CLAUSE,
-  SUBPARAGRAPH,
-  ITEM,
+  Chapter,
+  Article,
+  Law,
+  Clause,
+  Subparagraph,
+  Item,
 } = require('./models');
 
 
@@ -211,7 +211,6 @@ const spec = async () => {
           date = array[j].lastChild.textContent;
         }
         if (title) {
-
           artNum++;
           console.log(`드러가야할 ${chapter[i].chapter_number}:${artNum}`)
           article[`${chapter[i].chapter_number}:${artNum}`] = {
@@ -287,9 +286,6 @@ const spec = async () => {
               gyu: null,
               pan: null,
             }
-            clauseNum = null;
-            subParNum = null;
-            itemNum = null;
           }
         }
 
@@ -298,9 +294,45 @@ const spec = async () => {
       subParNum = null;
       itemNum = null;
     }
-
+    return {
+      chapter,
+      article,
+      clause,
+      subPara,
+      item
+    }
   })
 
+  let {
+    chapter,
+    article,
+    clause,
+    subPara,
+    item
+  } = result
+
+  await chapter.forEach(ele => {
+    Chapter.create({
+      law_id: k,
+      chapter_number: chapter.chapter_number,
+      date: chapter.date,
+      context: chapter.contexts
+    })
+  })
+  await article.forEach(ele => {
+    Article.create({
+      law_id: k,
+      chapter_id: article.chapter_id,
+      article_title: article.title,
+      article_number: DataTypes.INTEGER,
+      date: DataTypes.STRING,
+      context: DataTypes.TEXT,
+      flag_pan: DataTypes.TINYINT,
+      flag_yeon: DataTypes.TINYINT,
+      flag_hang: DataTypes.TINYINT,
+      flag_gyu: DataTypes.TINYINT
+    })
+  })
 }
 
 
