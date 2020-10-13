@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import { withRouter } from 'react-router-dom';
 
+
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDate, setSearchDate] = useState('');

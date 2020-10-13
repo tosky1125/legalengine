@@ -110,32 +110,38 @@ class Pagination extends React.Component {
     }
 
     return (
-      <ul className='pagination'>
-        <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <a onClick={() => this.setPage(1)}>{'<<'}</a>
-        </li>
-        <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-          <a onClick={() => this.setPage(pager.currentPage - 1)}>{'<'}</a>
-        </li>
-        {pager.pages.map((page, index) => (
-          <li
-            key={index}
-            className={pager.currentPage === page ? 'active' : ''}
-          >
-            <a onClick={() => this.setPage(page)}>{page}</a>
+      <>
+        <ul className='pagination'>
+          <link
+            rel='stylesheet'
+            href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+          />
+          <li className={pager.currentPage === 1 ? 'disabled' : ''}>
+            <a onClick={() => this.setPage(1)}>{'<<'}</a>
           </li>
-        ))}
-        <li
-          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
-        >
-          <a onClick={() => this.setPage(pager.currentPage + 1)}>{'>'}</a>
-        </li>
-        <li
-          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
-        >
-          <a onClick={() => this.setPage(pager.totalPages)}>{'>>'}</a>
-        </li>
-      </ul>
+          <li className={pager.currentPage === 1 ? 'disabled' : ''}>
+            <a onClick={() => this.setPage(pager.currentPage - 1)}>{'<'}</a>
+          </li>
+          {pager.pages.map((page, index) => (
+            <li
+              key={index}
+              className={pager.currentPage === page ? 'active' : ''}
+            >
+              <a onClick={() => this.setPage(page)}>{page}</a>
+            </li>
+          ))}
+          <li
+            className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
+          >
+            <a onClick={() => this.setPage(pager.currentPage + 1)}>{'>'}</a>
+          </li>
+          <li
+            className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
+          >
+            <a onClick={() => this.setPage(pager.totalPages)}>{'>>'}</a>
+          </li>
+        </ul>
+      </>
     );
   }
 }
