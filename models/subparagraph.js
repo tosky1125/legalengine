@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Subparagraph.belongsTo(models.Article)
-      // Subparagraph.hasMany(models.Item, {
-      //   foreignKey: 'sub_id'
-      // })
+      Subparagraph.belongsTo(models.Article)
+      Subparagraph.hasMany(models.Item, {
+        foreignKey: 'sub_id'
+      })
     }
   };
   Subparagraph.init({

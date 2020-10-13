@@ -13,10 +13,10 @@ module.exports = {
       },
       new_law_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Laws',
-        //   key: 'id'
-        // }
+        references: {
+          model: 'Laws',
+          key: 'id'
+        }
       },
       statement: {
         type: Sequelize.TEXT

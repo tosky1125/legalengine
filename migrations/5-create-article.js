@@ -13,10 +13,10 @@ module.exports = {
       },
       chapter_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Chapters',
-        //   key: 'id'
-        // }
+        references: {
+          model: 'Chapters',
+          key: 'id'
+        }
       },
       article_title: {
         type: Sequelize.STRING
