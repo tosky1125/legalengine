@@ -1,18 +1,12 @@
-import React, { Component } from 'react';
-import SearchBar from './SearchBar';
+import React from "react";
+import SearchB from "./SearchB";
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className='main'>
-        <SearchBar />
-      </div>
-    );
-  }
+function Main() {
+  return (
+    <div className="main">
+      <SearchBar />
+    </div>
+  );
 }
 
 export default Main;

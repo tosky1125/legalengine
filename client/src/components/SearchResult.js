@@ -61,15 +61,6 @@ class SearchResult extends Component {
     });
   };
 
-  handlePageClick = (data) => {
-    let selected = data.selected;
-    let offset = Math.ceil(selected * this.props.perPage);
-
-    this.setState({ offset: offset }, () => {
-      this.loadCommentsFromServer();
-    });
-  };
-
   render() {
     return (
       <>
@@ -84,21 +75,6 @@ class SearchResult extends Component {
             개
           </div>
           <div> {this.renderSearchResults()}</div>
-          <div>
-            <ReactPaginate
-              previousLabel={"previous"} // previousLabel - 이전페이지로 가는 버튼의 value값
-              nextLabel={"next"} // nextLabel - 다음페이지로 가는 버튼의 value값
-              breakLabel={"..."} // breakLabel - 페이지 수가 많을 경우 건너뛸 수 있는 버튼
-              breakClassName={"break-me"} // li 태그 class 이름
-              pageCount={this.props.lawlist.length} // pageCount - 총 게시글의 개수(총 row 수)
-              marginPagesDisplayed={2} // 여백 표시 페이지 수
-              pageRangeDisplayed={8} // pageRangeDisplayed - 한 페이지에 표시할 게시글의 수
-              onPageChange={this.handlePageClick} // onPageChange - 페이지 버튼을 눌렀을 때 일어나는 이벤트 이를 이용해 페이지 증감
-              containerClassName={"pagination"} // containerClassName - css적용할 때 사용
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"} // activeClassName - 현재 페이지에 css처리해주기 위한 클래스명을 적으면 됨
-            />
-          </div>
         </div>
       </>
     );
