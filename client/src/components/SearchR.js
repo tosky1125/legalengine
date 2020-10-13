@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import SearchBar from "./SearchBar";
-import { connect } from "react-redux";
-import * as searchlist from "../modules/searchlist";
+import React from 'react';
+import SearchBar from './SearchBar';
+import { connect } from 'react-redux';
+import * as searchlist from '../modules/searchlist';
 function SearchR() {
-  const [post, setpost] = useState([]);
   return (
-    <div className="searchR">
-      <SearchB />
+    <div className='searchR'>
+      <SearchBar />
     </div>
   );
 }

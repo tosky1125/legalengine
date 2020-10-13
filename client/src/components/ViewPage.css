@@ -1,0 +1,25 @@
+.pickdate {
+  position: relative;
+  margin: 1.5rem;
+  padding: 1rem;
+  font-weight: 700;
+  border-style: solid;
+}
+
+.view-container {
+  position: relative;
+  display: flex;
+  block-size: 40vh;
+}
+
+.sideinfo-container {
+  border-style: solid;
+  margin: 1.5rem;
+  flex: 1;
+}
+
+.info-container {
+  border-style: solid;
+  margin: 1.5rem;
+  flex: 3;
+}
