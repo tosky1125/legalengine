@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -19,7 +19,7 @@ class Pagination extends React.Component {
     this.state = { pager: {} };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // 데이터 배열이 있을 때, 페이지 셋업
     if (this.props.items && this.props.items.length) {
       this.setPage(this.props.initialPage);
@@ -117,28 +117,38 @@ class Pagination extends React.Component {
             href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
           />
           <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-            <a onClick={() => this.setPage(1)}>{'<<'}</a>
+            <a href onClick={() => this.setPage(1)}>
+              {'<<'}
+            </a>
           </li>
           <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-            <a onClick={() => this.setPage(pager.currentPage - 1)}>{'<'}</a>
+            <a href onClick={() => this.setPage(pager.currentPage - 1)}>
+              {'<'}
+            </a>
           </li>
           {pager.pages.map((page, index) => (
             <li
               key={index}
               className={pager.currentPage === page ? 'active' : ''}
             >
-              <a onClick={() => this.setPage(page)}>{page}</a>
+              <a href onClick={() => this.setPage(page)}>
+                {page}
+              </a>
             </li>
           ))}
           <li
             className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
           >
-            <a onClick={() => this.setPage(pager.currentPage + 1)}>{'>'}</a>
+            <a href onClick={() => this.setPage(pager.currentPage + 1)}>
+              {'>'}
+            </a>
           </li>
           <li
             className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
           >
-            <a onClick={() => this.setPage(pager.totalPages)}>{'>>'}</a>
+            <a href onClick={() => this.setPage(pager.totalPages)}>
+              {'>>'}
+            </a>
           </li>
         </ul>
       </>

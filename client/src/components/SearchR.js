@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SearchBar from './SearchBar';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import Pagination from './Pagination';
 import axios from 'axios';
-
-
+import { withRouter } from 'react-router-dom';
+import * as lawinfo from '../modules/lawinfo';
 class SearchR extends React.Component {
   constructor() {
     super();
@@ -25,13 +25,17 @@ class SearchR extends React.Component {
       number,
       enforcement_date,
     };
+    const { lawinfo, history } = this.props;
     axios.post('http://13.125.112.243/search/post', payload).then((res) => {
+      lawinfo(res.data);
       console.log(res.data);
+      history.push('/view');
     });
   };
 
   render() {
     return (
+      <div>
         <div className='container'>
           <SearchBar />
           <div>
@@ -82,8 +86,10 @@ class SearchR extends React.Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
+    lawinfo: state.lawinfo.lawinfo,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
+    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
   })
-)(SearchR);
+)(withRouter(SearchR));

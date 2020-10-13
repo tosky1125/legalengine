@@ -26,6 +26,7 @@ class SearchResult extends Component {
             return (
               <>
                 <a
+                  href
                   key={result.id}
                   onClick={() =>
                     this.handleClickSearch(

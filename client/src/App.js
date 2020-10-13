@@ -4,7 +4,6 @@ import Main from './components/Main';
 import NavBar from './components/Nav';
 import SearchR from './components/SearchR';
 import ViewPage from './components/ViewPage';
-import Pagination from './components/Pagination';
 import SearchResult from './components/SearchResult';
 
 function App() {
