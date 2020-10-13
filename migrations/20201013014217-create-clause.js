@@ -15,7 +15,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       article_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Articles',
+          key: 'article_id'
+        }
       },
       clause_number: {
         type: Sequelize.INTEGER

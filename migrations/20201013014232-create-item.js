@@ -18,7 +18,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       clause_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Subparagraphs',
+          key: 'sub_id'
+        }
       },
       sub_id: {
         type: Sequelize.INTEGER

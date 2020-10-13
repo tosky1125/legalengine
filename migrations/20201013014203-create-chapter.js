@@ -9,7 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       law_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Laws',
+          key: 'law_id'
+        }
       },
       chapter_number: {
         type: Sequelize.INTEGER

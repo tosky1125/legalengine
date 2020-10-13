@@ -12,13 +12,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        references: {
+          model: 'Ministries',
+          key: 'type'
+        }
       },
       promulgation_date: {
         type: Sequelize.DATE
       },
       type: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        references: {
+          model: 'Law_Types',
+          key: 'type'
+        }
       },
       promulgation_number: {
         type: Sequelize.INTEGER

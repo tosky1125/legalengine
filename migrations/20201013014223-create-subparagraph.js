@@ -18,7 +18,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       clause_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Clauses',
+          key: 'clause_id'
+        }
       },
       sub_number: {
         type: Sequelize.INTEGER

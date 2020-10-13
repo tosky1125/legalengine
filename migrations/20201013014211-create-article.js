@@ -12,7 +12,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Chapters',
+          key: 'chapter_id'
+        }
       },
       article_title: {
         type: Sequelize.STRING
