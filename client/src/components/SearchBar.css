@@ -6,7 +6,7 @@
 }
 
 .search-title {
-  font-size: 26px;
+  font-size: x-large;
   padding: 10px 0;
   color: #444;
 }
@@ -21,12 +21,12 @@
 
 .search-form {
   position: relative;
+  display: inline;
 }
 
 .search-form input {
-  width: 40%;
   padding: 10px 0;
-  font-size: 20px;
+  font-size: x-large;
   font-style: italic;
   color: #444;
   box-sizing: border-box;
@@ -40,10 +40,9 @@
 .search-btn {
   position: relative;
   display: inline-flex;
-  font-size: 30px;
+  font-size: x-large;
   height: 3.2rem;
   width: 60px;
   margin-left: 0.1rem;
   outline: none;
-  bottom: 0.2rem;
 }

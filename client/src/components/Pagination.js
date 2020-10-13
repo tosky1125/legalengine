@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   items: PropTypes.array.isRequired,
@@ -110,30 +110,30 @@ class Pagination extends React.Component {
     }
 
     return (
-      <ul className="pagination">
-        <li className={pager.currentPage === 1 ? "disabled" : ""}>
-          <a onClick={() => this.setPage(1)}>{"<<"}</a>
+      <ul className='pagination'>
+        <li className={pager.currentPage === 1 ? 'disabled' : ''}>
+          <a onClick={() => this.setPage(1)}>{'<<'}</a>
         </li>
-        <li className={pager.currentPage === 1 ? "disabled" : ""}>
-          <a onClick={() => this.setPage(pager.currentPage - 1)}>{"<"}</a>
+        <li className={pager.currentPage === 1 ? 'disabled' : ''}>
+          <a onClick={() => this.setPage(pager.currentPage - 1)}>{'<'}</a>
         </li>
         {pager.pages.map((page, index) => (
           <li
             key={index}
-            className={pager.currentPage === page ? "active" : ""}
+            className={pager.currentPage === page ? 'active' : ''}
           >
             <a onClick={() => this.setPage(page)}>{page}</a>
           </li>
         ))}
         <li
-          className={pager.currentPage === pager.totalPages ? "disabled" : ""}
+          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
         >
-          <a onClick={() => this.setPage(pager.currentPage + 1)}>{">"}</a>
+          <a onClick={() => this.setPage(pager.currentPage + 1)}>{'>'}</a>
         </li>
         <li
-          className={pager.currentPage === pager.totalPages ? "disabled" : ""}
+          className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
         >
-          <a onClick={() => this.setPage(pager.totalPages)}>{">>"}</a>
+          <a onClick={() => this.setPage(pager.totalPages)}>{'>>'}</a>
         </li>
       </ul>
     );
@@ -143,68 +143,3 @@ class Pagination extends React.Component {
 Pagination.propTypes = propTypes;
 Pagination.defaultProps = defaultProps;
 export default Pagination;
-
-// const PaginatedContent = () => {
-//   // Data to be rendered using pagination.
-//   const todos = [
-//     "a",
-//     "b",
-//     "c",
-//     "d",
-//     "e",
-//     "f",
-//     "g",
-//     "h",
-//     "i",
-//     "j",
-//     "k",
-//     "l",
-//     "m",
-//     "n",
-//     "o",
-//     "p",
-//     "q",
-//     "r",
-//     "s",
-//     "t",
-//     "u",
-//     "v",
-//     "w",
-//     "x",
-//     "y",
-//     "z",
-//   ];
-//   const todosPerPage = 6;
-//   const [activePage, setCurrentPage] = useState(1);
-
-//   // Logic for displaying current todos
-//   const indexOfLastTodo = activePage * todosPerPage;
-//   const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-//   const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
-
-//   const renderTodos = currentTodos.map((todo, index) => {
-//     return <li key={index}>{todo}</li>;
-//   });
-
-//   const handlePageChange = (pageNumber) => {
-//     console.log(`active page is ${pageNumber}`);
-//     setCurrentPage(pageNumber);
-//   };
-
-//   return (
-//     <div>
-//       <div className="result">{renderTodos}</div>
-//       <div className="pagination">
-//         <Pagination
-//           activePage={activePage}
-//           hideFirstLastPages
-//           itemsCountPerPage={5}
-//           totalItemsCount={todos.length}
-//           onChange={handlePageChange}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PaginatedContent;

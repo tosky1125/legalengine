@@ -1,6 +1,6 @@
-import { createAction, handleActions } from "redux-actions";
+import { createAction, handleActions } from 'redux-actions';
 
-const SEARCHLIST = "searchlist";
+const SEARCHLIST = 'searchlist';
 
 export const searchlist = createAction(SEARCHLIST);
 
@@ -9,7 +9,6 @@ const initialState = {
 };
 
 export default handleActions(
-  //reducer
   {
     [SEARCHLIST]: (state, action) => ({
       lawlist: action.payload,

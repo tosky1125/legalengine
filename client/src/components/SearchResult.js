@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import SearchBar from './SearchBar';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
+import * as lawinfo from '../modules/lawinfo';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 class SearchResult extends Component {
   constructor(props) {
@@ -55,8 +57,11 @@ class SearchResult extends Component {
       number,
       enforcement_date,
     };
+    const { lawinfo, history } = this.props;
     axios.post('http://13.125.112.243/search/post', payload).then((res) => {
+      lawinfo(res.data);
       console.log(res.data);
+      history.push('/view');
     });
   };
 
@@ -83,8 +88,10 @@ class SearchResult extends Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
+    lawinfo: state.lawinfo.lawinfo,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
+    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
   })
-)(SearchResult);
+)(withRouter(SearchResult));
