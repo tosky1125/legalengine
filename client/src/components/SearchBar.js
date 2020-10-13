@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import { withRouter } from 'react-router-dom';
 
-
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDate, setSearchDate] = useState('');
@@ -23,17 +22,14 @@ function SearchBar(props) {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const payload = { searchWord: searchTerm, date: searchDate };
-    const {
-      searchlist,
-      //  history
-    } = props;
+    const { searchlist, history } = props;
 
     axios
       .post('http://13.125.112.243/laws', payload)
       .then((res) => {
         searchlist(res.data);
         console.log(res.data);
-        // history.push('/search');
+        history.push('/search');
       })
       .catch();
   };

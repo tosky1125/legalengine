@@ -1,56 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import SearchBar from './SearchBar';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
-import * as lawinfo from '../modules/lawinfo';
+import Pagination from './Pagination';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import * as lawinfo from '../modules/lawinfo';
 
-class SearchResult extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+class SearchResult extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      pageOfItems: [],
+    };
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
-  //필요 states: 페이지당 표시할 Post 수, 전체 post 데이터, 현재 페이지
-
-  //1.받아온 정보 정렬해 뿌려주기 각자
-  //2.페이지네이션
-
-  renderSearchResults = () => {
-    const totalResult = this.props.lawlist;
-    if (Object.keys(totalResult).length && totalResult.length) {
-      return (
-        <div className='totalResult-container'>
-          {totalResult.map((result) => {
-            return (
-              <>
-                <a
-                  key={result.id}
-                  onClick={() =>
-                    this.handleClickSearch(
-                      result.number,
-                      result.enforcement_date
-                    )
-                  }
-                >
-                  <h3 className='name'>{result.name}</h3>
-                  <span className='type'>{result.type}</span>
-                  <span className='number'>{result.number}</span>
-                  <span className='admendment'>{result.amendment_status}</span>
-                  <span className='ministry'>{result.ministry}</span>
-                  <span className='promulgation'>
-                    {result.promulgation_date}
-                  </span>
-                  <span className='enforcement'>{result.enforcement_date}</span>
-                </a>
-              </>
-            );
-          })}
-        </div>
-      );
-    }
-  };
+  onChangePage(pageOfItems) {
+    // 데이터들의 새로운 페이지로 스테이트 업데이트
+    this.setState({ pageOfItems: pageOfItems });
+  }
 
   handleClickSearch = (number, enforcement_date) => {
     const payload = {
@@ -67,20 +36,51 @@ class SearchResult extends Component {
 
   render() {
     return (
-      <>
-        <div className='result'>
+      <div>
+        <div className='container'>
           <SearchBar />
-          <div className='result-container'></div>
           <div>
             총{' '}
-            {this.props.lawlist.length === 0
-              ? '100'
-              : this.props.lawlist.length}{' '}
+            {this.props.lawlist.length === 0 ? '0' : this.props.lawlist.length}{' '}
             개
           </div>
-          <div> {this.renderSearchResults()}</div>
+          <div className='text-center'>
+            <h1>페이지네이션</h1>
+            {this.state.pageOfItems.map((item) => (
+              <>
+                <a
+                  href='/view'
+                  key={item.id}
+                  onClick={() =>
+                    this.handleClickSearch(item.number, item.enforcement_date)
+                  }
+                >
+                  <h3 className='name'>{item.name}</h3>
+                  <span className='type'>{item.type}</span>
+                  <span className='number'>{item.number}</span>
+                  <span className='admendment'>{item.amendment_status}</span>
+                  <span className='ministry'>{item.ministry}</span>
+                  <span className='promulgation'>{item.promulgation_date}</span>
+                  <span className='enforcement'>{item.enforcement_date}</span>
+                </a>
+              </>
+            ))}
+            <div>
+              <Pagination
+                items={this.props.lawlist}
+                onChangePage={this.onChangePage}
+              />
+            </div>
+          </div>
         </div>
-      </>
+        <hr />
+        <div className='credits text-center'>
+          <p>
+            <a href='/'>주식회사 까리용</a>
+          </p>
+          <p>© 2019 Carillon Inc., All rights reserved.</p>
+        </div>
+      </div>
     );
   }
 }
