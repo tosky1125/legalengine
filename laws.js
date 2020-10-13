@@ -21,19 +21,19 @@ let getLaws = () => {
     data = JSON.parse(data);
     data = data.LawSearch.law
     console.log(data);
-    // data.forEach(ele => {
-    //   LAW.create({
-    //     name: ele['법령명한글']._cdata,
-    //     number: ele['법령일련번호']._text,
-    //     promulgation_date: monthToDate(ele['공포일자']._text),
-    //     promulgation_number: ele['공포번호']._text,
-    //     type: ele['법령구분명']._text,
-    //     enforcement_date: monthToDate(ele['시행일자']._text),
-    //     ministry: ele['소관부처명']._text,
-    //     amendment_status: ele['제개정구분명']._text,
-    //     contexts: ele['법령명한글']._cdata
-    //   })
-    // })
+    data.forEach(ele => {
+      LAW.create({
+        name: ele['법령명한글']._cdata,
+        number: ele['법령일련번호']._text,
+        promulgation_date: monthToDate(ele['공포일자']._text),
+        promulgation_number: ele['공포번호']._text,
+        type: ele['법령구분명']._text,
+        enforcement_date: monthToDate(ele['시행일자']._text),
+        ministry: ele['소관부처명']._text,
+        amendment_status: ele['제개정구분명']._text,
+        contexts: ele['법령명한글']._cdata
+      })
+    })
     i++;
   })
 }

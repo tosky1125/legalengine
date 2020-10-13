@@ -9,19 +9,19 @@ const {
 } = require('./models')
 
 let deepSearch = async () => {
-  let data = await LAW.findOne({
-    where: {
-      id: i
-    }
-  })
+  // let data = await LAW.findOne({
+  //   where: {
+  //     id: i
+  //   }
+  // })
   let {
     number,
     enforcement_date
-  } = data
+  } = { number : "20812", enforcement_date : new Date() }
   let searchDate = dateParse(enforcement_date)
   let url = `http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=${number}&efYd=${searchDate}&type=XML`
   let res = await axios.get('http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=213831&efYd=20210101&type=XML')
-  console.log(url)
+  
   let json = await convert.xml2json(res.data, {
     compact: true,
     spaces: 2
@@ -93,7 +93,7 @@ let deepSearch = async () => {
                 }
               })
             } else {
-              console.log(ele['항'])
+              
               let innerTextHang = '항내용' in ele['항'] ? ele['항']['항내용']._cdata : '';
               let contextsHang = '조문참고자료' in ele['항'] ? innerTextHang + ele['항']['조문참고자료']._cdata : innerTextHang
               clause.push({
@@ -134,71 +134,72 @@ let deepSearch = async () => {
         contexts: String(json['법령']['조문']['조문단위']['조문내용']._cdata)
       });
     }
+    console.log(item)
 
-    await LAW.update({
-      contexts: lawContexts
-    }, {
-      where: {
-        id: i
-      }
-    })
+    // await LAW.update({
+    //   contexts: lawContexts
+    // }, {
+    //   where: {
+    //     id: i
+    //   }
+    // })
 
 
-    if (chapter.length !== 0) {
-      await chapter.forEach(ele => {
-        let {
-          chapterNum,
-          contexts
-        } = ele
-        CHAPTER.create({
-          law_id: number,
-          chapter_number: chapterNum,
-          date: enforcement_date,
-          contexts: contexts
-        })
-      })
-    }
-    if (article.length !== 0) {
-      article.forEach(ele => {
-        ARTICLE.create({
-          law_id: number,
-          chapter_id: ele.chapterNum,
-          article_number: ele.articleNum,
-          date: enforcement_date,
-          contexts: ele.contexts,
-          flag_pan: 1,
-        })
-      })
-    }
+    // if (chapter.length !== 0) {
+    //   await chapter.forEach(ele => {
+    //     let {
+    //       chapterNum,
+    //       contexts
+    //     } = ele
+    //     CHAPTER.create({
+    //       law_id: number,
+    //       chapter_number: chapterNum,
+    //       date: enforcement_date,
+    //       contexts: contexts
+    //     })
+    //   })
+    // }
+    // if (article.length !== 0) {
+    //   article.forEach(ele => {
+    //     ARTICLE.create({
+    //       law_id: number,
+    //       chapter_id: ele.chapterNum,
+    //       article_number: ele.articleNum,
+    //       date: enforcement_date,
+    //       contexts: ele.contexts,
+    //       flag_pan: 1,
+    //     })
+    //   })
+    // }
 
-    if (clause.length !== 0) {
-      await clause.forEach(ele => {
-        CLAUSE.create({
-          law_id: number,
-          chapter_id: ele.chapterNum,
-          article_id: ele.articleNum,
-          clause_number: ele.clauseNum,
-          date: enforcement_date,
-          contexts: ele.contexts,
-        })
-      })
-    }
-    console.log(item);
-    console.log(item.length)
-    if (item.length !== 0) {
-      await item.forEach(ele => {
-        ITEM.create({
-          law_id: number,
-          chapter_id: ele.chapterNum,
-          article_id: ele.articleNum,
-          clause_id: ele.clauseNum,
-          item_number: ele.itemNum,
-          date: enforcement_date,
-          contexts: ele.contexts
-        })
-      })
-    }
-    await i++
+    // if (clause.length !== 0) {
+    //   await clause.forEach(ele => {
+    //     CLAUSE.create({
+    //       law_id: number,
+    //       chapter_id: ele.chapterNum,
+    //       article_id: ele.articleNum,
+    //       clause_number: ele.clauseNum,
+    //       date: enforcement_date,
+    //       contexts: ele.contexts,
+    //     })
+    //   })
+    // }
+    // console.log(item);
+    // console.log(item.length)
+    // if (item.length !== 0) {
+    //   await item.forEach(ele => {
+    //     ITEM.create({
+    //       law_id: number,
+    //       chapter_id: ele.chapterNum,
+    //       article_id: ele.articleNum,
+    //       clause_id: ele.clauseNum,
+    //       item_number: ele.itemNum,
+    //       date: enforcement_date,
+    //       contexts: ele.contexts
+    //     })
+    //   })
+    // }
+    // await i++
 
   }
 }
@@ -215,4 +216,6 @@ let dateParse = (data) => {
   return fullDate
 }
 let i = 1;
-setInterval(deepSearch, 3000, i);
+// setInterval(deepSearch, 3000, i);
+
+deepSearch()
