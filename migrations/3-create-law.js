@@ -19,10 +19,10 @@ module.exports = {
       },
       type: {
         type: Sequelize.STRING,
-        references: {
-          model: 'Law_Types',
-          key: 'type'
-        }
+        // references: {
+        //   model: 'Law_Types',
+        //   key: 'type'
+        // }
       },
       promulgation_number: {
         type: Sequelize.INTEGER
@@ -35,10 +35,10 @@ module.exports = {
       },
       ministry: {
         type: Sequelize.STRING,
-        references: {
-          model: 'Ministries',
-          key: 'name'
-        }
+        // references: {
+        //   model: 'Ministries',
+        //   key: 'name'
+        // }
       },
       context: {
         type: Sequelize.TEXT
