@@ -1,35 +1,27 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('ITEMs', {
-      id: {
+    await queryInterface.createTable('Revisions', {
+      revision_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      law_id: {
+      old_law_id: {
         type: Sequelize.INTEGER
       },
-      chapter_id: {
-        type: Sequelize.INTEGER
+      new_law_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Laws',
+          key: 'law_id'
+        }
       },
-      article_id: {
-        type: Sequelize.INTEGER
+      statement: {
+        type: Sequelize.TEXT
       },
-      clause_id: {
-        type: Sequelize.INTEGER
-      },
-      sub_id: {
-        type: Sequelize.INTEGER
-      },
-      item_number: {
-        type: Sequelize.INTEGER
-      },
-      date: {
-        type: Sequelize.DATE
-      },
-      contexts: {
+      reason: {
         type: Sequelize.TEXT
       },
       createdAt: {
@@ -43,6 +35,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('ITEMs');
+    await queryInterface.dropTable('Revisions');
   }
 };

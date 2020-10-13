@@ -3,17 +3,24 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class LAW extends Model {
+  class Law extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Law.belongsTo(models.Revision)
+      Law.belongsTo(models.Law_Type)
+      Law.belongsTo(models.Ministry)
+      
+      Law.hasMany(models.Chapter, {
+        foreignKey: 'law_id'
+      })
+
     }
   };
-  LAW.init({
+  Law.init({
     number: DataTypes.INTEGER,
     name: DataTypes.STRING,
     promulgation_date: DataTypes.DATE,
@@ -22,12 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     enforcement_date: DataTypes.DATE,
     amendment_status: DataTypes.STRING,
     ministry: DataTypes.STRING,
-    contexts: DataTypes.TEXT
+    context: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'LAW',
+    modelName: 'Law',
   });
-  return LAW;
+  return Law;
 };
-
-
