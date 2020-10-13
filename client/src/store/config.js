@@ -1,5 +1,5 @@
-import { createStore } from "redux";
-import modules from "../modules";
+import { createStore } from 'redux';
+import modules from '../modules';
 
 const config = () => {
   const devTools =
