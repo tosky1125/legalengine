@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING,
         references: {
           model: 'Ministries',
-          key: 'type'
+          key: 'name'
         }
       },
       promulgation_date: {
