@@ -1,5 +1,5 @@
 import React from "react";
-import SearchB from "./SearchB";
+import SearchBar from "./SearchBar";
 
 function Main() {
   return (
