@@ -5,10 +5,10 @@ import * as searchlist from '../modules/searchlist';
 import Pagination from './Pagination';
 import axios from 'axios';
 
+
 class SearchR extends React.Component {
   constructor() {
     super();
-
     this.state = {
       pageOfItems: [],
     };
@@ -32,7 +32,6 @@ class SearchR extends React.Component {
 
   render() {
     return (
-      <div>
         <div className='container'>
           <SearchBar />
           <div>

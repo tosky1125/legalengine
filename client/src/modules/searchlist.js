@@ -9,7 +9,6 @@ const initialState = {
 };
 
 export default handleActions(
-  //reducer
   {
     [SEARCHLIST]: (state, action) => ({
       lawlist: action.payload,
