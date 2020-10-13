@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import SearchBar from "./SearchBar";
-import { connect } from "react-redux";
-import * as searchlist from "../modules/searchlist";
-import ReactPaginate from "react-paginate";
-import axios from "axios";
+import React, { Component } from 'react';
+import SearchBar from './SearchBar';
+import { connect } from 'react-redux';
+import * as searchlist from '../modules/searchlist';
+import axios from 'axios';
 
 class SearchResult extends Component {
   constructor(props) {
@@ -20,7 +19,7 @@ class SearchResult extends Component {
     const totalResult = this.props.lawlist;
     if (Object.keys(totalResult).length && totalResult.length) {
       return (
-        <div className="totalResult-container">
+        <div className='totalResult-container'>
           {totalResult.map((result) => {
             return (
               <>
@@ -33,15 +32,15 @@ class SearchResult extends Component {
                     )
                   }
                 >
-                  <h3 className="name">{result.name}</h3>
-                  <span className="type">{result.type}</span>
-                  <span className="number">{result.number}</span>
-                  <span className="admendment">{result.amendment_status}</span>
-                  <span className="ministry">{result.ministry}</span>
-                  <span className="promulgation">
+                  <h3 className='name'>{result.name}</h3>
+                  <span className='type'>{result.type}</span>
+                  <span className='number'>{result.number}</span>
+                  <span className='admendment'>{result.amendment_status}</span>
+                  <span className='ministry'>{result.ministry}</span>
+                  <span className='promulgation'>
                     {result.promulgation_date}
                   </span>
-                  <span className="enforcement">{result.enforcement_date}</span>
+                  <span className='enforcement'>{result.enforcement_date}</span>
                 </a>
               </>
             );
@@ -56,7 +55,7 @@ class SearchResult extends Component {
       number,
       enforcement_date,
     };
-    axios.post("http://13.125.112.243/search/post", payload).then((res) => {
+    axios.post('http://13.125.112.243/search/post', payload).then((res) => {
       console.log(res.data);
     });
   };
@@ -64,14 +63,14 @@ class SearchResult extends Component {
   render() {
     return (
       <>
-        <div className="result">
+        <div className='result'>
           <SearchBar />
-          <div className="result-container"></div>
+          <div className='result-container'></div>
           <div>
-            총{" "}
+            총{' '}
             {this.props.lawlist.length === 0
-              ? "100"
-              : this.props.lawlist.length}{" "}
+              ? '100'
+              : this.props.lawlist.length}{' '}
             개
           </div>
           <div> {this.renderSearchResults()}</div>
