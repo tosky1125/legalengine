@@ -1,5 +1,5 @@
 const {
-  LAW
+  Law
 } = require('./models');
 const axios = require('axios');
 const convert = require('xml-js');
@@ -22,7 +22,7 @@ let getLaws = () => {
     data = data.LawSearch.law
     console.log(data);
     data.forEach(ele => {
-      LAW.create({
+      Law.create({
         name: ele['법령명한글']._cdata,
         number: ele['법령일련번호']._text,
         promulgation_date: monthToDate(ele['공포일자']._text),

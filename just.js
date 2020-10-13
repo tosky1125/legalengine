@@ -195,7 +195,7 @@ const spec = async () => {
     for (let i = length; i < chapter.length; i++) {
       let array = Array.from(chapter[i].child)
       let artDate = null;
-      let artNum = null
+      let artNum = 0;
       if (array.length === 3) {
         array[2] = Array.from(array[2].children)
         array = array.flat();
@@ -204,22 +204,20 @@ const spec = async () => {
         cont = array[j].textContent;
         let title = null;
         let date = null;
-        if(array[j].children.length > 0 && array[j].children[0].className === 'bl'){
+        if (array[j].children.length > 0 && array[j].children[0].className === 'bl') {
           title = array[j].children[0].textContent;
         }
         if (array[j].lastChild.className === 'sfon') {
           date = array[j].lastChild.textContent;
         }
-        cont = cont.replace(title, '');
-        cont = cont.replace(artDate, '');
-        let checkState = cont.slice(0, 6);
         if (title) {
-          artNum ++;
-          if(!checkState.includes(".") && mok.indexOf(cont[4]) === -1 && hang.indexOf(cont[2]) !== -1 || hang.indexOf(cont[3]) === -1)
-          article[`${chapter[i].chapter_number}:${artNum}`]={
+
+          artNum++;
+          console.log(`드러가야할 ${chapter[i].chapter_number}:${artNum}`)
+          article[`${chapter[i].chapter_number}:${artNum}`] = {
             chapter_id: chapter[i].chapter_number,
             title: title,
-            contexts: cont,
+            contexts: null,
             date: artDate,
             yeon: null,
             hang: null,
@@ -227,9 +225,24 @@ const spec = async () => {
             pan: null,
           }
         }
-        
+        cont = cont.replace(title, '');
+        cont = cont.replace(artDate, '');
+        let checkState = cont.slice(0, 6);
+        let state = ''
+        for (let i = 0; i < checkState.length; i++) {
+          if (mok.indexOf(checkState[i]) !== -1 && checkState[i + 1] === '.') {
+            state = '목';
+            break;
+          } else if (ho.indexOf(`${checkState[i]}${checkState[i+1]}`) !== -1) {
+            state = '호';
+            break;
+          } else if (hang.indexOf(checkState[i]) !== -1) {
+            state = '항';
+            break;
+          } else state = '조'
+        }
 
-        if (checkState.includes(".") && mok.indexOf(cont[4]) === -1) {
+        if (state === '호') {
           subParNum++;
           subPara.push({
             chapter_id: chapter[i].chapter_number,
@@ -238,7 +251,7 @@ const spec = async () => {
             date: date,
             contexts: cont,
           })
-        } else if (hang.indexOf(cont[2]) !== -1 || hang.indexOf(cont[3]) !== -1) {
+        } else if (state === '항') {
           clauseNum++;
           clause.push({
             chapter_id: chapter[i].chapter_number,
@@ -246,7 +259,7 @@ const spec = async () => {
             date: date,
             contexts: cont,
           })
-        } else if (mok.indexOf(cont[4]) !== -1 && checkState.includes('.')) {
+        } else if (state === '목') {
           itemNum++;
           item.push({
             chapter_id: chapter[i].chapter_number,
@@ -256,30 +269,43 @@ const spec = async () => {
             date: date,
             contexts: cont,
           })
+        } else {
+          clauseNum = null;
+          subParNum = null;
+          itemNum = null;
+          if (`${chapter[i].chapter_number}:${artNum}` in article) {
+            article[`${chapter[i].chapter_number}:${artNum}`].contexts = cont
+          } else {
+            artNum++
+            article[`${chapter[i].chapter_number}:${artNum}`] = {
+              chapter_id: chapter[i].chapter_number,
+              title: title,
+              contexts: cont,
+              date: artDate,
+              yeon: null,
+              hang: null,
+              gyu: null,
+              pan: null,
+            }
+            clauseNum = null;
+            subParNum = null;
+            itemNum = null;
+          }
         }
+
       }
       clauseNum = null;
       subParNum = null;
       itemNum = null;
     }
-    return {
-      chapter,
-      article,
-      clause,
-      subPara,
-      item
-    }
-  })
-  let {
-    chapter,
-    article,
-    clause,
-    subPara,
-    item
-  } = result;
 
-  console.log(article)
+  })
+
 }
+
+
+
+
 
 
 
