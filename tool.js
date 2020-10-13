@@ -9,7 +9,10 @@ const {
 } = require('./models')
 
 let deepSearch = async () => {
-  let data = await LAW.findOne({
+  if(i === 75000){
+	  i = 'banana'
+  }
+	let data = await LAW.findOne({
     where: {
       id: i
     }
@@ -20,7 +23,7 @@ let deepSearch = async () => {
   } = data
   let searchDate = dateParse(enforcement_date)
   let url = `http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=${number}&efYd=${searchDate}&type=XML`
-  let res = await axios.get('http://www.law.go.kr/DRF/lawService.do?OC=tosky0514&target=eflaw&MST=9672&efYd=19620403&type=XML')
+  let res = await axios.get(url)
   console.log(url)
   let json = await convert.xml2json(res.data, {
     compact: true,
@@ -134,7 +137,7 @@ let deepSearch = async () => {
         contexts: String(json['법령']['조문']['조문단위']['조문내용']._cdata)
       });
     }
-
+console.log(chapter);
     await LAW.update({
       contexts: lawContexts
     }, {
@@ -183,8 +186,6 @@ let deepSearch = async () => {
         })
       })
     }
-    console.log(item);
-    console.log(item.length)
     if (item.length !== 0) {
       await item.forEach(ele => {
         ITEM.create({
@@ -214,5 +215,85 @@ let dateParse = (data) => {
   var fullDate = `${year}${month}${date}`
   return fullDate
 }
-let i = 1;
+let i = 72680
+//18707 28392 28844 28845 28846 28847
+//72619 ~72679
+//62875
+//17957 57448
+//56259 56268 56839 56840 56841
+//27080
+//9789
+//16730 ~ 16745
+//25962
+//45328 45329 45330 45331 45332
+//16567
+//11131~11149
+//11483~11489
+//20028~20039
+//20069
+//20080~20084
+//54861
+//20029
+//20131~20134
+//42627
+//44627
+//42631 42632 42633
+//52716~52720
+//100199
+//100716
+//100717
+//100850
+//100994
+//100995
+//100996
+//100997
+//30693
+//120832
+//121524
+//121525
+//31716
+//31717
+//3338
+//89744
+//89745
+//89746
+//89748
+//89749
+//89750
+//89751
+//89752
+//104942
+//90808
+//90809
+//90810
+//81502
+//81503
+//81505
+//81506
+//81507
+//81508
+//81509
+//81510
+//106574
+//81510
+//81511
+//81512
+//81513
+//81514
+//81515
+//81516
+//81517~81527
+//33473
+//106867
+//106868
+//106869
+//106870~106874
+//34109
+//34111
+//34113
+//34121
+//34142
+//34162
+//93694
+//128523~128524
 setInterval(deepSearch, 3000, i);

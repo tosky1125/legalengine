@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-
+const searchRouter = require('./router/');
 // date-fns
 const parse = require('date-fns/parse');
 
@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(morgan('combined'));
 
 app.get('/', (req, res) => res.send('hello world'));
-
+app.use('/search', searchRouter);
 app.post('/laws', async (req, res) => {
 console.log(req.body);
 	// parse date from req.body.date
@@ -54,3 +54,4 @@ console.log(req.body);
 
 
 app.listen(port, console.log(`server is listening to port ${port}`));
+// console.log('hi');

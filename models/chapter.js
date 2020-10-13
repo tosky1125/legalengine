@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   CHAPTER.init({
-    chapter_id: DataTypes.INTEGER,
     law_id: DataTypes.INTEGER,
     chapter_number: DataTypes.INTEGER,
     date: DataTypes.DATE,

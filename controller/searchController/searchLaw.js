@@ -4,11 +4,12 @@ const {
   CHAPTER,
   CLAUSE,
   ITEM
-} = require('./models')
+} = require('../../models')
 
 module.exports = {
   searchLaw: async (req, res) => {
-    const {
+  console.log(req.body);
+	  const {
       number,
       enforcement_date
     } = req.body;
@@ -30,24 +31,27 @@ module.exports = {
         date: enforcement_date
       }
     })
+	  
     const clause = await CLAUSE.findAll({
       where: {
         law_id: number,
         date: enforcement_date
       }
     })
+	  
     const item = await ITEM.findAll({
       where: {
         law_id: number,
         date: enforcement_date
       }
     })
-
+console.log(chapter);
     res.send({
       law,
       chapter,
       article,
-      item
+      item,
+	    clause
     })
   }
 }
