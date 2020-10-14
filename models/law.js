@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     number: DataTypes.INTEGER,
     name: DataTypes.STRING,
     promulgation_date: DataTypes.DATE,
-    type: DataTypes.STRING,
+    type_id: DataTypes.INTEGER,
     promulgation_number: DataTypes.INTEGER,
     enforcement_date: DataTypes.DATE,
     amendment_status: DataTypes.STRING,
-    ministry: DataTypes.STRING,
+    ministry_id: DataTypes.INTEGER,
     context: DataTypes.TEXT
   }, {
     sequelize,

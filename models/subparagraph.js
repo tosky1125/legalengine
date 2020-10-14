@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     chapter_id: DataTypes.INTEGER,
     article_id: DataTypes.INTEGER,
     clause_id: DataTypes.INTEGER,
-    sub_number: DataTypes.INTEGER,
+    sub_number: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {

@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Chapter.init({
     law_id: DataTypes.INTEGER,
-    chapter_number: DataTypes.INTEGER,
+    chapter_number: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     law_id: DataTypes.INTEGER,
     chapter_id: DataTypes.INTEGER,
     article_title: DataTypes.STRING,
-    article_number: DataTypes.INTEGER,
+    article_number: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT,
     flag_pan: DataTypes.TINYINT,
