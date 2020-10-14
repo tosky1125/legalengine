@@ -1,5 +1,5 @@
 {
-  "dev": {
+  "development": {
     "username": "cf",
     "password": "12345678",
     "database": "carillon",
@@ -13,7 +13,7 @@
     "host": "code-flights.c5une8pdluk5.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
-  "prod": {
+  "production": {
     "username": "root",
     "password": "12345678",
     "database": "carillon",
