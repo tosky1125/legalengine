@@ -1,23 +1,23 @@
 {
-  "development": {
+  "dev": {
+    "username": "cf",
+    "password": "12345678",
+    "database": "carillon",
+    "host": "code-flights.c5une8pdluk5.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "test": {
     "username": "cf",
     "password": "12345678",
     "database": "carillon-testBed",
     "host": "code-flights.c5une8pdluk5.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
-  "test": {
+  "prod": {
     "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "password": "12345678",
+    "database": "carillon",
+    "host": "13.125.112.243",
     "dialect": "mysql"
   }
 }

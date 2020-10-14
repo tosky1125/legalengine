@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Subparagraph.belongsTo(models.Article)
-      // Subparagraph.hasMany(models.Item, {
-      //   foreignKey: 'sub_id'
-      // })
+      Subparagraph.belongsTo(models.Article)
+      Subparagraph.hasMany(models.Item, {
+        foreignKey: 'sub_id'
+      })
     }
   };
   Subparagraph.init({
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     chapter_id: DataTypes.INTEGER,
     article_id: DataTypes.INTEGER,
     clause_id: DataTypes.INTEGER,
-    sub_number: DataTypes.INTEGER,
+    sub_number: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {

@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-    //   // define association here
-    //   Item.belongsTo(models.Subparagraph)
+      // define association here
+      Item.belongsTo(models.Subparagraph)
     }
   };
   Item.init({
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     article_id: DataTypes.INTEGER,
     clause_id: DataTypes.INTEGER,
     sub_id: DataTypes.INTEGER,
-    item_number: DataTypes.INTEGER,
+    item_number: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {

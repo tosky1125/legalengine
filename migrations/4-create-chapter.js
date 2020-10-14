@@ -10,13 +10,13 @@ module.exports = {
       },
       law_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Laws',
-        //   key: 'id'
-        // }
+        references: {
+          model: 'Laws',
+          key: 'id'
+        }
       },
       chapter_number: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       date: {
         type: Sequelize.STRING

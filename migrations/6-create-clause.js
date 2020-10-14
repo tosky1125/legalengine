@@ -16,13 +16,13 @@ module.exports = {
       },
       article_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Articles',
-        //   key: 'id'
-        // }
+        references: {
+          model: 'Articles',
+          key: 'id'
+        }
       },
       clause_number: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       date: {
         type: Sequelize.STRING

@@ -19,16 +19,16 @@ module.exports = {
       },
       clause_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Subparagraphs',
-        //   key: 'id'
-        // }
+        references: {
+          model: 'Subparagraphs',
+          key: 'id'
+        }
       },
       sub_id: {
         type: Sequelize.INTEGER
       },
       item_number: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       date: {
         type: Sequelize.STRING

@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Revision.hasOne(models.Law, {
-      //   foreignKey: 'law_id'
-      // })
+      Revision.hasOne(models.Law, {
+        foreignKey: 'law_id'
+      })
     }
   };
   Revision.init({
