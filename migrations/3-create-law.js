@@ -17,11 +17,11 @@ module.exports = {
       promulgation_date: {
         type: Sequelize.DATE
       },
-      type: {
-        type: Sequelize.STRING,
+      type_id: {
+        type: Sequelize.INTEGER,
         references: {
           model: 'Law_Types',
-          key: 'type'
+          key: 'id'
         }
       },
       promulgation_number: {
@@ -33,11 +33,11 @@ module.exports = {
       amendment_status: {
         type: Sequelize.STRING
       },
-      ministry: {
-        type: Sequelize.STRING,
+      ministry_id: {
+        type: Sequelize.INTEGER,
         references: {
           model: 'Ministries',
-          key: 'name'
+          key: 'id'
         }
       },
       context: {

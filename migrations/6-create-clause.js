@@ -22,7 +22,7 @@ module.exports = {
         }
       },
       clause_number: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       date: {
         type: Sequelize.STRING

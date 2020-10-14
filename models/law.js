@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       // Law.belongsTo(models.Law_Type)
       // Law.belongsTo(models.Ministry)
       
-      // Law.hasMany(models.Chapter, {
-      //   foreignKey: 'law_id'
-      // })
+      Law.hasMany(models.Chapter, {
+        foreignKey: 'law_id'
+      })
     }
   };
   Law.init({

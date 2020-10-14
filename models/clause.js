@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     law_id: DataTypes.INTEGER,
     chapter_id: DataTypes.INTEGER,
     article_id: DataTypes.INTEGER,
-    clause_number: DataTypes.INTEGER,
+    clause_number: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {

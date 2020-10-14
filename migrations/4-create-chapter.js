@@ -16,7 +16,7 @@ module.exports = {
         }
       },
       chapter_number: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       date: {
         type: Sequelize.STRING
