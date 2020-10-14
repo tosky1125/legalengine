@@ -25,7 +25,7 @@ module.exports = {
         }
       },
       sub_number: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       date: {
         type: Sequelize.STRING
