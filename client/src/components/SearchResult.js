@@ -6,6 +6,7 @@ import Pagination from './Pagination';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
+import './SearchResult.css';
 
 class SearchResult extends React.Component {
   constructor() {
@@ -47,9 +48,9 @@ class SearchResult extends React.Component {
           <div className='text-center'>
             <h1>페이지네이션</h1>
             {this.state.pageOfItems.map((item) => (
-              <>
-                <a
-                  href='/view'
+              <div className='page-list'>
+                <div
+                  className='page'
                   key={item.id}
                   onClick={() =>
                     this.handleClickSearch(item.number, item.enforcement_date)
@@ -62,8 +63,8 @@ class SearchResult extends React.Component {
                   <span className='ministry'>{item.ministry}</span>
                   <span className='promulgation'>{item.promulgation_date}</span>
                   <span className='enforcement'>{item.enforcement_date}</span>
-                </a>
-              </>
+                </div>
+              </div>
             ))}
             <div>
               <Pagination
