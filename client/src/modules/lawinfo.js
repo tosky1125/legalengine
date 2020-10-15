@@ -5,13 +5,13 @@ const LAWINFO = 'lawinfo';
 export const lawinfo = createAction(LAWINFO);
 
 const initialState = {
-  lawinfo: {},
+  lawDetail: {},
 };
 
 export default handleActions(
   {
     [LAWINFO]: (state, action) => ({
-      lawinfo: action.payload,
+      lawDetail: action.payload,
     }),
   },
   initialState

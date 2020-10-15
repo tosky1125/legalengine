@@ -107,7 +107,7 @@ class SearchResult extends React.Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
-    lawinfo: state.lawinfo.lawinfo,
+    lawlistdetail: state.lawinfo.lawlistdetail,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
