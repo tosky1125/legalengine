@@ -9,10 +9,11 @@ import * as lawinfo from '../modules/lawinfo';
 import './SearchResult.css';
 
 class SearchResult extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       pageOfItems: [],
+      isLoad: false,
     };
     this.onChangePage = this.onChangePage.bind(this);
   }
@@ -28,11 +29,28 @@ class SearchResult extends React.Component {
       enforcement_date,
     };
     const { lawinfo, history } = this.props;
-    axios.post('http://13.125.112.243/search/post', payload).then((res) => {
-      lawinfo(res.data);
-      console.log(res.data);
-      history.push('/view');
-    });
+    axios
+      .get('http://13.125.112.243/search/laws/73554/20060401', payload)
+      .then((res) => {
+        lawinfo(res.data);
+        console.log(res.data);
+        this.state({
+          isLoad: true,
+        });
+        history.push('/view');
+      })
+      .catch(function (err) {
+        if (err.res) {
+          console.log(err.res.data);
+          console.log(err.res.status);
+          console.log(err.res.headers);
+        } else if (err.req) {
+          console.log(err.req);
+        } else {
+          console.log('Error', err.message);
+        }
+        console.log(err.config);
+      });
   };
 
   render() {
