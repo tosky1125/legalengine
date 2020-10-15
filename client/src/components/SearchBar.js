@@ -9,7 +9,7 @@ import { date } from '../modules/date';
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDate, setSearchDate] = useState('');
-  const [isLoad, setisLoad] = useState(false);
+  const [isLoaded, setisLoaded] = useState(false);
   const { history } = props;
 
   const handleChangeTerm = (e) => {
@@ -32,7 +32,7 @@ function SearchBar(props) {
       .then((res) => {
         searchlist(res.data);
         console.log(res.data);
-        setisLoad(true);
+        setisLoaded(true);
         history.push('/search');
       })
       .catch((err) => {

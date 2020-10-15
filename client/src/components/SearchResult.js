@@ -13,7 +13,7 @@ class SearchResult extends React.Component {
     super(props);
     this.state = {
       pageOfItems: [],
-      isLoad: false,
+      isLoaded: false,
     };
     this.onChangePage = this.onChangePage.bind(this);
   }
@@ -34,9 +34,10 @@ class SearchResult extends React.Component {
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
-        this.state({
-          isLoad: true,
+        this.setState({
+          isLoaded: true,
         });
+
         history.push('/view');
       })
       .catch(function (err) {
