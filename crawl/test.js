@@ -1,15 +1,13 @@
 const {
-  raw
-} = require('body-parser');
-let puppeteer = require('puppeteer');
-let {
+  Law,
   Chapter,
   Article,
-  Law,
   Clause,
   Subparagraph,
   Item,
-} = require('./models');
+} = require('../models/index');
+let puppeteer = require('puppeteer');
+
 
 let spec = async () => {
   let data = await Law.findOne({
@@ -29,6 +27,9 @@ let spec = async () => {
   });
 
   let result = await page.evaluate(() => {
+    const ho = ['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.', '13.', '14.', '15.', '16.', '17.', '18.', '19.', '20.', '21.', '22.', '23.', '24.', '25.', '26.', '27.', '28.', '29.', '30.', '31.', '32.', '33.', '34.', '35.', '36.', '37.', '38.', '39.', '40.', '41.', '42.', '43.', '44.', '45.', '46.', '47.', '48.', '49.', '50.'];
+    const hang = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳', '㉑', '㉒', '㉓', '㉔', '㉕', '㉖', '㉗', '㉘', '㉙', '㉚', '㉛', '㉜', '㉝', '㉞', '㉟', '㊱', '㊲', '㊳', '㊴', '㊵', '㊶', '㊷', '㊸', '㊹', '㊺', '㊻', '㊼', '㊽', '㊾', '㊿'];
+    const mok = ['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '0)'];
     let body = Array.from(document.querySelector('#conScroll').children);
     let subText = Array.from(document.querySelector('#arDivArea').children);
     let chapter = [],
@@ -41,9 +42,22 @@ let spec = async () => {
       clauseNum = null,
       subParNum = null,
       itemNum = null;
-    let ho = ['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.', '13.', '14.', '15.', '16.', '17.', '18.', '19.', '20.', '21.', '22.', '23.', '24.', '25.', '26.', '27.', '28.', '29.', '30.', '31.', '32.', '33.', '34.', '35.', '36.', '37.', '38.', '39.', '40.', '41.', '42.', '43.', '44.', '45.', '46.', '47.', '48.', '49.', '50.'];
-    let hang = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳', '㉑', '㉒', '㉓', '㉔', '㉕', '㉖', '㉗', '㉘', '㉙', '㉚', '㉛', '㉜', '㉝', '㉞', '㉟', '㊱', '㊲', '㊳', '㊴', '㊵', '㊶', '㊷', '㊸', '㊹', '㊺', '㊻', '㊼', '㊽', '㊾', '㊿'];
-    let mok = ['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '0)'];
+    let state = (str) => {
+      for (let i = 0; i < str.length; i++) {
+        if (ho.indexOf(`${str[i]}${str[i+1]}`) !== -1) {
+          hhjm = '호';
+          break;
+        } else if (mok.indexOf(`${str[i]}${str[i+1]}`) !== -1) {
+          hhjm = '목';
+          break;
+        } else if (hang.indexOf(str[i]) !== -1) {
+          hhjm = '항';
+          break;
+        } else {
+          hhjm = '조';
+        }
+      };
+    };
     let chapSlice = (str) => {
       let tmp = str.slice(2);
       for (let i = 0; i < tmp.length; i += 1) {
@@ -52,50 +66,40 @@ let spec = async () => {
         }
       }
     };
+    let hhjm = '';
     let arSlice = (str) => {
       let tmp = str.slice(1);
       let sliceResult;
-
       for (let i = 0; i < tmp.length; i += 1) {
         if (tmp[i] === ':') {
           sliceResult = `${tmp.slice(0, i)}:0`;
-        }
-      }
+        };
+      };
       if (tmp[tmp.length] - 1 !== '0') {
         return tmp;
       } else {
         return sliceResult;
       }
     };
-
-    let spaceDel = (str) => {
-      let result;
-      for (let i = 0; i < str.length; i++) {
-        if (str[i] !== ' ') {
-          result = str.slice(i)
-          return result
-        }
-      }
-    }
-
     body.forEach((ele, index) => {
       if (ele.nodeName === 'A' && ele.id === ele.name) {
         if (ele.id.includes('P')) {
           chapterNum = chapSlice(ele.id);
           let chapDate = null;
           if (body[index + 1].children[0].lastChild.className === 'sfon') {
-            chapDate = body[index + 1].children[0].lastChild.textContent
-          }
-          let cont = body[index + 1].innerText.slice(8).replace(chapDate, '')
+            chapDate = body[index + 1].children[0].lastChild.textContent;
+          };
+          let cont = body[index + 1].innerText.slice(8).replace(chapDate, '');
           chapter.push({
             chapter_number: chapterNum,
             context: cont,
             date: chapDate,
-          })
+          });
         } else {
           articleNum = arSlice(ele.id)
           article[articleNum] = {
             chapter_id: chapterNum,
+            article_number: articleNum,
             title: null,
             context: null,
             child: body[index + 1].children,
@@ -105,8 +109,8 @@ let spec = async () => {
             flag_pan: null,
           }
         }
-      }
-    })
+      };
+    });
     let length = chapter.length;
 
     subText.forEach((ele, index) => {
@@ -122,9 +126,9 @@ let spec = async () => {
           date: date,
           context: cont,
           child: subText[index + 1].children,
-        })
-      }
-    })
+        });
+      };
+    });
 
     for (let i in article) {
       let button = Array.from(article[i].child[0].children);
@@ -144,7 +148,7 @@ let spec = async () => {
           let cont = texts[j].textContent;
           let date = null;
           if (texts[j].className === 'pty1_de2') {
-            article[i].date = texts[j].textContent
+            article[i].date = texts[j].textContent;
             continue;
           }
           if (j === 0) {
@@ -153,48 +157,40 @@ let spec = async () => {
           if (texts[j].lastChild.className === 'sfon') {
             date = texts[j].lastChild.textContent;
           }
-          cont = cont.replace(article[i].title, '');
-          cont = cont.replace(date, '')
+          cont = cont.replace(article[i].title, '').replace(date, '')
+          const checkState = cont.slice(0, 10);
+          state(checkState);
 
-          let checkState = cont.slice(0, 20);
-          let state = '';
-          for (let i = 0; i < checkState.length; i++) {
-            if (ho.indexOf(`${checkState[i]}${checkState[i+1]}`) !== -1) {
-              state = '호';
-              break;
-            } else if (mok.indexOf(`${checkState[i]}${checkState[i+1]}`) !== -1) {
-              state = '목';
-              break;
-            } else if (hang.indexOf(checkState[i]) !== -1) {
-              state = '항';
-              break;
-            }
-          }
-          console.log(checkState, state)
-          if (state === '호') {
+          if (hhjm === '호') {
             subParNum++;
+            itemNum = null;
             subPara.push({
               chapter_id: article[i].chapter_id,
               article_id: i,
               clause_id: clauseNum,
+              sub_number: subParNum,
               date: date,
               context: cont,
             })
-          } else if (state === '항') {
+          } else if (hhjm === '항') {
             clauseNum++;
+            subParNum = null;
+            itemNum = null;
             clause.push({
               chapter_id: article[i].chapter_id,
               article_id: i,
+              clause_number: clauseNum,
               date: date,
               context: cont,
             })
-          } else if (state === '목') {
+          } else if (hhjm === '목') {
             itemNum++;
             item.push({
               chapter_id: article[i].chapter_id,
               article_id: i,
               clause_id: clauseNum,
-              subPara_id: subParNum,
+              sub_id: subParNum,
+              item_number: itemNum,
               date: date,
               context: cont,
             })
@@ -231,6 +227,7 @@ let spec = async () => {
           artNum++;
           article[`${chapter[i].chapter_number}:${artNum}`] = {
             chapter_id: chapter[i].chapter_number,
+            article_number: artNum,
             title: title,
             context: null,
             date: artDate,
@@ -241,48 +238,39 @@ let spec = async () => {
           }
         }
         cont = cont.replace(title, '');
-        cont = cont.replace(artDate, '');
+        cont = cont.replace(date, '');
 
-        let checkState = cont.slice(0, 20);
-        let state = ''
+        const checkState = cont.slice(0, 15);
 
-        for (let i = 0; i < checkState.length; i++) {
-          if (ho.indexOf(`${checkState[i]}${checkState[i+1]}`) !== -1) {
-            state = '호';
-            break;
-          } else if (mok.indexOf(`${checkState[i]}${checkState[i+1]}`) !== -1) {
-            state = '목';
-            break;
-          } else if (hang.indexOf(checkState[i]) !== -1) {
-            state = '항';
-            break;
-          } else state = '조'
-        }
-        console.log(checkState, state)
-        if (state === '호') {
+        state(checkState);
+
+        if (hhjm === '호') {
           subParNum++;
+          itemNum = null;
           subPara.push({
             chapter_id: chapter[i].chapter_number,
-            article_id: `${chapter[i].chapter_number}:${artNum}`,
+            article_id: artNum,
             clause_id: clauseNum,
             sub_number: subParNum,
             date: date,
             context: cont,
           })
-        } else if (state === '항') {
+        } else if (hhjm === '항') {
           clauseNum++;
+          subParNum = null;
+          itemNum = null;
           clause.push({
             chapter_id: chapter[i].chapter_number,
-            article_id: `${chapter[i].chapter_number}:${artNum}`,
+            article_id: artNum,
             clause_number: clauseNum,
             date: date,
             context: cont,
           })
-        } else if (state === '목') {
+        } else if (hhjm === '목') {
           itemNum++;
           item.push({
             chapter_id: chapter[i].chapter_number,
-            article_id: `${chapter[i].chapter_number}:${artNum}`,
+            article_id: artNum,
             clause_id: clauseNum,
             sub_id: subParNum,
             item_number: itemNum,
@@ -299,6 +287,7 @@ let spec = async () => {
             artNum++
             article[`${chapter[i].chapter_number}:${artNum}`] = {
               chapter_id: chapter[i].chapter_number,
+              article_number: artNum,
               title: title,
               context: cont,
               date: artDate,
@@ -322,28 +311,33 @@ let spec = async () => {
       item
     }
   })
+  return result;
+}
 
+
+const init = async () => {
   let {
     chapter,
     article,
     clause,
     subPara,
-    item
-  } = result
+    item,
+  } = await spec();
 
-  chapter.forEach(async ele => {
+  await chapter.forEach(async ele => {
     let {
       chapter_number,
       date,
       context
-    } = ele
+    } = ele;
+
     await Chapter.create({
       law_id: k,
       chapter_number,
       date,
-      context: context
-    })
-  })
+      context,
+    });
+  });
 
   for (let i in article) {
     let {
@@ -357,16 +351,21 @@ let spec = async () => {
       flag_gyu
     } = article[i];
 
-    let chapID = await Chapter.findOne({
-      where: {
-        chapter_number: chapter_id
-      },
-      raw: true
-    })
-    let chapterId = chapter_id ? chapID.id : null;
+    let chapId = chapter_id;
+    if (chapter_id !== null) {
+      let ch = await Chapter.findOne({
+        where: {
+          law_id: k,
+          chapter_number: chapter_id,
+        },
+        raw: true,
+      })
+      chapId = ch.id
+    };
+
     await Article.create({
       law_id: k,
-      chapter_id: chapterId,
+      chapter_id: chapId,
       article_title: title,
       article_number: i,
       date,
@@ -375,45 +374,54 @@ let spec = async () => {
       flag_yeon,
       flag_hang,
       flag_gyu
-    })
-  }
+    });
+  };
 
-  clause.forEach(async ele => {
+  await clause.forEach(async ele => {
     let {
       chapter_id,
       article_id,
       clause_number,
       date,
       context
-    } = ele
+    } = ele;
 
-    let chapID = await Chapter.findOne({
-      where: {
-        chapter_number: chapter_id
-      },
-      raw: true
-    })
-    let chapterId = chapter_id ? chapID.id : null;
+    let chapId = chapter_id;
+    if (chapter_id !== null) {
+      let ch = await Chapter.findOne({
+        where: {
+          law_id: k,
+          chapter_number: chapter_id,
+        },
+        raw: true,
+      })
+      chapId = ch.id
+    };
 
-    let artId = await Article.findOne({
-      where: {
-        article_number: article_id
-      },
-      raw: true
-    })
-    let articleId = article_id ? artId.id : null;
+    let artId = article_id;
+    if (article_id !== null) {
+      let ar = await Article.findOne({
+        where: {
+          law_id: k,
+          chapter_id: chapId,
+          article_number: article_id,
+        },
+        raw: true,
+      });
+      artId = ar.id
+    };
 
-    Clause.create({
+    await Clause.create({
       law_id: k,
-      chapter_id: chapterId,
-      article_id: articleId,
+      chapter_id: chapId,
+      article_id: artId,
       clause_number,
       date,
       context,
     })
   })
 
-  subPara.forEach(async ele => {
+  await subPara.forEach(async ele => {
     let {
       chapter_id,
       article_id,
@@ -421,39 +429,58 @@ let spec = async () => {
       sub_number,
       date,
       context
-    } = ele
-    let chapID = await Chapter.findOne({
-      where: {
-        chapter_number: chapter_id
-      },
-      raw: true
-    })
-    let chapterId = chapter_id ? chapID.id : null;
-    let artId = await Article.findOne({
-      where: {
-        article_number: article_id
-      },
-      raw: true
-    })
-    let articleId = article_id ? artId.id : null;
-
-    let clId = await Clause.findOne({
-      where: {
-        clause_number: clause_id
-      },
-      raw: true
-    })
-
-    let clauseId = clause_id ? clId.id : null;
-      Subparagraph.create({
-        law_id: k,
-        chapter_id : chapterId,
-        article_id : articleId,
-        clause_id : clauseId,
-        sub_number,
-        date,
-        context,
+    } = ele;
+    let chapId = chapter_id;
+    if (chapter_id !== null) {
+      let ch = await Chapter.findOne({
+        where: {
+          law_id: k,
+          chapter_number: chapter_id,
+        },
+        raw: true,
       })
+      chapId = ch.id
+    };
+
+    let artId = article_id;
+    if (article_id !== null) {
+      let ar = await Article.findOne({
+        where: {
+          law_id: k,
+          chapter_id: chapId,
+          article_number: article_id,
+        },
+        raw: true,
+      });
+      artId = ar.id
+    };
+
+    let clId = clause_id;
+
+
+    if (clause_id !== null) {
+
+      let cl = await Clause.findOne({
+        where: {
+          law_id: k,
+          chapter_id: chapId,
+          article_id: artId,
+          clause_number: clause_id,
+        },
+        raw: true,
+      });
+      clId = cl.id;
+    };
+
+    await Subparagraph.create({
+      law_id: k,
+      chapter_id: chapId,
+      article_id: artId,
+      clause_id: clId,
+      sub_number,
+      date,
+      context,
+    })
   })
 
   await item.forEach(async ele => {
@@ -465,52 +492,83 @@ let spec = async () => {
       item_number,
       date,
       context
-    } = ele
-    let chapID = await Chapter.findOne({
-      where: {
-        chapter_number: chapter_id
-      },
-      raw: true
-    })
-    let chapterId = chapter_id ? chapID.id : null;
-    let artId = await Article.findOne({
-      where: {
-        article_number: article_id
-      },
-      raw: true
-    })
-    let articleId = article_id ? artId.id : null;
+    } = ele;
 
-    let clId = await Clause.findOne({
-      where: {
-        clause_number: clause_id
-      },
-      raw: true
-    })
 
-    let clauseId = clause_id ? clId.id : null;
+    let chapId = chapter_id;
+    if (chapter_id !== null) {
+      let ch = await Chapter.findOne({
+        where: {
+          law_id: k,
+          chapter_number: chapter_id,
+        },
+        raw: true,
+      })
+      chapId = ch.id
+    };
 
-    let subId = await Subparagraph.findOne({
-      where : {
-        sub_number : sub_id,
-      }
-    })
-    let subParaId = sub_id ? subId.id : null;
+    let artId = article_id;
+    if (article_id !== null) {
+      let ar = await Article.findOne({
+        where: {
+          law_id: k,
+          chapter_id: chapId,
+          article_number: article_id,
+        },
+        raw: true,
+      });
+      artId = ar.id
+    };
+
+    let clId = clause_id;
+
+
+    if (clause_id !== null) {
+      console.log(k, chapId, artId, clause_id)
+      let cl = await Clause.findOne({
+        where: {
+          law_id: k,
+          chapter_id: chapId,
+          article_id: artId,
+          clause_number: clause_id,
+        },
+        raw: true,
+      });
+      clId = cl.id;
+    };
+
+    let subId = sub_id;
+    if (sub_id !== null) {
+      let sub = await Subparagraph.findOne({
+        where: {
+          law_id: k,
+          chapter_id: chapId,
+          article_id: artId,
+          clause_id: clId,
+          sub_number: sub_id,
+        },
+        raw: true,
+      })
+
+      subId = sub.id;
+
+    };
+
     await Item.create({
       law_id: k,
-      chapter_id : chapterId,
-      article_id : articleId,
-      clause_id : clauseId,
-      sub_id : subParaId,
+      chapter_id: chapId,
+      article_id: artId,
+      clause_id: clId,
+      sub_id: subId,
       item_number,
       date,
       context
     })
+    
   })
-
   await k++
 }
 
 
-let k = 619;
-setInterval(spec, 5000, k);
+let k = 11;
+setInterval(init, 5000);
