@@ -9,10 +9,11 @@ import * as lawinfo from '../modules/lawinfo';
 import './SearchResult.css';
 
 class SearchResult extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       pageOfItems: [],
+      isLoad: false,
     };
     this.onChangePage = this.onChangePage.bind(this);
   }
@@ -33,7 +34,22 @@ class SearchResult extends React.Component {
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
+        this.state({
+          isLoad: true,
+        });
         history.push('/view');
+      })
+      .catch(function (err) {
+        if (err.res) {
+          console.log(err.res.data);
+          console.log(err.res.status);
+          console.log(err.res.headers);
+        } else if (err.req) {
+          console.log(err.req);
+        } else {
+          console.log('Error', err.message);
+        }
+        console.log(err.config);
       });
   };
 
