@@ -58,7 +58,8 @@ class SearchResult extends React.Component {
       <div>
         <div className='container'>
           <SearchBar />
-          <div>
+
+          <div className='law-number'>
             총{' '}
             {this.props.lawlist.length === 0 ? '0' : this.props.lawlist.length}{' '}
             개
@@ -66,22 +67,20 @@ class SearchResult extends React.Component {
           <div className='text-center'>
             <h1>페이지네이션</h1>
             {this.state.pageOfItems.map((item) => (
-              <div className='page-list'>
-                <div
-                  className='page'
-                  key={item.id}
-                  onClick={() =>
-                    this.handleClickSearch(item.number, item.enforcement_date)
-                  }
-                >
-                  <h3 className='name'>{item.name}</h3>
-                  <span className='type'>{item.type}</span>
-                  <span className='number'>{item.number}</span>
-                  <span className='admendment'>{item.amendment_status}</span>
-                  <span className='ministry'>{item.ministry}</span>
-                  <span className='promulgation'>{item.promulgation_date}</span>
-                  <span className='enforcement'>{item.enforcement_date}</span>
-                </div>
+              <div
+                className='page'
+                key={item.id}
+                onClick={() =>
+                  this.handleClickSearch(item.number, item.enforcement_date)
+                }
+              >
+                <h3 className='name'>{item.name}</h3>
+                <span className='type'>{item.type}</span>
+                <span className='number'>{item.number}</span>
+                <span className='admendment'>{item.amendment_status}</span>
+                <span className='ministry'>{item.ministry}</span>
+                <span className='promulgation'>{item.promulgation_date}</span>
+                <span className='enforcement'>{item.enforcement_date}</span>
               </div>
             ))}
             <div>
