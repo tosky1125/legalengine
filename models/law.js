@@ -10,13 +10,20 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // Law.belongsTo(models.Revision)
-      // Law.belongsTo(models.Law_Type)
-      // Law.belongsTo(models.Ministry)
+      Law.belongsTo(models.Revision, {
+        foreignKey: 'id',
+      });
+      Law.belongsTo(models.Law_Type, {
+        foreignKey: 'type_id',
+      });
+      Law.belongsTo(models.Ministry, {
+        foreignKey: 'ministry_id',
+      });
       
       Law.hasMany(models.Chapter, {
-        foreignKey: 'law_id'
-      })
+        foreignKey: 'law_id',
+        sourceKey: 'id'
+      });
     }
   };
   Law.init({

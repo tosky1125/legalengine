@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Ministry.hasMany(models.Law, {
-        foreignKey: 'ministry_id'
+        foreignKey: 'ministry_id',
+        // targetKey: 'id'
       })
     }
   };

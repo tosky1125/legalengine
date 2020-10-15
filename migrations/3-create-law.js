@@ -19,10 +19,10 @@ module.exports = {
       },
       type_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: 'Law_Types',
-          key: 'id'
-        }
+        // references: {
+        //   model: 'Law_Types',
+        //   key: 'id'
+        // }
       },
       promulgation_number: {
         type: Sequelize.INTEGER
@@ -35,10 +35,10 @@ module.exports = {
       },
       ministry_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: 'Ministries',
-          key: 'id'
-        }
+        // references: {
+        //   model: 'Ministries',
+        //   key: 'id'
+        // }
       },
       context: {
         type: Sequelize.TEXT
