@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      // Revision.hasOne(models.Law, {
-      //   foreignKey: 'law_id'
-      // })
+      Revision.hasOne(models.Law, {
+        foreignKey: 'law_id',
+        sourceKey: 'new_law_id'
+      })
     }
   };
   Revision.init({
