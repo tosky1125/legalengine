@@ -8,6 +8,8 @@ import { withRouter } from 'react-router-dom';
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDate, setSearchDate] = useState('');
+  const [isLoad, setisLoad] = useState(false);
+  const { history } = props;
 
   const handleChangeTerm = (e) => {
     setSearchTerm(e.target.value);
@@ -22,16 +24,28 @@ function SearchBar(props) {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const payload = { searchWord: searchTerm, date: searchDate };
-    const { searchlist, history } = props;
+    const { searchlist } = props;
 
     axios
-      .post('http://13.125.112.243/laws', payload)
+      .post('http://13.125.112.243/search/laws', payload)
       .then((res) => {
         searchlist(res.data);
         console.log(res.data);
+        setisLoad(true);
         history.push('/search');
       })
-      .catch();
+      .catch((err) => {
+        if (err.res) {
+          console.log(err.res.data);
+          console.log(err.res.status);
+          console.log(err.res.headers);
+        } else if (err.req) {
+          console.log(err.req);
+        } else {
+          console.log('Error', err.message);
+        }
+        console.log(err.config);
+      });
   };
 
   return (
