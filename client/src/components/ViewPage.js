@@ -27,9 +27,7 @@ function ViewPage(props) {
     <div>
       <div className='searched-date'>2020/10/7 적용</div>
       <div className='view-container'>
-        <div className='sideinfo-container'>
-          시행령 규칙{lawDetail.law.name}
-        </div>
+        <div className='sideinfo-container'>{lawDetail.law.name}</div>
         <div className='maininfo-container'>
           <div className='lawtitle'>가사소송법</div>
           <div className='chapter'>제 1편 총칙</div>
