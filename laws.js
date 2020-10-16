@@ -2,10 +2,8 @@ const axios = require('axios');
 const convert = require('xml-js');
 const {
   Law,
-  Ministry,
-  Law_Type,
 } = require('./models');
-const ministry = require('./models/ministry');
+
 
 const monthToDate = (string) => {
   const year = string.slice(0, 4);
@@ -14,20 +12,22 @@ const monthToDate = (string) => {
   const result = `${year}-${month}-${day}`;
   return result;
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> bb90b5da8310f0799c33bbfe01c94134e897affd
 let i = 1;
 const getLaws = async () => {
   let response = await axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML&display=100&page=${i}`)
-
   let data = convert.xml2json(response.data, {
     compact: true,
     spaces: 4,
   });
-
   data = JSON.parse(data);
   data = data.LawSearch.law;
-
+console.log(data);
   data.forEach(async (ele) => {
+<<<<<<< HEAD
     await Ministry.findOrCreate({
       where: { name: ele['소관부처명']._text },
       defaults: {
@@ -44,6 +44,10 @@ const getLaws = async () => {
 
     await Law.create({
       law_id : ele._attributes.id,
+=======
+    await Law.create({
+      law_id: ele['법령일련번호']._text,
+>>>>>>> bb90b5da8310f0799c33bbfe01c94134e897affd
       name: ele['법령명한글']._cdata,
       number: ele['법령일련번호']._text,
       promulgation_date: monthToDate(ele['공포일자']._text),

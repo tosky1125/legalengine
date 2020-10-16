@@ -105,7 +105,6 @@ let spec = async () => {
           if (body[index + 1].children[0].lastChild.className === 'sfon') {
             chapDate = body[index + 1].children[0].lastChild.textContent;
           };
-
           //context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
           let cont = body[index + 1].innerText.slice(8).replace(chapDate, '');
           chapter.push({
@@ -531,7 +530,7 @@ const init = async () => {
       flag_hang,
       flag_gyu
     } = ele;
-    console.log(chapter_id);
+    
     let tmp = await Chapter.findOne({
       where :{
         law_id : a,
@@ -539,7 +538,7 @@ const init = async () => {
       }, raw : true
     })
     chapter_id =tmp.chapter_id;
-    console.log(chapter_id);
+
     await Article.create({
       law_id: a,
     chapter_id,
@@ -621,6 +620,7 @@ const init = async () => {
       date,
       context
     } = ele;
+
     let tmp = await Subparagraph.findOne({
       where :{
         law_id : a,
@@ -644,10 +644,10 @@ const init = async () => {
     })
   })
   k++ ;
-
 }
 
 
 
+
 let k = 1;
-setInterval(init, 5000);
+setInterval(init, 10000);
