@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   Item.init({
     item_id: {
-      primaryKey: true,
       allowNull: true,
       type: DataTypes.STRING
     },
@@ -45,6 +44,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Item',
   });
-  Item.removeAttribute('id');
   return Item;
 };

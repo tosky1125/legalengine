@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   Clause.init({
     clause_id: {
-      primaryKey: true,
       allowNull: true,
       type: DataTypes.STRING
     },
@@ -41,6 +40,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Clause',
   });
-  Clause.removeAttribute('id')
   return Clause;
 };

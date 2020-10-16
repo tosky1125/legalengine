@@ -38,6 +38,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Chapter',
   });
-  Chapter.removeAttribute('id')
   return Chapter;
 };

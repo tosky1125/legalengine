@@ -2,9 +2,13 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Articles', {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
       article_id: {
         allowNull: true,
-        primaryKey: true,
         type: Sequelize.STRING
       },
       law_id: {
@@ -37,14 +41,6 @@ module.exports = {
       },
       flag_gyu: {
         type: Sequelize.TINYINT
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },

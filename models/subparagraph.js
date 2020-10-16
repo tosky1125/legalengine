@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   Subparagraph.init({
     sub_id: {
-      primaryKey: true,
       type: DataTypes.STRING,
       allowNull: true
     },
@@ -45,6 +44,5 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Subparagraph',
   });
-  Subparagraph.removeAttribute('id');
   return Subparagraph;
 };
