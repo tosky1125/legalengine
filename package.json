@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/tosky1125/carillon_codestates#readme",
   "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
     "mysql2": "^2.2.5",
     "sequelize-cli": "^6.2.0"
   },

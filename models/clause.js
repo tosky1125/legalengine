@@ -3,26 +3,37 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class CLAUSE extends Model {
+  class Clause extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Clause.hasMany(models.Subparagraph, {
+        foreignKey: 'clause_id',
+        sourceKey: 'clause_id'
+      });
+      Clause.belongsTo(models.Article, {
+        foreignKey: 'article_id',
+        targetKey: 'article_id'
+      });
     }
   };
-  CLAUSE.init({
+  Clause.init({
+    clause_id: {
+      primaryKey: true,
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     law_id: DataTypes.INTEGER,
-    chapter_id: DataTypes.INTEGER,
-    article_id: DataTypes.INTEGER,
-    clause_number: DataTypes.INTEGER,
-    date: DataTypes.DATE,
-    contexts: DataTypes.TEXT
+    chapter_id: DataTypes.STRING,
+    article_id: DataTypes.STRING,
+    date: DataTypes.STRING,
+    context: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'CLAUSE',
+    modelName: 'Clause',
   });
-  return CLAUSE;
+  return Clause;
 };

@@ -3,37 +3,37 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Chapter extends Model {
+  class Subparagraph extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      Chapter.hasMany(models.Article, {
-        foreignKey: 'chapter_id',
-        sourceKey: 'chapter_id'
+      Subparagraph.hasMany(models.Item, {
+        foreignKey: 'sub_id',
+        sourceKey: 'sub_id'
       });
-
-      Chapter.belongsTo(models.Law, {
-        foreignKey: 'law_id',
-        targetKey: 'law_id'
+      Subparagraph.belongsTo(models.Clause, {
+        foreignKey: 'clause_id',
+        targetKey: 'clause_id'
       });
     }
   };
-  Chapter.init({
-    chapter_id: {
+  Subparagraph.init({
+    sub_id: {
       primaryKey: true,
-      allowNull: true,
       type: DataTypes.STRING
     },
     law_id: DataTypes.INTEGER,
+    chapter_id: DataTypes.STRING,
+    article_id: DataTypes.STRING,
+    clause_id: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'Chapter',
+    modelName: 'Subparagraph',
   });
-  return Chapter;
+  return Subparagraph;
 };

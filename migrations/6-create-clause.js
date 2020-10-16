@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('ITEMs', {
+    await queryInterface.createTable('Clauses', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -15,18 +15,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       article_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Articles',
+          key: 'id'
+        }
       },
-      clause_id: {
-        type: Sequelize.INTEGER
-      },
-      item_number: {
-        type: Sequelize.INTEGER
+      clause_number: {
+        type: Sequelize.STRING
       },
       date: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
-      contexts: {
+      context: {
         type: Sequelize.TEXT
       },
       createdAt: {
@@ -40,6 +41,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('ITEMs');
+    await queryInterface.dropTable('Clauses');
   }
 };
