@@ -55,15 +55,20 @@ class SearchResult extends React.Component {
   };
 
   render() {
+    if (this.props.lawlist.length === 0) {
+      return (
+        <div>
+          <SearchBar />
+          <div className='search-empty'>검색 결과가 없습니다.</div>
+        </div>
+      );
+    }
+
     return (
       <div>
         <div className='container'>
           <SearchBar />
-          <div className='law-number'>
-            총{' '}
-            {this.props.lawlist.length === 0 ? '0' : this.props.lawlist.length}{' '}
-            개
-          </div>
+          <div className='law-number'>총 {this.props.lawlist.length} 개</div>
           <div className='text-center'>
             {this.state.pageOfItems.map((item) => (
               <div
