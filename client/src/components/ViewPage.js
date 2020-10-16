@@ -4,8 +4,10 @@ import { withRouter } from 'react-router-dom';
 import * as date from '../modules/date';
 import * as lawinfo from '../modules/lawinfo';
 import './ViewPage.css';
+import { connect } from 'react-redux';
+import * as lawinfo from '../modules/lawinfo';
 
-function ViewPage(props) {
+function ViewPage(props) {=
   // lawinfo 에 들어와있는데 이걸 어떻게 출력하냐 처리하냐
   // article 조
   // chapter 장
