@@ -23,17 +23,28 @@ module.exports = (sequelize, DataTypes) => {
   Subparagraph.init({
     sub_id: {
       primaryKey: true,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true
     },
     law_id: DataTypes.INTEGER,
-    chapter_id: DataTypes.STRING,
-    article_id: DataTypes.STRING,
-    clause_id: DataTypes.STRING,
+    chapter_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    article_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    clause_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Subparagraph',
   });
+  Subparagraph.removeAttribute('id');
   return Subparagraph;
 };

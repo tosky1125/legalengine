@@ -23,10 +23,14 @@ module.exports = (sequelize, DataTypes) => {
   Article.init({
     article_id: {
       primaryKey: true,
+      allowNull: true,
       type: DataTypes.STRING
     },
     law_id: DataTypes.INTEGER,
-    chapter_id: DataTypes.STRING,
+    chapter_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     article_title: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT,
@@ -38,5 +42,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Article',
   });
+  Article.removeAttribute('id')
   return Article;
 };

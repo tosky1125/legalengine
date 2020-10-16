@@ -6,7 +6,6 @@ const {
   Subparagraph,
   Item,
 } = require('../models/index');
-let puppeteer = require('puppeteer');
 
 let spec = async () => {
 
@@ -586,8 +585,12 @@ const init = async () => {
         },
         raw: true,
       });
+<<<<<<< HEAD
+      artId = ar.m,id
+=======
 
       artId = ar.id
+>>>>>>> d35e1eb463f0726efcd0f776ec8faa5ee78a7478
     };
 
     await Clause.create({
@@ -735,6 +738,21 @@ const init = async () => {
       context
     })
   })
+<<<<<<< HEAD
+  flag = false;
+}
+
+
+setInterval(() => {
+  console.log(`--------------------------- k : ${k} ---------------------------`);
+  if (flag) {
+    init();
+  } else {
+    k++;
+    flag = true;
+  }
+}, 5000);
+=======
   k++;
 
 }
@@ -743,3 +761,4 @@ const init = async () => {
 
 let k = 43;
 setInterval(init, 10000);
+>>>>>>> d35e1eb463f0726efcd0f776ec8faa5ee78a7478

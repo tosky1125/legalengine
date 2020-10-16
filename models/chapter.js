@@ -25,14 +25,19 @@ module.exports = (sequelize, DataTypes) => {
   Chapter.init({
     chapter_id: {
       primaryKey: true,
+      allowNull: true,
       type: DataTypes.STRING
     },
-    law_id: DataTypes.INTEGER,
+    law_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Chapter',
   });
+  Chapter.removeAttribute('id')
   return Chapter;
 };

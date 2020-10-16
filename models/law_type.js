@@ -19,11 +19,13 @@ module.exports = (sequelize, DataTypes) => {
   Law_Type.init({
     type: {
       primaryKey: true,
+      allowNull: true,
       type: DataTypes.STRING
     }
   }, {
     sequelize,
     modelName: 'Law_Type',
   });
+  Law_Type.removeAttribute('id')
   return Law_Type;
 };
