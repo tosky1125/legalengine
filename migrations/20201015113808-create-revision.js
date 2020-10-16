@@ -12,11 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       new_law_id: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Laws',
-        //   key: 'id'
-        // }
+        type: Sequelize.INTEGER
       },
       statement: {
         type: Sequelize.TEXT

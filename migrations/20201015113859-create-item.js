@@ -2,33 +2,29 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Items', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+      item_id: {
+        allowNull: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       law_id: {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       article_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       clause_id: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Subparagraphs',
-        //   key: 'id'
-        // }
+        type: Sequelize.STRING
       },
       sub_id: {
-        type: Sequelize.INTEGER
-      },
-      item_number: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        references: {
+          model: 'Subparagraphs',
+          key: 'sub_id'
+        }
       },
       date: {
         type: Sequelize.STRING

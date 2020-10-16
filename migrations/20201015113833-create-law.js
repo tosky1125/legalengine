@@ -2,9 +2,8 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Laws', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+      law_id: {
+        allowNull: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
@@ -17,12 +16,12 @@ module.exports = {
       promulgation_date: {
         type: Sequelize.DATE
       },
-      type_id: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Law_Types',
-        //   key: 'id'
-        // }
+      type: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'Law_Types',
+          key: 'type'
+        }
       },
       promulgation_number: {
         type: Sequelize.INTEGER
@@ -33,12 +32,12 @@ module.exports = {
       amendment_status: {
         type: Sequelize.STRING
       },
-      ministry_id: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Ministries',
-        //   key: 'id'
-        // }
+      ministry: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'Ministries',
+          key: 'name'
+        }
       },
       context: {
         type: Sequelize.TEXT

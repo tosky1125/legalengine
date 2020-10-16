@@ -11,30 +11,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Law.belongsTo(models.Revision, {
-        foreignKey: 'id',
+        foreignKey: 'law_id',
+        constraints: false
       });
       Law.belongsTo(models.Law_Type, {
-        foreignKey: 'type_id',
+        foreignKey: 'type',
+        targetKey: 'type',
+        constraints: false
       });
       Law.belongsTo(models.Ministry, {
-        foreignKey: 'ministry_id',
+        foreignKey: 'ministry',
+        targetKey: 'name',
+        constraints: false
       });
-      
+
       Law.hasMany(models.Chapter, {
         foreignKey: 'law_id',
-        sourceKey: 'id'
+        sourceKey: 'law_id'
       });
     }
   };
   Law.init({
+    law_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
+      unique: true
+    },
     number: DataTypes.INTEGER,
     name: DataTypes.STRING,
     promulgation_date: DataTypes.DATE,
-    type_id: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     promulgation_number: DataTypes.INTEGER,
     enforcement_date: DataTypes.DATE,
     amendment_status: DataTypes.STRING,
-    ministry_id: DataTypes.INTEGER,
+    ministry: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {
     sequelize,

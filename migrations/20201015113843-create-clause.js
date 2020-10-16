@@ -1,31 +1,24 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Subparagraphs', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+    await queryInterface.createTable('Clauses', {
+      clause_id: {
+        allowNull: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       law_id: {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       article_id: {
-        type: Sequelize.INTEGER
-      },
-      clause_id: {
-        type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'Clauses',
-        //   key: 'id'
-        // }
-      },
-      sub_number: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        references: {
+          model: 'Articles',
+          key: 'article_id'
+        }
       },
       date: {
         type: Sequelize.STRING
@@ -44,6 +37,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Subparagraphs');
+    await queryInterface.dropTable('Clauses');
   }
 };

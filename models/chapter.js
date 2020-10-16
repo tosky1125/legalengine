@@ -11,15 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Chapter.belongsTo(models.Law)
-      // Chapter.hasMany(models.Article, {
-      //   foreignKey: 'chapter_id'
-      // })
+      Chapter.hasMany(models.Article, {
+        foreignKey: 'chapter_id',
+        sourceKey: 'chapter_id'
+      });
+
+      Chapter.belongsTo(models.Law, {
+        foreignKey: 'law_id',
+        targetKey: 'law_id'
+      });
     }
   };
   Chapter.init({
+    chapter_id: {
+      primaryKey: true,
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     law_id: DataTypes.INTEGER,
-    chapter_number: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {

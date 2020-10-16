@@ -10,19 +10,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      // Subparagraph.belongsTo(models.Article)
-      // Subparagraph.hasMany(models.Item, {
-      //   foreignKey: 'sub_id'
-      // })
+      Subparagraph.hasMany(models.Item, {
+        foreignKey: 'sub_id',
+        sourceKey: 'sub_id'
+      });
+      Subparagraph.belongsTo(models.Clause, {
+        foreignKey: 'clause_id',
+        targetKey: 'clause_id'
+      });
     }
   };
   Subparagraph.init({
+    sub_id: {
+      primaryKey: true,
+      type: DataTypes.STRING
+    },
     law_id: DataTypes.INTEGER,
-    chapter_id: DataTypes.INTEGER,
-    article_id: DataTypes.INTEGER,
-    clause_id: DataTypes.INTEGER,
-    sub_number: DataTypes.STRING,
+    chapter_id: DataTypes.STRING,
+    article_id: DataTypes.STRING,
+    clause_id: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {

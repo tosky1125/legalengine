@@ -6,9 +6,11 @@ const {
   Subparagraph,
   Item,
 } = require('../models/index');
+
+let flag = true;
+let k = 617;
+
 let puppeteer = require('puppeteer');
-
-
 let spec = async () => {
   let data = await Law.findOne({
     where: {
@@ -408,7 +410,7 @@ const init = async () => {
         },
         raw: true,
       });
-      artId = ar.id
+      artId = ar.m,id
     };
 
     await Clause.create({
@@ -566,9 +568,16 @@ const init = async () => {
     })
     
   })
-  await k++
+  flag = false;
 }
 
 
-let k = 11;
-setInterval(init, 5000);
+setInterval(() => {
+  console.log(`--------------------------- k : ${k} ---------------------------`);
+  if (flag) {
+    init();
+  } else {
+    k++;
+    flag = true;
+  }
+}, 5000);

@@ -140,17 +140,17 @@ let test_association = async (keyword, dateNotParsed) => {
       {
         model: Ministry,
         where: {
-          id: Sequelize.col('Law.ministry_id')
+          id: Sequelize.col('Law.ministry')
         },
         attributes: ['name']
       },
-      {
-        model: Law_Type,
-        where: {
-          id: Sequelize.col('Law.type_id')
-        },
-        attributes: ['type']
-      }
+      // {
+      //   model: Law_Type,
+      //   where: {
+      //     id: Sequelize.col('Law.type')
+      //   },
+      //   attributes: ['type']
+      // }
     ],
     where: {
       name: {
@@ -163,17 +163,35 @@ let test_association = async (keyword, dateNotParsed) => {
     raw: true
   });
   console.log(searchResult);
-  // console.log({
-  //   id: searchResult[0].id,
-  //   number: searchResult[0].name,
-  //   promulgation_date: searchResult[0].promulgation_date,
-  //   promulgation_number: searchResult[0].promulgation_number,
-  //   enforcement_date: searchResult[0].enforcement_date,
-  //   amendment_status: searchResult[0].amendment_status,
-  //   context: searchResult[0].context,
-  //   ministry_name: searchResult[0]['Ministry.name'],
-  //   law_type: searchResult[0]['Law_Type.type']
-  // });
+  console.log({
+    law_id: searchResult[0].id,
+    number: searchResult[0].name,
+    promulgation_date: searchResult[0].promulgation_date,
+    promulgation_number: searchResult[0].promulgation_number,
+    enforcement_date: searchResult[0].enforcement_date,
+    amendment_status: searchResult[0].amendment_status,
+    context: searchResult[0].context,
+    ministry_name: searchResult[0]['Ministry.name'],
+    law_type: searchResult[0]['Law_Type.type']
+  });
 };
 
 test_association("가정", "2020-10-14");
+
+let test_create = async () => {
+  let result = await Law.create({
+    law_id: '1234567891011',
+    number: '12345',
+    name: 'test law',
+    promulgation_date: new Date(),
+    type: '감사원규칙',
+    promulgation_number: '123',
+    enforcement_date: new Date(),
+    amendment_status: 'test law',
+    ministry: '감사원',
+    context: 'test law context'
+  });
+  console.log(result);
+}
+
+// test_create();

@@ -2,7 +2,7 @@
   "development": {
     "username": "cf",
     "password": "12345678",
-    "database": "carillon-testBed",
+    "database": "carillon-TestBed2",
     "host": "code-flights.c5une8pdluk5.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },

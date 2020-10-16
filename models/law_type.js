@@ -10,15 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
       Law_Type.hasMany(models.Law, {
-        foreignKey: 'type_id',
-        // sourceKey: 'id'
+        foreignKey: 'type',
+        sourceKey: 'type'
       })
     }
   };
   Law_Type.init({
-    type: DataTypes.STRING
+    type: {
+      primaryKey: true,
+      allowNull: true,
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Law_Type',
