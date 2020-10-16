@@ -1,4 +1,4 @@
-.pickdate {
+.searched-date {
   position: relative;
   margin: 1.5rem;
   padding: 1rem;
@@ -18,7 +18,7 @@
   flex: 1;
 }
 
-.info-container {
+.maininfo-container {
   border-style: solid;
   margin: 1.5rem;
   flex: 3;

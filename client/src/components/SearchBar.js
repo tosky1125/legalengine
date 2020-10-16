@@ -19,20 +19,20 @@ function SearchBar(props) {
   };
 
   const handleChangeDate = (e) => {
-    setSearchDate(e.target.value);
+    setSearchDate(e.target.value);  
     console.log(e.target.value);
   };
 
   const handleSearch = () => {
     const payload = { searchWord: searchTerm, date: searchDate };
-    const { searchlist } = props;
-
+    const { searchlist, history } = props;
     axios
       .post('http://13.125.112.243/search/laws', payload)
       .then((res) => {
         searchlist(res.data);
         console.log(res.data);
         setisLoaded(true);
+        history.push('/search');
       })
       .catch((err) => {
         if (err.res) {
