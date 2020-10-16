@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoaded, setisLoaded] = useState(false);
-  const { register, errors, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
 
   const today = new Date();
   const month = today.getUTCMonth() + 1;
@@ -31,6 +31,7 @@ function SearchBar(props) {
   const handleSearch = () => {
     const payload = { searchWord: searchTerm, date: searchDate };
     const { searchlist, history } = props;
+
     axios
       .post('http://13.125.112.243/search/laws', payload)
       .then((res) => {
@@ -78,7 +79,6 @@ function SearchBar(props) {
             <input
               type='date'
               name='date'
-              placeholder='대상 날짜'
               value={searchDate}
               onChange={handleChangeDate}
             />
