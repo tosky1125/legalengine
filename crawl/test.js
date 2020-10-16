@@ -8,6 +8,10 @@ const {
 } = require('../models/index');
 let puppeteer = require('puppeteer');
 
+const {
+  Op
+} = require("sequelize");
+
 let spec = async () => {
 
   // 법령 목록에서 아이디 k 값을 찾는다.
@@ -117,7 +121,7 @@ let spec = async () => {
           if (chapterNum === undefined) {
             chapterNum = null;
             chapter.push({
-              chapter_id: chapterNum,
+              chapter_number: chapterNum,
               context: null,
               date: null,
             })
@@ -325,14 +329,15 @@ let spec = async () => {
             flag_pan: null,
           })
         }
-        if (array[j].children.length > 0 && array[j].hasChildNodes('IMG')) {
-           cont = array[j].lastElementChild.src;
-           hhjm = '목'
-        }else{
-        cont = cont.replace(title, '').replace(date, '');
-        const checkState = cont.slice(0, 9);
-        // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
-        state(checkState);
+        if (array[j].children.length > 0 && array[j].lastChild.nodeName === 'IMG') {
+          console.log(array[j].childNodes);
+          cont = array[j].lastElementChild.src;
+          hhjm = '목'
+        } else {
+          cont = cont.replace(title, '').replace(date, '');
+          const checkState = cont.slice(0, 9);
+          // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
+          state(checkState);
         }
         if (hhjm === '항') {
           // 하위 카테고리의 index는 null값으로 초기화 
@@ -405,6 +410,9 @@ let spec = async () => {
           })
           itemNum = undefined;
         } else if (hhjm === '목') {
+          if (itemNum === undefined) {
+            itemNum = null;
+          };
           itemNum++;
           if (artNum === undefined) {
             artNum = null;
@@ -504,21 +512,22 @@ const init = async () => {
     item,
   } = await spec();
   const a = k;
-  chapter.forEach(async ele => {
+
+  for (chapt of chapter) {
     let {
       chapter_number,
       date,
       context
-    } = ele;
+    } = chapt;
     await Chapter.create({
       law_id: a,
-      chapter_id : chapter_number,
+      chapter_id: chapter_number,
       date,
       context,
     });
-  });
+  }
 
-  article.forEach(async ele => {
+  for (art of article) {
     let {
       chapter_id,
       article_number,
@@ -529,58 +538,66 @@ const init = async () => {
       flag_yeon,
       flag_hang,
       flag_gyu
-    } = ele;
-    
+    } = art;
     let tmp = await Chapter.findOne({
-      where :{
-        law_id : a,
+      where: {
+        law_id: a,
         chapter_id,
-      }, raw : true
+      },
+      raw: true,
     })
-    chapter_id =tmp.chapter_id;
-
+    chapter_id = tmp.id;
+    console.log(chapter_id)
     await Article.create({
       law_id: a,
-    chapter_id,
-    article_title: title,
-    article_id : article_number,
-    date,
-    context,
-    flag_pan,
-    flag_yeon,
-    flag_hang,
-    flag_gyu,
+      chapter_id,
+      article_title: title,
+      article_id: article_number,
+      date,
+      context,
+      flag_pan,
+      flag_yeon,
+      flag_hang,
+      flag_gyu,
     });
-  });
-
-  clause.forEach(async ele => {
+  }
+  for (cla of clause) {
     let {
       chapter_id,
       article_id,
       clause_number,
       date,
       context
-    } = ele;
-    let tmp = await Article.findOne({
-      where :{
-        law_id : a,
+    } = cla;
+    let tmp1 = await Chapter.findOne({
+      where: {
+        law_id: a,
+        chapter_id,
+      },
+      raw: true,
+    })
+    chapter_id = tmp1.id;
+    let tmp2 = await Article.findOne({
+      where: {
+        law_id: a,
         chapter_id,
         article_id,
-      }, raw : true
+      },
+      raw: true
     })
-    article_id =tmp.article_id;
-    
+    article_id = tmp2.id;
+
     await Clause.create({
       law_id: a,
       chapter_id,
       article_id,
-      clause_id : clause_number,
+      clause_id: clause_number,
       date,
       context,
     })
-  })
+  }
 
-  subPara.forEach(async ele => {
+  for (sub of subPara) {
     let {
       chapter_id,
       article_id,
@@ -588,29 +605,47 @@ const init = async () => {
       sub_number,
       date,
       context
-    } = ele;
-    let tmp = await Clause.findOne({
-      where :{
-        law_id : a,
+    } = sub;
+    let tmp1 = await Chapter.findOne({
+      where: {
+        law_id: a,
+        chapter_id,
+      },
+      raw: true,
+    })
+    chapter_id = tmp1.id;
+    let tmp2 = await Article.findOne({
+      where: {
+        law_id: a,
+        chapter_id,
+        article_id,
+      },
+      raw: true
+    })
+    article_id = tmp2.id;
+    
+    let tmp3 = await Clause.findOne({
+      where: {
+        law_id: a,
         chapter_id,
         article_id,
         clause_id,
-      }, raw : true
+      },
+      raw: true
     })
-    clause_id =tmp.clause_id;
-    
+    clause_id = tmp3.id;
+
     await Subparagraph.create({
       law_id: a,
       chapter_id,
       article_id,
       clause_id,
-      sub_id : sub_number,
+      sub_id: sub_number,
       date,
       context,
     })
-  })
-
-  item.forEach(async ele => {
+  }
+  for (it of item) {
     let {
       chapter_id,
       article_id,
@@ -619,35 +654,64 @@ const init = async () => {
       item_number,
       date,
       context
-    } = ele;
-
-    let tmp = await Subparagraph.findOne({
-      where :{
-        law_id : a,
+    } = it;
+    let tmp1 = await Chapter.findOne({
+      where: {
+        law_id: a,
+        chapter_id,
+      },
+      raw: true,
+    })
+    chapter_id = tmp1.id;
+    let tmp2 = await Article.findOne({
+      where: {
+        law_id: a,
+        chapter_id,
+        article_id,
+      },
+      raw: true
+    })
+    article_id = tmp2.id;
+    
+    let tmp3 = await Clause.findOne({
+      where: {
+        law_id: a,
+        chapter_id,
+        article_id,
+        clause_id,
+      },
+      raw: true
+    })
+    clause_id = tmp3.id;
+    let tmp4 = await Subparagraph.findOne({
+      where: {
+        law_id: a,
         chapter_id,
         article_id,
         clause_id,
         sub_id,
-      }, raw : true
+      },
+      raw: true
     })
-    sub_id =tmp.sub_id;
-    
+    sub_id = tmp4.id;
+    console.log(sub);
     await Item.create({
       law_id: a,
       chapter_id,
       article_id,
       clause_id,
       sub_id,
-      item_id : item_number,
+      item_id: item_number,
       date,
       context
     })
-  })
-  k++ ;
+  }
+
+  k++;
 }
 
 
 
 
-let k = 1;
-setInterval(init, 10000);
+let k = 627;
+setInterval(init, 5000);
