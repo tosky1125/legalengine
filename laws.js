@@ -2,10 +2,8 @@ const axios = require('axios');
 const convert = require('xml-js');
 const {
   Law,
-  Ministry,
-  Law_Type,
 } = require('./models');
-const ministry = require('./models/ministry');
+
 
 const monthToDate = (string) => {
   const year = string.slice(0, 4);
@@ -14,19 +12,16 @@ const monthToDate = (string) => {
   const result = `${year}-${month}-${day}`;
   return result;
 };
-
 let i = 1;
 const getLaws = async () => {
   let response = await axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML&display=100&page=${i}`)
-
   let data = convert.xml2json(response.data, {
     compact: true,
     spaces: 4,
   });
-
   data = JSON.parse(data);
   data = data.LawSearch.law;
-
+console.log(data);
   data.forEach(async (ele) => {
     await Ministry.findOrCreate({
       where: { name: ele['소관부처명']._text },
