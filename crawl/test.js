@@ -105,7 +105,7 @@ let spec = async () => {
           if (body[index + 1].children[0].lastChild.className === 'sfon') {
             chapDate = body[index + 1].children[0].lastChild.textContent;
           };
-          
+
           //context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
           let cont = body[index + 1].innerText.slice(8).replace(chapDate, '');
           chapter.push({
@@ -326,11 +326,15 @@ let spec = async () => {
             flag_pan: null,
           })
         }
+        if (array[j].children.length > 0 && array[j].hasChildNodes('IMG')) {
+           cont = array[j].lastElementChild.src;
+           hhjm = '목'
+        }else{
         cont = cont.replace(title, '').replace(date, '');
         const checkState = cont.slice(0, 9);
         // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
         state(checkState);
-
+        }
         if (hhjm === '항') {
           // 하위 카테고리의 index는 null값으로 초기화 
           // 상위 카테고리가 없는 경우는 null 값으로 생성
