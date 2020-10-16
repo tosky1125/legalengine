@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
   Law.init({
     law_id: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       allowNull: false,
     },
     number: DataTypes.INTEGER,
@@ -54,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     context: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Law',
   });
   return Law;

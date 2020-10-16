@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     context: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Subparagraph',
   });
   return Subparagraph;

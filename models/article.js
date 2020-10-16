@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     flag_gyu: DataTypes.TINYINT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Article',
   });
   return Article;

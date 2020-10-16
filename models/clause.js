@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     context: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Clause',
   });
   return Clause;

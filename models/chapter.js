@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   Chapter.init({
     chapter_id: {
-      primaryKey: true,
       allowNull: true,
       type: DataTypes.STRING
     },
@@ -36,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     context: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Chapter',
   });
   return Chapter;
