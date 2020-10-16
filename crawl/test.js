@@ -8,10 +8,6 @@ const {
 } = require('../models/index');
 let puppeteer = require('puppeteer');
 
-const {
-  Op
-} = require("sequelize");
-
 let spec = async () => {
 
   // 법령 목록에서 아이디 k 값을 찾는다.
@@ -209,7 +205,7 @@ let spec = async () => {
               clauseNum = null;
             }
             clauseNum++;
-            subParNum = null;
+            subParNum = undefined;
             itemNum = null;
             clause.push({
               chapter_id: ele.chapter_id,
@@ -263,7 +259,7 @@ let spec = async () => {
               subPara.push({
                 chapter_id: ele.chapter_id,
                 article_id: ele.article_number,
-                clause_number: clauseNum,
+                clause_id: clauseNum,
                 sub_number: subParNum,
                 date: null,
                 context: null,
@@ -330,7 +326,7 @@ let spec = async () => {
           })
         }
         if (array[j].children.length > 0 && array[j].lastChild.nodeName === 'IMG') {
-          console.log(array[j].childNodes);
+          
           cont = array[j].lastElementChild.src;
           hhjm = '목'
         } else {
@@ -547,7 +543,7 @@ const init = async () => {
       raw: true,
     })
     chapter_id = tmp.id;
-    console.log(chapter_id)
+    
     await Article.create({
       law_id: a,
       chapter_id,
@@ -586,7 +582,7 @@ const init = async () => {
       raw: true
     })
     article_id = tmp2.id;
-
+    console.log(chapter_id, article_id,clause_number);
     await Clause.create({
       law_id: a,
       chapter_id,
@@ -598,6 +594,8 @@ const init = async () => {
   }
 
   for (sub of subPara) {
+    console.log(subPara);
+    console.log(sub);
     let {
       chapter_id,
       article_id,
@@ -613,6 +611,7 @@ const init = async () => {
       },
       raw: true,
     })
+    
     chapter_id = tmp1.id;
     let tmp2 = await Article.findOne({
       where: {
@@ -623,7 +622,7 @@ const init = async () => {
       raw: true
     })
     article_id = tmp2.id;
-    
+    console.log(chapter_id, article_id,clause_id, context)
     let tmp3 = await Clause.findOne({
       where: {
         law_id: a,
@@ -683,6 +682,8 @@ const init = async () => {
       raw: true
     })
     clause_id = tmp3.id;
+    console.log(chapter_id, article_id, clause_id, sub_id)
+    // console.log(chapter_id, article_id, clause_id, sub_);
     let tmp4 = await Subparagraph.findOne({
       where: {
         law_id: a,
@@ -694,7 +695,7 @@ const init = async () => {
       raw: true
     })
     sub_id = tmp4.id;
-    console.log(sub);
+    
     await Item.create({
       law_id: a,
       chapter_id,
@@ -713,5 +714,5 @@ const init = async () => {
 
 
 
-let k = 627;
+let k = 1;
 setInterval(init, 5000);
