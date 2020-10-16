@@ -19,5 +19,6 @@ app.use('/search', searchRouter);
 app.get('/', (req, res) => res.send('hello world'));
 
 
-app.listen(port);
-
+app.listen(port, () => {
+  console.log(`server listen to port: ${port}`);
+});
