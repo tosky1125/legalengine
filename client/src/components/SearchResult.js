@@ -9,13 +9,14 @@ import * as lawinfo from '../modules/lawinfo';
 import './SearchResult.css';
 
 class SearchResult extends React.Component {
-  constructor(props) {
+  constructor({ props }) {
     super(props);
     this.state = {
       pageOfItems: [],
       isLoaded: false,
     };
     this.onChangePage = this.onChangePage.bind(this);
+    this.handleClickSearch = this.handleClickSearch.bind(this);
   }
 
   onChangePage(pageOfItems) {
@@ -28,10 +29,13 @@ class SearchResult extends React.Component {
       number,
       enforcement_date,
     };
-    const { lawinfo, history } = this.props;
+    const { lawinfo } = this.props;
     axios
       .get('http://13.125.112.243/search/laws/73554/20060401', payload)
       .then((res) => {
+        this.setState({
+          isloaded: true,
+        });
         lawinfo(res.data);
         console.log(res.data);
         this.setState({
@@ -55,53 +59,67 @@ class SearchResult extends React.Component {
   };
 
   render() {
-    return (
-      <div>
-        <div className='container'>
-          <SearchBar />
-          <div className='law-number'>
-            총{' '}
-            {this.props.lawlist.length === 0 ? '0' : this.props.lawlist.length}{' '}
-            개
-          </div>
-          <div className='text-center'>
-            <h1>페이지네이션</h1>
-            <ul className='page-list'>
+    const { history } = this.props;
+    if (!this.state.isloaded) {
+      return (
+        <div>
+          <div className='container'>
+            <SearchBar />
+            <div>
+              총{' '}
+              {this.props.lawlist.length === 0
+                ? '0'
+                : this.props.lawlist.length}{' '}
+              개
+            </div>
+            <div className='text-center'>
+              <h1>페이지네이션</h1>
               {this.state.pageOfItems.map((item) => (
-                <div
-                  className='page'
-                  key={item.id}
-                  onClick={() =>
-                    this.handleClickSearch(item.number, item.enforcement_date)
-                  }
-                >
-                  <h3 className='name'>{item.name}</h3>
-                  <span className='type'>{item.type}</span>
-                  <span className='number'>{item.number}</span>
-                  <span className='admendment'>{item.amendment_status}</span>
-                  <span className='ministry'>{item.ministry}</span>
-                  <span className='promulgation'>{item.promulgation_date}</span>
-                  <span className='enforcement'>{item.enforcement_date}</span>
+                <div className='page-list'>
+                  <div
+                    className='page'
+                    key={item.id}
+                    onClick={() =>
+                      this.handleClickSearch(item.number, item.enforcement_date)
+                    }
+                  >
+                    <h3 className='name'>{item.name}</h3>
+                    <span className='type'>{item.type}</span>
+                    <span className='number'>{item.number}</span>
+                    <span className='admendment'>{item.amendment_status}</span>
+                    <span className='ministry'>{item.ministry}</span>
+                    <span className='promulgation'>
+                      {item.promulgation_date}
+                    </span>
+                    <span className='enforcement'>{item.enforcement_date}</span>
+                  </div>
                 </div>
               ))}
-            </ul>
-            <div>
-              <Pagination
-                items={this.props.lawlist}
-                onChangePage={this.onChangePage}
-              />
+              <div>
+                <Pagination
+                  items={this.props.lawlist}
+                  onChangePage={this.onChangePage}
+                />
+              </div>
             </div>
           </div>
+          <hr />
+          <div className='credits text-center'>
+            <p>
+              <a href='/'>주식회사 까리용</a>
+            </p>
+            <p>© 2019 Carillon Inc., All rights reserved.</p>
+          </div>
         </div>
-        <hr />
-        <div className='credits text-center'>
-          <p>
-            <a href='/'>주식회사 까리용</a>
-          </p>
-          <p>© 2019 Carillon Inc., All rights reserved.</p>
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <>
+          <div className='loading'>잠시 기다려주세요.</div>
+          {history.push('/view')}
+        </>
+      );
+    }
   }
 }
 
