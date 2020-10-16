@@ -6,12 +6,12 @@ import * as lawinfo from '../modules/lawinfo';
 function ViewPage(props) {
   return (
     <div>
-      <div className='pickdate'>2020/10/7 적용</div>
+      <div className='pickdate'></div>
       <div className='view-container'>
-        <div className='sideinfo-container'>시행령 규칙 </div>
+        <div className='sideinfo-container'></div>
         <div className='info-container'>
-          <div className='lawtitle'> OO 법</div>
-          <div className='chapter'>제 1절</div>
+          <div className='lawtitle'> </div>
+          <div className='chapter'></div>
         </div>
       </div>
     </div>

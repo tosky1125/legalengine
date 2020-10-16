@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import './SearchBar.css';
 import { connect } from 'react-redux';
@@ -9,6 +10,7 @@ function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDate, setSearchDate] = useState('');
   const [isLoaded, setisLoaded] = useState(false);
+  const { register, errors, handleSubmit } = useForm();
   const { history } = props;
 
   const handleChangeTerm = (e) => {
@@ -21,8 +23,7 @@ function SearchBar(props) {
     console.log(e.target.value);
   };
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
+  const handleSearch = () => {
     const payload = { searchWord: searchTerm, date: searchDate };
     const { searchlist } = props;
 
@@ -51,7 +52,7 @@ function SearchBar(props) {
     return (
       <>
         <div className='search-container'>
-          <form className='search-form' onSubmit={handleSearchSubmit}>
+          <form className='search-form' onSubmit={handleSubmit(handleSearch)}>
             <div className='search-title'>
               <span className='law'>법령</span>
               <span className='date'>날짜</span>
@@ -59,8 +60,12 @@ function SearchBar(props) {
             <label className='search-Term'>
               <input
                 type='text'
-                name='text'
-                minLength='2'
+                name='setSearchTerm'
+                ref={register({
+                  required: true,
+                  minLength: 2,
+                  pattern: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|*+$]/,
+                })}
                 placeholder='검색어를 입력하세요'
                 onChange={handleChangeTerm}
               />
@@ -76,6 +81,10 @@ function SearchBar(props) {
             <span className='search-btn'>
               <button type='submit'>검색</button>
             </span>
+            <div className='valid-error'>
+              {errors.setSearchTerm && '문자&숫자 2글자 이상 입력 가능합니다.'}
+            </div>
+            {console.log(searchTerm)}
           </form>
         </div>
       </>
