@@ -65,26 +65,24 @@ class SearchResult extends React.Component {
             개
           </div>
           <div className='text-center'>
-            <h1>페이지네이션</h1>
-            <ul className='page-list'>
-              {this.state.pageOfItems.map((item) => (
-                <div
-                  className='page'
-                  key={item.id}
-                  onClick={() =>
-                    this.handleClickSearch(item.number, item.enforcement_date)
-                  }
-                >
-                  <h3 className='name'>{item.name}</h3>
-                  <span className='type'>{item.type}</span>
-                  <span className='number'>{item.number}</span>
-                  <span className='admendment'>{item.amendment_status}</span>
-                  <span className='ministry'>{item.ministry}</span>
-                  <span className='promulgation'>{item.promulgation_date}</span>
-                  <span className='enforcement'>{item.enforcement_date}</span>
-                </div>
-              ))}
-            </ul>
+            {this.state.pageOfItems.map((item) => (
+              <div
+                className='page'
+                key={item.id}
+                onClick={() =>
+                  this.handleClickSearch(item.number, item.enforcement_date)
+                }
+              >
+                <h3 className='name'>{item.name}</h3>
+                <span className='type'>{item.type}</span>
+                <span className='number'>{item.number}</span>
+                <span className='admendment'>{item.amendment_status}</span>
+                <span className='ministry'>{item.ministry}</span>
+                <span className='promulgation'>{item.promulgation_date}</span>
+                <span className='enforcement'>{item.enforcement_date}</span>
+              </div>
+            ))}
+
             <div>
               <Pagination
                 items={this.props.lawlist}
