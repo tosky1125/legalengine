@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDate, setSearchDate] = useState('');
-  const [isLoad, setisLoad] = useState(false);
+  const [isLoaded, setisLoaded] = useState(false);
   const { history } = props;
 
   const handleChangeTerm = (e) => {
@@ -31,8 +31,7 @@ function SearchBar(props) {
       .then((res) => {
         searchlist(res.data);
         console.log(res.data);
-        setisLoad(true);
-        history.push('/search');
+        setisLoaded(true);
       })
       .catch((err) => {
         if (err.res) {
@@ -48,39 +47,47 @@ function SearchBar(props) {
       });
   };
 
-  return (
-    <>
-      <div className='search-container'>
-        <form className='search-form' onSubmit={handleSearchSubmit}>
-          <div className='search-title'>
-            <span className='law'>법령</span>
-            <span className='date'>날짜</span>
-          </div>
-          <label className='search-Term'>
-            <input
-              type='text'
-              name='text'
-              placeholder='검색어를 입력하세요'
-              value={searchTerm}
-              onChange={handleChangeTerm}
-            />
-          </label>
-          <label className='search-date'>
-            <input
-              type='date'
-              name='date'
-              placeholder='대상 날짜'
-              value={searchDate}
-              onChange={handleChangeDate}
-            />
-          </label>
-          <span className='search-btn'>
-            <button type='submit'>검색</button>
-          </span>
-        </form>
-      </div>
-    </>
-  );
+  if (!isLoaded) {
+    return (
+      <>
+        <div className='search-container'>
+          <form className='search-form' onSubmit={handleSearchSubmit}>
+            <div className='search-title'>
+              <span className='law'>법령</span>
+              <span className='date'>날짜</span>
+            </div>
+            <label className='search-Term'>
+              <input
+                type='text'
+                name='text'
+                minLength='2'
+                placeholder='검색어를 입력하세요'
+                onChange={handleChangeTerm}
+              />
+            </label>
+            <label className='search-date'>
+              <input
+                type='date'
+                name='date'
+                placeholder='대상 날짜'
+                onChange={handleChangeDate}
+              />
+            </label>
+            <span className='search-btn'>
+              <button type='submit'>검색</button>
+            </span>
+          </form>
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className='loading'>잠시 기다려주세요.</div>
+        {history.push('/search')}
+      </>
+    );
+  }
 }
 
 export default connect(
