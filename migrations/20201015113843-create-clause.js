@@ -23,7 +23,7 @@ module.exports = {
         allowNull: true,
         references: {
           model: 'Articles',
-          key: 'article_id'
+          key: 'id'
         }
       },
       date: {

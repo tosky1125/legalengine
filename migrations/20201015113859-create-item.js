@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.STRING,
         references: {
           model: 'Subparagraphs',
-          key: 'sub_id'
+          key: 'id'
         }
       },
       date: {

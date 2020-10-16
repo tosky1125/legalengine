@@ -16,9 +16,10 @@ module.exports = {
       },
       chapter_id: {
         type: Sequelize.STRING,
+        allowNull: true,
         references: {
           model: 'Chapters',
-          key: 'chapter_id'
+          key: 'id'
         }
       },
       article_title: {

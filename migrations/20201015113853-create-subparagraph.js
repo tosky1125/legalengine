@@ -26,7 +26,7 @@ module.exports = {
         type: Sequelize.STRING,
         references: {
           model: 'Clauses',
-          key: 'clause_id'
+          key: 'id'
         }
       },
       date: {

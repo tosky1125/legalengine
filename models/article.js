@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'article_id'
       });
       Article.belongsTo(models.Chapter, {
-        foreignKey: 'chapter_id',
+        foreignKey: 'id',
         targetKey: 'chapter_id'
       });
     }
