@@ -5,7 +5,7 @@ const {
   Clause,
   Subparagraph,
   Item,
-} = require("../../models/subparagraph")
+} = require("../../models");
 const {
   Op
 } = require('sequelize');
@@ -13,39 +13,36 @@ const parse = require('date-fns/parse');
 
 module.exports = {
   get: async (req, res) => {
-    let {
-      id,
-      date,
-    } = req.params
+    console.log(req.params)
+    
     const law = await Law.findOne({
       where: {
-        id,
-        date
+        number:73554,
       }
     })
     const chapter = await Chapter.findAll({
       where: {
-        law_id,
+        law_id:619,
       }
     })
     const article = await Article.findAll({
       where: {
-        law_id,
+        law_id:619,
       }
     })
     const clause = await Clause.findAll({
       where: {
-        law_id,
+        law_id:619,
       }
     })
     const subPara = await Subparagraph.findAll({
       where: {
-        law_id
+        law_id:619
       }
     })
     const item = await Item.findAll({
       where: {
-        law_id
+        law_id:619
       }
     })
 

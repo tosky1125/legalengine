@@ -23,7 +23,7 @@ module.exports = {
         allowNull: true
       },
       clause_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Clauses',
           key: 'id'

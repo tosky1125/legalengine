@@ -27,7 +27,7 @@ module.exports = {
         allowNull: true
       },
       sub_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Subparagraphs',
           key: 'id'

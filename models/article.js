@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Article.hasMany(models.Clause, {
         foreignKey: 'article_id',
-        sourceKey: 'article_id'
+        sourceKey: 'id'
       });
       Article.belongsTo(models.Chapter, {
-        foreignKey: 'id',
-        targetKey: 'chapter_id'
+        foreignKey: 'chapter_id',
+        targetKey: 'id'
       });
     }
   };

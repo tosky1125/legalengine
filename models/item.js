@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Item.belongsTo(models.Subparagraph, {
         foreignKey: 'sub_id',
-        targetKey: 'sub_id'
+        targetKey: 'id'
       });
     }
   };

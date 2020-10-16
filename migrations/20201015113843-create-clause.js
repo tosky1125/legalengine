@@ -19,7 +19,7 @@ module.exports = {
         allowNull: true
       },
       article_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true,
         references: {
           model: 'Articles',

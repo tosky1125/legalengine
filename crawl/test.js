@@ -6,6 +6,7 @@ const {
   Subparagraph,
   Item,
 } = require('../models/index');
+let puppeteer = require('puppeteer');
 
 let spec = async () => {
 
@@ -13,7 +14,7 @@ let spec = async () => {
 
   let data = await Law.findOne({
     where: {
-      id: k,
+      law_id: k,
     },
   });
 
@@ -42,7 +43,11 @@ let spec = async () => {
       clause = [],
       subPara = [],
       item = [],
+<<<<<<< HEAD
       chapterNum,
+=======
+      chapterNum = undefined,
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
       articleNum = null,
       clauseNum = undefined,
       subParNum = undefined,
@@ -104,6 +109,10 @@ let spec = async () => {
           if (body[index + 1].children[0].lastChild.className === 'sfon') {
             chapDate = body[index + 1].children[0].lastChild.textContent;
           };
+<<<<<<< HEAD
+=======
+          
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
           //context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
           let cont = body[index + 1].innerText.slice(8).replace(chapDate, '');
           chapter.push({
@@ -113,8 +122,12 @@ let spec = async () => {
           });
         } else {
           // 관계형 데이터 베이스 특성 상 상위 카테고리와 끊어지면 안되기에, 편장절관이 없는 경우 null 값으로 만들어준다.
+<<<<<<< HEAD
 
           if (chapterNum === null) {
+=======
+          if (chapterNum === undefined) {
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
             chapterNum = null;
             chapter.push({
               chapter_id: chapterNum,
@@ -506,18 +519,22 @@ const init = async () => {
       date,
       context
     } = ele;
-
     await Chapter.create({
       law_id: a,
+<<<<<<< HEAD
       chapter_number,
+=======
+      chapter_id : chapter_number,
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
       date,
       context,
     });
   });
 
-  for (let i in article) {
+  article.forEach(async ele => {
     let {
       chapter_id,
+      article_number,
       title,
       date,
       context,
@@ -525,6 +542,7 @@ const init = async () => {
       flag_yeon,
       flag_hang,
       flag_gyu
+<<<<<<< HEAD
     } = article[i];
 
     let chapId = chapter_id;
@@ -550,8 +568,31 @@ const init = async () => {
       flag_yeon,
       flag_hang,
       flag_gyu
+=======
+    } = ele;
+    console.log(chapter_id);
+    let tmp = await Chapter.findOne({
+      where :{
+        law_id : a,
+        chapter_id,
+      }, raw : true
+    })
+    chapter_id =tmp.chapter_id;
+    console.log(chapter_id);
+    await Article.create({
+      law_id: a,
+    chapter_id,
+    article_title: title,
+    article_id : article_number,
+    date,
+    context,
+    flag_pan,
+    flag_yeon,
+    flag_hang,
+    flag_gyu,
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
     });
-  };
+  });
 
   clause.forEach(async ele => {
     let {
@@ -561,6 +602,7 @@ const init = async () => {
       date,
       context
     } = ele;
+<<<<<<< HEAD
 
     let chapId = chapter_id;
     if (chapter_id !== null) {
@@ -598,6 +640,22 @@ const init = async () => {
       chapter_id: chapId,
       article_id: artId,
       clause_number,
+=======
+    let tmp = await Article.findOne({
+      where :{
+        law_id : a,
+        chapter_id,
+        article_id,
+      }, raw : true
+    })
+    article_id =tmp.article_id;
+    
+    await Clause.create({
+      law_id: a,
+      chapter_id,
+      article_id,
+      clause_id : clause_number,
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
       date,
       context,
     })
@@ -612,6 +670,7 @@ const init = async () => {
       date,
       context
     } = ele;
+<<<<<<< HEAD
     let chapId = chapter_id;
     if (chapter_id !== null) {
       let ch = await Chapter.findOne({
@@ -658,6 +717,24 @@ const init = async () => {
       article_id: artId,
       clause_id: clId,
       sub_number,
+=======
+    let tmp = await Clause.findOne({
+      where :{
+        law_id : a,
+        chapter_id,
+        article_id,
+        clause_id,
+      }, raw : true
+    })
+    clause_id =tmp.clause_id;
+    
+    await Subparagraph.create({
+      law_id: a,
+      chapter_id,
+      article_id,
+      clause_id,
+      sub_id : sub_number,
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
       date,
       context,
     })
@@ -673,6 +750,7 @@ const init = async () => {
       date,
       context
     } = ele;
+<<<<<<< HEAD
 
 
     let chapId = chapter_id;
@@ -734,10 +812,31 @@ const init = async () => {
       clause_id: clId,
       sub_id: subId,
       item_number,
+=======
+    let tmp = await Subparagraph.findOne({
+      where :{
+        law_id : a,
+        chapter_id,
+        article_id,
+        clause_id,
+        sub_id,
+      }, raw : true
+    })
+    sub_id =tmp.sub_id;
+    
+    await Item.create({
+      law_id: a,
+      chapter_id,
+      article_id,
+      clause_id,
+      sub_id,
+      item_id : item_number,
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
       date,
       context
     })
   })
+<<<<<<< HEAD
 <<<<<<< HEAD
   flag = false;
 }
@@ -754,11 +853,19 @@ setInterval(() => {
 }, 5000);
 =======
   k++;
+=======
+  k++ ;
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506
 
 }
 
 
 
+<<<<<<< HEAD
 let k = 43;
 setInterval(init, 10000);
 >>>>>>> d35e1eb463f0726efcd0f776ec8faa5ee78a7478
+=======
+let k = 1;
+setInterval(init, 5000);
+>>>>>>> caf21426485db3077e6a9399766361b1bc5b1506

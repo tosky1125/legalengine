@@ -23,8 +23,22 @@ const getLaws = async () => {
   data = data.LawSearch.law;
 console.log(data);
   data.forEach(async (ele) => {
+    await Ministry.findOrCreate({
+      where: { name: ele['소관부처명']._text },
+      defaults: {
+        name: ele['소관부처명']._text,
+      },
+    });
+
+    await Law_Type.findOrCreate({
+      where: { type: ele['법령구분명']._text },
+      defaults: {
+        type: ele['법령구분명']._text,
+      },
+    });
+
     await Law.create({
-      law_id: ele['법령일련번호']._text,
+      law_id : ele._attributes.id,
       name: ele['법령명한글']._cdata,
       number: ele['법령일련번호']._text,
       promulgation_date: monthToDate(ele['공포일자']._text),
