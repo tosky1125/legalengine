@@ -11,13 +11,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       article_id: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       clause_id: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       sub_id: {
         type: Sequelize.STRING,

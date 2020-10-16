@@ -28,12 +28,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
-    law_id: DataTypes.INTEGER,
+    law_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Chapter',
   });
+  Chapter.removeAttribute('id')
   return Chapter;
 };

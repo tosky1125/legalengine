@@ -26,5 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Law_Type',
   });
+  Law_Type.removeAttribute('id')
   return Law_Type;
 };

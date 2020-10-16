@@ -11,10 +11,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       article_id: {
         type: Sequelize.STRING,
+        allowNull: true,
         references: {
           model: 'Articles',
           key: 'article_id'

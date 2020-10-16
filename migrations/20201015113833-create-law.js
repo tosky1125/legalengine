@@ -18,6 +18,7 @@ module.exports = {
       },
       type: {
         type: Sequelize.STRING,
+        allowNull: true,
         references: {
           model: 'Law_Types',
           key: 'type'
@@ -34,6 +35,7 @@ module.exports = {
       },
       ministry: {
         type: Sequelize.STRING,
+        allowNull: true,
         references: {
           model: 'Ministries',
           key: 'name'
