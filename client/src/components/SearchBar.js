@@ -4,6 +4,7 @@ import './SearchBar.css';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import { withRouter } from 'react-router-dom';
+import { date } from '../modules/date';
 
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,14 +19,14 @@ function SearchBar(props) {
 
   const handleChangeDate = (e) => {
     setSearchDate(e.target.value);
+    date(e.target.value);
     console.log(e.target.value);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const payload = { searchWord: searchTerm, date: searchDate };
-    const { searchlist } = props;
-
+    const { searchlist, history } = props;
     axios
       .post('http://13.125.112.243/search/laws', payload)
       .then((res) => {
