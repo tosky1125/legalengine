@@ -33,6 +33,7 @@ function SearchBar(props) {
         searchlist(res.data);
         console.log(res.data);
         setisLoaded(true);
+        history.push('/search');
       })
       .catch((err) => {
         if (err.res) {

@@ -13,7 +13,7 @@ class SearchResult extends React.Component {
     super(props);
     this.state = {
       pageOfItems: [],
-      isloaded: false,
+      isLoaded: false,
     };
     this.onChangePage = this.onChangePage.bind(this);
     this.handleClickSearch = this.handleClickSearch.bind(this);
@@ -38,6 +38,11 @@ class SearchResult extends React.Component {
         });
         lawinfo(res.data);
         console.log(res.data);
+        this.setState({
+          isLoaded: true,
+        });
+
+        history.push('/view');
       })
       .catch(function (err) {
         if (err.res) {
