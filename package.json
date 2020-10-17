@@ -27,16 +27,13 @@
   "dependencies": {
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
-    "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "date-fns": "^2.16.1",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.5",
-    "phantomjs": "^2.1.7",
     "puppeteer": "^5.3.1",
     "request": "^2.88.2",
-    "selenium-webdriver": "^4.0.0-alpha.7",
     "sequelize": "^6.3.5",
     "xml-js": "^1.6.11"
   }

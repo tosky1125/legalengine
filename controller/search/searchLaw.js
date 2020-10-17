@@ -19,7 +19,6 @@ module.exports = {
       number
     } = req.body;
     // 연관법령을렌더해줘야함
-    console.log(req.body);
     res.send(await searchNested(name, number, new Date(String(e_date))));
 
     // 전달사항: 검색어에 "법" 이 들어간 경우, 법을 제외한 나머지로 검색을 해 주는 건 
