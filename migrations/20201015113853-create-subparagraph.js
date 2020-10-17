@@ -4,18 +4,23 @@ module.exports = {
     await queryInterface.createTable('Subparagraphs', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      sub_id: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       law_id: {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING,
+        allowNull: true
       },
       article_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING,
+        allowNull: true
       },
       clause_id: {
         type: Sequelize.INTEGER,
@@ -24,22 +29,11 @@ module.exports = {
           key: 'id'
         }
       },
-      sub_number: {
-        type: Sequelize.STRING
-      },
       date: {
         type: Sequelize.STRING
       },
       context: {
         type: Sequelize.TEXT
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },

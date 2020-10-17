@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Chapter.hasMany(models.Article, {
         foreignKey: 'chapter_id',
-        sourceKey: 'chapter_id'
+        sourceKey: 'id'
       });
 
       Chapter.belongsTo(models.Law, {
@@ -24,15 +24,18 @@ module.exports = (sequelize, DataTypes) => {
   };
   Chapter.init({
     chapter_id: {
-      primaryKey: true,
       allowNull: true,
       type: DataTypes.STRING
     },
-    law_id: DataTypes.INTEGER,
+    law_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Chapter',
   });
   return Chapter;

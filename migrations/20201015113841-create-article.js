@@ -1,33 +1,28 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Items', {
+    await queryInterface.createTable('Articles', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      article_id: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       law_id: {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.INTEGER
-      },
-      article_id: {
-        type: Sequelize.INTEGER
-      },
-      clause_id: {
         type: Sequelize.INTEGER,
+        allowNull: true,
         references: {
-          model: 'Subparagraphs',
+          model: 'Chapters',
           key: 'id'
         }
       },
-      sub_id: {
-        type: Sequelize.INTEGER
-      },
-      item_number: {
+      article_title: {
         type: Sequelize.STRING
       },
       date: {
@@ -36,17 +31,21 @@ module.exports = {
       context: {
         type: Sequelize.TEXT
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      flag_pan: {
+        type: Sequelize.TINYINT
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      flag_yeon: {
+        type: Sequelize.TINYINT
+      },
+      flag_hang: {
+        type: Sequelize.TINYINT
+      },
+      flag_gyu: {
+        type: Sequelize.TINYINT
       }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Items');
+    await queryInterface.dropTable('Articles');
   }
 };
