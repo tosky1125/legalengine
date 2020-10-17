@@ -1,54 +1,4 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import * as lawinfo from '../modules/lawinfo';
-import SideInfo from './SideInfo';
-import './ViewPage.css';
-
-/* 법령 본문 데이터 트리 구조
-아래로 내려가면서 1toMany Children(law 제외하고는 모두 1개 일수도, 다수 일수도)
-law 법령
-chapter 장
-article 조
-clause 항
-subpara 구칙
-item 목 */
-
-function ViewPage(props) {
-  const { lawDetail } = props;
-  console.log(lawDetail);
-
-  return (
-    <div>
-      <div className='searched-date'>2020/10/7 적용</div>
-      <div className='view-container'>
-        <div className='sideinfo-container'>
-          <SideInfo />
-        </div>
-        <div className='maininfo-container'>
-          <div className='lawtitle'>{lawDetail.law.name}</div>
-          <div className='chapter'>제 1편 총칙</div>
-        </div>
-      </div>
-      <div className='credits text-center'>
-        <p>
-          <a href='/'>주식회사 까리용</a>
-        </p>
-        <p>© 2019 Carillon Inc., All rights reserved.</p>
-      </div>
-    </div>
-  );
-}
-
-export default connect(
-  (state) => ({
-    lawDetail: state.lawinfo.lawDetail,
-  }),
-  (dispatch) => ({
-    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
-  })
-)(withRouter(ViewPage));
-/* {
+{
   "law": {
     "law_id": 615,
     "number": 73554,
@@ -121,4 +71,4 @@ export default connect(
       }
     ]
   }
-} */
+}

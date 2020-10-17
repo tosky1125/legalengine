@@ -37,7 +37,7 @@ function SearchBar(props) {
     const { searchlist, history } = props;
 
     axios
-      .post('http://13.125.112.243/search/laws', payload)
+      .post('http://13.125.112.243/search', payload)
       .then((res) => {
         searchlist(res.data);
         console.log(res.data);
