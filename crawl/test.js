@@ -44,6 +44,7 @@ let spec = async () => {
       subPara = [],
       item = [],
       chapterNum = undefined,
+      chapterSpare = null,
       articleNum = null,
       clauseNum = undefined,
       subParNum = undefined,
@@ -75,7 +76,14 @@ let spec = async () => {
         }
       }
     };
-
+    let chapSpare = (str, spare) => {
+      let tmp = str.slice(2);
+      for (let i = 0; i < tmp.length; i += 1) {
+        if (tmp[i] === ':') {
+          return `${tmp.slice(0, i)}:${spare}`;
+        }
+      }
+    };
     let arSlice = (str) => {
       let tmp = str.slice(1);
       let sliceResult;
@@ -99,7 +107,14 @@ let spec = async () => {
     body.forEach((ele, index) => {
       if (ele.nodeName === 'A' && ele.id === ele.name) {
         if (ele.id.includes('P')) {
-          chapterNum = chapSlice(ele.id);
+          
+          if(chapterNum === chapSlice(ele.id)){
+            chapterSpare++;
+            chapterNum = chapSpare(ele.id, chapterSpare);
+          } else {
+            chapterNum = chapSlice(ele.id);
+            chapterSpare = null;
+          }
           let chapDate = null;
           //장에 date가 있는 경우가 있기 때문에, 하위 노드를 파악해서 date 를 할당.
           if (body[index + 1].children[0].lastChild.className === 'sfon') {
@@ -536,14 +551,14 @@ const init = async () => {
       flag_hang,
       flag_gyu
     } = art;
-    let tmp = await Chapter.findAll({
+    let tmp = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp[tmp.length-1].id;
+    chapter_id = tmp.id;
     await Article.create({
       law_id: a,
       chapter_id,
@@ -565,14 +580,14 @@ const init = async () => {
       date,
       context
     } = cla;
-    let tmp1 = await Chapter.findAll({
+    let tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp1[tmp1.length-1].id;
+    chapter_id = tmp1.id;
     let tmp2 = await Article.findOne({
       where: {
         law_id: a,
@@ -604,14 +619,14 @@ const init = async () => {
       date,
       context
     } = sub;
-    let tmp1 = await Chapter.findAll({
+    let tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp1[tmp1.length-1].id;
+    chapter_id = tmp1.id;
     let tmp2 = await Article.findOne({
       where: {
         law_id: a,
@@ -653,14 +668,14 @@ const init = async () => {
       date,
       context
     } = it;
-    let tmp1 = await Chapter.findAll({
+    let tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp1[tmp1.length-1].id;
+    chapter_id = tmp1.id;
     let tmp2 = await Article.findOne({
       where: {
         law_id: a,
@@ -708,5 +723,6 @@ const init = async () => {
   k++;
 }
 
-let k = 681;
-setInterval(init, 10000);
+let k = 619;
+init();
+setInterval(init, 20000);
