@@ -238,7 +238,6 @@ let chapterResult = async (lawData) => {
       }
   });
   console.log(chapterResult);
-  if (!chapterResult) 
   return chapterResult;
 };
 
@@ -249,7 +248,6 @@ let articleResult = async (chapData) => {
           chapter_id: chapData.id
       }
   });
-  console.log(articleResult);
   return articleResult;
 };
 
@@ -260,7 +258,6 @@ let clauseResult = async (artData) => {
           article_id: artData.id
       }
   });
-  console.log(clauseResult);
   return clauseResult;
 };
 
@@ -282,7 +279,6 @@ let itemResult = async (subParaData) => {
           sub_id: subParaData.id
       }
   });
-  console.log(itemResult);
   return itemResult;
 };
 
