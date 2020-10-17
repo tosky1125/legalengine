@@ -24,21 +24,16 @@ class SearchResult extends React.Component {
     this.setState({ pageOfItems: pageOfItems });
   }
 
-  handleClickSearch = (number, enforcement_date) => {
-    const payload = {
-      number,
-      enforcement_date,
-    };
+  handleClickSearch = (name, number, enforcement_date) => {
     const { lawinfo, history } = this.props;
     axios
-      .get('http://13.125.112.243/search/laws/73554/20060401', payload)
+      .get(`http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`)
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
         this.setState({
           isLoaded: true,
         });
-
         history.push('/view');
       })
       .catch(function (err) {
@@ -74,7 +69,7 @@ class SearchResult extends React.Component {
                 className='page'
                 key={index}
                 onClick={() =>
-                  this.handleClickSearch(item.number, item.enforcement_date)
+                  this.handleClickSearch(item.name, item.number, item.enforcement_date)
                 }
               >
                 <h3 className='name'>{item.name}</h3>
