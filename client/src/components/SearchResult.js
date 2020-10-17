@@ -7,6 +7,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
 import './SearchResult.css';
+import { format } from 'date-fns';
 
 class SearchResult extends React.Component {
   constructor(props) {
@@ -53,7 +54,6 @@ class SearchResult extends React.Component {
         console.log(err.config);
       });
   };
-
   render() {
     if (this.props.lawlist.length === 0) {
       return (
@@ -63,28 +63,35 @@ class SearchResult extends React.Component {
         </div>
       );
     }
-
     return (
       <div>
         <div className='container'>
           <SearchBar />
           <div className='law-number'>총 {this.props.lawlist.length} 개</div>
-          <div className='text-center'>
-            {this.state.pageOfItems.map((item) => (
+          <div className='page-list text-center'>
+            {this.state.pageOfItems.map((item, index) => (
               <div
                 className='page'
-                key={item.id}
+                key={index}
                 onClick={() =>
                   this.handleClickSearch(item.number, item.enforcement_date)
                 }
               >
                 <h3 className='name'>{item.name}</h3>
-                <span className='type'>{item.type}</span>
-                <span className='number'>{item.number}</span>
-                <span className='admendment'>{item.amendment_status}</span>
-                <span className='ministry'>{item.ministry}</span>
-                <span className='promulgation'>{item.promulgation_date}</span>
-                <span className='enforcement'>{item.enforcement_date}</span>
+                <span className='type'>{item.type}&nbsp;</span>
+                <span className='number'>{item.number}호&nbsp;</span>
+                <span className='admendment'>
+                  {item.amendment_status}&nbsp;
+                </span>
+                <span className='ministry'>{item.ministry}&nbsp;</span>
+                <span className='promulgation'>
+                  공포일:{' '}
+                  {format(new Date(item.promulgation_date), 'yyyy-MM-dd')}&nbsp;
+                </span>
+                <span className='enforcement'>
+                  시행일:{' '}
+                  {format(new Date(item.enforcement_date), 'yyyy-MM-dd')}
+                </span>
               </div>
             ))}
 

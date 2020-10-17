@@ -5,6 +5,7 @@ import * as date from '../modules/date';
 import * as lawinfo from '../modules/lawinfo';
 import SideInfo from './SideInfo';
 import './ViewPage.css';
+import SearchBar from './SearchBar';
 
 function ViewPage(props) {
   // lawinfo 에 들어와있는데 이걸 어떻게 출력하냐 처리하냐
@@ -35,7 +36,7 @@ function ViewPage(props) {
           <SideInfo />
         </div>
         <div className='maininfo-container'>
-          <div className='lawtitle'>가사소송법</div>
+          <div className='lawtitle'>{lawDetail.law.name}</div>
           <div className='chapter'>제 1편 총칙</div>
         </div>
       </div>
