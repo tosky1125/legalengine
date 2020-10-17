@@ -13,7 +13,8 @@ const parse = require('date-fns/parse');
 
 module.exports = {
   get: async (req, res) => {
-    console.log(req.params)
+    // lawName, lawNum, enfDate
+    console.log(req.query);
     
     const law = await Law.findOne({
       where: {
