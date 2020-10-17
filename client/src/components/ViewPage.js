@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 
 function ViewPage(props) {
   const { lawDetail } = props;
+  console.log(lawDetail);
   /*const lawDetail = {
     Law: {
       law_id: 615,
@@ -86,7 +87,10 @@ function ViewPage(props) {
     },
   };*/
 
-  let { Chapter } = lawDetail.Law;
+  let test = JSON.parse(localStorage.lawdata2);
+  console.log(test);
+  console.log(typeof test);
+  let { Chapter } = test.Law;
 
   return (
     <div>
@@ -95,15 +99,14 @@ function ViewPage(props) {
         <div className='sideinfo-container'>{/* <SideInfo /> */}</div>
         <div className='maininfo-container'>
           <div className='law-head'>
-            <h1>{lawDetail.Law.name}</h1>
+            <h1>{test.Law.name}</h1>
             <p>
-              [시행{' '}
-              {format(new Date(lawDetail.Law.enforcement_date), 'yyyy.MM.dd.')}]
-              [{lawDetail.Law.type}&nbsp;
-              {lawDetail.Law.number}호,&nbsp;
-              {format(new Date(lawDetail.Law.promulgation_date), 'yyyy.MM.dd.')}
+              [시행 {format(new Date(test.Law.enforcement_date), 'yyyy.MM.dd.')}
+              ] [{test.Law.type}&nbsp;
+              {test.Law.number}호,&nbsp;
+              {format(new Date(test.Law.promulgation_date), 'yyyy.MM.dd.')}
               ,&nbsp;
-              {lawDetail.Law.amendment_status}]
+              {test.Law.amendment_status}]
             </p>
           </div>
           {Chapter.map((chapEle) => (

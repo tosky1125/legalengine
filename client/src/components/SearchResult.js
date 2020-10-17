@@ -25,16 +25,24 @@ class SearchResult extends React.Component {
   }
 
   handleClickSearch = (name, number, enforcement_date) => {
-    const { lawinfo, history } = this.props;
+    const { lawinfo } = this.props;
     axios
-      .get(`http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`)
+      .get(
+        `http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`
+      )
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
+        localStorage.lawdata2 = JSON.stringify(res.data);
         this.setState({
           isLoaded: true,
         });
-        history.push('/view');
+      })
+      .then(() => {
+        window.open(
+          `/view?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`,
+          '_blank'
+        );
       })
       .catch(function (err) {
         if (err.res) {
@@ -49,6 +57,7 @@ class SearchResult extends React.Component {
         console.log(err.config);
       });
   };
+
   render() {
     if (this.props.lawlist.length === 0) {
       return (
@@ -66,10 +75,16 @@ class SearchResult extends React.Component {
           <div className='page-list text-center'>
             {this.state.pageOfItems.map((item, index) => (
               <div
+                to='/view'
+                target='_blank'
                 className='page'
                 key={index}
                 onClick={() =>
-                  this.handleClickSearch(item.name, item.number, item.enforcement_date)
+                  this.handleClickSearch(
+                    item.name,
+                    item.number,
+                    item.enforcement_date
+                  )
                 }
               >
                 <h3 className='name'>{item.name}</h3>
@@ -113,7 +128,7 @@ class SearchResult extends React.Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
-    lawlistdetail: state.lawinfo.lawlistdetail,
+    lawDetail: state.lawinfo.lawDetail,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
