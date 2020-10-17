@@ -11,57 +11,92 @@ const {
   } = require('./models');
   
   const {
-    Op, Sequelize
+    Op, Sequelize, where
   } = require('sequelize');
 
-let findAllResult = async (lawName, lawNum, enfDate) => {
-    console.log(lawName, lawNum, enfDate);
-    let lawResult = await Law.findOne({
-        where: {
-            number: lawNum,
-            name: lawName,
-            enforcement_date: {
-              [Op.lt]: enfDate
-            }
-        },
-        raw: true
-    });
+let lawResult = async (name, number, eDate) => {
+  let lawResult = await Law.findOne({
+      where: {
+          number: number,
+          enforcement_date: {
+              [Op.lte]: eDate
+          },
+          name: name
+      },
+      raw: true
+  });
+  return lawResult;
+};
 
-    let nestedResult = await Chapter.findAll({
-        where: {
-            law_id: lawResult.law_id
-        },
-        include: [{
-            model: Article,
-            as: 'Article',
-            raw: true,
-            nest: true,
-            include: [{
-                model: Clause,
-                as: 'Clause',
-                nest: true,
-                raw: true,
-                include: [{
-                    model: Subparagraph,
-                    as: 'subPara',
-                    raw: true,
-                    nest: true,
-                    include: [{
-                        model: Item,
-                        as: 'Item',
-                        raw: true,
-                        nest: true
-                    }]
-                }]
-            }]
-        }],
-        nest: true,
-        raw: true
-    });
-    lawResult.Chapter = nestedResult;
-    return result = { Law: lawResult };
-}
+let chapterResult = async (lawData) => {
+  let chapterResult = await Chapter.findAll({
+      raw: true,
+      where: {
+          law_id: lawData.law_id
+      }
+  });
+  return chapterResult;
+};
 
-// findAllResult("가사소송규칙", 203441, new Date("2018-05-02 00:00:00"));
-module.exports = findAllResult;
+let articleResult = async (chapData) => {
+  let articleResult = await Article.findAll({
+      raw:true,
+      where: {
+          chapter_id: chapData.id
+      }
+  });
+  return articleResult;
+};
+
+let clauseResult = async (artData) => {
+  let clauseResult = await Clause.findAll({
+      raw: true,
+      where: {
+          article_id: artData.id
+      }
+  });
+  return clauseResult;
+};
+
+let subParaResult = async (clauseData) => {
+  let subParaResult = await Subparagraph.findAll({
+      raw: true,
+      where: {
+          clause_id: clauseData.id
+      }
+  });
+  return subParaResult;
+};
+
+let itemResult = async (subParaData) => {
+  let itemResult = await Item.findAll({
+      raw: true,
+      where: {
+          sub_id: subParaData.id
+      }
+  });
+  return itemResult;
+};
+
+let totalData = async (number, eDate, name) => {
+    let nestedData = {};
+    nestedData.Law = await lawResult(number, eDate, name);
+    nestedData.Law.Chapter = await chapterResult(nestedData.Law);
+
+    for (eachChapter of nestedData.Law.Chapter) {
+        eachChapter.Article = await articleResult(eachChapter);
+        for (eachArticle of eachChapter.Article) {
+            eachArticle.Clause = await clauseResult(eachArticle);
+            for (eachClause of eachArticle.Clause) {
+                eachClause.subPara = await subParaResult(eachClause);
+                for (eachSubpara of eachClause.subPara) {
+                    eachSubpara.Item = await itemResult(eachSubpara);
+                };
+            };
+        };
+    };
+    return nestedData;
+};
+
+module.exports = totalData;
 
