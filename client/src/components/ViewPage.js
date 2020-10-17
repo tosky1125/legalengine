@@ -7,8 +7,8 @@ import './ViewPage.css';
 import { format } from 'date-fns';
 
 function ViewPage(props) {
-  // const { lawDetail } = props;
-  const lawDetail = {
+  const { lawDetail } = props;
+  /*const lawDetail = {
     Law: {
       law_id: 615,
       number: 73554,
@@ -84,7 +84,7 @@ function ViewPage(props) {
         },
       ],
     },
-  };
+  };*/
 
   let { Chapter } = lawDetail.Law;
 
@@ -97,16 +97,14 @@ function ViewPage(props) {
           <div className='law-head'>
             <h1>{lawDetail.Law.name}</h1>
             <p>
-              [{format(new Date(lawDetail.Law.enforcement_date), 'yyyy.MM.dd.')}
-              ]
-            </p>
-            <p>[{lawDetail.Law.type}&nbsp;</p>
-            <p>{lawDetail.Law.number}호,&nbsp;</p>
-            <p>
-              {format(new Date(lawDetail.Law.promulgation_date), 'yyyy.MM.dd')}
+              [시행{' '}
+              {format(new Date(lawDetail.Law.enforcement_date), 'yyyy.MM.dd.')}]
+              [{lawDetail.Law.type}&nbsp;
+              {lawDetail.Law.number}호,&nbsp;
+              {format(new Date(lawDetail.Law.promulgation_date), 'yyyy.MM.dd.')}
               ,&nbsp;
+              {lawDetail.Law.amendment_status}]
             </p>
-            <p>{lawDetail.Law.amendment_status}]</p>
           </div>
           {Chapter.map((chapEle) => (
             <div>
@@ -116,6 +114,7 @@ function ViewPage(props) {
                 chapEle.Article.map((artEle) => (
                   <div>
                     <h3>{artEle.article_title}</h3>
+                    <p>{artEle.context}</p>
                     {artEle.Clause &&
                       artEle.Clause.map((claEle) => (
                         <div>
@@ -137,7 +136,7 @@ function ViewPage(props) {
                             ))}
                         </div>
                       ))}
-                    <span>{artEle.date}</span>
+                    <p>{artEle.date}</p>
                   </div>
                 ))}
             </div>
