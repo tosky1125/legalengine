@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Subparagraph.hasMany(models.Item, {
+        as: 'item',
         foreignKey: 'sub_id',
         sourceKey: 'id'
       });
