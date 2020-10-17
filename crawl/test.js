@@ -198,7 +198,7 @@ let spec = async () => {
           //context 에서 날짜와 제목을 날려준다.
           cont = cont.replace(ele.title, '').replace(date, '')
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
-          const checkState = cont.slice(0, 9);
+          const checkState = cont.slice(0, 10);
           state(checkState);
 
           if (hhjm === '항') {
@@ -332,7 +332,7 @@ let spec = async () => {
           hhjm = '목'
         } else {
           cont = cont.replace(title, '').replace(date, '');
-          const checkState = cont.slice(0, 9);
+          const checkState = cont.slice(0, 10);
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           state(checkState);
         }
@@ -708,5 +708,5 @@ const init = async () => {
   k++;
 }
 
-let k = 682;
+let k = 619;
 setInterval(init, 5000);
