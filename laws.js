@@ -1,7 +1,7 @@
 const axios = require('axios');
 const convert = require('xml-js');
 const {
-  Law,
+  Law, Ministry, Law_Type
 } = require('./models');
 
 
@@ -12,6 +12,7 @@ const monthToDate = (string) => {
   const result = `${year}-${month}-${day}`;
   return result;
 };
+
 let i = 1;
 const getLaws = async () => {
   let response = await axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML&display=100&page=${i}`)
@@ -23,14 +24,17 @@ const getLaws = async () => {
   data = data.LawSearch.law;
 console.log(data);
   data.forEach(async (ele) => {
+    !ele['소관부처명']._text  ?  ele['소관부처명']._text = '부서명없음' : false;
+    !ele['법령구분명']._text  ?  ele['법령구분명']._text = '법령구분명없음' : false;
     await Ministry.findOrCreate({
       where: { name: ele['소관부처명']._text },
       defaults: {
         name: ele['소관부처명']._text,
       },
     });
-
+    
     await Law_Type.findOrCreate({
+
       where: { type: ele['법령구분명']._text },
       defaults: {
         type: ele['법령구분명']._text,

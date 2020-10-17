@@ -5,7 +5,11 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+      },
+      chapter_id: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       chapter_id: {
         allowNull: true,
