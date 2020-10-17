@@ -176,7 +176,7 @@ let test_association = async (keyword, dateNotParsed) => {
   });
 };
 
-test_association("가정", "2020-10-14");
+// test_association("가정", "2020-10-14");
 
 let test_create = async () => {
   let result = await Law.create({
@@ -195,3 +195,20 @@ let test_create = async () => {
 }
 
 // test_create();
+
+let test = async () => {
+  let lawAndCol = await Law.findAll({
+    include: [
+      {
+        model: Chapter
+      },
+      {
+        model: Article
+      }
+    ],
+    raw: true,
+  });
+  console.log(lawAndCol);
+};
+
+test();
