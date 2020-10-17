@@ -6,7 +6,7 @@ import SideInfo from './SideInfo';
 import './ViewPage.css';
 import { format } from 'date-fns';
 
-function ViewPage(props) {  
+function ViewPage(props) {
   const { lawDetail } = props;
   console.log(lawDetail);
 
@@ -14,7 +14,6 @@ function ViewPage(props) {
   console.log(test);
   console.log(typeof test);
   let { Chapter } = test.Law;
-
 
   return (
     <div>
@@ -41,7 +40,6 @@ function ViewPage(props) {
                 chapEle.Article.map((artEle) => (
                   <div>
                     <h3>{artEle.article_title}</h3>
-                    
                     {artEle.flag_pan && <button>판</button>}
                     {artEle.flag_yeon && <button>연</button>}
                     {artEle.flag_hang && <button>항</button>}
@@ -59,16 +57,22 @@ function ViewPage(props) {
                                 <span>{subEle.date}</span>
                                 {subEle.Item &&
                                   subEle.Item.map((itEle) => {
-                                    if(itEle.context.includes('http')){
-                                      return <img src={itEle.context}></img>
+                                    if (itEle.context.includes('http')) {
+                                      return (
+                                        <img
+                                          src={itEle.context}
+                                          alt={itEle.context}
+                                        ></img>
+                                      );
+                                    } else {
+                                      return (
+                                        <div>
+                                          <span>{itEle.context}</span>
+                                          <span>{itEle.date}</span>
+                                        </div>
+                                      );
                                     }
-                                    else {
-                                      return(
-                                    <div>
-                                      <span>{itEle.context}</span>
-                                      <span>{itEle.date}</span>
-                                    </div>
-                                  )}})}
+                                  })}
                               </div>
                             ))}
                         </div>
@@ -79,12 +83,6 @@ function ViewPage(props) {
             </div>
           ))}
         </div>
-      </div>
-      <div className='credits text-center'>
-        <p>
-          <a href='/'>주식회사 까리용</a>
-        </p>
-        <p>© 2019 Carillon Inc., All rights reserved.</p>
       </div>
     </div>
   );

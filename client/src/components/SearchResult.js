@@ -114,12 +114,6 @@ class SearchResult extends React.Component {
           </div>
         </div>
         <hr />
-        <div className='credits text-center'>
-          <p>
-            <a href='/'>주식회사 까리용</a>
-          </p>
-          <p>© 2019 Carillon Inc., All rights reserved.</p>
-        </div>
       </div>
     );
   }
