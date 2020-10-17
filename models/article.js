@@ -12,22 +12,24 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Article.hasMany(models.Clause, {
         foreignKey: 'article_id',
-        sourceKey: 'article_id'
+        sourceKey: 'id'
       });
       Article.belongsTo(models.Chapter, {
         foreignKey: 'chapter_id',
-        targetKey: 'chapter_id'
+        targetKey: 'id'
       });
     }
   };
   Article.init({
     article_id: {
-      primaryKey: true,
       allowNull: true,
       type: DataTypes.STRING
     },
     law_id: DataTypes.INTEGER,
-    chapter_id: DataTypes.STRING,
+    chapter_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     article_title: DataTypes.STRING,
     date: DataTypes.STRING,
     context: DataTypes.TEXT,
@@ -37,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     flag_gyu: DataTypes.TINYINT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Article',
   });
   return Article;

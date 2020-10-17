@@ -1,46 +1,47 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Clauses', {
+    await queryInterface.createTable('Items', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      item_id: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       law_id: {
         type: Sequelize.INTEGER
       },
       chapter_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING,
+        allowNull: true
       },
       article_id: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      clause_id: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      sub_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Articles',
+          model: 'Subparagraphs',
           key: 'id'
         }
-      },
-      clause_number: {
-        type: Sequelize.STRING
       },
       date: {
         type: Sequelize.STRING
       },
       context: {
         type: Sequelize.TEXT
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Clauses');
+    await queryInterface.dropTable('Items');
   }
 };

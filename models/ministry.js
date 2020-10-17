@@ -19,11 +19,14 @@ module.exports = (sequelize, DataTypes) => {
   Ministry.init({
     name: {
       primaryKey: true,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Ministry',
   });
+  Ministry.removeAttribute('id')
   return Ministry;
 };

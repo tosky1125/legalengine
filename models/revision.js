@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     reason: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Revision',
   });
   return Revision;

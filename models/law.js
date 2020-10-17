@@ -10,8 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Law.hasMany(models.Chapter, {
+        foreignKey: 'law_id',
+        sourceKey: 'law_id'
+      });
+      
       Law.belongsTo(models.Revision, {
         foreignKey: 'law_id',
+        targetKey: 'new_law_id',
         constraints: false
       });
       Law.belongsTo(models.Law_Type, {
@@ -24,11 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: 'name',
         constraints: false
       });
-
-      Law.hasMany(models.Chapter, {
-        foreignKey: 'law_id',
-        sourceKey: 'law_id'
-      });
     }
   };
   Law.init({
@@ -36,20 +37,25 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
-      autoIncrement: true,
-      unique: true
     },
     number: DataTypes.INTEGER,
     name: DataTypes.STRING,
     promulgation_date: DataTypes.DATE,
-    type: DataTypes.STRING,
+    type: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     promulgation_number: DataTypes.INTEGER,
     enforcement_date: DataTypes.DATE,
     amendment_status: DataTypes.STRING,
-    ministry: DataTypes.STRING,
+    ministry: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     context: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Law',
   });
   return Law;

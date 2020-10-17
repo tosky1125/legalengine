@@ -12,27 +12,33 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Clause.hasMany(models.Subparagraph, {
         foreignKey: 'clause_id',
-        sourceKey: 'clause_id'
+        sourceKey: 'id'
       });
       Clause.belongsTo(models.Article, {
         foreignKey: 'article_id',
-        targetKey: 'article_id'
+        targetKey: 'id'
       });
     }
   };
   Clause.init({
     clause_id: {
-      primaryKey: true,
       allowNull: true,
       type: DataTypes.STRING
     },
     law_id: DataTypes.INTEGER,
-    chapter_id: DataTypes.STRING,
-    article_id: DataTypes.STRING,
+    chapter_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    article_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     date: DataTypes.STRING,
     context: DataTypes.TEXT
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Clause',
   });
   return Clause;
