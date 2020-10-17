@@ -49,12 +49,17 @@ function ViewPage(props) {
                                 <span>{subEle.context}</span>
                                 <span>{subEle.date}</span>
                                 {subEle.Item &&
-                                  subEle.Item.map((itEle) => (
+                                  subEle.Item.map((itEle) => {
+                                    if(itEle.context.includes('http')){
+                                      return <img src={itEle.context}></img>
+                                    }
+                                    else {
+                                      return(
                                     <div>
                                       <span>{itEle.context}</span>
                                       <span>{itEle.date}</span>
                                     </div>
-                                  ))}
+                                  )}})}
                               </div>
                             ))}
                         </div>
