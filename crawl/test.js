@@ -536,14 +536,14 @@ const init = async () => {
       flag_hang,
       flag_gyu
     } = art;
-    let tmp = await Chapter.findOne({
+    let tmp = await Chapter.findAll({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp.id;
+    chapter_id = tmp[tmp.length-1].id;
     await Article.create({
       law_id: a,
       chapter_id,
@@ -565,14 +565,14 @@ const init = async () => {
       date,
       context
     } = cla;
-    let tmp1 = await Chapter.findOne({
+    let tmp1 = await Chapter.findAll({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp1.id;
+    chapter_id = tmp1[tmp1.length-1].id;
     let tmp2 = await Article.findOne({
       where: {
         law_id: a,
@@ -604,14 +604,14 @@ const init = async () => {
       date,
       context
     } = sub;
-    let tmp1 = await Chapter.findOne({
+    let tmp1 = await Chapter.findAll({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp1.id;
+    chapter_id = tmp1[tmp1.length-1].id;
     let tmp2 = await Article.findOne({
       where: {
         law_id: a,
@@ -653,14 +653,14 @@ const init = async () => {
       date,
       context
     } = it;
-    let tmp1 = await Chapter.findOne({
+    let tmp1 = await Chapter.findAll({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
     })
-    chapter_id = tmp1.id;
+    chapter_id = tmp1[tmp1.length-1].id;
     let tmp2 = await Article.findOne({
       where: {
         law_id: a,
@@ -708,5 +708,5 @@ const init = async () => {
   k++;
 }
 
-let k = 682;
-setInterval(init, 5000);
+let k = 681;
+setInterval(init, 10000);
