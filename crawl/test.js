@@ -92,7 +92,7 @@ let spec = async () => {
     };
     //body 는 본문, subText 는 부칙의 배열
     let body = Array.from(document.querySelector('#conScroll').children);
-    let subText = Array.from(document.querySelector('#arDivArea').children);
+    let subText = document.querySelector('#arDivArea') ? Array.from(document.querySelector('#arDivArea').children) : null;
     //본문을 순회하면서 id 값으로 편장절관과 조항호목으로 분류
     //조항호목은 class가 일관되지 않기에 해당 context를 판단해서 분류해야함.
     //일단 전부 조로 분류
@@ -140,22 +140,24 @@ let spec = async () => {
     });
     let length = chapter.length;
     // 부칙의 경우 본문과 element 구조가 다름. 일단 편장절관을 찾아 조항호목을 자식 node 로 넣어준다.
-    subText.forEach((ele, index) => {
-      if (ele.nodeName === 'A' && ele.id === ele.name) {
-        chapterNum = ele.id.slice(1);
-        let date = null;
-        if (subText[index + 1].children[0].children[2].lastChild.className === 'sfon') {
-          date = subText[index + 1].children[0].children[2].lastChild.textContent
+    if (Array.isArray(subText)) {
+      subText.forEach((ele, index) => {
+        if (ele.nodeName === 'A' && ele.id === ele.name) {
+          chapterNum = ele.id.slice(1);
+          let date = null;
+          if (subText[index + 1].children[0].children[2].lastChild.className === 'sfon') {
+            date = subText[index + 1].children[0].children[2].lastChild.textContent
+          };
+          let cont = subText[index + 1].children[0].children[2].textContent.replace(date, '')
+          chapter.push({
+            chapter_number: chapterNum,
+            date: date,
+            context: cont,
+            child: subText[index + 1].children,
+          });
         };
-        let cont = subText[index + 1].children[0].children[2].textContent.replace(date, '')
-        chapter.push({
-          chapter_number: chapterNum,
-          date: date,
-          context: cont,
-          child: subText[index + 1].children,
-        });
-      };
-    });
+      });
+    }
     // 본문에서 전부 조의 하위노드로 분류한 것들을 항 호 목으로 분류 
     article.forEach(ele => {
       let button = Array.from(ele.child[0].children);
@@ -326,7 +328,6 @@ let spec = async () => {
           })
         }
         if (array[j].children.length > 0 && array[j].lastChild.nodeName === 'IMG') {
-          
           cont = array[j].lastElementChild.src;
           hhjm = '목'
         } else {
@@ -493,8 +494,8 @@ let spec = async () => {
       subPara,
       item
     }
-  })
-  await browser.close()
+  }) 
+  await browser.close();
   return result;
 }
 
@@ -543,7 +544,6 @@ const init = async () => {
       raw: true,
     })
     chapter_id = tmp.id;
-    
     await Article.create({
       law_id: a,
       chapter_id,
@@ -582,7 +582,7 @@ const init = async () => {
       raw: true
     })
     article_id = tmp2.id;
-    console.log(chapter_id, article_id,clause_number);
+    console.log(chapter_id, article_id, clause_number);
     await Clause.create({
       law_id: a,
       chapter_id,
@@ -611,7 +611,6 @@ const init = async () => {
       },
       raw: true,
     })
-    
     chapter_id = tmp1.id;
     let tmp2 = await Article.findOne({
       where: {
@@ -622,7 +621,7 @@ const init = async () => {
       raw: true
     })
     article_id = tmp2.id;
-    console.log(chapter_id, article_id,clause_id, context)
+    console.log(chapter_id, article_id, clause_id, context)
     let tmp3 = await Clause.findOne({
       where: {
         law_id: a,
@@ -671,7 +670,6 @@ const init = async () => {
       raw: true
     })
     article_id = tmp2.id;
-    
     let tmp3 = await Clause.findOne({
       where: {
         law_id: a,
@@ -695,7 +693,6 @@ const init = async () => {
       raw: true
     })
     sub_id = tmp4.id;
-    
     await Item.create({
       law_id: a,
       chapter_id,
@@ -711,8 +708,5 @@ const init = async () => {
   k++;
 }
 
-
-
-
-let k = 1;
+let k = 682;
 setInterval(init, 5000);

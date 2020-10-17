@@ -3,6 +3,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Laws', {
       law_id: {
+        allowNull: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },

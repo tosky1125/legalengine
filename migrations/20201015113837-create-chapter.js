@@ -4,9 +4,12 @@ module.exports = {
     await queryInterface.createTable('Chapters', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+      },
+      chapter_id: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
       chapter_id: {
         allowNull: true,
