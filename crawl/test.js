@@ -328,7 +328,6 @@ let spec = async () => {
           })
         }
         if (array[j].children.length > 0 && array[j].lastChild.nodeName === 'IMG') {
-
           cont = array[j].lastElementChild.src;
           hhjm = '목'
         } else {
@@ -545,7 +544,6 @@ const init = async () => {
       raw: true,
     })
     chapter_id = tmp.id;
-
     await Article.create({
       law_id: a,
       chapter_id,
@@ -613,7 +611,6 @@ const init = async () => {
       },
       raw: true,
     })
-
     chapter_id = tmp1.id;
     let tmp2 = await Article.findOne({
       where: {
@@ -673,7 +670,6 @@ const init = async () => {
       raw: true
     })
     article_id = tmp2.id;
-
     let tmp3 = await Clause.findOne({
       where: {
         law_id: a,
@@ -697,7 +693,6 @@ const init = async () => {
       raw: true
     })
     sub_id = tmp4.id;
-
     await Item.create({
       law_id: a,
       chapter_id,
