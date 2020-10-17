@@ -41,6 +41,11 @@ function ViewPage(props) {
                 chapEle.Article.map((artEle) => (
                   <div>
                     <h3>{artEle.article_title}</h3>
+                    
+                    {artEle.flag_pan && <button>판</button>}
+                    {artEle.flag_yeon && <button>연</button>}
+                    {artEle.flag_hang && <button>항</button>}
+                    {artEle.flag_gyu && <button>규</button>}
                     <p>{artEle.context}</p>
                     {artEle.Clause &&
                       artEle.Clause.map((claEle) => (
