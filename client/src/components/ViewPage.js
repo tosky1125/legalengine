@@ -21,18 +21,18 @@ function ViewPage(props) {
       {chapEle.Article &&
         chapEle.Article.map((artEle, artEleIndex) => (
           <div key={artEleIndex}>
-            <h3 className='title'>{artEle.article_title}</h3>
-            <div className='buttons'>
-              {artEle.flag_pan && <button>판</button>}
-              {artEle.flag_yeon && <button>연</button>}
-              {artEle.flag_hang && <button>항</button>}
-              {artEle.flag_gyu && <button>규</button>}
-            </div>
+            <span className='buttons'>
+              {artEle.flag_pan && <button className='buttons-pan'>판</button>}
+              {artEle.flag_yeon && <button className='buttons-yeon'>연</button>}
+              {artEle.flag_hang && <button className='buttons-hang'>항</button>}
+              {artEle.flag_gyu && <button className='buttons-gyu'>규</button>}
+            </span>
+            <h3 className='article-title'>{artEle.article_title}</h3>
             <p>{artEle.context}</p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (
                 <div key={claEleIndex}>
-                  <span>{claEle.context}</span>
+                  <span className='clause-context'>{claEle.context}</span>
                   <span className='date'>{claEle.date}</span>
                   {claEle.subPara &&
                     claEle.subPara.map((subEle, subEleIndex) => (
@@ -76,7 +76,7 @@ function ViewPage(props) {
         <div className='maininfo-container'>
           <div className='law-head'>
             <h1>{test.Law.name}</h1>
-            <p className='date'>
+            <p className='law-head-info'>
               [시행 {format(new Date(test.Law.enforcement_date), 'yyyy.MM.dd.')}
               ] [{test.Law.type}&nbsp;
               {test.Law.number}호,&nbsp;
