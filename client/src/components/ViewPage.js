@@ -83,8 +83,11 @@ function ViewPage() {
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (
                 <div key={claEleIndex}>
-                  <span className='clause-context'>{claEle.context}</span>
-                  <span className='date'>{claEle.date}</span>
+                  <span className='clause-context'>
+                    {claEle.context}
+                    <span className='date'>{claEle.date}</span>
+                  </span>
+
                   {claEle.subPara &&
                     claEle.subPara.map((subEle, subEleIndex) => (
                       <div key={subEleIndex}>
