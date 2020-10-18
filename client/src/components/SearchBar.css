@@ -1,0 +1,53 @@
+.search-container {
+  margin: 36px auto;
+  width: 100%;
+  height: 100%;
+  max-width: 800px;
+}
+
+.search-title {
+  font-size: x-large;
+  padding: 10px 0;
+  color: #444;
+}
+
+.search-title .law {
+  padding-left: 0.1%;
+}
+
+.search-title .date {
+  padding-left: 33.5%;
+}
+
+.search-form {
+  position: relative;
+  display: inline;
+}
+
+.search-form input {
+  padding: 10px 0;
+  font-size: x-large;
+  font-style: italic;
+  color: #444;
+  box-sizing: border-box;
+  border: 1px solid lightgrey;
+}
+
+.search-date {
+  margin-left: 0.1rem;
+}
+
+.search-btn {
+  position: relative;
+  display: inline-flex;
+  font-size: x-large;
+  height: 3.2rem;
+  width: 60px;
+  margin-left: 0.1rem;
+  outline: none;
+}
+
+.valid-error {
+  font-size: xx-small;
+  color: red;
+}

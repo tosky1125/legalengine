@@ -1,0 +1,41 @@
+.searched-date {
+  position: relative;
+  margin: 1.5rem;
+  padding: 1rem;
+  font-weight: 700;
+  border-style: solid;
+}
+
+.view-container {
+  position: relative;
+  display: flex;
+  block-size: auto;
+}
+
+.sideinfo-container {
+  border-style: solid;
+  margin: 1.5rem;
+  flex: 1;
+}
+
+.maininfo-container {
+  border-style: solid;
+  margin: 1.5rem;
+  flex: 3;
+  height: auto;
+}
+
+.law-head {
+  text-align: center;
+}
+.date {
+  color: rgb(36, 138, 179);
+}
+
+.title { 
+  color : darkblue
+}
+
+.buttons {
+  position: relative;
+}
