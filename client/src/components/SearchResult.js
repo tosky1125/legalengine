@@ -40,7 +40,10 @@ class SearchResult extends React.Component {
       })
       .then(() => {
         window.open(
-          `/view?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`,
+          `/view?lawName=${name}&lawNum=${number}&enfDate=${format(
+            new Date(enforcement_date),
+            'yyyy-MM-dd'
+          )}`,
           '_blank'
         );
       })
