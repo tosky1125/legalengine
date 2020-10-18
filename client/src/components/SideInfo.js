@@ -58,6 +58,7 @@ function SideInfo(props) {
       {sideInfoData.map((sideInfo, sideInfoIndex) => (
         <div className='sideInfo-body' key={sideInfoIndex}>
           <h3
+            className='sideInfo-title'
             onClick={() =>
               handleClickSearch(
                 sideInfo.name,
