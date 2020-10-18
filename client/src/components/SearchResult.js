@@ -33,7 +33,8 @@ class SearchResult extends React.Component {
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
-        localStorage.lawdata2 = JSON.stringify(res.data);
+        localStorage.Law = JSON.stringify(res.data.Law);
+        localStorage.related = JSON.stringify(res.data.Related);
         this.setState({
           isLoaded: true,
         });
@@ -71,11 +72,12 @@ class SearchResult extends React.Component {
       );
     }
     return (
-      <div>
+      <>
         <div className='container'>
-          
           <SearchBar />
-          <div className='law-number'>총 {this.props.lawlist.length} 건의 결과</div>
+          <div className='law-number'>
+            총 {this.props.lawlist.length} 건의 결과
+          </div>
           <div className='page-list text-center'>
             {this.state.pageOfItems.map((item, index) => (
               <div
@@ -92,7 +94,7 @@ class SearchResult extends React.Component {
                 }
               >
                 <h3 className='name'>{item.name}</h3>
-                
+
                 <span className='type'>{item.type}&nbsp;</span>
                 <span className='number'>{item.number}호&nbsp;</span>
                 <span className='admendment'>
@@ -109,7 +111,6 @@ class SearchResult extends React.Component {
                 </span>
               </div>
             ))}
-
             <div>
               <Pagination
                 items={this.props.lawlist}
@@ -118,8 +119,7 @@ class SearchResult extends React.Component {
             </div>
           </div>
         </div>
-        <hr />
-      </div>
+      </>
     );
   }
 }

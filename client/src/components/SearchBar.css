@@ -63,6 +63,6 @@ body {
 }
 
 .valid-error {
-  font-size: xx-small;
+  font-size: medium;
   color: red;
 }
