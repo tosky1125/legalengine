@@ -27,6 +27,7 @@ function ViewPage() {
     }
   };
 
+
   Chapter = Chapter.map((chapEle) => (
     <div>
       <h1 className='title'>{chapEle.context}</h1>
@@ -80,13 +81,13 @@ function ViewPage() {
             </div>
             <p>{artEle.context}</p>
             {artEle.Clause &&
-              artEle.Clause.map((claEle) => (
-                <div>
-                  <span>{claEle.context}</span>
+              artEle.Clause.map((claEle, claEleIndex) => (
+                <div key={claEleIndex}>
+                  <span className='clause-context'>{claEle.context}</span>
                   <span className='date'>{claEle.date}</span>
                   {claEle.subPara &&
-                    claEle.subPara.map((subEle) => (
-                      <div>
+                    claEle.subPara.map((subEle, subEleIndex) => (
+                      <div key={subEleIndex}>
                         <span>{subEle.context}</span>
                         <span className='date'>{subEle.date}</span>
                         {subEle.Item &&
@@ -120,17 +121,20 @@ function ViewPage() {
 
   return (
     <div>
-      <div className='searched-date'>2020/10/7 적용</div>
       <div className='view-container'>
-        <div className='sideinfo-container'>{/* <SideInfo /> */}</div>
+        <div className='sideinfo-container'>
+          <SideInfo />
+        </div>
         <div className='maininfo-container'>
           <div className='law-head'>
+
             <h1>{law.Law.name}</h1>
             <p className='date'>
               [시행 {format(new Date(law.Law.enforcement_date), 'yyyy.MM.dd.')}]
               [{law.Law.type}&nbsp;
               {law.Law.number}호,&nbsp;
               {format(new Date(law.Law.promulgation_date), 'yyyy.MM.dd.')}
+
               ,&nbsp;
               {law.Law.amendment_status}]
             </p>

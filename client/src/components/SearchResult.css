@@ -1,4 +1,48 @@
-.page-list :hover {
-  background-color: lightgrey;
+.page-list {
+  margin-top: 2rem;
+}
+
+.page:hover {
   cursor: pointer;
+}
+.container {
+  bottom: 5vh;
+  overflow: hidden;
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+.law-number{
+  font-weight: bolder;
+  font-size: larger;
+}
+.page {
+  border-bottom: 0.5px solid gray;
+  padding: 3rem;
+  padding-top: 2rem;
+  text-align: left;
+}
+
+.name {
+
+  margin-top: 10px;
+}
+
+.type,
+.number,
+.admendment {
+  float: left;
+  left: 0;
+  border-right: 0.5px solid gray;
+  margin-right: 2rem;
+  padding-right: 2rem;
+}
+
+.ministry {
+  float: left;
+}
+
+.promulgation,
+.enforcement {
+  margin-left: 2rem;
+  float: right;
 }
