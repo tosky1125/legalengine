@@ -5,11 +5,13 @@ body {
 .search-container {
   text-align: center;
   margin: 30px auto;
+  width: 100%;
 }
 .search-flex {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* left: 50%; */
 }
 .search-title {
   font-size: x-large;
