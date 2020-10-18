@@ -34,6 +34,9 @@ function ViewPage() {
       {chapEle.Article &&
         chapEle.Article.map((artEle, artEleIndex) => (
           <div key={artEleIndex}>
+            <h3 className='article-title'>
+              {artEle.article_title}&nbsp;&nbsp;
+            </h3>
             <span className='buttons'>
               {artEle.flag_pan && (
                 <button className='buttons-pan'>
@@ -78,7 +81,6 @@ function ViewPage() {
                 </button>
               )}
             </span>
-            <h3 className='article-title'>{artEle.article_title}</h3>
             <p>{artEle.context}</p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (

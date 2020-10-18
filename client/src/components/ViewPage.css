@@ -1,24 +1,27 @@
 .view-container {
   position: relative;
-  display: flex;
   block-size: auto;
   bottom: 5vh;
   top: 10vh;
+  overflow: hidden;
 }
 
 .sideinfo-container {
-  max-width: 30rem;
+  position: fixed;
+  width: 15vw;
   padding: 1rem;
   padding-top: 2rem;
-  flex: 1;
+  overflow: hidden;
 }
 
 .maininfo-container {
+  position: relative;
+  left: 20vw;
+  width: 75vw;
   padding: 1rem;
   padding-left: 1.5rem;
   border-left: 1px solid #eee;
-  flex: 3;
-  height: auto;
+  overflow: auto;
 }
 
 .law-head {
