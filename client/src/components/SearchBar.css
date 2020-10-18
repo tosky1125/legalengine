@@ -1,3 +1,7 @@
+body {
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
 .search-container {
   text-align: center;
   margin: 30px auto;
@@ -12,7 +16,7 @@
   padding: 10px 0;
   color: #444;
 }
-.search-Input{
+.search-Input {
   width: 10rem;
   height: 3rem;
 }
@@ -25,7 +29,7 @@
 .search-Term input {
   padding: 10px 0;
   font-size: large;
-  font-style: italic;
+  padding-left: 1rem;
   width: 20rem;
   height: 3rem;
   color: #444;
@@ -34,8 +38,8 @@
 }
 .search-date input {
   padding: 10px 0;
+  padding-left: 1rem;
   font-size: large;
-  font-style: italic;
   width: 18rem;
   height: 3rem;
   color: #444;
@@ -46,8 +50,7 @@
   margin-left: 0.1rem;
 }
 
-
-button {
+.searchbar-btn {
   margin-left: 2rem;
   background-color: powderblue;
   border: none;
