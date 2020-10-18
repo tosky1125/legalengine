@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 const propTypes = {
   items: PropTypes.array.isRequired,
   onChangePage: PropTypes.func.isRequired,
@@ -112,10 +111,6 @@ class Pagination extends React.Component {
     return (
       <>
         <ul className='pagination'>
-          <link
-            rel='stylesheet'
-            href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
-          />
           <li className={pager.currentPage === 1 ? 'disabled' : ''}>
             <a href='#page' onClick={() => this.setPage(1)}>
               {'<<'}

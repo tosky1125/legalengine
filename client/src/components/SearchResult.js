@@ -73,6 +73,7 @@ class SearchResult extends React.Component {
     return (
       <div>
         <div className='container'>
+          
           <SearchBar />
           <div className='law-number'>총 {this.props.lawlist.length} 건의 결과</div>
           <div className='page-list text-center'>

@@ -13,13 +13,6 @@ function SearchBar(props) {
   const { register, handleSubmit, errors } = useForm();
 
   const today = format(new Date(), 'yyyy-MM-dd');
-  /* date-fns가 호환성에 이슈가 있으면 아래 코드 사용 가능
-  const today = new Date();
-  const month = today.getUTCMonth() + 1;
-  const day = today.getUTCDate();
-  const year = today.getUTCFullYear();
-  const defaultDay = year + '-' + month + '-' + day;
-  */
   const [searchDate, setSearchDate] = useState(today);
 
   const handleChangeTerm = (e) => {
