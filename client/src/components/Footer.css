@@ -1,12 +1,12 @@
 .foot-form {
-    background-color: #F8F9FA;
-    display: grid;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 5vh;
-    text-align: center;
-    padding-top: 1.5rem;
-    grid-template-columns: 1fr 1fr;
+  background-color: #f8f9fa;
+  display: grid;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5vh;
+  text-align: center;
+  padding-top: 1.5rem;
+  grid-template-columns: 1fr 1fr;
 }
