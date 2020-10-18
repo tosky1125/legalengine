@@ -11,20 +11,27 @@ const {
   } = require('./models');
   
   const {
-    Op, Sequelize, where
+    Op, Sequelize
   } = require('sequelize');
+const { closestIndexTo } = require('date-fns');
 
-let lawResult = async (name, number, eDate) => {
+let lawResult = async (name, eDate, number) => {
+    console.log(name);
+    console.log(eDate);
+    console.log(number);
   let lawResult = await Law.findOne({
       where: {
           number: number,
           enforcement_date: {
               [Op.lte]: eDate
           },
-          name: name
+          name: {
+              [Op.substring]: name
+          }
       },
       raw: true
   });
+  console.log(lawResult);
   return lawResult;
 };
 
@@ -78,11 +85,45 @@ let itemResult = async (subParaData) => {
   return itemResult;
 };
 
-let totalData = async (number, eDate, name) => {
+let totalData = async (name, eDate, number) => {
     let nestedData = {};
-    nestedData.Law = await lawResult(number, eDate, name);
-    nestedData.Law.Chapter = await chapterResult(nestedData.Law);
 
+    if (name.indexOf('법') !== -1) {
+        let newName = name.replace('법', ''); 
+        let relatedSearch = await Law.findAll({
+            where: {
+                enforcement_date: {
+                    [Op.lte]: eDate
+                },
+                name: {
+                    [Op.substring]: newName
+                },
+            },
+            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
+            group: ['name'],
+            raw: true
+        });
+        nestedData.Related = relatedSearch;
+    } else {
+        let relatedSearch = await Law.findAll({
+            where: {
+                enforcement_date: {
+                    [Op.lte]: eDate
+                },
+                name: {
+                    [Op.substring]: name
+                },
+            },
+            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
+            group: ['name'],
+            raw: true
+        });
+        // 타입이 같은데 제목이 비슷한 경우 
+        nestedData.Related = relatedSearch;
+    }
+
+    nestedData.Law = await lawResult(name, eDate, number);
+    nestedData.Law.Chapter = await chapterResult(nestedData.Law);
     for (eachChapter of nestedData.Law.Chapter) {
         eachChapter.Article = await articleResult(eachChapter);
         for (eachArticle of eachChapter.Article) {
