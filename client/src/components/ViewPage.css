@@ -32,8 +32,12 @@
   color: rgb(36, 138, 179);
 }
 
-.title { 
-  color : darkblue
+.img {
+  display: block;
+}
+
+.title {
+  color: darkblue;
 }
 
 .buttons {
