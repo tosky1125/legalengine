@@ -27,31 +27,30 @@ function ViewPage() {
     }
   };
 
-
-  Chapter = Chapter.map((chapEle) => (
-    <div>
+  Chapter = Chapter.map((chapEle, chapEleIndex) => (
+    <div key={chapEleIndex}>
       <h1 className='title'>{chapEle.context}</h1>
       <h2 className='title'>{chapEle.date}</h2>
       {chapEle.Article &&
-        chapEle.Article.map((artEle) => (
-          <div>
-            <h3 className='title'>{artEle.article_title}</h3>
-            <div className='buttons'>
+        chapEle.Article.map((artEle, artEleIndex) => (
+          <div key={artEleIndex}>
+            <span className='buttons'>
               {artEle.flag_pan && (
-                <button>
+                <button className='buttons-pan'>
                   <a
                     href={`http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=200188&joNo=${
                       joSlicer(artEle.article_id)[0]
                     }&joBrNo=${joSlicer(artEle.article_id)[1]}`}
                     target='_blank'
+                    rel='noopener noreferrer'
                   >
                     판
                   </a>
                 </button>
               )}
               {artEle.flag_yeon && (
-                <button>
-                  {/* <a
+                <button className='buttons-yeon'>
+                  {/* <a 
                     href='http://www.law.go.kr/LSW/lsJoHstProc.do?lsid={추후삽입}&lsiSeq={Law.number}&joNo=0002&joBrNo=00&lType=0002'
                     target='_blank'
                   >                   
@@ -61,7 +60,7 @@ function ViewPage() {
                 </button>
               )}
               {artEle.flag_hang && (
-                <button>
+                <button className='buttons-hang'>
                   {/* <a
                     href='http://www.law.go.kr/LSW/conAdmrulByLsPop.do?&lsiSeq={Law.number}&joNo={조(0001)}&joBrNo={조 하위}&datClsCd=010102&dguBun=DEG'
                     target='_blank'
@@ -70,7 +69,7 @@ function ViewPage() {
                 </button>
               )}
               {artEle.flag_gyu && (
-                <button>
+                <button className='buttons-gyu'>
                   {/* <a
                     href='http://www.law.go.kr/LSW/lsCtlInfListR.do?lsiSeq={law.number}&lsId={추후삽입}&joNo=0001&joBrNo=00'
                     target='_blank'
@@ -78,7 +77,8 @@ function ViewPage() {
                   규
                 </button>
               )}
-            </div>
+            </span>
+            <h3 className='article-title'>{artEle.article_title}</h3>
             <p>{artEle.context}</p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (
@@ -129,14 +129,12 @@ function ViewPage() {
         </div>
         <div className='maininfo-container'>
           <div className='law-head'>
-
             <h1>{law.Law.name}</h1>
             <p className='date'>
               [시행 {format(new Date(law.Law.enforcement_date), 'yyyy.MM.dd.')}]
               [{law.Law.type}&nbsp;
               {law.Law.number}호,&nbsp;
               {format(new Date(law.Law.promulgation_date), 'yyyy.MM.dd.')}
-
               ,&nbsp;
               {law.Law.amendment_status}]
             </p>

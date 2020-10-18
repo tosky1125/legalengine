@@ -6,12 +6,13 @@
   cursor: pointer;
 }
 .container {
+  top: 10vh;
   bottom: 5vh;
   overflow: hidden;
   margin-left: 5rem;
   margin-right: 5rem;
 }
-.law-number{
+.law-number {
   font-weight: bolder;
   font-size: larger;
 }
@@ -23,7 +24,6 @@
 }
 
 .name {
-
   margin-top: 10px;
 }
 
