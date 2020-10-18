@@ -1,16 +1,14 @@
-.page-list {
-  margin-top: 2rem;
-}
-
 .page:hover {
   cursor: pointer;
 }
 .container {
+  position: relative;
   top: 10vh;
   bottom: 5vh;
   overflow: hidden;
   margin-left: 5rem;
   margin-right: 5rem;
+  width: 90%;
 }
 .law-number {
   font-weight: bolder;
@@ -18,8 +16,8 @@
 }
 .page {
   border-bottom: 0.5px solid gray;
-  padding: 3rem;
-  padding-top: 2rem;
+  padding: 2rem;
+  padding-top: 1rem;
   text-align: left;
 }
 
