@@ -7,10 +7,10 @@ import './ViewPage.css';
 import { format } from 'date-fns';
 
 function ViewPage() {
-  let law = JSON.parse(localStorage.lawdata2);
+  let law = JSON.parse(localStorage.Law);
   console.log(law);
   console.log(typeof law);
-  let { Chapter } = law.Law;
+  let { Chapter } = law;
 
   let joSlicer = (strFrom) => {
     console.log(strFrom);
@@ -134,14 +134,14 @@ function ViewPage() {
         </div>
         <div className='maininfo-container'>
           <div className='law-head'>
-            <h1>{law.Law.name}</h1>
+            <h1>{law.name}</h1>
             <p className='date'>
-              [시행 {format(new Date(law.Law.enforcement_date), 'yyyy.MM.dd.')}]
-              [{law.Law.type}&nbsp;
-              {law.Law.number}호,&nbsp;
-              {format(new Date(law.Law.promulgation_date), 'yyyy.MM.dd.')}
+              [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
+              {law.type}&nbsp;
+              {law.number}호,&nbsp;
+              {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
               ,&nbsp;
-              {law.Law.amendment_status}]
+              {law.amendment_status}]
             </p>
           </div>
           {Chapter}

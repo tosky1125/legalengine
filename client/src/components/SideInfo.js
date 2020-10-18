@@ -1,10 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SideInfo.css';
+import { connect } from 'react-redux';
+import axios from 'axios';
 import { format } from 'date-fns';
+import { withRouter } from 'react-router-dom';
+import * as lawinfo from '../modules/lawinfo';
 
-function SideInfo() {
-  let sideInfoData = JSON.parse(localStorage.lawdata2).Related;
+function SideInfo(props) {
+  let sideInfoData = JSON.parse(localStorage.related);
   console.log(sideInfoData);
+  const [isLoaded, setisLoaded] = useState(false);
+
+  const handleClickSearch = (name, number, enforcement_date) => {
+    const { lawinfo } = props;
+    axios
+      .get(
+        `http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`
+      )
+      .then((res) => {
+        lawinfo(res.data);
+        console.log(res.data);
+        localStorage.Law = JSON.stringify(res.data.Law);
+        setisLoaded(true);
+      })
+      .then(() => {
+        window.open(
+          `/view?lawName=${name}&lawNum=${number}&enfDate=${format(
+            new Date(enforcement_date),
+            'yyyy-MM-dd'
+          )}`,
+          '_blank'
+        );
+      })
+      .catch(function (err) {
+        if (err.res) {
+          console.log(err.res.data);
+          console.log(err.res.status);
+          console.log(err.res.headers);
+        } else if (err.req) {
+          console.log(err.req);
+        } else {
+          console.log('Error', err.message);
+        }
+        console.log(err.config);
+      });
+  };
 
   if (sideInfoData.length === 0) {
     return (
@@ -17,7 +57,17 @@ function SideInfo() {
     <div>
       {sideInfoData.map((sideInfo, sideInfoIndex) => (
         <div className='sideInfo-body' key={sideInfoIndex}>
-          <h3>{sideInfo.name}</h3>
+          <h3
+            onClick={() =>
+              handleClickSearch(
+                sideInfo.name,
+                sideInfo.number,
+                sideInfo.enforcement_date
+              )
+            }
+          >
+            {sideInfo.name}
+          </h3>
           <p className='sideInfo-info'>
             [시행 {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}]
             [{sideInfo.type}
@@ -33,4 +83,12 @@ function SideInfo() {
   );
 }
 
-export default SideInfo;
+export default connect(
+  (state) => ({
+    lawlist: state.searchlist.lawlist,
+    lawDetail: state.lawinfo.lawDetail,
+  }),
+  (dispatch) => ({
+    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
+  })
+)(withRouter(SideInfo));
