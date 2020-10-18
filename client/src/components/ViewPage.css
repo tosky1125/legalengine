@@ -3,7 +3,7 @@
   display: flex;
   block-size: auto;
   bottom: 5vh;
-  top: 15vh;
+  top: 10vh;
 }
 
 .sideinfo-container {
@@ -115,9 +115,5 @@ span[class*='context'] {
 
 a {
   text-decoration: none;
-  color: white;
-}
-
-a:hover {
-  color: black;
+  color: inherit;
 }
