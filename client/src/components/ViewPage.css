@@ -2,17 +2,17 @@
   position: relative;
   display: flex;
   block-size: auto;
+  bottom: 5vh;
 }
 
 .sideinfo-container {
-  border-style: solid;
   margin: 1.5rem;
   flex: 1;
 }
 
 .maininfo-container {
-  border-style: solid;
   margin: 1.5rem;
+  border-left: 1px solid #EEE;
   flex: 3;
   height: auto;
 }

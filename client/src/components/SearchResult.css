@@ -2,3 +2,8 @@
   background-color: lightgrey;
   cursor: pointer;
 }
+
+.container {
+  bottom: 5vh;
+  overflow: hidden;
+}
