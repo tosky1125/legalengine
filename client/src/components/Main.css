@@ -1,11 +1,10 @@
-.main-title {
+.main {
   position: relative;
-  font-size: xx-large;
+  top: 10vh;
   text-align: center;
-  margin: 2rem;
 }
 
-.main-logo{
+.main-logo {
   display: block;
   width: 30%;
   padding-top: 5rem;

@@ -6,14 +6,27 @@ import SideInfo from './SideInfo';
 import './ViewPage.css';
 import { format } from 'date-fns';
 
-function ViewPage(props) {
-  const { lawDetail } = props;
-  console.log(lawDetail);
+function ViewPage() {
+  let law = JSON.parse(localStorage.lawdata2);
+  console.log(law);
+  console.log(typeof law);
+  let { Chapter } = law.Law;
 
-  let test = JSON.parse(localStorage.lawdata2);
-  console.log(test);
-  console.log(typeof test);
-  let { Chapter } = test.Law;
+  let joSlicer = (strFrom) => {
+    console.log(strFrom);
+    let str = String(strFrom);
+    if (str.includes(':')) {
+      let splited = str.split(':');
+      let joRaw = splited[0];
+      let joBrRaw = splited[1];
+      let joNo = '0'.repeat(4 - joRaw.length) + joRaw;
+      let joBrNo = '0'.repeat(2 - joBrRaw.length) + joBrRaw;
+      return [joNo, joBrNo];
+    } else {
+      return ['0', '0'];
+    }
+  };
+
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
     <div key={chapEleIndex}>
       <h1 className='title'>{chapEle.context}</h1>
@@ -22,28 +35,70 @@ function ViewPage(props) {
         chapEle.Article.map((artEle, artEleIndex) => (
           <div key={artEleIndex}>
             <span className='buttons'>
-              {artEle.flag_pan && <button className='buttons-pan'>판</button>}
-              {artEle.flag_yeon && <button className='buttons-yeon'>연</button>}
-              {artEle.flag_hang && <button className='buttons-hang'>항</button>}
-              {artEle.flag_gyu && <button className='buttons-gyu'>규</button>}
+              {artEle.flag_pan && (
+                <button className='buttons-pan'>
+                  <a
+                    href={`http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=200188&joNo=${
+                      joSlicer(artEle.article_id)[0]
+                    }&joBrNo=${joSlicer(artEle.article_id)[1]}`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    판
+                  </a>
+                </button>
+              )}
+              {artEle.flag_yeon && (
+                <button className='buttons-yeon'>
+                  {/* <a 
+                    href='http://www.law.go.kr/LSW/lsJoHstProc.do?lsid={추후삽입}&lsiSeq={Law.number}&joNo=0002&joBrNo=00&lType=0002'
+                    target='_blank'
+                  >                   
+                  </a> */}
+                  {/* javascript:fJoHstShow(this,'000695','216111','58955861','010202'); */}
+                  연
+                </button>
+              )}
+              {artEle.flag_hang && (
+                <button className='buttons-hang'>
+                  {/* <a
+                    href='http://www.law.go.kr/LSW/conAdmrulByLsPop.do?&lsiSeq={Law.number}&joNo={조(0001)}&joBrNo={조 하위}&datClsCd=010102&dguBun=DEG'
+                    target='_blank'
+                  ></a> */}
+                  행
+                </button>
+              )}
+              {artEle.flag_gyu && (
+                <button className='buttons-gyu'>
+                  {/* <a
+                    href='http://www.law.go.kr/LSW/lsCtlInfListR.do?lsiSeq={law.number}&lsId={추후삽입}&joNo=0001&joBrNo=00'
+                    target='_blank'
+                  ></a> */}
+                  규
+                </button>
+              )}
             </span>
             <h3 className='article-title'>{artEle.article_title}</h3>
             <p>{artEle.context}</p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (
                 <div key={claEleIndex}>
-                  <span className='clause-context'>{claEle.context}</span>
-                  <span className='date'>{claEle.date}</span>
+                  <span className='clause-context'>
+                    {claEle.context}
+                    <span className='date'>{claEle.date}</span>
+                  </span>
+
                   {claEle.subPara &&
                     claEle.subPara.map((subEle, subEleIndex) => (
                       <div key={subEleIndex}>
-                        <span>{subEle.context}</span>
+                        <span className='sub-context'>{subEle.context}</span>
                         <span className='date'>{subEle.date}</span>
                         {subEle.Item &&
                           subEle.Item.map((itEle) => {
                             if (itEle.context.includes('http')) {
                               return (
                                 <img
+                                  className='img'
                                   src={itEle.context}
                                   alt={itEle.context}
                                 ></img>
@@ -51,7 +106,9 @@ function ViewPage(props) {
                             } else {
                               return (
                                 <div>
-                                  <span>{itEle.context}</span>
+                                  <span className='item-context'>
+                                    {itEle.context}
+                                  </span>
                                   <span className='date'>{itEle.date}</span>
                                 </div>
                               );
@@ -75,14 +132,14 @@ function ViewPage(props) {
         </div>
         <div className='maininfo-container'>
           <div className='law-head'>
-            <h1>{test.Law.name}</h1>
-            <p className='law-head-info'>
-              [시행 {format(new Date(test.Law.enforcement_date), 'yyyy.MM.dd.')}
-              ] [{test.Law.type}&nbsp;
-              {test.Law.number}호,&nbsp;
-              {format(new Date(test.Law.promulgation_date), 'yyyy.MM.dd.')}
+            <h1>{law.Law.name}</h1>
+            <p className='date'>
+              [시행 {format(new Date(law.Law.enforcement_date), 'yyyy.MM.dd.')}]
+              [{law.Law.type}&nbsp;
+              {law.Law.number}호,&nbsp;
+              {format(new Date(law.Law.promulgation_date), 'yyyy.MM.dd.')}
               ,&nbsp;
-              {test.Law.amendment_status}]
+              {law.Law.amendment_status}]
             </p>
           </div>
           {Chapter}
