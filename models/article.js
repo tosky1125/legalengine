@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Article.hasMany(models.Clause, {
-        as: 'Clause',
+        as: 'clause',
         foreignKey: 'article_id',
         sourceKey: 'id'
       });

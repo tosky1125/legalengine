@@ -15,8 +15,8 @@ module.exports = {
   get: async (req, res) => {
     const {
       lawName,
-      enfDate,
-      lawNum
+      lawNum,
+      enfDate
     } = req.query;
     // 연관법령을렌더해줘야함
     res.send(await totalData(lawName, new Date(String(enfDate)), lawNum));

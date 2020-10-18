@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Law.hasMany(models.Chapter, {
-        as: 'Chapter',
+        as: 'chapter',
         foreignKey: 'law_id',
         sourceKey: 'law_id'
       });
