@@ -4,3 +4,11 @@
   text-align: center;
   margin: 2rem;
 }
+
+.main-logo{
+  display: block;
+  width: 30%;
+  padding-top: 5rem;
+  margin: 0 auto;
+  margin-bottom: 5rem;
+}
