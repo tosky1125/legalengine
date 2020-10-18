@@ -1,11 +1,3 @@
-.searched-date {
-  position: relative;
-  margin: 1.5rem;
-  padding: 1rem;
-  font-weight: 700;
-  border-style: solid;
-}
-
 .view-container {
   position: relative;
   display: flex;
@@ -32,8 +24,8 @@
   color: rgb(36, 138, 179);
 }
 
-.title { 
-  color : darkblue
+.title {
+  color: darkblue;
 }
 
 .buttons {
