@@ -62,7 +62,7 @@ function SearchBar(props) {
     <>
       <div className='search-container'>
         <form className='search-form' onSubmit={handleSubmit(handleSearch)}>
-            <div className='search-flex'>
+          <div className='search-flex'>
             <label className='search-Term'>
               <input
                 type='text'
@@ -83,9 +83,11 @@ function SearchBar(props) {
                 value={searchDate}
                 onChange={handleChangeDate}
               />
-            </label>          
-            <button type='submit'>검색</button>
-            </div>
+            </label>
+            <button className='searchbar-btn' type='submit'>
+              검색
+            </button>
+          </div>
           <div className='valid-error'>
             {errors.setSearchTerm && '문자&숫자 2글자 이상 입력 가능합니다.'}
           </div>

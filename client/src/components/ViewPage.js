@@ -37,7 +37,7 @@ function ViewPage(props) {
                   {claEle.subPara &&
                     claEle.subPara.map((subEle, subEleIndex) => (
                       <div key={subEleIndex}>
-                        <span>{subEle.context}</span>
+                        <span className='sub-context'>{subEle.context}</span>
                         <span className='date'>{subEle.date}</span>
                         {subEle.Item &&
                           subEle.Item.map((itEle) => {
@@ -51,7 +51,9 @@ function ViewPage(props) {
                             } else {
                               return (
                                 <div>
-                                  <span>{itEle.context}</span>
+                                  <span className='item-context'>
+                                    {itEle.context}
+                                  </span>
                                   <span className='date'>{itEle.date}</span>
                                 </div>
                               );
