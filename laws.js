@@ -1,9 +1,8 @@
 const axios = require('axios');
 const convert = require('xml-js');
 const {
-  Law, Ministry, Law_Type
+  Law, Ministry, Law_Type,
 } = require('./models');
-
 
 const monthToDate = (string) => {
   const year = string.slice(0, 4);

@@ -35,7 +35,7 @@ module.exports = {
         },
       }, raw: true,
     });
-  
+
     if (keyword.indexOf('법') !== -1) {
       let newkeyword = keyword.replace('법', '');
       let searchRelated = await Law.findAll({
