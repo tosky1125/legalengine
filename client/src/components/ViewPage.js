@@ -9,11 +9,10 @@ import { format } from 'date-fns';
 function ViewPage() {
   let law = JSON.parse(localStorage.Law);
   console.log(law);
-  console.log(typeof law);
+  
   let { Chapter } = law;
 
   let joSlicer = (strFrom) => {
-    console.log(strFrom);
     let str = String(strFrom);
     if (str.includes(':')) {
       let splited = str.split(':');
@@ -26,7 +25,19 @@ function ViewPage() {
       return ['0', '0'];
     }
   };
-
+  // const joSplitDate = (context)=> {
+    
+  //   let date = null;
+  //   if(context){
+  //     let check = context.indexOf('<개정');
+  //     if(check !== -1){
+  //       date = context.slice(check);
+  //       context = context.slice(0,check);
+  //     }
+  //   };
+  //   console.log(context, `this is ${date}`);
+  //   return { context, date };
+  // }
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
     <div key={chapEleIndex}>
       <h1 className='title'>{chapEle.context}</h1>
@@ -81,7 +92,7 @@ function ViewPage() {
                 </button>
               )}
             </span>
-            <p>{artEle.context}</p>
+            <p><span>{artEle.context}</span><span className='date'>{artEle.cont_date}</span></p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (
                 <div key={claEleIndex}>
@@ -89,7 +100,6 @@ function ViewPage() {
                     {claEle.context}
                     <span className='date'>{claEle.date}</span>
                   </span>
-
                   {claEle.subPara &&
                     claEle.subPara.map((subEle, subEleIndex) => (
                       <div key={subEleIndex}>
