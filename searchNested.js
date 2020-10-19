@@ -16,9 +16,6 @@ const {
 const { closestIndexTo } = require('date-fns');
 
 let lawResult = async (name, eDate, number) => {
-    console.log(name);
-    console.log(eDate);
-    console.log(number);
   let lawResult = await Law.findOne({
       where: {
           number: number,
@@ -88,6 +85,19 @@ let itemResult = async (subParaData) => {
 let totalData = async (name, eDate, number) => {
     let nestedData = {};
 
+    // let related = await Law.findAll({
+    //     where: {
+    //       [Op.or]: [
+    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
+    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
+    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
+    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
+    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
+    //       ]
+    //     },
+    //     raw: true
+    //   });
+
     if (name.indexOf('법') !== -1) {
         let newName = name.replace('법', ''); 
         let relatedSearch = await Law.findAll({
@@ -118,7 +128,6 @@ let totalData = async (name, eDate, number) => {
             group: ['name'],
             raw: true
         });
-        // 타입이 같은데 제목이 비슷한 경우 
         nestedData.Related = relatedSearch;
     }
 
