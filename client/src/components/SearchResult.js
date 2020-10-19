@@ -3,6 +3,7 @@ import SearchBar from './SearchBar';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import Pagination from './Pagination';
+import Pagee from './Pagee';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
@@ -112,7 +113,7 @@ class SearchResult extends React.Component {
               </div>
             ))}
             <div>
-              <Pagination
+              <Pagee
                 items={this.props.lawlist}
                 onChangePage={this.onChangePage}
               />
