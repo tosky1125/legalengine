@@ -6,6 +6,7 @@ import NavBar from './components/Nav';
 import ViewPage from './components/ViewPage';
 import Footer from './components/Footer';
 import SR from './components/SR';
+import SearchResult from './components/SearchResult';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <NavBar />
         <Switch>
           <Route path='/' exact component={Main} />
-          <Route path='/search' component={SR} />
+          <Route path='/search' component={SearchResult} />
           <Route path='/view' component={ViewPage} />
         </Switch>
       </Router>
