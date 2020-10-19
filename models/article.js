@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Article.hasMany(models.Clause, {
-        as: 'Clause',
+        as: 'clause',
         foreignKey: 'article_id',
         sourceKey: 'id'
       });
@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     article_title: DataTypes.STRING,
     date: DataTypes.STRING,
+    cont_date: DataTypes.STRING,
     context: DataTypes.TEXT,
     flag_pan: DataTypes.TINYINT,
     flag_yeon: DataTypes.TINYINT,

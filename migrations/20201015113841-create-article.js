@@ -29,6 +29,9 @@ module.exports = {
       date: {
         type: Sequelize.STRING
       },
+      cont_date: {
+        type: Sequelize.STRING
+      },
       context: {
         type: Sequelize.TEXT
       },
