@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import './Pagination.css';
 
@@ -13,21 +13,51 @@ const defaultProps = {
   pageSize: 5,
 };
 
-function Pagee(props) {
+function Pagination2(props) {
   const [pager, setPager] = useState({ pager: {} });
-  useEffect(() => {
-    // 데이터 배열이 있을 때, 페이지 셋업
-    if (propTypes.items && propTypes.items.length) {
-      setPage(propTypes.initialPage);
-    }
-  }, []);
 
-  useEffect((prevProps) => {
-    // 데이터 배열이 변하면 페이지도 리셋
-    if (propTypes.items !== prevProps.items) {
-      setPage(propTypes.initialPage);
+  // 3번째 시도
+  const { items, initialPage } = props;
+  const prevItems = useRef(items).current;
+  useEffect(() => {
+    if (items !== prevItems) setPage(initialPage);
+    return () => {
+      prevItems = items;
+    };
+  }, [items]);
+  //2번째 시도
+  /*useEffect(() => {
+    if (!props.items && !props.items.length) return;
+    setPage(props.initialPage);
+  }, [props.items]);*/
+  // 1번째 시도
+  /*useEffect(() => {
+    // 데이터 배열이 있을 때, 페이지 셋업
+    if (props.items && props.items.length) {
+      setPage(props.initialPage);
     }
   }, []);
+  console.log(props.items);
+
+  const usePrevious = (value) => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  };
+  const prevItems = usePrevious(props.items);
+  useEffect(() => {
+    // 데이터 배열이 변하면 페이지도 리셋
+    if (props.items !== prevItems) {
+      setPage(props.initialPage);
+    }
+    console.log(prevItems);
+  }, []);
+  console.log(props.items);*/
+
+  //props.items !== prevItems
+  //JSON.stringify(props.items) !== JSON.stringify(prevItems)
 
   const setPage = (page) => {
     let { items, pageSize } = props;
@@ -140,7 +170,7 @@ function Pagee(props) {
   );
 }
 
-Pagee.propTypes = propTypes;
-Pagee.defaultProps = defaultProps;
+Pagination2.propTypes = propTypes;
+Pagination2.defaultProps = defaultProps;
 
-export default Pagee;
+export default Pagination2;

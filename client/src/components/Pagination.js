@@ -27,7 +27,9 @@ class Pagination extends React.Component {
     if (this.props.items !== prevProps.items) {
       this.setPage(this.props.initialPage);
     }
+    console.log(prevProps.items);
   }
+
   setPage(page) {
     let { items, pageSize } = this.props;
     let pager = this.state.pager;
