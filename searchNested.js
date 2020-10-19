@@ -16,9 +16,6 @@ const {
 const { closestIndexTo } = require('date-fns');
 
 let lawResult = async (name, eDate, number) => {
-    console.log(name);
-    console.log(eDate);
-    console.log(number);
   let lawResult = await Law.findOne({
       where: {
           number: number,
