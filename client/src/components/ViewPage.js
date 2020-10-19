@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 function ViewPage() {
   let law = JSON.parse(localStorage.Law);
   console.log(law);
-  
+
   let { Chapter } = law;
 
   let joSlicer = (strFrom) => {
@@ -26,7 +26,7 @@ function ViewPage() {
     }
   };
   // const joSplitDate = (context)=> {
-    
+
   //   let date = null;
   //   if(context){
   //     let check = context.indexOf('<개정');
@@ -92,7 +92,10 @@ function ViewPage() {
                 </button>
               )}
             </span>
-            <p><span>{artEle.context}</span><span className='date'>{artEle.cont_date}</span></p>
+            <p>
+              <span>{artEle.context}</span>
+              <span className='date'>{artEle.cont_date}</span>
+            </p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (
                 <div key={claEleIndex}>
@@ -109,11 +112,13 @@ function ViewPage() {
                           subEle.Item.map((itEle) => {
                             if (itEle.context.includes('http')) {
                               return (
-                                <img
-                                  className='img'
-                                  src={itEle.context}
-                                  alt={itEle.context}
-                                ></img>
+                                <div>
+                                  <img
+                                    className='img'
+                                    src={itEle.context}
+                                    alt={itEle.context}
+                                  ></img>
+                                </div>
                               );
                             } else {
                               return (

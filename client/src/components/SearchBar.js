@@ -33,8 +33,11 @@ function SearchBar(props) {
       .post('http://13.125.112.243/search', payload)
       .then((res) => {
         searchlist(res.data);
-        console.log(res.data);
         setisLoaded(true);
+        console.log(res.data);
+        localStorage.list = JSON.stringify(res.data);
+      })
+      .then(() => {
         history.push('/search');
       })
       .catch((err) => {
@@ -84,7 +87,6 @@ function SearchBar(props) {
           <div className='valid-error'>
             {errors.setSearchTerm && '문자&숫자 2글자 이상 입력 가능합니다.'}
           </div>
-          {console.log(searchTerm)}
         </form>
       </div>
     </>
