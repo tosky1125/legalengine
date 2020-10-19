@@ -86,41 +86,26 @@ let itemResult = async (subParaData) => {
 };
 
 let totalData = async (name, eDate, number) => {
-    let nestedData = {};
+    console.log(`name: ${name}, eDate: ${eDate}, number: ${number}`);
 
-    if (name.indexOf('법') !== -1) {
-        let newName = name.replace('법', ''); 
-        let relatedSearch = await Law.findAll({
-            where: {
-                enforcement_date: {
-                    [Op.lte]: eDate
-                },
-                name: {
-                    [Op.substring]: newName
-                },
+    let nestedData = {};
+    console.log(`name: ${name}`);
+    let newName = name.replace('법률', '').replace('법','').replace('시행령','').replace('규칙','');
+    console.log(`newName: ${newName}`);
+    let relatedSearch = await Law.findAll({
+        where: {
+            enforcement_date: {
+                [Op.lte]: eDate
             },
-            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-            group: ['name'],
-            raw: true
-        });
-        nestedData.Related = relatedSearch;
-    } else {
-        let relatedSearch = await Law.findAll({
-            where: {
-                enforcement_date: {
-                    [Op.lte]: eDate
-                },
-                name: {
-                    [Op.substring]: name
-                },
+            name: {
+                [Op.substring]: newName
             },
-            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-            group: ['name'],
-            raw: true
-        });
-        // 타입이 같은데 제목이 비슷한 경우 
-        nestedData.Related = relatedSearch;
-    }
+        },
+        order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
+        group: ['name'],
+        raw: true
+    });
+    nestedData.Related = relatedSearch;
 
     nestedData.Law = await lawResult(name, eDate, number);
     nestedData.Law.Chapter = await chapterResult(nestedData.Law);
