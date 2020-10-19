@@ -27,7 +27,6 @@ class Pagination extends React.Component {
     if (this.props.items !== prevProps.items) {
       this.setPage(this.props.initialPage);
     }
-    console.log(prevProps.items);
   }
 
   setPage(page) {
@@ -86,6 +85,7 @@ class Pagination extends React.Component {
       pages: pages,
     };
   }
+
   render() {
     let pager = this.state.pager;
     if (!pager.pages || pager.pages.length <= 1) {
@@ -112,12 +112,9 @@ class Pagination extends React.Component {
               </a>
             </span>
           </span>
-          {pager.pages.map((page, index) => (
-            <span className='pager-numbers'>
-              <span
-                key={index}
-                className={pager.currentPage === page ? 'active' : ''}
-              >
+          {pager.pages.map((page, pageIndex) => (
+            <span key={pageIndex} className='pager-numbers'>
+              <span className={pager.currentPage === page ? 'active' : ''}>
                 <a href='#page' onClick={() => this.setPage(page)}>
                   {page}
                 </a>

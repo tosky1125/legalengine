@@ -18,13 +18,15 @@ function Pagination2(props) {
 
   // 3번째 시도
   const { items, initialPage } = props;
-  const prevItems = useRef(items).current;
+  let prevItems = useRef(items).current;
   useEffect(() => {
     if (items !== prevItems) setPage(initialPage);
     return () => {
       prevItems = items;
     };
   }, [items]);
+  console.log(prevItems);
+  console.log(items);
   //2번째 시도
   /*useEffect(() => {
     if (!props.items && !props.items.length) return;
@@ -114,6 +116,7 @@ function Pagination2(props) {
       pages: pages,
     };
   };
+  console.log(pager);
   if (!pager.pages || pager.pages.length <= 1) {
     // 페이지가 1이면 페이저 디스플레이 안하기
     return null;
