@@ -130,12 +130,9 @@ class Pagination extends React.Component {
               </a>
             </span>
           </span>
-          {pager.pages.map((page, index) => (
-            <span className='pager-numbers'>
-              <span
-                key={index}
-                className={pager.currentPage === page ? 'active' : ''}
-              >
+          {pager.pages.map((page, pageIndex) => (
+            <span key={pageIndex} className='pager-numbers'>
+              <span className={pager.currentPage === page ? 'active' : ''}>
                 <a href='#page' onClick={() => this.setPage(page)}>
                   {page}
                 </a>

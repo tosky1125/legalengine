@@ -109,20 +109,19 @@ function ViewPage() {
                         <span className='sub-context'>{subEle.context}</span>
                         <span className='date'>{subEle.date}</span>
                         {subEle.Item &&
-                          subEle.Item.map((itEle) => {
+                          subEle.Item.map((itEle, itEleIndex) => {
                             if (itEle.context.includes('http')) {
                               return (
-                                <div>
-                                  <img
-                                    className='img'
-                                    src={itEle.context}
-                                    alt={itEle.context}
-                                  ></img>
-                                </div>
+                                <img
+                                  key={itEleIndex}
+                                  className='img'
+                                  src={itEle.context}
+                                  alt={itEle.context}
+                                ></img>
                               );
                             } else {
                               return (
-                                <div>
+                                <div key={itEleIndex}>
                                   <span className='item-context'>
                                     {itEle.context}
                                   </span>
