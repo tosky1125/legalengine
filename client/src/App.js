@@ -4,20 +4,18 @@ import Main from './components/Main';
 import NavBar from './components/Nav';
 import SearchResult from './components/SearchResult';
 import ViewPage from './components/ViewPage';
-import Footer from './components/Footer';
 
 function App() {
   return (
     <>
       <Router>
         <NavBar />
-          <Switch>
-            <Route path='/' exact component={Main} />
-            <Route path='/search' component={SearchResult} />
-            <Route path='/view' component={ViewPage} />
-          </Switch>
+        <Switch>
+          <Route path='/' exact component={Main} />
+          <Route path='/search' component={SearchResult} />
+          <Route path='/view' component={ViewPage} />
+        </Switch>
       </Router>
-      <Footer />
     </>
   );
 }
