@@ -1,95 +1,47 @@
-import React, { useState } from 'react';
-import './SideInfo.css';
+import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
+import * as date from '../modules/date';
 import * as lawinfo from '../modules/lawinfo';
 
 function SideInfo(props) {
-  let sideInfoData = JSON.parse(localStorage.related);
-  console.log(sideInfoData);
-  const [isLoaded, setisLoaded] = useState(false);
-
-  const handleClickSearch = (name, number, enforcement_date) => {
-    const { lawinfo } = props;
-    axios
-      .get(
-        `http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`
-      )
-      .then((res) => {
-        lawinfo(res.data);
-        console.log(res.data);
-        localStorage.Law = JSON.stringify(res.data.Law);
-        setisLoaded(true);
-      })
-      .then(() => {
-        window.open(
-          `/view?lawName=${name}&lawNum=${number}&enfDate=${format(
-            new Date(enforcement_date),
-            'yyyy-MM-dd'
-          )}`,
-          '_blank'
-        );
-      })
-      .catch(function (err) {
-        if (err.res) {
-          console.log(err.res.data);
-          console.log(err.res.status);
-          console.log(err.res.headers);
-        } else if (err.req) {
-          console.log(err.req);
-        } else {
-          console.log('Error', err.message);
-        }
-        console.log(err.config);
-      });
-  };
-
-  if (sideInfoData.length === 0) {
-    return (
-      <div>
-        <div>검색 결과가 없습니다.</div>
-      </div>
-    );
-  }
+  const { lawDetail } = props;
+  console.log(lawDetail);
   return (
-    <div>
-      {sideInfoData.map((sideInfo, sideInfoIndex) => (
-        <div className='sideInfo-body' key={sideInfoIndex}>
-          <h3
-            className='sideInfo-title'
-            onClick={() =>
-              handleClickSearch(
-                sideInfo.name,
-                sideInfo.number,
-                sideInfo.enforcement_date
-              )
-            }
-          >
-            {sideInfo.name}
-          </h3>
-          <p className='sideInfo-info'>
-            [시행 {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}]
-            [{sideInfo.type}
-            &nbsp;
-            {sideInfo.number}호,&nbsp;
-            {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
-            ,&nbsp;
-            {sideInfo.amendment_status}]
-          </p>
+    <>
+      <ol className='법령명'>
+        <div className='법령명-sideinfo-head'>
+          <li className='법령명-sideinfo-title'></li>
+          <li className='시행일자'></li>
+          <li className='법률 번호 공포일 개정'></li>
         </div>
-      ))}
-    </div>
+        <div className='법령명-sideinfo-body'>
+          <button className='본문'>본문</button>
+          <button className='부칙'>부칙</button>
+        </div>
+      </ol>
+      <ol className='조문내용'>
+        <div className='조문내용-sideinfo-head'>
+          <li className='조문내용-sideinfo-title'>{lawDetail.law.name}</li>
+          <li className='시행일자'></li>
+          <li className='법률 번호 공포일 개정'></li>
+        </div>
+        <div className='조문내용-sideinfo-body'>
+          <li className='조'></li>
+          <li className='조'></li>
+        </div>
+      </ol>
+    </>
   );
 }
 
 export default connect(
   (state) => ({
-    lawlist: state.searchlist.lawlist,
     lawDetail: state.lawinfo.lawDetail,
+    date: state.date.date,
   }),
   (dispatch) => ({
     lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
+    date: (data) => dispatch(date.date(data)),
   })
 )(withRouter(SideInfo));
