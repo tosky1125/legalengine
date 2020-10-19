@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 function ViewPage() {
   let law = JSON.parse(localStorage.Law);
   console.log(law);
-  
+
   let { Chapter } = law;
 
   let joSlicer = (strFrom) => {
@@ -26,7 +26,7 @@ function ViewPage() {
     }
   };
   // const joSplitDate = (context)=> {
-    
+
   //   let date = null;
   //   if(context){
   //     let check = context.indexOf('<개정');
@@ -92,7 +92,10 @@ function ViewPage() {
                 </button>
               )}
             </span>
-            <p><span>{artEle.context}</span><span className='date'>{artEle.cont_date}</span></p>
+            <p>
+              <span>{artEle.context}</span>
+              <span className='date'>{artEle.cont_date}</span>
+            </p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => (
                 <div key={claEleIndex}>
@@ -106,10 +109,11 @@ function ViewPage() {
                         <span className='sub-context'>{subEle.context}</span>
                         <span className='date'>{subEle.date}</span>
                         {subEle.Item &&
-                          subEle.Item.map((itEle) => {
+                          subEle.Item.map((itEle, itEleIndex) => {
                             if (itEle.context.includes('http')) {
                               return (
                                 <img
+                                  key={itEleIndex}
                                   className='img'
                                   src={itEle.context}
                                   alt={itEle.context}
@@ -117,7 +121,7 @@ function ViewPage() {
                               );
                             } else {
                               return (
-                                <div>
+                                <div key={itEleIndex}>
                                   <span className='item-context'>
                                     {itEle.context}
                                   </span>

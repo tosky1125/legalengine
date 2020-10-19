@@ -60,6 +60,16 @@ body {
   height: 3rem;
   width: 5rem;
   padding-bottom: 3px;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.searchbar-btn:hover {
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid powderblue;
+  color: powderblue;
+  font-weight: bold;
 }
 
 .valid-error {
