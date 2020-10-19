@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     article_title: DataTypes.STRING,
     date: DataTypes.STRING,
+    cont_date: DataTypes.STRING,
     context: DataTypes.TEXT,
     flag_pan: DataTypes.TINYINT,
     flag_yeon: DataTypes.TINYINT,
