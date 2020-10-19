@@ -5,14 +5,14 @@ const {
   Clause,
   Subparagraph,
   Item,
+  HTML,
 } = require('../models/index');
-let puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');
 
 let spec = async () => {
-
   // 법령 목록에서 아이디 k 값을 찾는다.
 
-  let data = await Law.findOne({
+  const data = await Law.findOne({
     where: {
       law_id: k,
     },
@@ -99,6 +99,7 @@ let spec = async () => {
       }
     };
     //body 는 본문, subText 는 부칙의 배열
+    let html = document.querySelector('#conScroll').outerHTML;
     let body = Array.from(document.querySelector('#conScroll').children);
     let subText = document.querySelector('#arDivArea') ? Array.from(document.querySelector('#arDivArea').children) : null;
     //본문을 순회하면서 id 값으로 편장절관과 조항호목으로 분류
@@ -107,8 +108,8 @@ let spec = async () => {
     body.forEach((ele, index) => {
       if (ele.nodeName === 'A' && ele.id === ele.name) {
         if (ele.id.includes('P')) {
-          
-          if(chapterNum === chapSlice(ele.id)){
+
+          if (chapterNum === chapSlice(ele.id)) {
             chapterSpare++;
             chapterNum = chapSpare(ele.id, chapterSpare);
           } else {
@@ -179,11 +180,11 @@ let spec = async () => {
       let texts = null;
       if (ele.child[1]) texts = Array.from(ele.child[1].children);
       else texts = ele.child[0].textContent;
-      button.forEach(ele => {
-        if (ele.lastChild.title.includes('조문')) ele.flag_pan = 1
-        else if (ele.lastChild.firstChild.alt === '연혁') ele.flag_yeon = 1
-        else if (ele.lastChild.title.includes('행정')) ele.flag_hang = 1
-        else if (ele.lastChild.title.includes('규정')) ele.flag_gyu = 1
+      button.forEach(e => {
+        if (e.lastChild.title.includes('조문')) ele.flag_pan = 1
+        else if (e.lastChild.firstChild.alt === '연혁') ele.flag_yeon = 1
+        else if (e.lastChild.title.includes('행정')) ele.flag_hang = 1
+        else if (e.lastChild.title.includes('규정')) ele.flag_gyu = 1
       })
 
       // 하위 노드가 있는 경우와 없는 경우로 분류.
@@ -207,11 +208,13 @@ let spec = async () => {
             ele.title = texts[j].children[1].textContent
           }
           // 'sfon' class 는 날짜를 뜻하는데 조 자체의 날짜가 아닌 조의 하위 항호목의 날짜로 들어가기 때문에 미리 날짜변수에 할당
-          if (texts[j].lastChild.className === 'sfon') {
+          if (texts[j].children.length !== 0 && texts[j].lastChild.className === 'sfon') {
             date = texts[j].lastChild.textContent;
+            console.log(date)
           }
           //context 에서 날짜와 제목을 날려준다.
-          cont = cont.replace(ele.title, '').replace(date, '')
+          
+          cont = cont.replace(ele.title, '').replace(date, '');
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           const checkState = cont.slice(0, 9);
           state(checkState);
@@ -294,7 +297,8 @@ let spec = async () => {
             })
           } else {
             // 항호목이 아닌 경우의 context는 조의 context 로 할당
-            ele.context = cont
+            ele.context = artCont;
+            ele.cont_date = date;
           }
         }
       }
@@ -507,9 +511,10 @@ let spec = async () => {
       article,
       clause,
       subPara,
-      item
+      item,
+      html,
     }
-  }) 
+  })
   await browser.close();
   return result;
 }
@@ -522,8 +527,14 @@ const init = async () => {
     clause,
     subPara,
     item,
+    html
   } = await spec();
   const a = k;
+
+  await HTML.create({
+    law_id: a,
+    tag: html,
+  });
 
   for (chapt of chapter) {
     let {
@@ -545,6 +556,7 @@ const init = async () => {
       article_number,
       title,
       date,
+      cont_date,
       context,
       flag_pan,
       flag_yeon,
@@ -565,6 +577,7 @@ const init = async () => {
       article_title: title,
       article_id: article_number,
       date,
+      cont_date,
       context,
       flag_pan,
       flag_yeon,
@@ -718,11 +731,11 @@ const init = async () => {
       date,
       context
     })
-  }
+  };
 
   k++;
-}
+  await init();
+};
 
-let k = 619;
+let k = 18;
 init();
-setInterval(init, 20000);
