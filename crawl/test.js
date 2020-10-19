@@ -297,7 +297,7 @@ let spec = async () => {
             })
           } else {
             // 항호목이 아닌 경우의 context는 조의 context 로 할당
-            ele.context = artCont;
+            ele.context = cont;
             ele.cont_date = date;
           }
         }
