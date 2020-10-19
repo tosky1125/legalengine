@@ -33,9 +33,12 @@ module.exports = {
         enforcement_date: {
           [Op.lt]: date,
         },
-      }, raw: true,
+      }, 
+      order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
+      group: ['name'],
+      raw: true
     });
-  
+
     if (keyword.indexOf('법') !== -1) {
       let newkeyword = keyword.replace('법', '');
       let searchRelated = await Law.findAll({
