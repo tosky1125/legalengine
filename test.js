@@ -306,3 +306,24 @@ let totalData = async (number, eDate, name) => {
   });
   return nestedResult;
 };
+
+// (name like '%10%' and name like '법') or (name like '%10%' and name like '규칙') or (name like '%10%' and name like '시행령')0
+let testFunc = async (keyword) => {
+  console.log(keyword);
+  let related = await Law.findAll({
+    where: {
+      [Op.or]: [
+        {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
+        {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
+        {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
+        {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
+        {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
+      ]
+    },
+    raw: true
+  });
+  console.log(related);
+};
+
+testFunc("10");
+// 10·27난 피해자의 명예회복 등에 관한
