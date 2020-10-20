@@ -98,6 +98,8 @@ let totalData = async (name, eDate, number) => {
     //     raw: true
     //   });
 
+    let nestedData = {};
+
     if (name.indexOf('법') !== -1) {
         let newName = name.replace('법', ''); 
         let relatedSearch = await Law.findAll({
