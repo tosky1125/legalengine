@@ -83,53 +83,26 @@ let itemResult = async (subParaData) => {
 };
 
 let totalData = async (name, eDate, number) => {
+    console.log(`name: ${name}, eDate: ${eDate}, number: ${number}`);
+
     let nestedData = {};
-
-    // let related = await Law.findAll({
-    //     where: {
-    //       [Op.or]: [
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
-    //       ]
-    //     },
-    //     raw: true
-    //   });
-
-    if (name.indexOf('법') !== -1) {
-        let newName = name.replace('법', ''); 
-        let relatedSearch = await Law.findAll({
-            where: {
-                enforcement_date: {
-                    [Op.lte]: eDate
-                },
-                name: {
-                    [Op.substring]: newName
-                },
+    console.log(`name: ${name}`);
+    let newName = name.replace('법률', '').replace('법','').replace('시행령','').replace('규칙','');
+    console.log(`newName: ${newName}`);
+    let relatedSearch = await Law.findAll({
+        where: {
+            enforcement_date: {
+                [Op.lte]: eDate
             },
-            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-            group: ['name'],
-            raw: true
-        });
-        nestedData.Related = relatedSearch;
-    } else {
-        let relatedSearch = await Law.findAll({
-            where: {
-                enforcement_date: {
-                    [Op.lte]: eDate
-                },
-                name: {
-                    [Op.substring]: name
-                },
+            name: {
+                [Op.substring]: newName
             },
-            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-            group: ['name'],
-            raw: true
-        });
-        nestedData.Related = relatedSearch;
-    }
+        },
+        order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
+        group: ['name'],
+        raw: true
+    });
+    nestedData.Related = relatedSearch;
 
     nestedData.Law = await lawResult(name, eDate, number);
     nestedData.Law.Chapter = await chapterResult(nestedData.Law);
