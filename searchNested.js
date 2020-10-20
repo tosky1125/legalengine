@@ -11,9 +11,8 @@ const {
   } = require('./models');
   
   const {
-    Op, Sequelize
+    Op
   } = require('sequelize');
-const { closestIndexTo } = require('date-fns');
 
 let lawResult = async (name, eDate, number) => {
   let lawResult = await Law.findOne({
@@ -28,7 +27,6 @@ let lawResult = async (name, eDate, number) => {
       },
       raw: true
   });
-  console.log(lawResult);
   return lawResult;
 };
 
