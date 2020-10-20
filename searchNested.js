@@ -83,12 +83,8 @@ let itemResult = async (subParaData) => {
 };
 
 let totalData = async (name, eDate, number) => {
-    console.log(`name: ${name}, eDate: ${eDate}, number: ${number}`);
-
     let nestedData = {};
-    console.log(`name: ${name}`);
     let newName = name.replace('법률', '').replace('법','').replace('시행령','').replace('규칙','');
-    console.log(`newName: ${newName}`);
     let relatedSearch = await Law.findAll({
         where: {
             enforcement_date: {
