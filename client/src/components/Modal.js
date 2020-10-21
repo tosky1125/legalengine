@@ -41,7 +41,15 @@ function Modal({
         visible={visible}
       >
         <ModalInner tabIndex={0} className='modal-inner'>
-          {closable && <button className='modal-close' onClick={close} />}
+          {closable && (
+            <button className='modal-close' onClick={close}>
+              <img
+                src='https://spng.pngfind.com/pngs/s/90-905672_x-cross-close-symbol-icon-button-gui-close.png'
+                width='10px'
+                height='10px'
+              />
+            </button>
+          )}
           {children}
         </ModalInner>
       </ModalWrapper>

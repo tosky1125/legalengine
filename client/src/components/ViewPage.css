@@ -6,6 +6,11 @@
   overflow: hidden;
 }
 
+ins {
+  background-color: yellow;
+  text-decoration: none;
+}
+
 .sideinfo-container {
   position: fixed;
   width: 15vw;
@@ -111,9 +116,26 @@
   color: #555555;
 }
 
-span[class*='context'] {
+/*span[class*='context'] {
   padding-bottom: 1rem;
   display: block;
+}*/
+
+.clause-wrapper {
+  display: inline;
+  position: relative;
+}
+.clause-context {
+  padding-bottom: 1rem;
+}
+
+.sub-context {
+  padding-bottom: 1rem;
+}
+
+.item-context {
+  padding-bottom: 1rem;
+  color: blue;
 }
 
 a {

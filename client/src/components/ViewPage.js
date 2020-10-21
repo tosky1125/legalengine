@@ -105,43 +105,58 @@ function ViewPage() {
               <span className='date'>{artEle.cont_date}</span>
             </p>
             {artEle.Clause &&
-              artEle.Clause.map((claEle, claEleIndex) => (
-                <div key={claEleIndex}>
-                  <span className='clause-context'>
-                    {claEle.context}
-                    <span className='date'>{claEle.date}</span>
-                  </span>
-                  {claEle.subPara &&
-                    claEle.subPara.map((subEle, subEleIndex) => (
-                      <div key={subEleIndex}>
-                        <span className='sub-context'>{subEle.context}</span>
-                        <span className='date'>{subEle.date}</span>
-                        {subEle.Item &&
-                          subEle.Item.map((itEle, itEleIndex) => {
-                            if (itEle.context.includes('http')) {
-                              return (
-                                <img
-                                  key={itEleIndex}
-                                  className='img'
-                                  src={itEle.context}
-                                  alt={itEle.context}
-                                ></img>
-                              );
-                            } else {
-                              return (
-                                <div key={itEleIndex}>
-                                  <span className='item-context'>
-                                    {itEle.context}
-                                  </span>
-                                  <span className='date'>{itEle.date}</span>
-                                </div>
-                              );
-                            }
-                          })}
-                      </div>
-                    ))}
-                </div>
-              ))}
+              artEle.Clause.map((claEle, claEleIndex) => {
+                return (
+                  <div key={claEleIndex}>
+                    <div className='clause-wrapper'>
+                      <span
+                        className='clause-context'
+                        dangerouslySetInnerHTML={{ __html: claEle.context }}
+                      ></span>
+                      <span className='date'>{claEle.date}</span>
+                    </div>
+                    {claEle.subPara &&
+                      claEle.subPara.map((subEle, subEleIndex) => {
+                        return (
+                          <div key={subEleIndex}>
+                            <span
+                              className='sub-context'
+                              dangerouslySetInnerHTML={{
+                                __html: subEle.context,
+                              }}
+                            ></span>
+                            <span className='date'>{subEle.date}</span>
+                            {subEle.Item &&
+                              subEle.Item.map((itEle, itEleIndex) => {
+                                if (itEle.context.includes('http')) {
+                                  return (
+                                    <img
+                                      key={itEleIndex}
+                                      className='img'
+                                      src={itEle.context}
+                                      alt={itEle.context}
+                                    ></img>
+                                  );
+                                } else {
+                                  return (
+                                    <div key={itEleIndex}>
+                                      <span
+                                        className='item-context'
+                                        dangerouslySetInnerHTML={{
+                                          __html: itEle.context,
+                                        }}
+                                      ></span>
+                                      <span className='date'>{itEle.date}</span>
+                                    </div>
+                                  );
+                                }
+                              })}
+                          </div>
+                        );
+                      })}
+                  </div>
+                );
+              })}
             <p className='date'>{artEle.date}</p>
           </div>
         ))}

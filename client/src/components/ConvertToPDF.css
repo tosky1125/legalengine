@@ -6,11 +6,11 @@
   box-shadow: 5px 5px 5px black;
   margin: auto;
   border: 1px solid orange;
+  word-break: break-all;
 }
 
 .pdf-container {
   position: relative;
-  width: 75vw;
   padding: 0.5rem;
   border-left: 1px solid #eee;
   overflow: auto;
