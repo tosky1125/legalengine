@@ -15,7 +15,7 @@ const {
   } = require('sequelize');
 
   const lawResult = async (name, eDate, number) => {
-  let lawResult = await Law.findOne({
+    let lawResult = await Law.findOne({
       where: {
           number: number,
           enforcement_date: {
@@ -82,21 +82,24 @@ const itemResult = async (subParaData) => {
 
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
-    let newName = name.replace('법률', '').replace('법','').replace('시행령','').replace('규칙','');
-    let relatedSearch = await Law.findAll({
+
+    const keyword = name.replace('법', '').replace('시행령', '').replace('법령', '').replace('법률', '').replace('규칙', ''); 
+    const related = await Law.findAll({
         where: {
-            enforcement_date: {
-                [Op.lte]: eDate
-            },
-            name: {
-                [Op.substring]: newName
-            },
-        },
+                [Op.or]: [
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
+                    ],
+                },
         order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
         group: ['name'],
         raw: true
     });
-    nestedData.Related = relatedSearch;
+    nestedData.Related = related;
+
 
     nestedData.Law = await lawResult(name, eDate, number);
     nestedData.Law.Chapter = await chapterResult(nestedData.Law);
