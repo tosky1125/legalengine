@@ -9,7 +9,7 @@ const propTypes = {
 };
 const defaultProps = {
   initialPage: 1,
-  pageSize: 5,
+  pageSize: 6,
 };
 class Pagination extends React.Component {
   constructor(props) {
@@ -44,19 +44,20 @@ class Pagination extends React.Component {
     this.props.onChangePage(pageOfItems);
   }
   getPager(totalItems, currentPage, pageSize) {
+    let pageDefaultNum = 10;
     currentPage = currentPage || 1;
-    pageSize = pageSize || 10;
+    pageSize = pageSize || pageDefaultNum;
     // 전체 페이지 계산
     let totalPages = Math.ceil(totalItems / pageSize);
     let startPage, endPage;
-    if (totalPages <= 10) {
+    if (totalPages <= pageDefaultNum) {
       startPage = 1;
       endPage = totalPages;
     } else {
       // 페이지 개수 10보다 많으면 개산하고 엔드 페이지
-      if (currentPage <= 6) {
+      if (currentPage <= pageDefaultNum) {
         startPage = 1;
-        endPage = 10;
+        endPage = pageDefaultNum;
       } else if (currentPage + 4 >= totalPages) {
         startPage = totalPages - 9;
         endPage = totalPages;
