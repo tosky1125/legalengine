@@ -68,23 +68,23 @@ class SearchResult extends React.Component {
       return (
         <div>
           <SearchBar />
-          <div className='search-empty'>검색 결과가 없습니다.</div>
+          <div className='searchresult-empty'>검색 결과가 없습니다.</div>
         </div>
       );
     }
     return (
-      <>
-        <div className='container'>
+      <div>
+        <div className='searchresult-container'>
           <SearchBar />
-          <div className='law-number'>
+          <div className='searchresult-law-number'>
             총 {this.props.lawlist.length} 건의 결과
           </div>
-          <div className='page-list text-center'>
+          <div className='searchresult-page-list text-center'>
             {this.state.pageOfItems.map((item, index) => (
               <div
                 to='/view'
                 target='_blank'
-                className='page'
+                className='searchresult-page'
                 key={index}
                 onClick={() =>
                   this.handleClickSearch(
@@ -94,19 +94,23 @@ class SearchResult extends React.Component {
                   )
                 }
               >
-                <h3 className='name'>{item.name}</h3>
+                <h3 className='searchresult-name'>{item.name}</h3>
 
-                <span className='type'>{item.type}&nbsp;</span>
-                <span className='number'>{item.number}호&nbsp;</span>
-                <span className='admendment'>
+                <span className='searchresult-type'>{item.type}&nbsp;</span>
+                <span className='searchresult-number'>
+                  {item.number}호&nbsp;
+                </span>
+                <span className='searchresult-admendment'>
                   {item.amendment_status}&nbsp;
                 </span>
-                <span className='ministry'>{item.ministry}&nbsp;</span>
-                <span className='promulgation'>
+                <span className='searchresult-ministry'>
+                  {item.ministry}&nbsp;
+                </span>
+                <span className='searchresult-promulgation'>
                   공포일자 :{' '}
                   {format(new Date(item.promulgation_date), 'yyyy.MM.dd')}&nbsp;
                 </span>
-                <span className='enforcement'>
+                <span className='searchresult-enforcement'>
                   시행일자 :{' '}
                   {format(new Date(item.enforcement_date), 'yyyy.MM.dd')}
                 </span>
@@ -120,7 +124,7 @@ class SearchResult extends React.Component {
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

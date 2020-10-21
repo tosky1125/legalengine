@@ -94,16 +94,16 @@ class Pagination extends React.Component {
       return null;
     }
     return (
-      <>
-        <ul className='pagination'>
-          <span className='pager-first'>
+      <div>
+        <ul className='pagination-container'>
+          <span className='pagination-pager-first'>
             <span className={pager.currentPage === 1 ? 'disabled' : ''}>
               <a href='#page' onClick={() => this.setPage(1)}>
                 {'<<'}
               </a>
             </span>
           </span>
-          <span className='pager-previous'>
+          <span className='pagination-pager-previous'>
             <span className={pager.currentPage === 1 ? 'disabled' : ''}>
               <a
                 href='#page'
@@ -114,7 +114,7 @@ class Pagination extends React.Component {
             </span>
           </span>
           {pager.pages.map((page, pageIndex) => (
-            <span key={pageIndex} className='pager-numbers'>
+            <span key={pageIndex} className='pagination-pager-numbers'>
               <span className={pager.currentPage === page ? 'active' : ''}>
                 <a href='#page' onClick={() => this.setPage(page)}>
                   {page}
@@ -122,7 +122,7 @@ class Pagination extends React.Component {
               </span>
             </span>
           ))}
-          <span className='pager-next'>
+          <span className='pagination-pager-next'>
             <span
               className={
                 pager.currentPage === pager.totalPages ? 'disabled' : ''
@@ -136,7 +136,7 @@ class Pagination extends React.Component {
               </a>
             </span>
           </span>
-          <span className='pager-end'>
+          <span className='pagination-pager-end'>
             <span
               className={
                 pager.currentPage === pager.totalPages ? 'disabled' : ''
@@ -148,7 +148,7 @@ class Pagination extends React.Component {
             </span>
           </span>
         </ul>
-      </>
+      </div>
     );
   }
 }
