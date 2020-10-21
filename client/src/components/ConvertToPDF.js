@@ -4,10 +4,10 @@ import { format } from 'date-fns';
 import './ConvertToPDF.css';
 
 function ConvertToPDF() {
-  const dataToConvert = {};
+  let dataToConvert;
   const exportPDF = () => {
     dataToConvert.save();
-  }; //ref={(r) => (resume = r)}
+  };
   let law = JSON.parse(localStorage.Law);
 
   let { Chapter } = law;
@@ -74,10 +74,11 @@ function ConvertToPDF() {
   return (
     <PDFExport
       paperSize={'Letter'}
-      fileName='까리용.pdf'
+      fileName={`${law.name}.pdf`}
       title=''
       subject=''
       keywords=''
+      ref={(d) => (dataToConvert = d)}
     >
       <div className='pdf'>
         <div className='pdf-container'>
