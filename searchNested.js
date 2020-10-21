@@ -83,7 +83,7 @@ let itemResult = async (subParaData) => {
 };
 
 let totalData = async (name, eDate, number) => {
-    let nestedData = {};
+    console.log(`name: ${name}, eDate: ${eDate}, number: ${number}`);
 
     // let related = await Law.findAll({
     //     where: {
@@ -98,6 +98,8 @@ let totalData = async (name, eDate, number) => {
     //     raw: true
     //   });
 
+    let nestedData = {};
+
     if (name.indexOf('법') !== -1) {
         let newName = name.replace('법', ''); 
         let relatedSearch = await Law.findAll({
@@ -109,20 +111,8 @@ let totalData = async (name, eDate, number) => {
                     [Op.substring]: newName
                 },
             },
-            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-            group: ['name'],
-            raw: true
-        });
-        nestedData.Related = relatedSearch;
-    } else {
-        let relatedSearch = await Law.findAll({
-            where: {
-                enforcement_date: {
-                    [Op.lte]: eDate
-                },
-                name: {
-                    [Op.substring]: name
-                },
+            name: {
+                [Op.substring]: newName
             },
             order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
             group: ['name'],
