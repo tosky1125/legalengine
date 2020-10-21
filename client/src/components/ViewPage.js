@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
 import SideInfo from './SideInfo';
 import './ViewPage.css';
 import { format } from 'date-fns';
+import ConvertToPDF from './ConvertToPDF';
+import Modal from './Modal';
 
 function ViewPage() {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   let law = JSON.parse(localStorage.Law);
   console.log(law);
-
   let { Chapter } = law;
 
   let joSlicer = (strFrom) => {
@@ -139,7 +147,6 @@ function ViewPage() {
         ))}
     </div>
   ));
-
   return (
     <div>
       <div className='view-container'>
@@ -147,6 +154,17 @@ function ViewPage() {
           <SideInfo />
         </div>
         <div className='maininfo-container'>
+          <button onClick={openModal}>PDF</button>
+          {modalIsOpen && (
+            <Modal
+              visible={modalIsOpen}
+              closable={true}
+              maskClosable={true}
+              onClose={closeModal}
+            >
+              <ConvertToPDF />
+            </Modal>
+          )}
           <div className='law-head'>
             <h1>{law.name}</h1>
             <p className='date'>
