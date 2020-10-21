@@ -14,7 +14,7 @@ const {
     Op
   } = require('sequelize');
 
-let lawResult = async (name, eDate, number) => {
+  const lawResult = async (name, eDate, number) => {
   let lawResult = await Law.findOne({
       where: {
           number: number,
@@ -30,7 +30,7 @@ let lawResult = async (name, eDate, number) => {
   return lawResult;
 };
 
-let chapterResult = async (lawData) => {
+const chapterResult = async (lawData) => {
   let chapterResult = await Chapter.findAll({
       raw: true,
       where: {
@@ -40,7 +40,7 @@ let chapterResult = async (lawData) => {
   return chapterResult;
 };
 
-let articleResult = async (chapData) => {
+const articleResult = async (chapData) => {
   let articleResult = await Article.findAll({
       raw:true,
       where: {
@@ -50,7 +50,7 @@ let articleResult = async (chapData) => {
   return articleResult;
 };
 
-let clauseResult = async (artData) => {
+const clauseResult = async (artData) => {
   let clauseResult = await Clause.findAll({
       raw: true,
       where: {
@@ -60,7 +60,7 @@ let clauseResult = async (artData) => {
   return clauseResult;
 };
 
-let subParaResult = async (clauseData) => {
+const subParaResult = async (clauseData) => {
   let subParaResult = await Subparagraph.findAll({
       raw: true,
       where: {
@@ -70,7 +70,7 @@ let subParaResult = async (clauseData) => {
   return subParaResult;
 };
 
-let itemResult = async (subParaData) => {
+const itemResult = async (subParaData) => {
   let itemResult = await Item.findAll({
       raw: true,
       where: {
@@ -80,7 +80,7 @@ let itemResult = async (subParaData) => {
   return itemResult;
 };
 
-let totalData = async (name, eDate, number) => {
+const totalData = async (name, eDate, number) => {
     let nestedData = {};
     let newName = name.replace('법률', '').replace('법','').replace('시행령','').replace('규칙','');
     let relatedSearch = await Law.findAll({

@@ -12,7 +12,7 @@ const {
     Op
 } = require('sequelize');
 
-let clauseResult = async (artData) => {
+const clauseResult = async (artData) => {
     let clauseResult = await Clause.findAll({
         raw: true,
         where: {
@@ -22,7 +22,7 @@ let clauseResult = async (artData) => {
     return clauseResult;
 };
   
-let subParaResult = async (clauseData) => {
+const subParaResult = async (clauseData) => {
     let subParaResult = await Subparagraph.findAll({
         raw: true,
         where: {
@@ -32,7 +32,7 @@ let subParaResult = async (clauseData) => {
     return subParaResult;
 };
   
-let itemResult = async (subParaData) => {
+const itemResult = async (subParaData) => {
     let itemResult = await Item.findAll({
         raw: true,
         where: {
@@ -57,7 +57,7 @@ const revision = async (body) => {
     let result = {};
 
     // find law with it's id and it's enforcement date
-    let lawResult = await Law.findOne({
+    const lawResult = await Law.findOne({
         where: {
             number: law_number,
             enforcement_date: {
@@ -69,7 +69,7 @@ const revision = async (body) => {
     result.Law = lawResult;
 
     // if article_id exist in parameters, find article and it's children table's result
-    let articleResults = await Article.findAll({
+    const articleResults = await Article.findAll({
         where: {
             law_id: lawResult.law_id,
             article_id: article_id
