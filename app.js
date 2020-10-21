@@ -21,8 +21,9 @@ app.use('/search', searchRouter);
 app.get('/', (req, res) => res.send('hello world'));
 
 app.post('/', async (req, res) => {
-  // const { law_number, law_eDate, article_id } = req.body;
-  res.send(await revision(req.body));
+  console.log(req.body);
+  const { law_number, law_eDate, article_id, clause_id, sub_id, item_id } = req.body;
+  res.send(await revision(law_number, law_eDate, article_id, clause_id, sub_id, item_id));
 })
 
 
