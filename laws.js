@@ -21,7 +21,6 @@ const getLaws = async () => {
   });
   data = JSON.parse(data);
   data = data.LawSearch.law;
-console.log(data);
   data.forEach(async (ele) => {
     !ele['소관부처명']._text  ?  ele['소관부처명']._text = '부서명없음' : false;
     !ele['법령구분명']._text  ?  ele['법령구분명']._text = '법령구분명없음' : false;
