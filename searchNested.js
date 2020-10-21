@@ -80,10 +80,15 @@ const itemResult = async (subParaData) => {
   return itemResult;
 };
 
+const removeString = (arr, str) => {
+    let regex = new RegExp("\\b"+arr.join('|')+"\\b", "gi");
+    return str.replace(regex, '');
+}
+
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
-
-    const keyword = name.replace('법', '').replace('시행령', '').replace('법령', '').replace('법률', '').replace('규칙', ''); 
+    const word2Removed = ['법', '시행령', '법령', '법률', '규칙'];
+    const keyword = removeString(word2Removed, name);
     const related = await Law.findAll({
         where: {
                 [Op.or]: [
