@@ -2,33 +2,33 @@ body {
   font-family: 'Nanum Gothic', sans-serif;
 }
 
-.search-container {
+.searchbar-container {
   text-align: center;
   margin: 30px auto;
   width: 100%;
 }
-.search-flex {
+.searchbar-flex {
   display: flex;
   align-items: center;
   justify-content: center;
   /* left: 50%; */
 }
-.search-title {
+.searchbar-title {
   font-size: x-large;
   padding: 10px 0;
   color: #444;
 }
-.search-Input {
+.searchbar-Input {
   width: 10rem;
   height: 3rem;
 }
 
-.search-form {
+.searchbar-form {
   position: relative;
   display: inline;
 }
 
-.search-Term input {
+.searchbar-Term input {
   padding: 10px 0;
   font-size: large;
   padding-left: 1rem;
@@ -38,7 +38,7 @@ body {
   box-sizing: border-box;
   border: 1px solid lightgrey;
 }
-.search-date input {
+.searchbar-date input {
   padding: 10px 0;
   padding-left: 1rem;
   font-size: large;
@@ -48,7 +48,7 @@ body {
   box-sizing: border-box;
   border: 1px solid lightgrey;
 }
-.search-date {
+.searchbar-date {
   margin-left: 0.1rem;
 }
 

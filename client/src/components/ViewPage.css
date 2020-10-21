@@ -1,4 +1,4 @@
-.view-container {
+.viewpage-container {
   position: relative;
   block-size: auto;
   bottom: 5vh;
@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 
-.sideinfo-container {
+.viewpage-sideinfo-container {
   position: fixed;
   width: 15vw;
   padding: 1rem;
@@ -14,34 +14,35 @@
   overflow: hidden;
 }
 
-.maininfo-container {
+.viewpage-maininfo-container {
   position: relative;
   left: 20vw;
   width: 75vw;
+  margin-bottom: 7vh;
   padding: 1rem;
   padding-left: 1.5rem;
   border-left: 1px solid #eee;
   overflow: auto;
 }
 
-.law-head {
+.viewpage-law-head {
   text-align: center;
 }
-.law-head-info {
+.viewpage-law-head-info {
   color: rgb(36, 138, 179);
 }
 
-.title {
+.viewpage-title {
   color: #161694;
 }
 
-.article-title {
+.viewpage-article-title {
   display: inline;
   color: #161694;
   padding-left: 0.5rem;
 }
 
-.buttons-pan {
+.viewpage-buttons-pan {
   background-color: #4caf50;
   border: 1px solid #4caf50;
   color: white;
@@ -54,12 +55,12 @@
   transition-duration: 0.4s;
 }
 
-.buttons-pan:hover {
+.viewpage-buttons-pan:hover {
   background-color: white;
   color: #4caf50;
 }
 
-.buttons-yeon {
+.viewpage-buttons-yeon {
   background-color: #008cba;
   border: 1px solid #008cba;
   color: white;
@@ -72,12 +73,12 @@
   transition-duration: 0.4s;
 }
 
-.buttons-yeon:hover {
+.viewpage-buttons-yeon:hover {
   background-color: white;
   color: #008cba;
 }
 
-.buttons-hang {
+.viewpage-buttons-hang {
   background-color: #f44336;
   border-radius: 4px;
   border: 1px solid #f44336;
@@ -89,12 +90,12 @@
   font-size: 16px;
 }
 
-.buttons-hang:hover {
+.viewpage-buttons-hang:hover {
   background-color: white;
   color: #f44336;
 }
 
-.buttons-gyu {
+.viewpage-buttons-gyu {
   background-color: #555555;
   border: 1px solid #555555;
   border-radius: 4px;
@@ -106,7 +107,7 @@
   font-size: 16px;
 }
 
-.buttons-gyu:hover {
+.viewpage-buttons-gyu:hover {
   background-color: white;
   color: #555555;
 }
@@ -121,6 +122,6 @@ a {
   color: inherit;
 }
 
-.date {
+.viewpage-date {
   color: rgb(36, 138, 179);
 }

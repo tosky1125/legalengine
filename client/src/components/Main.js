@@ -5,7 +5,7 @@ import logo from '../images/logo.svg';
 
 function Main() {
   return (
-    <div className='main'>
+    <div className='main-container'>
       <img className='main-logo' src={logo} alt='logo'></img>
       <SearchBar />
     </div>
