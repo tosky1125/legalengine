@@ -11,12 +11,11 @@ const {
   } = require('./models');
   
   const {
-    Op, Sequelize
+    Op
   } = require('sequelize');
-const { closestIndexTo } = require('date-fns');
 
-let lawResult = async (name, eDate, number) => {
-  let lawResult = await Law.findOne({
+  const lawResult = async (name, eDate, number) => {
+    let lawResult = await Law.findOne({
       where: {
           number: number,
           enforcement_date: {
@@ -28,11 +27,10 @@ let lawResult = async (name, eDate, number) => {
       },
       raw: true
   });
-  console.log(lawResult);
   return lawResult;
 };
 
-let chapterResult = async (lawData) => {
+const chapterResult = async (lawData) => {
   let chapterResult = await Chapter.findAll({
       raw: true,
       where: {
@@ -42,7 +40,7 @@ let chapterResult = async (lawData) => {
   return chapterResult;
 };
 
-let articleResult = async (chapData) => {
+const articleResult = async (chapData) => {
   let articleResult = await Article.findAll({
       raw:true,
       where: {
@@ -52,7 +50,7 @@ let articleResult = async (chapData) => {
   return articleResult;
 };
 
-let clauseResult = async (artData) => {
+const clauseResult = async (artData) => {
   let clauseResult = await Clause.findAll({
       raw: true,
       where: {
@@ -62,7 +60,7 @@ let clauseResult = async (artData) => {
   return clauseResult;
 };
 
-let subParaResult = async (clauseData) => {
+const subParaResult = async (clauseData) => {
   let subParaResult = await Subparagraph.findAll({
       raw: true,
       where: {
@@ -72,7 +70,7 @@ let subParaResult = async (clauseData) => {
   return subParaResult;
 };
 
-let itemResult = async (subParaData) => {
+const itemResult = async (subParaData) => {
   let itemResult = await Item.findAll({
       raw: true,
       where: {
@@ -82,44 +80,32 @@ let itemResult = async (subParaData) => {
   return itemResult;
 };
 
-let totalData = async (name, eDate, number) => {
-    console.log(`name: ${name}, eDate: ${eDate}, number: ${number}`);
+const removeString = (arr, str) => {
+    let regex = new RegExp("\\b"+arr.join('|')+"\\b", "gi");
+    return str.replace(regex, '');
+}
 
-    // let related = await Law.findAll({
-    //     where: {
-    //       [Op.or]: [
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
-    //         {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
-    //       ]
-    //     },
-    //     raw: true
-    //   });
-
+const totalData = async (name, eDate, number) => {
     let nestedData = {};
+    
+    const word2Removed = ['법', '시행령', '법령', '법률', '규칙'];
+    const keyword = removeString(word2Removed, name);
+    const related = await Law.findAll({
+        where: {
+                [Op.or]: [
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
+                    ],
+                },
+        order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
+        group: ['name'],
+        raw: true
+    });
+    nestedData.Related = related;
 
-    if (name.indexOf('법') !== -1) {
-        let newName = name.replace('법', ''); 
-        let relatedSearch = await Law.findAll({
-            where: {
-                enforcement_date: {
-                    [Op.lte]: eDate
-                },
-                name: {
-                    [Op.substring]: newName
-                },
-            },
-            name: {
-                [Op.substring]: newName
-            },
-            order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-            group: ['name'],
-            raw: true
-        });
-        nestedData.Related = relatedSearch;
-    }
 
     nestedData.Law = await lawResult(name, eDate, number);
     nestedData.Law.Chapter = await chapterResult(nestedData.Law);
