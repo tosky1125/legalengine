@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
 import SideInfo from './SideInfo';
 import './ViewPage.css';
 import { format } from 'date-fns';
+import ConvertToPDF from './ConvertToPDF';
+import Modal from './Modal';
 
 function ViewPage() {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   let law = JSON.parse(localStorage.Law);
   console.log(law);
-
   let { Chapter } = law;
 
   let joSlicer = (strFrom) => {
@@ -99,53 +107,63 @@ function ViewPage() {
               <span className='viewpage-artdate'>{artEle.cont_date}</span>
             </p>
             {artEle.Clause &&
-              artEle.Clause.map((claEle, claEleIndex) => (
-                <div key={claEleIndex}>
-                  <span className='viewpage-clause-context'>
-                    {claEle.context}
-                    <span className='viewpage-cladate'>{claEle.date}</span>
-                  </span>
-                  {claEle.subPara &&
-                    claEle.subPara.map((subEle, subEleIndex) => (
-                      <div key={subEleIndex}>
-                        <span className='viewpage-sub-context'>
-                          {subEle.context}
-                        </span>
-                        <span className='viewpage-subdate'>{subEle.date}</span>
-                        {subEle.Item &&
-                          subEle.Item.map((itEle, itEleIndex) => {
-                            if (itEle.context.includes('http')) {
-                              return (
-                                <img
-                                  key={itEleIndex}
-                                  className='viewpage-img'
-                                  src={itEle.context}
-                                  alt={itEle.context}
-                                ></img>
-                              );
-                            } else {
-                              return (
-                                <div key={itEleIndex}>
-                                  <span className='viewpage-item-context'>
-                                    {itEle.context}
-                                  </span>
-                                  <span className='viewpage-itdate'>
-                                    {itEle.date}
-                                  </span>
-                                </div>
-                              );
-                            }
-                          })}
-                      </div>
-                    ))}
-                </div>
-              ))}
-            <p className='viewpage-newartdate'>{artEle.date}</p>
+              artEle.Clause.map((claEle, claEleIndex) => {
+                return (
+                  <div key={claEleIndex}>
+                    <div className='clause-wrapper'>
+                      <span
+                        className='clause-context'
+                        dangerouslySetInnerHTML={{ __html: claEle.context }}
+                      ></span>
+                      <span className='date'>{claEle.date}</span>
+                    </div>
+                    {claEle.subPara &&
+                      claEle.subPara.map((subEle, subEleIndex) => {
+                        return (
+                          <div key={subEleIndex}>
+                            <span
+                              className='sub-context'
+                              dangerouslySetInnerHTML={{
+                                __html: subEle.context,
+                              }}
+                            ></span>
+                            <span className='date'>{subEle.date}</span>
+                            {subEle.Item &&
+                              subEle.Item.map((itEle, itEleIndex) => {
+                                if (itEle.context.includes('http')) {
+                                  return (
+                                    <img
+                                      key={itEleIndex}
+                                      className='img'
+                                      src={itEle.context}
+                                      alt={itEle.context}
+                                    ></img>
+                                  );
+                                } else {
+                                  return (
+                                    <div key={itEleIndex}>
+                                      <span
+                                        className='item-context'
+                                        dangerouslySetInnerHTML={{
+                                          __html: itEle.context,
+                                        }}
+                                      ></span>
+                                      <span className='date'>{itEle.date}</span>
+                                    </div>
+                                  );
+                                }
+                              })}
+                          </div>
+                        );
+                      })}
+                  </div>
+                );
+              })}
+            <p className='date'>{artEle.date}</p>
           </div>
         ))}
     </div>
   ));
-
   return (
     <div>
       <div className='viewpage-container'>
@@ -153,6 +171,17 @@ function ViewPage() {
           <SideInfo />
         </div>
         <div className='viewpage-maininfo-container'>
+          <button onClick={openModal}>PDF</button>
+          {modalIsOpen && (
+            <Modal
+              visible={modalIsOpen}
+              closable={true}
+              maskClosable={true}
+              onClose={closeModal}
+            >
+              <ConvertToPDF />
+            </Modal>
+          )}
           <div className='viewpage-law-head'>
             <h1>{law.name}</h1>
             <p className='viewpage-date'>
