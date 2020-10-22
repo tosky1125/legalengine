@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
 import SideInfo from './SideInfo';
+import ArticleLink from './ArtcleLink';
 import './ViewPage.css';
 import { format } from 'date-fns';
 import ConvertToPDF from './ConvertToPDF';
@@ -59,7 +60,10 @@ function ViewPage() {
       {chapEle.Article &&
         chapEle.Article.map((artEle, artEleIndex) => (
           <div key={artEleIndex}>
-            <h3 className='viewpage-article-title'>
+            <h3
+              className='viewpage-article-title'
+              id={joSlicer(artEle.article_id)[0]}
+            >
               {artEle.article_title}&nbsp;&nbsp;
             </h3>
             <span className='viewpage-buttons'>
@@ -174,6 +178,9 @@ function ViewPage() {
       <div className='viewpage-container'>
         <div className='viewpage-sideinfo-container'>
           <SideInfo />
+        </div>
+        <div className='viewpage-articlelink-container'>
+          <ArticleLink />
         </div>
         <div className='viewpage-maininfo-container'>
           <button onClick={openModal}>PDF</button>

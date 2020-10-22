@@ -22,11 +22,22 @@ ins {
 .viewpage-maininfo-container {
   position: relative;
   left: 20vw;
-  width: 75vw;
-  margin-bottom: 7vh;
-  padding: 1rem;
-  padding-left: 1.5rem;
+  right: 20vw;
+  width: 50vw;
+  margin-bottom: 5vh;
+  padding: 1.5rem;
   border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  overflow: auto;
+}
+
+.viewpage-articlelink-container {
+  position: fixed;
+  width: 15vw;
+  top: 10vh;
+  right: 0;
+  padding: 1rem;
+  padding-top: 2rem;
   overflow: auto;
 }
 
@@ -144,6 +155,6 @@ a {
   color: inherit;
 }
 
-.viewpage-date {
+.date {
   color: rgb(36, 138, 179);
 }
