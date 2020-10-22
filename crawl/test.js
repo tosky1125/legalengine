@@ -873,9 +873,14 @@ function postCheck(str) {
 }
 
 function diffString(o, n) {
+  // old string, new string 을 param 으로 받은 다음 공백을 전부 regex 로 지워줌
+  // o 혹은 n 이 '  소방법을 추구한다    ' 이라면, '  소방법을 추구한다' 로 바뀜 
   o = o.replace(/\s+$/, '');
   n = n.replace(/\s+$/, '');
 
+  // diff 의 param 으로 들어가는 부분은 공백을 기준으로 split 
+  // '  소방법을 추구한다' 이면, [' ', 소방법을', '추구한다']
+  // 앞의 공백이 몇 칸이어도, 한 칸 단위로 나온다 
   var out = diff(o == "" ? [] : o.split(/\s+/), n == "" ? [] : n.split(/\s+/));
   var str = "";
 
@@ -906,6 +911,23 @@ function diffString(o, n) {
 }
 
 function diff(o, n) {
+  // input type 이 Array 에서 Object 로 변경됨
+  // ~950 까지 해당 과정을 해 줌
+  // [' ', 소방법을', '추구한다'] -> 
+  // {
+  //   ' ': {
+  //     rows: [0];
+  //     o: null
+  //   },
+  //   '소방법을': {
+  //     rows: [1],
+  //     o: null
+  //   },
+  //   '추구한다': {
+  //     rows: [2],
+  //     o: null
+  //   }
+  // }
   var ns = new Object();
   var os = new Object();
 
@@ -927,6 +949,22 @@ function diff(o, n) {
     os[o[i]].rows.push(i);
   }
 
+  // 위에서 만들어 준 객체를 순회한다
+  ns = {
+    ' ': {
+      rows: [0];
+      o: null
+    },
+    '소방법을': {
+      rows: [1],
+      o: null
+    },
+    '추구한다': {
+      rows: [2],
+      o: null
+    }
+  } -> 
+  []
   for (var i in ns) {
     if (ns[i].rows.length == 1 && typeof (os[i]) != "undefined" && os[i].rows.length == 1) {
       n[ns[i].rows[0]] = {

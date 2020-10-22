@@ -27,6 +27,7 @@ const {
       },
       raw: true
   });
+  console.log(lawResult);
   return lawResult;
 };
 
@@ -82,24 +83,30 @@ const itemResult = async (subParaData) => {
 
 const removeString = (arr, str) => {
     let regex = new RegExp("\\b"+arr.join('|')+"\\b", "gi");
-    return str.replace(regex, '');
-}
+    return str.replace(regex, '').replace(/\s+$/, '');
+};
 
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
     
-    const word2Removed = ['법', '시행령', '법령', '법률', '규칙'];
+    const word2Removed = ['법', '시행령', '법령', '법률', '규칙', '시행규칙', '시행'];
     const keyword = removeString(word2Removed, name);
+
     const related = await Law.findAll({
         where: {
+            // name: {
+            //     [Op.substring]: keyword
+            // }
                 [Op.or]: [
                     {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
                     {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
                     {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
                     {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
                     {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
-                    ],
-                },
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행'}}]},
+                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행규칙'}}]},
+                ],
+        },
         order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
         group: ['name'],
         raw: true
