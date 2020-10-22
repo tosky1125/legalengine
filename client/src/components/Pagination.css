@@ -1,0 +1,39 @@
+.pagination-container {
+  text-align: center;
+  font-size: 1.3em;
+}
+
+.pagination-pager-first {
+  margin-left: 0.7rem;
+  border-radius: 4px;
+  padding: 0.2rem;
+  font-size: 1.1rem;
+}
+.pagination-pager-previous {
+  padding: 0.2rem;
+  margin-left: 0.2rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+}
+.pagination-pager-numbers {
+  margin-left: 0.7rem;
+  padding: 0.4rem;
+  border-radius: 4px;
+}
+.pagination-pager-numbers:hover {
+  background-color: lightslategray;
+  color: white;
+}
+
+.pagination-pager-next {
+  margin-left: 0.7rem;
+  padding: 0.2rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+}
+.pagination-pager-end {
+  padding: 0.2rem;
+  margin-left: 0.2rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+}

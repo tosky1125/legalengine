@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 .nav-form {
+=======
+.nav-container {
+  position: fixed;
+>>>>>>> b6160c374b429d2a9ab30902ad5aa08885241fc5
   background-color: #ffffff;
   height: 6rem;
   border-bottom: 0.5px solid #eee;
