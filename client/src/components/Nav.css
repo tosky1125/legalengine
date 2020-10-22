@@ -1,4 +1,5 @@
-.nav-form {
+.nav-container {
+  position: fixed;
   background-color: #ffffff;
   height: 6rem;
   border-bottom: 0.5px solid #eee;
