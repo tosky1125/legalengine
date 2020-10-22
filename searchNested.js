@@ -87,6 +87,7 @@ const removeString = (arr, str) => {
 
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
+    
     const word2Removed = ['법', '시행령', '법령', '법률', '규칙'];
     const keyword = removeString(word2Removed, name);
     const related = await Law.findAll({

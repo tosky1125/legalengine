@@ -33,7 +33,7 @@ module.exports = {
         enforcement_date: {
           [Op.lt]: date,
         },
-      }, 
+      },
       order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
       group: ['name'],
       raw: true
