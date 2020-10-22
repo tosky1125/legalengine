@@ -384,5 +384,37 @@ const removeString = (arr, str) => {
 }
 
 const name = "119구조ㆍ구급에 관한 법률 시행규칙";
-const newName = removeString(word2Removed, name);
-console.log(newName);
+// const newName = removeString(word2Removed, name);
+// console.log(newName);
+
+// api(name, dateString) => {
+//   Law.findAll({
+//     where: {
+//       enforcement_date: {
+//         [Op.lte]: parse(dateString, 'yyyy-mm-dd');
+//       },
+//       name: {
+//         [Op.substring]: name
+//       }
+//     },
+//     // 이렇게 해서 전달받은 키워드, 전달받은 날짜를 통해 만든 date 객체를 기반으로
+//     // 키워드를 포함하고, 전달받은 날짜 이전(해당 날짜 포함)의 법률결과 중
+//     // 가장 최신의 결과 1개를 전달한다
+//     order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
+//     group: ['name']
+//   });
+// };
+
+// 예상되는 결과물
+// {
+//   "law_id": 18,
+//   "number": 222449,
+//   "name": "119구조ㆍ구급에 관한 법률",
+//   "promulgation_date": "2020-10-20T00:00:00.000Z",
+//   "type": "법률",
+//   "promulgation_number": 17512,
+//   "enforcement_date": "2021-10-21T00:00:00.000Z",
+//   "amendment_status": "일부개정",
+//   "ministry": "소방청",
+//   "context": null
+// }

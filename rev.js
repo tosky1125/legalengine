@@ -24,6 +24,10 @@ const groupByLawName = async () => {
     return totalLawNameArr;
 };
 
+const crawlRevision = async () => {
+    
+}
+
 const createRevRecord = async (lawDatas) => {
     for (let i = 0; i < lawDatas.length; i++) {
         if (i + 1 === lawDatas.length) {
@@ -36,7 +40,6 @@ const createRevRecord = async (lawDatas) => {
                 reason: null
             });
         };
-        
     };
 };
 
@@ -44,7 +47,6 @@ const updateRevTable = async () => {
     const lawNameArr = await groupByLawName();
     lawNameArr.map(async(eachLawName) => {
         const lawDataGroupbyName = await findByLawName(eachLawName);
-        // console.log(lawDataGroupbyName);
         createRevRecord(lawDataGroupbyName);
     });
 };
