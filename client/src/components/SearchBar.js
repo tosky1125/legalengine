@@ -28,7 +28,7 @@ function SearchBar(props) {
   const handleSearch = () => {
     const payload = { searchWord: searchTerm, date: searchDate };
     const { searchlist, history } = props;
-
+    localStorage.searchWord = JSON.stringify(searchTerm);
     axios
       .post('http://13.125.112.243/search', payload)
       .then((res) => {
