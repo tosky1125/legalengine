@@ -1,4 +1,5 @@
 import React from 'react';
+import './ArtcleLink.css';
 
 function ArtcleLink() {
   const law = JSON.parse(localStorage.Law);
@@ -7,21 +8,35 @@ function ArtcleLink() {
   let { Chapter } = law;
   console.log(Chapter);
 
-  // Chapter = Chapter.map((chapEle.chapEleIndex) => (
-  //   <div key={chapEleIndex}>
-  //     <h4>{chapEle.context}</h4>
-  //     {chapEle.Article &&
-  //       chapEle.Article.map((artEle, artEleIndex) => (
-  //         <div key={artEleIndex}>
-  //           <h5>{artEle.artcle_title}</h5>
-  //         </div>
-  //       ))}
-  //   </div>
-  // ));
+  const artUrlfragment = (strFrom) => {
+    const str = String(strFrom);
+    if (str.includes(':')) {
+      const artUrl = '#' + '0'.repeat(2) + str;
+      return artUrl;
+    }
+  };
+
+  Chapter = Chapter.map((chapEle, chapEleIndex) => (
+    <div key={chapEleIndex}>
+      <span className='artclelink-title'>{chapEle.context}</span>
+      <span className='artclelink-title'>{chapEle.date}</span>
+      {chapEle.Article &&
+        chapEle.Article.map((artEle, artEleIndex) => (
+          <div key={artEleIndex}>
+            <a
+              href={artUrlfragment(artEle.article_id)}
+              className='artclelink-article-title'
+            >
+              {artEle.article_title}&nbsp;&nbsp;
+            </a>
+          </div>
+        ))}
+    </div>
+  ));
 
   return (
     <div>
-      <div className='article-link'>test</div>
+      <div className='artclelink-contanier'>{Chapter}</div>
     </div>
   );
 }
