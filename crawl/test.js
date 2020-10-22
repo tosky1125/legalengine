@@ -950,20 +950,20 @@ function diff(o, n) {
   }
 
   // 위에서 만들어 준 객체를 순회한다
-  ns = {
-    ' ': {
-      rows: [0];
-      o: null
-    },
-    '소방법을': {
-      rows: [1],
-      o: null
-    },
-    '추구한다': {
-      rows: [2],
-      o: null
-    }
-  } -> 
+  // ns = {
+  //   ' ': {
+  //     rows: [0];
+  //     o: null
+  //   },
+  //   '소방법을': {
+  //     rows: [1],
+  //     o: null
+  //   },
+  //   '추구한다': {
+  //     rows: [2],
+  //     o: null
+  //   }
+  // } -> 
   []
   for (var i in ns) {
     if (ns[i].rows.length == 1 && typeof (os[i]) != "undefined" && os[i].rows.length == 1) {

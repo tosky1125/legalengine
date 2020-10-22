@@ -39,6 +39,16 @@ module.exports = {
       raw: true
     });
 
+    const lawJustBefore = await Law.findOne({
+      where: {
+        
+        date: {
+          [Op.lt]: date
+        },
+
+      }
+    })
+
     if (keyword.indexOf('법') !== -1) {
       const newkeyword = keyword.replace('법', '');
       const searchRelated = await Law.findAll({
