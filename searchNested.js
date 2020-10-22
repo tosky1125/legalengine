@@ -27,7 +27,6 @@ const {
       },
       raw: true
   });
-  console.log(lawResult);
   return lawResult;
 };
 
@@ -94,9 +93,6 @@ const totalData = async (name, eDate, number) => {
 
     const related = await Law.findAll({
         where: {
-            // name: {
-            //     [Op.substring]: keyword
-            // }
                 [Op.or]: [
                     {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
                     {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
