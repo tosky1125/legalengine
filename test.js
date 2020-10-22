@@ -325,5 +325,64 @@ let testFunc = async (keyword) => {
   console.log(related);
 };
 
-testFunc("10");
+// testFunc("10");
 // 10·27난 피해자의 명예회복 등에 관한
+
+// const data = await Law.findOne({
+//   where: {
+//     law_id: k,
+//   },
+//   raw: true,
+// });
+
+const findJustBefore = async (law_id) => {
+  const newLaw = await Law.findOne({
+    where: {
+      law_id: law_id
+    },
+    raw: true
+  });
+  
+  // 만약 첫 번째 실행결과에서 값을 못 찾을 경우 
+  if (newLaw === null) {
+    const result = null;
+    console.log(result);
+    return result;
+  };
+
+  const justBefore = await Law.findOne({
+    where: {
+      name: newLaw.name,
+      enforcement_date: {
+        [Op.lt]: newLaw.enforcement_date
+      }
+    },
+    raw: true
+  });
+
+  newLaw.oldLaw = justBefore;
+  console.log(newLaw);
+  return newLaw;
+}
+
+// 첫 번째 검색결과부터 존재하지 않는 경우
+// findJustBefore(100000000);
+
+// 이전 법이 존재하지 않는 경우
+// findJustBefore(28);
+
+// 일반적인 경우(1)
+// findJustBefore(18);
+
+// 일반적인 경우(2)
+// findJustBefore(19);
+
+const word2Removed = ['법', '시행령', '법령', '법률', '규칙', '시행규칙', '시행'];
+const removeString = (arr, str) => {
+  let regex = new RegExp("\\b"+arr.join('|')+"\\b", "gi");
+  return str.replace(regex, '');
+}
+
+const name = "119구조ㆍ구급에 관한 법률 시행규칙";
+const newName = removeString(word2Removed, name);
+console.log(newName);

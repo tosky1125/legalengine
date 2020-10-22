@@ -23,9 +23,9 @@ module.exports = {
   },
 
   post: async (req, res) => {
-    let date = parse(req.body.date, 'yyyy-MM-dd', new Date());
-    let keyword = req.body.searchWord;
-    let searchResult = await Law.findAll({
+    const date = parse(req.body.date, 'yyyy-MM-dd', new Date());
+    const keyword = req.body.searchWord;
+    const searchResult = await Law.findAll({
       where: {
         name: {
           [Op.substring]: keyword,
@@ -33,15 +33,15 @@ module.exports = {
         enforcement_date: {
           [Op.lt]: date,
         },
-      }, 
+      },
       order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
       group: ['name'],
       raw: true
     });
 
     if (keyword.indexOf('법') !== -1) {
-      let newkeyword = keyword.replace('법', '');
-      let searchRelated = await Law.findAll({
+      const newkeyword = keyword.replace('법', '');
+      const searchRelated = await Law.findAll({
         where: {
           name: {
             [Op.substring]: newkeyword

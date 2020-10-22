@@ -12,7 +12,7 @@ const {
     Op
 } = require('sequelize');
 
-let clauseResult = async (artData) => {
+const clauseResult = async (artData) => {
     let clauseResult = await Clause.findAll({
         raw: true,
         where: {
@@ -22,7 +22,7 @@ let clauseResult = async (artData) => {
     return clauseResult;
 };
   
-let subParaResult = async (clauseData) => {
+const subParaResult = async (clauseData) => {
     let subParaResult = await Subparagraph.findAll({
         raw: true,
         where: {
@@ -32,7 +32,7 @@ let subParaResult = async (clauseData) => {
     return subParaResult;
 };
   
-let itemResult = async (subParaData) => {
+const itemResult = async (subParaData) => {
     let itemResult = await Item.findAll({
         raw: true,
         where: {
