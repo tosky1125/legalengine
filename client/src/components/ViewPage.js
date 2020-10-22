@@ -21,6 +21,8 @@ function ViewPage() {
   console.log(law);
 
   let { Chapter } = law;
+  const keyword = JSON.parse(localStorage.searchWord);
+  const regex = new RegExp(keyword,'g');
 
   const joSlicer = (strFrom) => {
     const str = String(strFrom);
@@ -110,10 +112,9 @@ function ViewPage() {
                 </button>
               )}
             </span>
-            <p>
-              <span>{artEle.context}</span>
-              <span className='viewpage-artdate'>{artEle.cont_date}</span>
-            </p>
+            
+              <span dangerouslySetInnerHTML={{ __html: artEle.context && artEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`) }}></span>
+            <span className='viewpage-artdate'>{artEle.cont_date}</span>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => {
                 return (
@@ -121,7 +122,7 @@ function ViewPage() {
                     <div className='clause-wrapper'>
                       <span
                         className='clause-context'
-                        dangerouslySetInnerHTML={{ __html: claEle.context }}
+                        dangerouslySetInnerHTML={{ __html: claEle.context && claEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`) }}
                       ></span>
                       <span className='date'>{claEle.date}</span>
                     </div>
@@ -132,7 +133,7 @@ function ViewPage() {
                             <span
                               className='sub-context'
                               dangerouslySetInnerHTML={{
-                                __html: subEle.context,
+                                __html: subEle.context && subEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`),
                               }}
                             ></span>
                             <span className='date'>{subEle.date}</span>
@@ -153,7 +154,7 @@ function ViewPage() {
                                       <span
                                         className='item-context'
                                         dangerouslySetInnerHTML={{
-                                          __html: itEle.context,
+                                          __html: itEle.context && itEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`),
                                         }}
                                       ></span>
                                       <span className='date'>{itEle.date}</span>

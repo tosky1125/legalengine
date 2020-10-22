@@ -10,7 +10,9 @@ ins {
   background-color: yellow;
   text-decoration: none;
 }
-
+.keyword-highlight{
+  background-color: powderblue;
+}
 .viewpage-sideinfo-container {
   position: fixed;
   width: 15vw;
