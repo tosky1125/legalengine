@@ -1,4 +1,49 @@
-.page-list :hover {
-  background-color: lightgrey;
+.searchresult-container {
+  position: relative;
+  top: 10vh;
+  bottom: 5vh;
+  overflow: hidden;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  width: 90%;
+}
+
+.searchresult-law-number {
+  font-weight: bolder;
+  font-size: larger;
+}
+
+.searchresult-page {
+  border-bottom: 0.5px solid gray;
+  padding: 2rem;
+  padding-top: 1rem;
+  text-align: left;
+}
+
+.searchresult-page:hover {
   cursor: pointer;
+}
+
+.searchresult-name {
+  margin-top: 10px;
+}
+
+.searchresult-type,
+.searchresult-number,
+.searchresult-admendment {
+  float: left;
+  left: 0;
+  border-right: 0.5px solid gray;
+  margin-right: 2rem;
+  padding-right: 2rem;
+}
+
+.searchresult-ministry {
+  float: left;
+}
+
+.searchresult-promulgation,
+.searchresult-enforcement {
+  margin-left: 2rem;
+  float: right;
 }

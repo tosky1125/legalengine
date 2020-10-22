@@ -1,11 +1,16 @@
-.nav-form {
+.nav-container {
+  position: fixed;
   background-color: #ffffff;
-  height: 6rem;
+  left: 0;
+  right: 0;
+  top: 0;
   border-bottom: 0.5px solid #eee;
+  z-index: 10000;
 }
 
 .nav-logo {
   height: 4rem;
   width: 12rem;
-  margin: 1rem;
+  margin-top: 0.5rem;
+  margin-left: 2rem;
 }
