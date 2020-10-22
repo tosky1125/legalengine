@@ -9,15 +9,38 @@ const {
   HTML,
 } = require('../models/index');
 const axios = require('axios');
-
+const {
+  format
+} = require('date-fns');
+const {
+  Op
+} = require('sequelize');
 
 const spec = async () => {
   // 법령 목록에서 아이디 k 값을 찾는다.
+
   const data = await Law.findOne({
     where: {
       law_id: k,
     },
+    raw: true,
   });
+  // 만약 첫 번째 실행결과에서 값을 못 찾을 경우 
+  if (data === null) {
+    const result = null;
+    console.log(result);
+    return result;
+  };
+  const justBefore = await Law.findOne({
+    where: {
+      name: data.name,
+      enforcement_date: {
+        [Op.lt]: data.enforcement_date
+      }
+    },
+    raw: true
+  });
+  data.oldLaw = justBefore;
 
   const url = `http://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=${data.number}&chrClsCd=010202&urlMode=lsInfoP&ancYnChk=0&mobile=#0000`;
 
@@ -35,9 +58,9 @@ const spec = async () => {
     // puppeteer 작동원리 상 외부에서 함수, 또는 변수를 불러올 수 없다.
     // 반대로 evalute 메소드 내에서 dom 을 이용해 연산하는 것들을 밖으로 내보낼 수 없다.
 
-    const ho = ['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.', '13.', '14.', '15.', '16.', '17.', '18.', '19.', '20.', '21.', '22.', '23.', '24.', '25.', '26.', '27.', '28.', '29.', '30.', '31.', '32.', '33.', '34.', '35.', '36.', '37.', '38.', '39.', '40.', '41.', '42.', '43.', '44.', '45.', '46.', '47.', '48.', '49.', '50.'];
-    const hang = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳', '㉑', '㉒', '㉓', '㉔', '㉕', '㉖', '㉗', '㉘', '㉙', '㉚', '㉛', '㉜', '㉝', '㉞', '㉟', '㊱', '㊲', '㊳', '㊴', '㊵', '㊶', '㊷', '㊸', '㊹', '㊺', '㊻', '㊼', '㊽', '㊾', '㊿'];
-    const mok = ['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '0)'];
+    const ho = new Set(['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.']);
+    // const hang = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳', '㉑', '㉒', '㉓', '㉔', '㉕', '㉖', '㉗', '㉘', '㉙', '㉚', '㉛', '㉜', '㉝', '㉞', '㉟', '㊱', '㊲', '㊳', '㊴', '㊵', '㊶', '㊷', '㊸', '㊹', '㊺', '㊻', '㊼', '㊽', '㊾', '㊿'];
+    const mok = new Set(['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '0)']);
 
     const chapter = [];
     const article = [];
@@ -53,16 +76,18 @@ const spec = async () => {
     let hhjm = '';
     const state = (str) => {
       for (let i = 0; i < str.length; i += 1) {
-        if (ho.indexOf(`${str[i]}${str[i + 1]}`) !== -1) {
+        const twoCharFront = `${str[i]}${str[i + 1]}`;
+        const charCode = str[i].charCodeAt();
+        if (ho.has(twoCharFront)) {
           hhjm = '호';
           break;
-        } else if (mok.indexOf(`${str[i]}${str[i + 1]}`) !== -1) {
+        } else if (mok.has(twoCharFront)) {
           hhjm = '목';
           break;
-        } else if (hang.indexOf(str[i]) !== -1) {
+        } else if ((charCode >= 0x2460 && charCode <= 0x2473) || charCode >= 0x3251 && charCode <= 0x325F) {
           hhjm = '항';
           break;
-        } else if (str[i] + 1 !== ' ') {
+        } else {
           hhjm = '조';
         }
       }
@@ -238,7 +263,7 @@ const spec = async () => {
               context: cont,
             });
           } else if (hhjm === '호') {
-            
+
             console.log(cont);
             // 하위 카테고리의 index는 null값으로 초기화
             if (subParNum === undefined) {
@@ -520,6 +545,7 @@ const spec = async () => {
     };
   });
   await browser.close();
+  result.data = data;
   return result;
 };
 
@@ -544,14 +570,18 @@ const init = async () => {
     subPara,
     item,
     html,
+    data
   } = await spec();
   const a = k;
-
+  let {
+    oldLaw
+  } = data;
+  const regex1 = /(<([^>]+)>)/gi;
+  const regex2 = /null/gi;
   await HTML.create({
     law_id: a,
     tag: html,
   });
-
   for (chapt of chapter) {
     let {
       chapter_number,
@@ -601,6 +631,8 @@ const init = async () => {
       flag_gyu,
     });
   };
+  let curArt;
+  let newJoCount = 0;
   for (cla of clause) {
     let {
       chapter_id,
@@ -609,9 +641,21 @@ const init = async () => {
       date,
       context
     } = cla;
-    if (date && date.includes('2018. 12. 27.')) {
-      const contCheck = await checkRevision('196225', '2017-07-26', article_id, clause_number);
-      context = diffString(contCheck.clause.context, context).replace(null, '');
+    if (curArt !== article_id) {
+      curArt = article_id;
+      newJoCount = 0;
+    }
+    if (date && date.includes('신설')) {
+      newJoCount -= 1;
+    }
+    if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+      console.log(context);
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount)
+      console.log(contCheck)
+      contCheck = contCheck.clause.context.replace(regex1, '').replace(regex2, '');
+      console.log(contCheck)
+      context = diffString(contCheck, context).replace(regex2, '');
+      console.log(context);
     }
     let tmp1 = await Chapter.findOne({
       where: {
@@ -639,7 +683,9 @@ const init = async () => {
       context,
     })
   }
-
+  curArt = null,
+    newJoCount = 0;
+  let curClause;
   for (sub of subPara) {
     let {
       chapter_id,
@@ -649,10 +695,24 @@ const init = async () => {
       date,
       context
     } = sub;
-    if (date && date.includes('2017. 7. 26.')) {
-      const contCheck = await checkRevision('196225', '2017-07-26', article_id, clause_id, sub_number);
-      context = diffString(contCheck.sub.context, context).replace(null, '');
+
+    if (curArt !== article_id) {
+      curArt = article_id;
+      newJoCount = 0;
     }
+    if (curClause !== clause_id) {
+      curClause = clause_id;
+      newJoCount = 0;
+    }
+    if (date && date.includes('신설')) {
+      newJoCount -= 1;
+    }
+    if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number+newJoCount);
+      contCheck = contCheck.sub.context.replace(regex1, '').replace(regex2, '');
+      context = diffString(contCheck, context).replace(regex2, '');
+    }
+
     let tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
@@ -667,7 +727,7 @@ const init = async () => {
         chapter_id,
         article_id,
       },
-      raw: true
+      raw: true,
     })
     article_id = tmp2.id;
     let tmp3 = await Clause.findOne({
@@ -691,6 +751,11 @@ const init = async () => {
       context,
     })
   }
+
+  curArt = null,
+  curClause = null;
+  newJoCount = 0;
+  let curSub;
   for (it of item) {
     let {
       chapter_id,
@@ -701,10 +766,28 @@ const init = async () => {
       date,
       context
     } = it;
-    if (date && date.includes('2017. 7. 26.')) {
-      const contCheck = await checkRevision('196225', '2017-07-26', article_id, clause_id, sub_id, item_number);
-      context = diffString(contCheck.item.context, context).replace(null, '') ;
+
+    if (curArt !== article_id) {
+      curArt = article_id;
+      newJoCount = 0;
     }
+    if (curClause !== clause_id) {
+      curClause = clause_id;
+      newJoCount = 0;
+    }
+    if (curSub !== sub_id) {
+      curClause = sub_id;
+      newJoCount = 0;
+    }
+    if (date && date.includes('신설')) {
+      newJoCount -= 1;
+    }
+    if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number+newJoCount);
+      contCheck = contCheck.item.context.replace(regex1, '').replace(regex2, '');
+      context = diffString(contCheck, context).replace(regex2, '');
+    }
+
     let tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
@@ -756,10 +839,10 @@ const init = async () => {
     })
   };
 
-  k++;
+  k -= 1;
   await init();
 };
-let k = 29;
+let k = 42;
 init();
 
 
@@ -890,4 +973,3 @@ function diff(o, n) {
     n: n
   };
 }
-
