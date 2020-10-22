@@ -13,9 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       Law.hasMany(models.Chapter, {
         as: 'chapter',
         foreignKey: 'law_id',
-        sourceKey: 'law_id'
+        sourceKey: 'law_id',
       });
-      
       Law.belongsTo(models.Revision, {
         foreignKey: 'law_id',
         targetKey: 'new_law_id',
