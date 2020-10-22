@@ -33,6 +33,7 @@ function ViewPage() {
       return ['0', '0'];
     }
   };
+
   // const joSplitDate = (context)=> {
 
   //   let date = null;
@@ -40,25 +41,26 @@ function ViewPage() {
   //     let check = context.indexOf('<개정');
   //     if(check !== -1){
   //       date = context.slice(check);
-  //       context = context.slice(0,check);
+  //       context = context.sliviewpage-ce(0,check);
   //     }
   //   };
   //   console.log(context, `this is ${date}`);
   //   return { context, date };
   // }
+
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
     <div key={chapEleIndex}>
-      <h1 className='title'>{chapEle.context}</h1>
-      <h2 className='title'>{chapEle.date}</h2>
+      <h1 className='viewpage-title'>{chapEle.context}</h1>
+      <h2 className='viewpage-chapdate'>{chapEle.date}</h2>
       {chapEle.Article &&
         chapEle.Article.map((artEle, artEleIndex) => (
           <div key={artEleIndex}>
-            <h3 className='article-title'>
+            <h3 className='viewpage-article-title'>
               {artEle.article_title}&nbsp;&nbsp;
             </h3>
-            <span className='buttons'>
+            <span className='viewpage-buttons'>
               {artEle.flag_pan && (
-                <button className='buttons-pan'>
+                <button className='viewpage-buttons-pan'>
                   <a
                     href={`http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=200188&joNo=${
                       joSlicer(artEle.article_id)[0]
@@ -71,7 +73,7 @@ function ViewPage() {
                 </button>
               )}
               {artEle.flag_yeon && (
-                <button className='buttons-yeon'>
+                <button className='viewpage-buttons-yeon'>
                   {/* <a 
                     href='http://www.law.go.kr/LSW/lsJoHstProc.do?lsid={추후삽입}&lsiSeq={Law.number}&joNo=0002&joBrNo=00&lType=0002'
                     target='_blank'
@@ -82,7 +84,7 @@ function ViewPage() {
                 </button>
               )}
               {artEle.flag_hang && (
-                <button className='buttons-hang'>
+                <button className='viewpage-buttons-hang'>
                   {/* <a
                     href='http://www.law.go.kr/LSW/conAdmrulByLsPop.do?&lsiSeq={Law.number}&joNo={조(0001)}&joBrNo={조 하위}&datClsCd=010102&dguBun=DEG'
                     target='_blank'
@@ -91,7 +93,7 @@ function ViewPage() {
                 </button>
               )}
               {artEle.flag_gyu && (
-                <button className='buttons-gyu'>
+                <button className='viewpage-buttons-gyu'>
                   {/* <a
                     href='http://www.law.go.kr/LSW/lsCtlInfListR.do?lsiSeq={law.number}&lsId={추후삽입}&joNo=0001&joBrNo=00'
                     target='_blank'
@@ -102,7 +104,7 @@ function ViewPage() {
             </span>
             <p>
               <span>{artEle.context}</span>
-              <span className='date'>{artEle.cont_date}</span>
+              <span className='viewpage-artdate'>{artEle.cont_date}</span>
             </p>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => {
@@ -164,11 +166,11 @@ function ViewPage() {
   ));
   return (
     <div>
-      <div className='view-container'>
-        <div className='sideinfo-container'>
+      <div className='viewpage-container'>
+        <div className='viewpage-sideinfo-container'>
           <SideInfo />
         </div>
-        <div className='maininfo-container'>
+        <div className='viewpage-maininfo-container'>
           <button onClick={openModal}>PDF</button>
           {modalIsOpen && (
             <Modal
@@ -180,9 +182,9 @@ function ViewPage() {
               <ConvertToPDF />
             </Modal>
           )}
-          <div className='law-head'>
+          <div className='viewpage-law-head'>
             <h1>{law.name}</h1>
-            <p className='date'>
+            <p className='viewpage-date'>
               [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
               {law.type}&nbsp;
               {law.number}호,&nbsp;

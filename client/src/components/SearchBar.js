@@ -55,11 +55,11 @@ function SearchBar(props) {
   };
 
   return (
-    <>
-      <div className='search-container'>
-        <form className='search-form' onSubmit={handleSubmit(handleSearch)}>
-          <div className='search-flex'>
-            <label className='search-Term'>
+    <div>
+      <div className='searchbar-container'>
+        <form className='searchbar-form' onSubmit={handleSubmit(handleSearch)}>
+          <div className='searchbar-flex'>
+            <label className='searchbar-Term'>
               <input
                 type='text'
                 name='setSearchTerm'
@@ -72,7 +72,7 @@ function SearchBar(props) {
                 onChange={handleChangeTerm}
               />
             </label>
-            <label className='search-date'>
+            <label className='searchbar-date'>
               <input
                 type='date'
                 name='date'
@@ -89,7 +89,7 @@ function SearchBar(props) {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 
