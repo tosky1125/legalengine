@@ -18,27 +18,31 @@ function ViewPage() {
   };
   let law = JSON.parse(localStorage.Law);
   console.log(law);
+
   let { Chapter } = law;
 
-  let joSlicer = (strFrom) => {
-    let str = String(strFrom);
+  const joSlicer = (strFrom) => {
+    const str = String(strFrom);
     if (str.includes(':')) {
-      let splited = str.split(':');
-      let joRaw = splited[0];
-      let joBrRaw = splited[1];
-      let joNo = '0'.repeat(4 - joRaw.length) + joRaw;
-      let joBrNo = '0'.repeat(2 - joBrRaw.length) + joBrRaw;
+      const splited = str.split(':');
+      const joRaw = splited[0];
+      const joBrRaw = splited[1];
+      const joNo = '0'.repeat(4 - joRaw.length) + joRaw;
+      const joBrNo = '0'.repeat(2 - joBrRaw.length) + joBrRaw;
       return [joNo, joBrNo];
     } else {
       return ['0', '0'];
     }
   };
 
+  // {artEle.article_title} 조문 위치
+  // const handleSearchArticle = () => {};
+
   // const joSplitDate = (context)=> {
 
-  //   let date = null;
+  //   const date = null;
   //   if(context){
-  //     let check = context.indexOf('<개정');
+  //     const check = context.indexOf('<개정');
   //     if(check !== -1){
   //       date = context.slice(check);
   //       context = context.sliviewpage-ce(0,check);
@@ -164,6 +168,7 @@ function ViewPage() {
         ))}
     </div>
   ));
+
   return (
     <div>
       <div className='viewpage-container'>
