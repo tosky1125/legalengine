@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as lawinfo from '../modules/lawinfo';
+import * as lawinfo from '../../modules/lawinfo';
 
 function Law() {
   return <div></div>;

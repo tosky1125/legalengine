@@ -1,8 +1,8 @@
 .nav-container {
   position: fixed;
   background-color: #ffffff;
-  left: 0;
-  right: 0;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
   top: 0;
   border-bottom: 0.5px solid #eee;
   z-index: 10000;
