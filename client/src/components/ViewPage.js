@@ -216,17 +216,7 @@ function ViewPage() {
           <ArticleLink />
         </div>
         <div className='viewpage-maininfo-container'>
-          <button onClick={openModal}>PDF</button>
-          {modalIsOpen && (
-            <Modal
-              visible={modalIsOpen}
-              closable={true}
-              maskClosable={true}
-              onClose={closeModal}
-            >
-              <ConvertToPDF />
-            </Modal>
-          )}
+          <ConvertToPDF />
           <div className='viewpage-law-head'>
             <h1>{law.name}</h1>
             <p className='viewpage-date'>

@@ -1,13 +1,58 @@
-import { PDFExport } from '@progress/kendo-react-pdf';
 import React from 'react';
+import { PDFExport } from '@progress/kendo-react-pdf';
 import { format } from 'date-fns';
 import './ConvertToPDF.css';
 
 function ConvertToPDF() {
   let dataToConvert;
-  const exportPDF = () => {
+  /*const exportPDF = () => {
     dataToConvert.save();
-  };
+  };*/
+  /* const download = () => {
+    return (
+      <PDFExport
+        fileName={`${law.name}.pdf`}
+        title=''
+        subject=''
+        keywords=''
+        ref={(d) => (dataToConvert = d)}
+      >
+        <div>
+          <button onClick={exportPDF}>download</button>
+          {contentsInPdf()};
+        </div>
+      </PDFExport>
+    );
+  }; */
+  /*const aaa = () => {
+    return (
+      <div className='pdf'>
+        <PDFExport
+          paperSize='A4'
+          fileName={`${law.name}.pdf`}
+          title=''
+          subject=''
+          keywords=''
+          ref={(d) => (dataToConvert = d)}
+        >
+          <div className='pdf-container'>
+            <div className='pdf-law-head'>
+              <h1>{law.name}</h1>
+              <p className='pdf-date'>
+                [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
+                {law.type}&nbsp;
+                {law.number}호,&nbsp;
+                {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
+                ,&nbsp;
+                {law.amendment_status}]
+              </p>
+            </div>
+            {Chapter}
+          </div>
+        </PDFExport>
+      </div>
+    );
+  };*/
   let law = JSON.parse(localStorage.Law);
 
   let { Chapter } = law;
@@ -72,32 +117,41 @@ function ConvertToPDF() {
   ));
 
   return (
-    <PDFExport
-      paperSize={'Letter'}
-      fileName={`${law.name}.pdf`}
-      title=''
-      subject=''
-      keywords=''
-      ref={(d) => (dataToConvert = d)}
-    >
-      <div className='pdf'>
-        <div className='pdf-container'>
-          <button onClick={exportPDF}>download</button>
-          <div className='pdf-law-head'>
-            <h1>{law.name}</h1>
-            <p className='pdf-date'>
-              [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
-              {law.type}&nbsp;
-              {law.number}호,&nbsp;
-              {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
-              ,&nbsp;
-              {law.amendment_status}]
-            </p>
-          </div>
-          {Chapter}
-        </div>
+    <div>
+      <div className='pdf-btn-wrapper'>
+        <button
+          className='pdf-btn'
+          onClick={() => {
+            dataToConvert.save();
+          }}
+        >
+          PDF 저장
+        </button>
       </div>
-    </PDFExport>
+      <div style={{ position: 'absolute', left: '-4000px', top: 0 }}>
+        <PDFExport
+          paperSize='A4'
+          margin='1cm'
+          fileName={`${law.name}.pdf`}
+          ref={(data) => (dataToConvert = data)}
+        >
+          <div className='pdf-container'>
+            <div className='pdf-law-head'>
+              <h1>{law.name}</h1>
+              <p className='pdf-date'>
+                [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
+                {law.type}&nbsp;
+                {law.number}호,&nbsp;
+                {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
+                ,&nbsp;
+                {law.amendment_status}]
+              </p>
+            </div>
+            {Chapter}
+          </div>
+        </PDFExport>
+      </div>
+    </div>
   );
 }
 // x, y 축 테두리 사라지기
