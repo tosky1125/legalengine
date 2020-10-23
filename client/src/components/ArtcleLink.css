@@ -3,7 +3,7 @@
 }
 
 .artclelink-title {
-  font-size: medium;
+  font-size: small;
 }
 
 .artclelink-article-title {
@@ -12,4 +12,41 @@
 
 .artclelink-article-title:hover {
   cursor: pointer;
+}
+
+input[id*='contTitle'] {
+  display: none;
+}
+input[id*='contTitle'] + label {
+  display: block;
+  padding: 0.5rem;
+  border-bottom: 0;
+  color: black;
+  font-weight: 600;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+}
+input[id*='contTitle'] + label em {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  display: inline-block;
+}
+input[id*='contTitle'] + label + div {
+  max-height: 0;
+  transition: all 0.5s;
+  overflow: hidden;
+  background-color: #fff;
+  font-size: small;
+}
+input[id*='contTitle'] + label p {
+  display: inline-block;
+  padding: 20px;
+}
+input[id*='contTitle']:checked + label + div {
+  max-height: 30rem;
 }

@@ -17,20 +17,27 @@ function ArtcleLink() {
   };
 
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
-    <div key={chapEleIndex}>
-      <span className='artclelink-title'>{chapEle.context}</span>
-      <span className='artclelink-title'>{chapEle.date}</span>
-      {chapEle.Article &&
-        chapEle.Article.map((artEle, artEleIndex) => (
-          <div key={artEleIndex}>
-            <a
-              href={artUrlfragment(artEle.article_id)}
-              className='artclelink-article-title'
-            >
-              {artEle.article_title}&nbsp;&nbsp;
-            </a>
-          </div>
-        ))}
+    <div className='artlcelink-accordion' key={chapEleIndex}>
+      <input type='checkbox' id={`${chapEle.id}-contTitle`} />
+      <label for={`${chapEle.id}-contTitle`}>
+        <span className='artclelink-title'>{chapEle.context}</span>
+        <span className='artclelink-title'>{chapEle.date}</span>
+      </label>
+      <div>
+        <p>
+          {chapEle.Article &&
+            chapEle.Article.map((artEle, artEleIndex) => (
+              <div key={artEleIndex}>
+                <a
+                  href={artUrlfragment(artEle.article_id)}
+                  className='artclelink-article-title'
+                >
+                  {artEle.article_title}
+                </a>
+              </div>
+            ))}
+        </p>
+      </div>
     </div>
   ));
 

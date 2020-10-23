@@ -34,7 +34,7 @@ ins {
 }
 
 .viewpage-articlelink-container {
-  position: absolute;
+  position: fixed;
   width: 18vw;
   right: 0;
   padding: 1rem;
