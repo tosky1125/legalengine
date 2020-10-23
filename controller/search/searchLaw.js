@@ -25,6 +25,7 @@ module.exports = {
   post: async (req, res) => {
     const date = parse(req.body.date, 'yyyy-MM-dd', new Date());
     const keyword = req.body.searchWord;
+
     const searchResult = await Law.findAll({
       where: {
         name: {
@@ -38,16 +39,6 @@ module.exports = {
       group: ['name'],
       raw: true
     });
-
-    const lawJustBefore = await Law.findOne({
-      where: {
-        
-        date: {
-          [Op.lt]: date
-        },
-
-      }
-    })
 
     if (keyword.indexOf('법') !== -1) {
       const newkeyword = keyword.replace('법', '');
