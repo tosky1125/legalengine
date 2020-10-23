@@ -90,7 +90,7 @@ const totalData = async (name, eDate, number) => {
     
     const word2Removed = ['법', '시행령', '법령', '법률', '규칙', '시행규칙', '시행'];
     const keyword = removeString(word2Removed, name);
-
+    console.log(keyword);
     const related = await Law.findAll({
         where: {
                 [Op.or]: [
