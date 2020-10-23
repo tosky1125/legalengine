@@ -44,7 +44,9 @@ class SearchResult extends React.Component {
       })
       .then(() => {
         window.open(
-          `/view?lawName=${name}&lawNum=${number}&enfDate=${format(
+          `/view?lawName=${encodeURIComponent(
+            name
+          )}&lawNum=${number}&enfDate=${format(
             new Date(enforcement_date),
             'yyyy-MM-dd'
           )}`,
@@ -69,8 +71,10 @@ class SearchResult extends React.Component {
     if (this.props.lawlist.length === 0) {
       return (
         <div>
-          <SearchBar />
-          <div className='searchresult-empty'>검색 결과가 없습니다.</div>
+          <div className='searchresult-container'>
+            <SearchBar />
+            <div className='searchresult-empty'>검색 결과가 없습니다.</div>
+          </div>
         </div>
       );
     }

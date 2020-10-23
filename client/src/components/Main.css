@@ -11,3 +11,11 @@
   margin: 0 auto;
   margin-bottom: 5rem;
 }
+
+.main-logo {
+  display: block;
+  width: 20rem;
+  padding-top: 10rem;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
