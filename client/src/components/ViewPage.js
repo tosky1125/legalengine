@@ -7,6 +7,7 @@ import './ViewPage.css';
 import { format } from 'date-fns';
 import ConvertToPDF from './ConvertToPDF';
 import Modal from './Modal';
+import axios from 'axios';
 
 function ViewPage() {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -20,8 +21,11 @@ function ViewPage() {
   console.log(law);
 
   let { Chapter } = law;
-  const keyword = JSON.parse(localStorage.searchWord);
+  const keyword = JSON.parse(localStorage.searchWord); 
+  const searchDate = JSON.parse(localStorage.searchDate);
+  // '구조'
   const regex = new RegExp(keyword,'g');
+  const lawRegex = new RegExp(/\「(.*?)\」/);
 
   const joSlicer = (strFrom) => {
     const str = String(strFrom);
@@ -36,7 +40,22 @@ function ViewPage() {
       return ['0', '0'];
     }
   };
-
+  const handleClickSearch = (e) => {
+    
+  };
+  const relatedLaw = (context) => {
+    
+    const selectedLaw = lawRegex.test(context) ? context.match(lawRegex)[1] : null;
+    console.log(selectedLaw)
+    if(selectedLaw){
+      const inTagLaw = lawRegex.test(context) ? context.match(lawRegex)[0] : null;
+      context = context.replace(lawRegex,`<span onclick=fetch('http://13.125.112.243')>${inTagLaw}</span>`);
+    }
+    console.log(context)
+    return context;
+  };
+  
+    
   // {artEle.article_title} 조문 위치
   // const handleSearchArticle = () => {};
 
@@ -109,7 +128,7 @@ function ViewPage() {
               )}
             </span>
             
-              <span dangerouslySetInnerHTML={{ __html: artEle.context && artEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`) }}></span>
+              <span dangerouslySetInnerHTML={{ __html: artEle.context && relatedLaw(artEle.context).replace(regex, `<span class='keyword-highlight'>${keyword}</span>`)}}></span>
             <span className='viewpage-artdate'>{artEle.cont_date}</span>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => {
@@ -169,7 +188,7 @@ function ViewPage() {
         ))}
     </div>
   ));
-
+  console.log(Chapter);
   return (
     <div>
       <div className='viewpage-container'>
