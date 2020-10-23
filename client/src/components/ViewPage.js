@@ -7,7 +7,6 @@ import ArticleLink from './ArtcleLink';
 import './ViewPage.css';
 import { format } from 'date-fns';
 import ConvertToPDF from './ConvertToPDF';
-import axios from 'axios';
 
 function ViewPage() {
   let law = JSON.parse(localStorage.Law);
