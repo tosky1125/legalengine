@@ -3,7 +3,7 @@
 }
 .pdf-btn {
   background-color: #008cba; /* Green */
-  border: none;
+  border: 1px solid #008cba;
   color: white;
   padding: 15px 25px;
   text-align: center;
@@ -17,7 +17,11 @@
 
 .pdf-btn:hover {
   background-color: white;
+  border: 1px solid #008cba;
   color: #008cba;
+}
+
+.pdf-btn:active {
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }

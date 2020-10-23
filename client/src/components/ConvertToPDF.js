@@ -5,54 +5,6 @@ import './ConvertToPDF.css';
 
 function ConvertToPDF() {
   let dataToConvert;
-  /*const exportPDF = () => {
-    dataToConvert.save();
-  };*/
-  /* const download = () => {
-    return (
-      <PDFExport
-        fileName={`${law.name}.pdf`}
-        title=''
-        subject=''
-        keywords=''
-        ref={(d) => (dataToConvert = d)}
-      >
-        <div>
-          <button onClick={exportPDF}>download</button>
-          {contentsInPdf()};
-        </div>
-      </PDFExport>
-    );
-  }; */
-  /*const aaa = () => {
-    return (
-      <div className='pdf'>
-        <PDFExport
-          paperSize='A4'
-          fileName={`${law.name}.pdf`}
-          title=''
-          subject=''
-          keywords=''
-          ref={(d) => (dataToConvert = d)}
-        >
-          <div className='pdf-container'>
-            <div className='pdf-law-head'>
-              <h1>{law.name}</h1>
-              <p className='pdf-date'>
-                [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
-                {law.type}&nbsp;
-                {law.number}호,&nbsp;
-                {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
-                ,&nbsp;
-                {law.amendment_status}]
-              </p>
-            </div>
-            {Chapter}
-          </div>
-        </PDFExport>
-      </div>
-    );
-  };*/
   let law = JSON.parse(localStorage.Law);
 
   let { Chapter } = law;
@@ -135,6 +87,7 @@ function ConvertToPDF() {
           fileName={`${law.name}.pdf`}
           ref={(data) => (dataToConvert = data)}
         >
+        <meta charset="utf-8" />
           <div className='pdf-container'>
             <div className='pdf-law-head'>
               <h1>{law.name}</h1>
