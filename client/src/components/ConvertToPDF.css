@@ -1,5 +1,5 @@
 .pdf-btn-wrapper {
-  text-align: right;
+  padding-left: 85rem;
 }
 .pdf-btn {
   background-color: #008cba; /* Green */
@@ -19,55 +19,6 @@
   background-color: white;
   border: 1px solid #008cba;
   color: #008cba;
-}
-
-.pdf-btn:active {
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
-}
-
-ins {
-  text-decoration: none;
-}
-
-.pdf-wrapper {
-  height: 792px;
-  width: 612px;
-  padding: none;
-  background-color: white;
-  box-shadow: 5px 5px 5px black;
-  margin: auto;
-  word-break: break-all;
-}
-
-.pdf-container {
-  position: relative;
-  padding: 0.5rem;
-  overflow: auto;
-}
-
-.pdf-law-head {
-  text-align: center;
-}
-.pdf-law-head-info {
-  color: rgb(36, 138, 179);
-}
-
-.pdf-title {
-  color: #161694;
-}
-
-.pdf-article-title {
-  display: inline;
-  color: #161694;
-  padding-left: 0.5rem;
-}
-
-span[class*='context'] {
-  padding-bottom: 1rem;
-  display: block;
-}
-
-.pdf-date {
-  color: rgb(36, 138, 179);
 }
