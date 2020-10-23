@@ -159,3 +159,17 @@ a {
 .date {
   color: rgb(36, 138, 179);
 }
+
+@media (max-width: 767px) {
+  .viewpage-container {
+  }
+
+  .viewpage-sideinfo-container {
+  }
+
+  .viewpage-maininfo-container {
+  }
+
+  .viewpage-articlelink-container {
+  }
+}
