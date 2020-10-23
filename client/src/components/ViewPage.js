@@ -237,7 +237,7 @@ function ViewPage() {
           <ConvertToPDF />
           <div className='viewpage-law-head'>
             <h1>{law.name}</h1>
-            <p className='viewpage-date'>
+            <p className='viewpage-law-head-info'>
               [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
               {law.type}&nbsp;
               {law.number}호,&nbsp;
