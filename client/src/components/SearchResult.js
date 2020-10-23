@@ -29,7 +29,9 @@ class SearchResult extends React.Component {
     const { lawinfo } = this.props;
     axios
       .get(
-        `http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`
+        `http://13.125.112.243/search?lawName=${encodeURIComponent(
+          name
+        )}&lawNum=${number}&enfDate=${enforcement_date}`
       )
       .then((res) => {
         lawinfo(res.data);

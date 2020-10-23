@@ -87,7 +87,7 @@ function ConvertToPDF() {
           fileName={`${law.name}.pdf`}
           ref={(data) => (dataToConvert = data)}
         >
-        <meta charset="utf-8" />
+          <meta charset='utf-8' />
           <div className='pdf-container'>
             <div className='pdf-law-head'>
               <h1>{law.name}</h1>
