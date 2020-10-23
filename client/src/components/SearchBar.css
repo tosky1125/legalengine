@@ -7,20 +7,12 @@ body {
   margin: 30px auto;
   width: 100%;
 }
+
 .searchbar-flex {
   display: flex;
   align-items: center;
   justify-content: center;
   /* left: 50%; */
-}
-.searchbar-title {
-  font-size: x-large;
-  padding: 10px 0;
-  color: #444;
-}
-.searchbar-Input {
-  width: 10rem;
-  height: 3rem;
 }
 
 .searchbar-form {
@@ -48,6 +40,11 @@ body {
   box-sizing: border-box;
   border: 1px solid lightgrey;
 }
+
+.search-date {
+  margin-left: 0.1rem;
+}
+
 .searchbar-date {
   margin-left: 0.1rem;
 }
