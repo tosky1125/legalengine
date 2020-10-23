@@ -377,11 +377,11 @@ const findJustBefore = async (law_id) => {
 // 일반적인 경우(2)
 // findJustBefore(19);
 
-const word2Removed = ['법', '시행령', '법령', '법률', '규칙', '시행규칙', '시행'];
-const removeString = (arr, str) => {
-  let regex = new RegExp("\\b"+arr.join('|')+"\\b", "gi");
-  return str.replace(regex, '');
-}
+// const word2Removed = ['법', '시행령', '법령', '법률', '규칙', '시행규칙', '시행'];
+// const removeString = (arr, str) => {
+//   let regex = new RegExp("\\b"+arr.join('|')+"\\b", "gi");
+//   return str.replace(regex, '');
+// }
 
 const name = "119구조ㆍ구급에 관한 법률 시행규칙";
 // const newName = removeString(word2Removed, name);
