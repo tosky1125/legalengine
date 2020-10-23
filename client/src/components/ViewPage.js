@@ -60,23 +60,6 @@ function ViewPage() {
     return context;
   };
 
-  // {artEle.article_title} 조문 위치
-  // const handleSearchArticle = () => {};
-
-  // const joSplitDate = (context)=> {
-
-  //   const date = null;
-  //   if(context){
-  //     const check = context.indexOf('<개정');
-  //     if(check !== -1){
-  //       date = context.slice(check);
-  //       context = context.sliviewpage-ce(0,check);
-  //     }
-  //   };
-  //   console.log(context, `this is ${date}`);
-  //   return { context, date };
-  // }
-
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
     <div key={chapEleIndex}>
       <h1 className='viewpage-title'>{chapEle.context}</h1>
@@ -135,25 +118,25 @@ function ViewPage() {
                 </button>
               )}
             </span>
-
-            <span
-              dangerouslySetInnerHTML={{
-                __html:
-                  artEle.context &&
-                  relatedLaw(artEle.context).replace(
-                    regex,
-                    `<span class='keyword-highlight'>${keyword}</span>`
-                  ),
-              }}
-            ></span>
-            <span className='viewpage-artdate'>{artEle.cont_date}</span>
+            <div className='viewpage-article-context'>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html:
+                    artEle.context &&
+                    relatedLaw(artEle.context).replace(
+                      regex,
+                      `<span class='keyword-highlight'>${keyword}</span>`
+                    ),
+                }}
+              ></span>
+              <span className='date'>{artEle.cont_date}</span>
+            </div>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => {
                 return (
                   <div key={claEleIndex}>
-                    <div className='clause-wrapper'>
+                    <div className='viewpage-clause-context'>
                       <span
-                        className='clause-context'
                         dangerouslySetInnerHTML={{
                           __html:
                             claEle.context &&
@@ -165,21 +148,23 @@ function ViewPage() {
                       ></span>
                       <span className='date'>{claEle.date}</span>
                     </div>
+
                     {claEle.subPara &&
                       claEle.subPara.map((subEle, subEleIndex) => {
                         return (
                           <div key={subEleIndex}>
-                            <span
-                              className='sub-context'
-                              dangerouslySetInnerHTML={{
-                                __html:
-                                  subEle.context &&
-                                  subEle.context.replace(
-                                    regex,
-                                    `<span class='keyword-highlight'>${keyword}</span>`
-                                  ),
-                              }}
-                            ></span>
+                            <div className='viewpage-sub-context'>
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    subEle.context &&
+                                    subEle.context.replace(
+                                      regex,
+                                      `<span class='keyword-highlight'>${keyword}</span>`
+                                    ),
+                                }}
+                              ></span>
+                            </div>
                             <span className='date'>{subEle.date}</span>
                             {subEle.Item &&
                               subEle.Item.map((itEle, itEleIndex) => {
@@ -195,18 +180,21 @@ function ViewPage() {
                                 } else {
                                   return (
                                     <div key={itEleIndex}>
-                                      <span
-                                        className='item-context'
-                                        dangerouslySetInnerHTML={{
-                                          __html:
-                                            itEle.context &&
-                                            itEle.context.replace(
-                                              regex,
-                                              `<span class='keyword-highlight'>${keyword}</span>`
-                                            ),
-                                        }}
-                                      ></span>
-                                      <span className='date'>{itEle.date}</span>
+                                      <div className='viewpage-item-context'>
+                                        <span
+                                          dangerouslySetInnerHTML={{
+                                            __html:
+                                              itEle.context &&
+                                              itEle.context.replace(
+                                                regex,
+                                                `<span class='keyword-highlight'>${keyword}</span>`
+                                              ),
+                                          }}
+                                        ></span>
+                                        <span className='date'>
+                                          {itEle.date}
+                                        </span>
+                                      </div>
                                     </div>
                                   );
                                 }
