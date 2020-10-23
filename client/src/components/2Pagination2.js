@@ -40,7 +40,6 @@ function Pagination2(props) {
     }
   }, []);
   console.log(props.items);
-
   const usePrevious = (value) => {
     const ref = useRef();
     useEffect(() => {

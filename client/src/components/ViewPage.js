@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
 import SideInfo from './SideInfo';
+import ArticleLink from './ArtcleLink';
 import './ViewPage.css';
 import { format } from 'date-fns';
 import ConvertToPDF from './ConvertToPDF';
@@ -21,11 +22,20 @@ function ViewPage() {
   console.log(law);
 
   let { Chapter } = law;
+
   const keyword = JSON.parse(localStorage.searchWord); 
   const searchDate = JSON.parse(localStorage.searchDate);
   // '구조'
   const regex = new RegExp(keyword,'g');
   const lawRegex = new RegExp(/\「(.*?)\」/);
+  const artUrlfragment = (strFrom) => {
+    const str = String(strFrom);
+    if (str.includes(':')) {
+      const artUrl = '0'.repeat(2) + str;
+      return artUrl;
+    }
+  };
+
 
   const joSlicer = (strFrom) => {
     const str = String(strFrom);
@@ -80,7 +90,11 @@ function ViewPage() {
       {chapEle.Article &&
         chapEle.Article.map((artEle, artEleIndex) => (
           <div key={artEleIndex}>
-            <h3 className='viewpage-article-title'>
+            <a name={artUrlfragment(artEle.article_id)}></a>
+            <h3
+              className='viewpage-article-title'
+              name={artUrlfragment(artEle.article_id)}
+            >
               {artEle.article_title}&nbsp;&nbsp;
             </h3>
             <span className='viewpage-buttons'>
@@ -137,7 +151,14 @@ function ViewPage() {
                     <div className='clause-wrapper'>
                       <span
                         className='clause-context'
-                        dangerouslySetInnerHTML={{ __html: claEle.context && claEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`) }}
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            claEle.context &&
+                            claEle.context.replace(
+                              regex,
+                              `<span class='keyword-highlight'>${keyword}</span>`
+                            ),
+                        }}
                       ></span>
                       <span className='date'>{claEle.date}</span>
                     </div>
@@ -148,7 +169,12 @@ function ViewPage() {
                             <span
                               className='sub-context'
                               dangerouslySetInnerHTML={{
-                                __html: subEle.context && subEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`),
+                                __html:
+                                  subEle.context &&
+                                  subEle.context.replace(
+                                    regex,
+                                    `<span class='keyword-highlight'>${keyword}</span>`
+                                  ),
                               }}
                             ></span>
                             <span className='date'>{subEle.date}</span>
@@ -169,7 +195,12 @@ function ViewPage() {
                                       <span
                                         className='item-context'
                                         dangerouslySetInnerHTML={{
-                                          __html: itEle.context && itEle.context.replace(regex, `<span class='keyword-highlight'>${keyword}</span>`),
+                                          __html:
+                                            itEle.context &&
+                                            itEle.context.replace(
+                                              regex,
+                                              `<span class='keyword-highlight'>${keyword}</span>`
+                                            ),
                                         }}
                                       ></span>
                                       <span className='date'>{itEle.date}</span>
@@ -195,18 +226,11 @@ function ViewPage() {
         <div className='viewpage-sideinfo-container'>
           <SideInfo />
         </div>
+        <div className='viewpage-articlelink-container'>
+          <ArticleLink />
+        </div>
         <div className='viewpage-maininfo-container'>
-          <button onClick={openModal}>PDF</button>
-          {modalIsOpen && (
-            <Modal
-              visible={modalIsOpen}
-              closable={true}
-              maskClosable={true}
-              onClose={closeModal}
-            >
-              <ConvertToPDF />
-            </Modal>
-          )}
+          <ConvertToPDF />
           <div className='viewpage-law-head'>
             <h1>{law.name}</h1>
             <p className='viewpage-date'>

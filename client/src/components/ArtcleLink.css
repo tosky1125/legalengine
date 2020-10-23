@@ -1,0 +1,15 @@
+.artclelink-contanier {
+  overflow: auto;
+}
+
+.artclelink-title {
+  font-size: medium;
+}
+
+.artclelink-article-title {
+  font-size: x-small;
+}
+
+.artclelink-article-title:hover {
+  cursor: pointer;
+}

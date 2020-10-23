@@ -10,12 +10,12 @@ ins {
   background-color: yellow;
   text-decoration: none;
 }
-.keyword-highlight{
+.keyword-highlight {
   background-color: powderblue;
 }
 .viewpage-sideinfo-container {
   position: fixed;
-  width: 15vw;
+  width: 18vw;
   padding: 1rem;
   padding-top: 2rem;
   overflow: hidden;
@@ -24,12 +24,21 @@ ins {
 .viewpage-maininfo-container {
   position: relative;
   left: 20vw;
-  width: 75vw;
-  margin-bottom: 7vh;
-  padding: 1rem;
-  padding-left: 1.5rem;
+  right: 20vw;
+  width: 50vw;
+  margin-bottom: 5vh;
+  padding: 1.5rem;
   border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
   overflow: auto;
+}
+
+.viewpage-articlelink-container {
+  position: absolute;
+  width: 18vw;
+  right: 0;
+  padding: 1rem;
+  padding-top: 2rem;
 }
 
 .viewpage-law-head {
@@ -138,7 +147,6 @@ ins {
 
 .item-context {
   padding-bottom: 1rem;
-  color: blue;
 }
 
 a {
@@ -146,6 +154,6 @@ a {
   color: inherit;
 }
 
-.viewpage-date {
+.date {
   color: rgb(36, 138, 179);
 }
