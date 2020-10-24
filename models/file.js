@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
   };
   File.init({
     law_id: DataTypes.INTEGER,
-    context: DataTypes.STRING,
-    hwp: DataTypes.STRING,
-    pdf: DataTypes.STRING,
-    date: DataTypes.DATE
+    context: DataTypes.TEXT,
+    hwp: DataTypes.TEXT,
+    pdf: DataTypes.TEXT,
+    date: DataTypes.STRING
   }, {
     sequelize,
     timestamps: false,
