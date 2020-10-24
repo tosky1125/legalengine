@@ -1,6 +1,8 @@
 import React from 'react';
 import { format } from 'date-fns';
 import './MainInfo.css';
+import pdf from '../images/pdf.png';
+import hwp from '../images/hwp.png';
 
 class MainInfo extends React.Component {
   render() {
@@ -209,17 +211,17 @@ class MainInfo extends React.Component {
     ));
     File = File
       ? File.map((ele) => (
-          <div>
+          <div className='file'>
             <span>{ele.context}</span>
             <span>{ele.date}</span>
             {ele.hwp && (
               <a href={ele.hwp} alt='한글'>
-                한글이에용
+                <img className='file-img' src={hwp} alt='hwp' />
               </a>
             )}
             {ele.pdf && (
               <a href={ele.pdf} alt='PDF'>
-                PDF에용
+                <img className='file-img' src={pdf} alt='pdf' />
               </a>
             )}
           </div>
