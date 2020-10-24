@@ -14,6 +14,10 @@ const {
     Op
   } = require('sequelize');
 
+  const {
+      extractKeyword
+  } = require('./strHandlerSet');
+
   const lawResult = async (name, eDate, number) => {
     let lawResult = await Law.findOne({
       where: {
@@ -80,18 +84,9 @@ const itemResult = async (subParaData) => {
   return itemResult;
 };
 
-const removeString = (arr, str) => {
-    let regex = new RegExp("\\b"+arr.join('|')+"\\b", "gi");
-    return str.replace(regex, '').replace(/\s+$/, '');
-};
-
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
-    let decodedName = decodeURI(name);
-    const word2Removed = ['법', '시행령', '법령', '법률', '규칙', '시행규칙', '시행'];
-    const keyword = removeString(word2Removed, decodedName);
-    console.log(keyword);
-
+    const keyword = extractKeyword(name);
     const related = await Law.findAll({
         where: {
                 [Op.or]: [
