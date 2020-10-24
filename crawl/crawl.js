@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const diff = require('./diff');
+const { format } =require('date-fns');
 const {
   Law,
   Chapter,
@@ -7,14 +9,13 @@ const {
   Subparagraph,
   Item,
   HTML,
+  File,
 } = require('../models/index');
 const axios = require('axios');
 const {
-  format
-} = require('date-fns');
-const {
   Op
 } = require('sequelize');
+
 
 const spec = async () => {
   // 법령 목록에서 아이디 k 값을 찾는다.
@@ -28,7 +29,6 @@ const spec = async () => {
   // 만약 첫 번째 실행결과에서 값을 못 찾을 경우 
   if (data === null) {
     const result = null;
-    console.log(result);
     return result;
   };
   const justBefore = await Law.findOne({
@@ -42,7 +42,7 @@ const spec = async () => {
   });
   data.oldLaw = justBefore;
 
-  const url = `http://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=${data.number}&chrClsCd=010202&urlMode=lsInfoP&ancYnChk=0&mobile=#0000`;
+  const url = `https://www.law.go.kr/lsInfoP.do?lsiSeq=${data.number}&efYd=${format(new Date(data.enforcement_date), 'yyyyMMdd')}#0000`;
 
   const browser = await puppeteer.launch({
     headless: true,
@@ -67,6 +67,7 @@ const spec = async () => {
     const clause = [];
     const subPara = [];
     const item = [];
+    const file = [];
     let chapterNum;
     let chapterSpare = null;
     let articleNum = null;
@@ -131,9 +132,40 @@ const spec = async () => {
     const html = document.querySelector('#conScroll').outerHTML;
     const body = Array.from(document.querySelector('#conScroll').children);
     const subText = document.querySelector('#arDivArea') ? Array.from(document.querySelector('#arDivArea').children) : null;
+    const attached = Array.from(document.querySelectorAll('.pcf_cover'));
     // 본문을 순회하면서 id 값으로 편장절관과 조항호목으로 분류
     // 조항호목은 class가 일관되지 않기에 해당 context를 판단해서 분류해야함.
     // 일단 전부 조로 분류
+
+    attached.forEach((ele) => {
+      let data = {
+        context: null,
+        hwp: null,
+        pdf: null,
+        date: null
+      };
+      let cont = ele.textContent;
+      const arr = Array.from(ele.children);
+      const filteredArr = arr.filter(e => {
+        if (e.nodeName === 'A' && e.className !== 'blu' && e.href !== '') {
+          return e;
+        }
+      });
+      const dateArr = arr.filter(e => {
+        if (e.nodeName === 'SPAN') return e;
+      });
+      if (filteredArr.length >= 1) {
+        data.hwp = filteredArr[0].href;
+        data.pdf = filteredArr[1] ? filteredArr[1].href : null;
+      }
+      if (dateArr.length === 1) {
+        data.date = dateArr[0].textContent.replace(/\s+$/, '');
+      }
+      cont = cont.replace(/\s+$/, '').replace(/\s+/, '').replace(data.date, '');
+      data.context = cont;
+      file.push(data);
+    });
+
     body.forEach((ele, index) => {
       if (ele.nodeName === 'A' && ele.id === ele.name) {
         if (ele.id.includes('P')) {
@@ -264,7 +296,7 @@ const spec = async () => {
             });
           } else if (hhjm === '호') {
 
-            console.log(cont);
+            
             // 하위 카테고리의 index는 null값으로 초기화
             if (subParNum === undefined) {
               subParNum = null;
@@ -535,6 +567,7 @@ const spec = async () => {
       subParNum = undefined;
       itemNum = undefined;
     }
+
     return {
       chapter,
       article,
@@ -542,6 +575,7 @@ const spec = async () => {
       subPara,
       item,
       html,
+      file,
     };
   });
   await browser.close();
@@ -570,8 +604,10 @@ const init = async () => {
     subPara,
     item,
     html,
-    data
+    data,
+    file,
   } = await spec();
+  
   const a = k;
   let {
     oldLaw
@@ -609,6 +645,17 @@ const init = async () => {
       flag_hang,
       flag_gyu
     } = art;
+
+    if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+      console.log(a);
+      console.log(context);
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_number);
+      console.log(oldLaw.number, oldLaw.enforcement_date, article_number);
+      console.log(contCheck.article);
+      contCheck = contCheck.article.context.replace(regex1, '').replace(regex2, '');
+      context = diff(contCheck, context).replace(regex2, '');
+    }
+
     let tmp = await Chapter.findOne({
       where: {
         law_id: a,
@@ -654,7 +701,7 @@ const init = async () => {
       console.log(contCheck)
       contCheck = contCheck.clause.context.replace(regex1, '').replace(regex2, '');
       console.log(contCheck)
-      context = diffString(contCheck, context).replace(regex2, '');
+      context = diff(contCheck, context).replace(regex2, '');
       console.log(context);
     }
     let tmp1 = await Chapter.findOne({
@@ -683,8 +730,8 @@ const init = async () => {
       context,
     })
   }
-  curArt = null,
-    newJoCount = 0;
+  curArt = null;
+  newJoCount = 0;
   let curClause;
   for (sub of subPara) {
     let {
@@ -708,9 +755,9 @@ const init = async () => {
       newJoCount -= 1;
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number+newJoCount);
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number + newJoCount);
       contCheck = contCheck.sub.context.replace(regex1, '').replace(regex2, '');
-      context = diffString(contCheck, context).replace(regex2, '');
+      context = diff(contCheck, context).replace(regex2, '');
     }
 
     let tmp1 = await Chapter.findOne({
@@ -752,7 +799,7 @@ const init = async () => {
     })
   }
 
-  curArt = null,
+  curArt = null;
   curClause = null;
   newJoCount = 0;
   let curSub;
@@ -783,9 +830,9 @@ const init = async () => {
       newJoCount -= 1;
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number+newJoCount);
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number + newJoCount);
       contCheck = contCheck.item.context.replace(regex1, '').replace(regex2, '');
-      context = diffString(contCheck, context).replace(regex2, '');
+      context = diff(contCheck, context).replace(regex2, '');
     }
 
     let tmp1 = await Chapter.findOne({
@@ -838,176 +885,19 @@ const init = async () => {
       context
     })
   };
-
+  for(i of file){
+    const { context, hwp, pdf, date } = i;
+    await File.create({
+      law_id : a,
+      context,
+      hwp,
+      pdf,
+      date,
+    });
+  };
   k -= 1;
   await init();
 };
+// let k = 49;
 let k = 42;
 init();
-
-
-function escape(s) {
-  let n = s;
-  n = n.replace(/&/g, '&amp;');
-  n = n.replace(/</g, '&lt;');
-  n = n.replace(/>/g, '&gt;');
-  n = n.replace(/"/g, '&quot;');
-  return n;
-}
-
-function postCheck(str) {
-  const postPosition = ['에', '을', '를', '이', '가'];
-  let result = str;
-  let post = null;
-  for (let i = 0; i < postPosition.length; i += 1) {
-    const count = str.indexOf(postPosition[i]);
-    if (count !== -1) {
-      result = str.slice(0, count);
-      post = str.slice(count);
-    }
-  }
-  return {
-    result,
-    post,
-  };
-}
-
-function diffString(o, n) {
-  // old string, new string 을 param 으로 받은 다음 공백을 전부 regex 로 지워줌
-  // o 혹은 n 이 '  소방법을 추구한다    ' 이라면, '  소방법을 추구한다' 로 바뀜 
-  o = o.replace(/\s+$/, '');
-  n = n.replace(/\s+$/, '');
-
-  // diff 의 param 으로 들어가는 부분은 공백을 기준으로 split 
-  // '  소방법을 추구한다' 이면, [' ', 소방법을', '추구한다']
-  // 앞의 공백이 몇 칸이어도, 한 칸 단위로 나온다 
-  var out = diff(o == "" ? [] : o.split(/\s+/), n == "" ? [] : n.split(/\s+/));
-  var str = "";
-
-  var oSpace = o.match(/\s+/g);
-  if (oSpace == null) {
-    oSpace = ["\n"];
-  } else {
-    oSpace.push("\n");
-  }
-  var nSpace = n.match(/\s+/g);
-  if (nSpace == null) {
-    nSpace = ["\n"];
-  } else {
-    nSpace.push("\n");
-  }
-  for (var i = 0; i < out.n.length; i++) {
-    if (out.n[i].text == null) {
-      let word = postCheck(escape(out.n[i]));
-      str += `<ins>${word.result}${nSpace[i]}</ins>${word.post}`;
-    } else {
-      var pre = "";
-      str += " " + out.n[i].text + nSpace[i] + pre;
-    }
-    // }
-  }
-
-  return str;
-}
-
-function diff(o, n) {
-  // input type 이 Array 에서 Object 로 변경됨
-  // ~950 까지 해당 과정을 해 줌
-  // [' ', 소방법을', '추구한다'] -> 
-  // {
-  //   ' ': {
-  //     rows: [0];
-  //     o: null
-  //   },
-  //   '소방법을': {
-  //     rows: [1],
-  //     o: null
-  //   },
-  //   '추구한다': {
-  //     rows: [2],
-  //     o: null
-  //   }
-  // }
-  var ns = new Object();
-  var os = new Object();
-
-  for (var i = 0; i < n.length; i++) {
-    if (ns[n[i]] == null)
-      ns[n[i]] = {
-        rows: new Array(),
-        o: null
-      };
-    ns[n[i]].rows.push(i);
-  }
-
-  for (var i = 0; i < o.length; i++) {
-    if (os[o[i]] == null)
-      os[o[i]] = {
-        rows: new Array(),
-        n: null
-      };
-    os[o[i]].rows.push(i);
-  }
-
-  // 위에서 만들어 준 객체를 순회한다
-  // ns = {
-  //   ' ': {
-  //     rows: [0];
-  //     o: null
-  //   },
-  //   '소방법을': {
-  //     rows: [1],
-  //     o: null
-  //   },
-  //   '추구한다': {
-  //     rows: [2],
-  //     o: null
-  //   }
-  // } -> 
-  []
-  for (var i in ns) {
-    if (ns[i].rows.length == 1 && typeof (os[i]) != "undefined" && os[i].rows.length == 1) {
-      n[ns[i].rows[0]] = {
-        text: n[ns[i].rows[0]],
-        row: os[i].rows[0]
-      };
-      o[os[i].rows[0]] = {
-        text: o[os[i].rows[0]],
-        row: ns[i].rows[0]
-      };
-    }
-  }
-
-  for (var i = 0; i < n.length - 1; i++) {
-    if (n[i].text != null && n[i + 1].text == null && n[i].row + 1 < o.length && o[n[i].row + 1].text == null &&
-      n[i + 1] == o[n[i].row + 1]) {
-      n[i + 1] = {
-        text: n[i + 1],
-        row: n[i].row + 1
-      };
-      o[n[i].row + 1] = {
-        text: o[n[i].row + 1],
-        row: i + 1
-      };
-    }
-  }
-
-  for (var i = n.length - 1; i > 0; i--) {
-    if (n[i].text != null && n[i - 1].text == null && n[i].row > 0 && o[n[i].row - 1].text == null &&
-      n[i - 1] == o[n[i].row - 1]) {
-      n[i - 1] = {
-        text: n[i - 1],
-        row: n[i].row - 1
-      };
-      o[n[i].row - 1] = {
-        text: o[n[i].row - 1],
-        row: i - 1
-      };
-    }
-  }
-
-  return {
-    o: o,
-    n: n
-  };
-}
