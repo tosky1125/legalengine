@@ -5,6 +5,9 @@
   .keyword-highlight {
     background-color: none;
   }
+  .file-img {
+    display: none;
+  }
   thead {
     display: table-header-group;
   }
@@ -44,7 +47,7 @@ ins {
   left: 20vw;
   right: 20vw;
   width: 55vw;
-  top: -11vh;
+  top: -5vh;
   padding: 1.5rem;
   overflow: auto;
 }
@@ -152,11 +155,6 @@ ins {
 div[class*='maininfo'] {
   line-height: 2 !important;
 }
-
-/*span[class*='context'] {
-  padding-bottom: 1rem;
-  display: block;
-}*/
 
 a {
   text-decoration: none;

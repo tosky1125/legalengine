@@ -1,18 +1,21 @@
 .pdf-btn-wrapper {
-  padding-left: 85rem;
+  text-align: right;
+  margin-right: 40rem;
+  margin-left: 30rem;
 }
 .pdf-btn {
-  background-color: #008cba; /* Green */
+  background-color: #008cba;
   border: 1px solid #008cba;
   color: white;
-  padding: 15px 25px;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+  position: fixed;
+  font-size: 18px;
   border-radius: 8px;
   transition-duration: 0.4s;
   cursor: pointer;
+  z-index: 1;
 }
 
 .pdf-btn:hover {
