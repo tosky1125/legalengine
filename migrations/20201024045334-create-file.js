@@ -16,16 +16,16 @@ module.exports = {
         }
       },
       context: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       hwp: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       pdf: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       date: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
     });
   },
