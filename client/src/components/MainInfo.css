@@ -5,6 +5,9 @@
   .keyword-highlight {
     background-color: none;
   }
+  .file-img {
+    display: none;
+  }
   thead {
     display: table-header-group;
   }
@@ -36,7 +39,7 @@ ins {
 }
 
 .keyword-highlight {
-  background-color: powderblue;
+  background-color: #f12ea760;
 }
 
 .maininfo-container {
@@ -44,7 +47,7 @@ ins {
   left: 20vw;
   right: 20vw;
   width: 55vw;
-  margin-bottom: 5vh;
+  top: -5vh;
   padding: 1.5rem;
   overflow: auto;
 }

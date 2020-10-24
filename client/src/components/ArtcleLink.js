@@ -19,19 +19,21 @@ function ArtcleLink() {
       <input type='checkbox' id={`${chapEle.id}-contTitle`} />
       <label for={`${chapEle.id}-contTitle`}>
         <span className='artclelink-title'>{chapEle.context}</span>
-        <span className='artclelink-title'>{chapEle.date}</span>
+        <span className='artclelink-date'>{chapEle.date}</span>
       </label>
       <div>
         <p>
           {chapEle.Article &&
             chapEle.Article.map((artEle, artEleIndex) => (
               <div key={artEleIndex}>
-                <a
-                  href={artUrlfragment(artEle.article_id)}
-                  className='artclelink-article-title'
-                >
-                  {artEle.article_title}
-                </a>
+                {artEle.article_title && (
+                  <a
+                    href={artUrlfragment(artEle.article_id)}
+                    className='artclelink-article-title'
+                  >
+                    {artEle.article_title}
+                  </a>
+                )}
               </div>
             ))}
         </p>
