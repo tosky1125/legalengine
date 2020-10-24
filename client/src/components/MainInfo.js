@@ -55,21 +55,21 @@ class MainInfo extends React.Component {
 
     Chapter = Chapter.map((chapEle, chapEleIndex) => (
       <div key={chapEleIndex}>
-        <span className='viewpage-chapter-titles'>{chapEle.context}</span>
+        <span className='maininfo-chapter-titles'>{chapEle.context}</span>
         <span className='date'>&nbsp;{chapEle.date}</span>
         {chapEle.Article &&
           chapEle.Article.map((artEle, artEleIndex) => (
-            <div className='viewpage-contents' key={artEleIndex}>
+            <div className='maininfo-contents' key={artEleIndex}>
               <a name={artUrlfragment(artEle.article_id)}></a>
               <div
-                className='viewpage-article-title'
+                className='maininfo-article-title'
                 name={artUrlfragment(artEle.article_id)}
               >
                 {artEle.article_title}&nbsp;&nbsp;
               </div>
-              <span className='viewpage-buttons'>
+              <span className='maininfo-buttons'>
                 {artEle.flag_pan && (
-                  <button className='viewpage-buttons-pan'>
+                  <button className='maininfo-buttons-pan'>
                     <a
                       href={`http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=200188&joNo=${
                         joSlicer(artEle.article_id)[0]
@@ -82,7 +82,7 @@ class MainInfo extends React.Component {
                   </button>
                 )}
                 {artEle.flag_yeon && (
-                  <button className='viewpage-buttons-yeon'>
+                  <button className='maininfo-buttons-yeon'>
                     {/* <a 
                     href='http://www.law.go.kr/LSW/lsJoHstProc.do?lsid={추후삽입}&lsiSeq={Law.number}&joNo=0002&joBrNo=00&lType=0002'
                     target='_blank'
@@ -93,7 +93,7 @@ class MainInfo extends React.Component {
                   </button>
                 )}
                 {artEle.flag_hang && (
-                  <button className='viewpage-buttons-hang'>
+                  <button className='maininfo-buttons-hang'>
                     {/* <a
                     href='http://www.law.go.kr/LSW/conAdmrulByLsPop.do?&lsiSeq={Law.number}&joNo={조(0001)}&joBrNo={조 하위}&datClsCd=010102&dguBun=DEG'
                     target='_blank'
@@ -102,7 +102,7 @@ class MainInfo extends React.Component {
                   </button>
                 )}
                 {artEle.flag_gyu && (
-                  <button className='viewpage-buttons-gyu'>
+                  <button className='maininfo-buttons-gyu'>
                     {/* <a
                     href='http://www.law.go.kr/LSW/lsCtlInfListR.do?lsiSeq={law.number}&lsId={추후삽입}&joNo=0001&joBrNo=00'
                     target='_blank'
@@ -111,7 +111,7 @@ class MainInfo extends React.Component {
                   </button>
                 )}
               </span>
-              <div className='viewpage-article-context'>
+              <div className='maininfo-article-context'>
                 <span
                   dangerouslySetInnerHTML={{
                     __html:
@@ -128,7 +128,7 @@ class MainInfo extends React.Component {
                 artEle.Clause.map((claEle, claEleIndex) => {
                   return (
                     <div key={claEleIndex}>
-                      <div className='viewpage-clause-context'>
+                      <div className='maininfo-clause-context'>
                         <span
                           dangerouslySetInnerHTML={{
                             __html:
@@ -141,12 +141,11 @@ class MainInfo extends React.Component {
                         ></span>
                         <span className='date'>{claEle.date}</span>
                       </div>
-
                       {claEle.subPara &&
                         claEle.subPara.map((subEle, subEleIndex) => {
                           return (
                             <div key={subEleIndex}>
-                              <div className='viewpage-sub-context'>
+                              <div className='maininfo-sub-context'>
                                 <span
                                   dangerouslySetInnerHTML={{
                                     __html:
@@ -173,7 +172,7 @@ class MainInfo extends React.Component {
                                   } else {
                                     return (
                                       <div key={itEleIndex}>
-                                        <div className='viewpage-item-context'>
+                                        <div className='maininfo-item-context'>
                                           <span
                                             dangerouslySetInnerHTML={{
                                               __html:
@@ -203,23 +202,49 @@ class MainInfo extends React.Component {
           ))}
       </div>
     ));
+
     return (
-      <table>
-        <div className='viewpage-maininfo-container'>
-          <div className='viewpage-law-head'>
-            <h1>{law.name}</h1>
-            <p className='viewpage-law-head-info'>
-              [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
-              {law.type}&nbsp;
-              {law.number}호,&nbsp;
-              {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
-              ,&nbsp;
-              {law.amendment_status}]
-            </p>
-          </div>
-          {Chapter}
-        </div>
-      </table>
+      <div>
+        <div class='maininfo-page-header'></div>
+        <div class='maininfo-page-footer'></div>
+        <table>
+          <thead>
+            <tr>
+              <td>
+                <div class='maininfo-page-header-space'></div>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div className='maininfo-container'>
+                  <div className='maininfo-law-head'>
+                    <h1>{law.name}</h1>
+                    <p className='maininfo-law-head-info'>
+                      [시행{' '}
+                      {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
+                      {law.type}&nbsp;
+                      {law.number}호,&nbsp;
+                      {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
+                      ,&nbsp;
+                      {law.amendment_status}]
+                    </p>
+                  </div>
+                  {Chapter}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <div class='mainifo-page-footer-space'></div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     );
   }
 }

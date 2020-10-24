@@ -23,12 +23,20 @@
   width: 100%;
   border-bottom: 1px solid gray;
 }
-
 .maininfo-page-footer {
   position: fixed;
   bottom: 0mm;
   width: 100%;
   border-top: 1px solid gray;
+}
+
+ins {
+  background-color: yellow;
+  text-decoration: none;
+}
+
+.keyword-highlight {
+  background-color: powderblue;
 }
 
 .maininfo-container {
@@ -48,14 +56,27 @@
   color: rgb(36, 138, 179);
 }
 
-.maininfo-title {
+.maininfo-chapter-titles {
   color: #161694;
+  font-size: x-large;
+  font-weight: 600;
+  line-height: 400%;
+}
+
+.maininfo-contents {
+  line-height: 200%;
 }
 
 .maininfo-article-title {
   display: inline;
   color: #161694;
   padding-left: 0.5rem;
+  font-size: medium;
+  font-weight: 500;
+}
+
+.maininfo-article-context {
+  line-height: 2 !important;
 }
 
 .maininfo-buttons-pan {
@@ -111,7 +132,7 @@
   color: #f44336;
 }
 
-.maininfo-buttons-gyu {
+.viewpage-buttons-gyu {
   background-color: #555555;
   border: 1px solid #555555;
   border-radius: 4px;
@@ -123,18 +144,23 @@
   font-size: 16px;
 }
 
-.maininfo-buttons-gyu:hover {
+.viewpage-buttons-gyu:hover {
   background-color: white;
   color: #555555;
 }
 
+div[class*='maininfo'] {
+  line-height: 2 !important;
+}
+
+/*span[class*='context'] {
+  padding-bottom: 1rem;
+  display: block;
+}*/
+
 a {
   text-decoration: none;
   color: inherit;
-}
-
-.keyword-highlight {
-  background-color: powderblue;
 }
 
 .date {
