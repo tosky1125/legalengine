@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     number: DataTypes.INTEGER,
     name: DataTypes.STRING,
-    // refined_name: DataTypes.STRING,
+    refined_name: DataTypes.STRING,
     promulgation_date: DataTypes.DATE,
     type: {
       type: DataTypes.STRING,
