@@ -2,57 +2,40 @@ import React from 'react';
 import { PDFExport } from '@progress/kendo-react-pdf';
 import { format } from 'date-fns';
 import './ConvertToPDF.css';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 function ConvertToPDF() {
-  let dataToConvert;
-  /*const exportPDF = () => {
-    dataToConvert.save();
-  };*/
-  /* const download = () => {
-    return (
-      <PDFExport
-        fileName={`${law.name}.pdf`}
-        title=''
-        subject=''
-        keywords=''
-        ref={(d) => (dataToConvert = d)}
-      >
-        <div>
-          <button onClick={exportPDF}>download</button>
-          {contentsInPdf()};
-        </div>
-      </PDFExport>
-    );
-  }; */
-  /*const aaa = () => {
-    return (
-      <div className='pdf'>
-        <PDFExport
-          paperSize='A4'
-          fileName={`${law.name}.pdf`}
-          title=''
-          subject=''
-          keywords=''
-          ref={(d) => (dataToConvert = d)}
-        >
-          <div className='pdf-container'>
-            <div className='pdf-law-head'>
-              <h1>{law.name}</h1>
-              <p className='pdf-date'>
-                [시행 {format(new Date(law.enforcement_date), 'yyyy.MM.dd.')}] [
-                {law.type}&nbsp;
-                {law.number}호,&nbsp;
-                {format(new Date(law.promulgation_date), 'yyyy.MM.dd.')}
-                ,&nbsp;
-                {law.amendment_status}]
-              </p>
-            </div>
-            {Chapter}
-          </div>
-        </PDFExport>
-      </div>
-    );
-  };*/
+  
+  const pdfClick = () =>{
+    html2canvas(document.querySelector('.pdf-container')).then(canvas => {
+
+      var imgData = canvas.toDataURL('image/png');
+
+      var imgWidth = 210; // 이미지 가로 길이(mm) A4 기준
+      var pageHeight = imgWidth * 1.414; // 출력 페이지 세로 길이 계산 A4 기준
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+
+      var doc = new jsPDF('p', 'mm');
+      var position = 0;
+
+      // 첫 페이지 출력
+      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // 한 페이지 이상일 경우 루프 돌면서 출력
+      while (heightLeft >= 20) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // 파일 저장
+      doc.save('sample_A4.pdf');
+    })
+  }
   let law = JSON.parse(localStorage.Law);
 
   let { Chapter } = law;
@@ -119,22 +102,8 @@ function ConvertToPDF() {
   return (
     <div>
       <div className='pdf-btn-wrapper'>
-        <button
-          className='pdf-btn'
-          onClick={() => {
-            dataToConvert.save();
-          }}
-        >
-          PDF 저장
-        </button>
+        <button onClick={pdfClick}>Generate Pdf</button>
       </div>
-      <div style={{ position: 'absolute', left: '-4000px', top: 0 }}>
-        <PDFExport
-          paperSize='A4'
-          margin='1cm'
-          fileName={`${law.name}.pdf`}
-          ref={(data) => (dataToConvert = data)}
-        >
           <div className='pdf-container'>
             <div className='pdf-law-head'>
               <h1>{law.name}</h1>
@@ -149,8 +118,8 @@ function ConvertToPDF() {
             </div>
             {Chapter}
           </div>
-        </PDFExport>
-      </div>
+        
+      
     </div>
   );
 }

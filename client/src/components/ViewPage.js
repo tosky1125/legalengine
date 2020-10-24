@@ -142,7 +142,7 @@ function ViewPage() {
               )}
             </span>
             
-              <span dangerouslySetInnerHTML={{ __html: artEle.context && relatedLaw(artEle.context).replace(regex, `<span class='keyword-highlight'>${keyword}</span>`)}}></span>
+              <span dangerouslySetInnerHTML={{ __html: artEle.context && relatedLaw(artEle.context).replace(regex, `<span class='keyword-highlight'>${keyword}</span>`).replace(' ', '')}}></span>
             <span className='viewpage-artdate'>{artEle.cont_date}</span>
             {artEle.Clause &&
               artEle.Clause.map((claEle, claEleIndex) => {
