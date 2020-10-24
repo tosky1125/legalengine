@@ -3,7 +3,7 @@
     display: none;
   }
   .keyword-highlight {
-    background-color: white;
+    background-color: none;
   }
   thead {
     display: table-header-group;
