@@ -1,5 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
+import './MainInfo.css';
 
 class MainInfo extends React.Component {
   render() {
