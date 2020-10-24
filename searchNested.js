@@ -116,7 +116,6 @@ const totalData = async (name, eDate, number) => {
     });
     nestedData.Related = related;
 
-
     nestedData.Law = await lawResult(name, eDate, number);
     nestedData.Law.File = await fileResult(nestedData.Law);
     nestedData.Law.Chapter = await chapterResult(nestedData.Law);

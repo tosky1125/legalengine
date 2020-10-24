@@ -420,23 +420,26 @@ const name = "119구조ㆍ구급에 관한 법률 시행규칙";
 //   "context": null
 // }
 
-const testForFile = async () => {
-  const result = await Law.findOne({
+const { rmSpaceAndSymbols } = require('./strHandlerSet');
+
+const conditionMaker = (str) => {
+  const refinedStr = rmSpaceAndSymbols(str);
+  const refinedArr = refinedStr.split('');
+  const conditionsArr = refinedArr.map(eachStr => {
+    return {name: {[Op.substring]: eachStr}};
+  });
+  return conditionsArr
+};
+
+const testForFile = async (str) => {
+  const result = await Law.findAll({
     where: {
-      law_id: 42
+      [Op.and]: conditionMaker(str)
     },
-    include: [{
-      as: 'file',
-      model: File,
-      nested: true
-    }],
-    // include: {
-    //   model: File,
-    //   as: 'file',
-    //   all: true,
-    //   nested: true
-    // },
     raw: true
   });
   console.log(result);
+  return result;
 };
+
+testForFile("평창 올림픽 법");
