@@ -87,10 +87,11 @@ const removeString = (arr, str) => {
 
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
-    
+    let decodedName = decodeURI(name);
     const word2Removed = ['법', '시행령', '법령', '법률', '규칙', '시행규칙', '시행'];
-    const keyword = removeString(word2Removed, name);
+    const keyword = removeString(word2Removed, decodedName);
     console.log(keyword);
+
     const related = await Law.findAll({
         where: {
                 [Op.or]: [
