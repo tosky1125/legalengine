@@ -34,4 +34,6 @@ const extractKeyword = (str) => {
     }
 };
 
+// const res = rmSpaceAndSymbols("10ㆍ27법난 피해자의 명예회복 등에 관한 법률");
+
 module.exports = { extractKeyword, rmSpaceAndSymbols };

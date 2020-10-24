@@ -9,9 +9,12 @@ const {
 const {
   Op
 } = require('sequelize');
+const { 
+  rmSpaceAndSymbols
+} = require('../../strHandlerSet');
 const parse = require('date-fns/parse');
+const differenceInDays = require('date-fns/differenceInDays');
 const totalData = require('../../searchNested');
-
 module.exports = {
   get: async (req, res) => {
     const {
@@ -26,6 +29,7 @@ module.exports = {
     const { date, searchWord } = req.body;
     const parsedDate = parse(date, 'yyyy-MM-dd', new Date());
     const newkeyword = searchWord.replace('법', '');
+
     const searchResult = await Law.findAll({
       where: {
         name: {
@@ -39,6 +43,23 @@ module.exports = {
       group: ['name'],
       raw: true
     });
-    res.send(searchResult);
+    
+    let lawPair;
+    for (eachLaw of searchResult) {
+      for (targetLaw of searchResult) {
+        if (rmSpaceAndSymbols(eachLaw.name) === rmSpaceAndSymbols(targetLaw.name) && eachLaw.name !== targetLaw.name) {
+          lawPair = [eachLaw, targetLaw];
+        }
+      }
+    }
+    if (differenceInDays(lawPair[0].enforcement_date, lawPair[1].enforcement_date) > 0) {
+      const oldLaw = lawPair[1];
+      const filteredResult = searchResult.filter(result => result.name !== oldLaw.name);
+      res.send(filteredResult);
+    } else {
+      const oldLaw = lawPair[0];
+      const filteredResult = searchResult.filter(result => result.name !== oldLaw.name);
+      res.send(filteredResult);
+    }
   },
 };
