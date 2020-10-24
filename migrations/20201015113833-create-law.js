@@ -13,6 +13,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
+      refined_name: {
+        type: Sequelize.STRING
+      },
       promulgation_date: {
         type: Sequelize.DATE
       },
