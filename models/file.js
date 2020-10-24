@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       File.belongsTo(models.Law, {
+        as: 'file',
         foreignKey: 'law_id',
         targetKey: 'law_id'
       });

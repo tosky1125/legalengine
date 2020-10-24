@@ -5,6 +5,7 @@ const {
     Item,
     Law_Type,
     Law,
+    File,
     Ministry,
     Revision,
     Subparagraph
@@ -33,6 +34,16 @@ const {
   });
   return lawResult;
 };
+
+const fileResult = async (lawData) => {
+    const fileResult = await File.findAll({
+        where: {
+            law_id: lawData.law_id
+        },
+        raw: true
+    });
+    return fileResult;
+}
 
 const chapterResult = async (lawData) => {
   let chapterResult = await Chapter.findAll({
@@ -107,6 +118,7 @@ const totalData = async (name, eDate, number) => {
 
 
     nestedData.Law = await lawResult(name, eDate, number);
+    nestedData.Law.File = await fileResult(nestedData.Law);
     nestedData.Law.Chapter = await chapterResult(nestedData.Law);
     for (eachChapter of nestedData.Law.Chapter) {
         eachChapter.Article = await articleResult(eachChapter);
@@ -124,4 +136,6 @@ const totalData = async (name, eDate, number) => {
 };
 
 module.exports = totalData;
+
+
 

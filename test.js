@@ -105,6 +105,7 @@ const {
   Law,
   Ministry,
   Revision,
+  File,
   Subparagraph
 } = require('./models');
 
@@ -418,3 +419,24 @@ const name = "119구조ㆍ구급에 관한 법률 시행규칙";
 //   "ministry": "소방청",
 //   "context": null
 // }
+
+const testForFile = async () => {
+  const result = await Law.findOne({
+    where: {
+      law_id: 42
+    },
+    include: [{
+      as: 'file',
+      model: File,
+      nested: true
+    }],
+    // include: {
+    //   model: File,
+    //   as: 'file',
+    //   all: true,
+    //   nested: true
+    // },
+    raw: true
+  });
+  console.log(result);
+};
