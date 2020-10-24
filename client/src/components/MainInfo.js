@@ -8,7 +8,7 @@ class MainInfo extends React.Component {
     console.log(law);
 
     let { Chapter } = law;
-
+    let { File } = law;
     const keyword = JSON.parse(localStorage.searchWord);
     const searchDate = JSON.parse(localStorage.searchDate);
     // '구조'
@@ -52,7 +52,6 @@ class MainInfo extends React.Component {
       console.log(context);
       return context;
     };
-
     Chapter = Chapter.map((chapEle, chapEleIndex) => (
       <div key={chapEleIndex}>
         <span className='maininfo-chapter-titles'>{chapEle.context}</span>
@@ -61,12 +60,12 @@ class MainInfo extends React.Component {
           chapEle.Article.map((artEle, artEleIndex) => (
             <div className='maininfo-contents' key={artEleIndex}>
               <a name={artUrlfragment(artEle.article_id)}></a>
-              <div
+              {artEle.article_title && <div
                 className='maininfo-article-title'
                 name={artUrlfragment(artEle.article_id)}
               >
                 {artEle.article_title}&nbsp;&nbsp;
-              </div>
+              </div> }
               <span className='maininfo-buttons'>
                 {artEle.flag_pan && (
                   <button className='maininfo-buttons-pan'>
@@ -136,7 +135,7 @@ class MainInfo extends React.Component {
                               claEle.context.replace(
                                 regex,
                                 `<span class='keyword-highlight'>${keyword}</span>`
-                              ),
+                              ).replace(/\s+/,''),
                           }}
                         ></span>
                         <span className='date'>{claEle.date}</span>
@@ -202,7 +201,13 @@ class MainInfo extends React.Component {
           ))}
       </div>
     ));
-
+    File = File ? File.map(ele => 
+      <div>
+        <span>{ele.context}</span><span>{ele.date}</span>
+        {ele.hwp && <a href={ele.hwp} alt='한글'>한글이에용</a>}
+        {ele.pdf && <a href={ele.pdf} alt='PDF'>PDF에용</a>}
+      </div>
+    ) : null;
     return (
       <div>
         <div class='maininfo-page-header'></div>
@@ -232,6 +237,7 @@ class MainInfo extends React.Component {
                     </p>
                   </div>
                   {Chapter}
+                  {File}
                 </div>
               </td>
             </tr>

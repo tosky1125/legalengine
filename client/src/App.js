@@ -16,8 +16,8 @@ function App() {
           <Route path='/search' component={SearchResult} />
           <Route path='/view' component={ViewPage} />
         </Switch>
+        <Footer />
       </Router>
-      <Footer />
     </div>
   );
 }
