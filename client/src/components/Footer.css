@@ -1,12 +1,36 @@
 .footer-form {
   background-color: #f8f9fa;
-  display: grid;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 5vh;
+  height: 4vh;
   text-align: center;
   padding-top: 1.5rem;
-  grid-template-columns: 1fr 1fr;
+  margin-top: 3rem;
+}
+/* 
+grid-template-columns: 1fr 1fr;
+display: grid;
+*/
+.footer-name {
+  width: 30%;
+}
+.footer-rights {
+  width: 30%;
+  margin-left: 20%;
+}
+.footer-guideline {
+  width: 30%;
+  margin-left: 20%;
+}
+
+.footer-guideline-term:hover {
+  border-bottom: 1px solid black;
+}
+.footer-guideline-policy {
+  margin-left: 1rem;
+}
+.footer-guideline-policy:hover {
+  border-bottom: 1px solid black;
 }

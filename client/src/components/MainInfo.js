@@ -11,7 +11,6 @@ class MainInfo extends React.Component {
 
     let { Chapter } = law;
     let { File } = law;
-
     const keyword = JSON.parse(localStorage.searchWord);
     const searchDate = JSON.parse(localStorage.searchDate);
     // '구조'
@@ -55,7 +54,6 @@ class MainInfo extends React.Component {
       console.log(context);
       return context;
     };
-
     Chapter = Chapter.map((chapEle, chapEleIndex) => (
       <div key={chapEleIndex}>
         <span className='maininfo-chapter-titles'>{chapEle.context}</span>
@@ -227,8 +225,8 @@ class MainInfo extends React.Component {
           </div>
         ))
       : null;
-
-    return (
+    
+  return (
       <div>
         <div class='maininfo-page-header'></div>
         <div class='maininfo-page-footer'></div>
