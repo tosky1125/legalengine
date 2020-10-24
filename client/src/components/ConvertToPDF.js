@@ -1,3 +1,4 @@
+import { node, nominalTypeHack } from 'prop-types';
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import './ConvertToPDF.css';
