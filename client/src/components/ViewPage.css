@@ -50,14 +50,27 @@ ins {
   color: rgb(36, 138, 179);
 }
 
-.viewpage-title {
+.viewpage-chapter-titles {
   color: #161694;
+  font-size: x-large;
+  font-weight: 600;
+  line-height: 400%;
+}
+
+.viewpage-contents {
+  line-height: 200%;
 }
 
 .viewpage-article-title {
   display: inline;
   color: #161694;
   padding-left: 0.5rem;
+  font-size: medium;
+  font-weight: 500;
+}
+
+.viewpage-article-context {
+  line-height: 2 !important;
 }
 
 .viewpage-buttons-pan {
@@ -128,6 +141,10 @@ ins {
 .viewpage-buttons-gyu:hover {
   background-color: white;
   color: #555555;
+}
+
+div[class*='viewpage'] {
+  line-height: 2 !important;
 }
 
 /*span[class*='context'] {

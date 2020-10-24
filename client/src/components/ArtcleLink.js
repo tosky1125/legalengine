@@ -10,10 +10,8 @@ function ArtcleLink() {
 
   const artUrlfragment = (strFrom) => {
     const str = String(strFrom);
-    if (str.includes(':')) {
-      const artUrl = '#' + '0'.repeat(2) + str;
-      return artUrl;
-    }
+    const artUrl = '#' + '0'.repeat(3) + str;
+    return artUrl;
   };
 
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
