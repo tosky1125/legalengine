@@ -1,6 +1,8 @@
 import React from 'react';
 import { format } from 'date-fns';
 import './MainInfo.css';
+import pdf from '../images/pdf.png';
+import hwp from '../images/hwp.png';
 
 class MainInfo extends React.Component {
   render() {
@@ -60,12 +62,14 @@ class MainInfo extends React.Component {
           chapEle.Article.map((artEle, artEleIndex) => (
             <div className='maininfo-contents' key={artEleIndex}>
               <a name={artUrlfragment(artEle.article_id)}></a>
-              {artEle.article_title && <div
-                className='maininfo-article-title'
-                name={artUrlfragment(artEle.article_id)}
-              >
-                {artEle.article_title}&nbsp;&nbsp;
-              </div> }
+              {artEle.article_title && (
+                <div
+                  className='maininfo-article-title'
+                  name={artUrlfragment(artEle.article_id)}
+                >
+                  {artEle.article_title}&nbsp;&nbsp;
+                </div>
+              )}
               <span className='maininfo-buttons'>
                 {artEle.flag_pan && (
                   <button className='maininfo-buttons-pan'>
@@ -132,10 +136,12 @@ class MainInfo extends React.Component {
                           dangerouslySetInnerHTML={{
                             __html:
                               claEle.context &&
-                              claEle.context.replace(
-                                regex,
-                                `<span class='keyword-highlight'>${keyword}</span>`
-                              ).replace(/\s+/,''),
+                              claEle.context
+                                .replace(
+                                  regex,
+                                  `<span class='keyword-highlight'>${keyword}</span>`
+                                )
+                                .replace(/\s+/, ''),
                           }}
                         ></span>
                         <span className='date'>{claEle.date}</span>
@@ -201,14 +207,26 @@ class MainInfo extends React.Component {
           ))}
       </div>
     ));
-    File = File ? File.map(ele => 
-      <div>
-        <span>{ele.context}</span><span>{ele.date}</span>
-        {ele.hwp && <a href={ele.hwp} alt='한글'>한글이에용</a>}
-        {ele.pdf && <a href={ele.pdf} alt='PDF'>PDF에용</a>}
-      </div>
-    ) : null;
-    return (
+    File = File
+      ? File.map((ele) => (
+          <div className='file'>
+            <span>{ele.context}</span>
+            <span>{ele.date}</span>
+            {ele.hwp && (
+              <a href={ele.hwp} alt='한글'>
+                <img className='file-img' src={hwp} alt='hwp' />
+              </a>
+            )}
+            {ele.pdf && (
+              <a href={ele.pdf} alt='PDF'>
+                <img className='file-img' src={pdf} alt='pdf' />
+              </a>
+            )}
+          </div>
+        ))
+      : null;
+    
+  return (
       <div>
         <div class='maininfo-page-header'></div>
         <div class='maininfo-page-footer'></div>
