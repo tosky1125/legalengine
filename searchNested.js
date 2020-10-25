@@ -16,19 +16,19 @@ const {
   } = require('sequelize');
 
   const {
-      extractKeyword
+    rmSpaceAndSymbols, extractKeyword, parseDate
   } = require('./strHandlerSet');
 
   const lawResult = async (name, eDate, number) => {
-    let lawResult = await Law.findOne({
+    const refinedName = rmSpaceAndSymbols(name);
+    const parsedDate = parseDate(eDate);
+    const lawResult = await Law.findOne({
       where: {
           number: number,
           enforcement_date: {
-              [Op.lte]: eDate
+              [Op.lte]: parsedDate
           },
-          name: {
-              [Op.substring]: name
-          }
+          refined_name: refinedName
       },
       raw: true
   });
@@ -36,7 +36,6 @@ const {
 };
 
 const fileResult = async (lawData) => {
-    console.log(lawData);
     const fileResult = await File.findAll({
         where: {
             law_id: lawData.law_id
@@ -47,7 +46,7 @@ const fileResult = async (lawData) => {
 }
 
 const chapterResult = async (lawData) => {
-  let chapterResult = await Chapter.findAll({
+    const chapterResult = await Chapter.findAll({
       raw: true,
       where: {
           law_id: lawData.law_id
@@ -57,7 +56,7 @@ const chapterResult = async (lawData) => {
 };
 
 const articleResult = async (chapData) => {
-  let articleResult = await Article.findAll({
+    const articleResult = await Article.findAll({
       raw:true,
       where: {
           chapter_id: chapData.id
@@ -67,7 +66,7 @@ const articleResult = async (chapData) => {
 };
 
 const clauseResult = async (artData) => {
-  let clauseResult = await Clause.findAll({
+    const clauseResult = await Clause.findAll({
       raw: true,
       where: {
           article_id: artData.id
@@ -77,7 +76,7 @@ const clauseResult = async (artData) => {
 };
 
 const subParaResult = async (clauseData) => {
-  let subParaResult = await Subparagraph.findAll({
+    const subParaResult = await Subparagraph.findAll({
       raw: true,
       where: {
           clause_id: clauseData.id
@@ -87,7 +86,7 @@ const subParaResult = async (clauseData) => {
 };
 
 const itemResult = async (subParaData) => {
-  let itemResult = await Item.findAll({
+    const itemResult = await Item.findAll({
       raw: true,
       where: {
           sub_id: subParaData.id
@@ -98,25 +97,26 @@ const itemResult = async (subParaData) => {
 
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
-    const keyword = extractKeyword(name);
-    console.log(keyword);
-    const related = await Law.findAll({
+
+    const extractedKeyword = extractKeyword(name);
+    const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
+    const parsedDate = parseDate(eDate);
+
+    const relatedLaws = await Law.findAll({
         where: {
-                [Op.or]: [
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행규칙'}}]},
-                ],
+            refined_name: {
+                [Op.substring]: refinedKeyword
+            },
+            enforcement_date: {
+                [Op.lte]: parsedDate
+            },
         },
-        order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-        group: ['name'],
+        order: [['enforcement_date', 'DESC']],
+        group: ['refined_name'],
         raw: true
     });
-    nestedData.Related = related;
+
+    nestedData.Related =  relatedLaws;
 
     nestedData.Law = await lawResult(name, eDate, number);
     nestedData.Law.File = await fileResult(nestedData.Law);
@@ -133,6 +133,7 @@ const totalData = async (name, eDate, number) => {
             };
         };
     };
+
     return nestedData;
 };
 
