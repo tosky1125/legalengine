@@ -1,20 +1,11 @@
-// current this file name is exc, it's shorthand of exception handler
+const add = require('date-fns/add');
+
+// 정규표현식을 통해 문자열로부터 숫자와 한글을 제외한 모든 값을 제거하기 
 const rmSpaceAndSymbols = (str) => {
     return str.replace(/[^가-힣^0-9]/g, "");
 };
 
-// const resBefore = rmSpaceAndSymbols('10ㆍ27법난 피해자의 명예회복 등에 관한 법률 시행령');
-// const resCurrent = rmSpaceAndSymbols('10·27법난 피해자의 명예회복 등에 관한 법률 시행령');
-
-// console.log(resBefore);
-// console.log(resCurrent);
-// console.log(resBefore === resCurrent);
-
-// 1. 법을 찾는다
-// 2. 법의 이름에서 한글과 숫자를 제외한 모든 것들을 제거한다
-// 3. 만약 그 제거한 값이 같다면, 그 두 개의 법을 같은 법으로 간주한다
-
-// 키워드 만들기
+// 법의 이름으로부터 키워드 만들기
 const extractKeyword = (str) => {
     // 먼저 법의 이름에 띄어쓰기가 되어있는 경우 띄어쓰기 기준으로 단어를 잘라준다
     const splittedStr = str.split(' ');
@@ -33,6 +24,14 @@ const extractKeyword = (str) => {
     }
 };
 
-// const res = rmSpaceAndSymbols("10ㆍ27법난 피해자의 명예회복 등에 관한 법률");
+// 전달받은 날짜 + 시간 문자열을 정제하기
+const parseDate = (dateStr) => {
+    const parsedDate = add(new Date(dateStr), {
+        days: 1,
+        hours: -15
+    });
+    return parsedDate;
+};
 
-module.exports = { extractKeyword, rmSpaceAndSymbols };
+
+module.exports = { extractKeyword, rmSpaceAndSymbols, parseDate };
