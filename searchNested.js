@@ -36,6 +36,7 @@ const {
 };
 
 const fileResult = async (lawData) => {
+    console.log(lawData);
     const fileResult = await File.findAll({
         where: {
             law_id: lawData.law_id
@@ -98,6 +99,7 @@ const itemResult = async (subParaData) => {
 const totalData = async (name, eDate, number) => {
     let nestedData = {};
     const keyword = extractKeyword(name);
+    console.log(keyword);
     const related = await Law.findAll({
         where: {
                 [Op.or]: [
