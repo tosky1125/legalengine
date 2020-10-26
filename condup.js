@@ -15,59 +15,45 @@ const {
 
 const add = require('date-fns/add');
 
-// const findLaws = async (lawName) => {
-//     const refinedName = rmSpaceAndSymbols(lawName);
-//     const lawResult = await Law.findAll({
-//         where: {
-//             refined_name: refinedName
-//         },
-//         order: [['enforcement_date', 'DESC']],
-//         raw: true
-//     });
-//     console.log(lawResult);
-// };
-
-// 법이 적용되는 시간
-
-const totalData = async (name, eDate, number) => {
-    let nestedData = {};
-
-    const extractedKeyword = extractKeyword(name);
-    const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
-    const parsedDate = parseDate(eDate);
-
-    const relatedLaws = await Law.findAll({
-        where: {
-            refined_name: {
-                [Op.substring]: refinedKeyword
-            },
-            enforcement_date: {
-                [Op.lte]: parsedDate
-            },
-        },
-        order: [['enforcement_date', 'DESC']],
-        group: ['name'],
+const findLawRefNameList = async () => {
+    const lawSortedByRefined = await Law.findAll({
+        attributes: ['refined_name'],
+        group: ['refined_name'],
         raw: true
     });
-    nestedData.Related =  relatedLaws;
-
-    nestedData.Law = await lawResult(name, eDate, number);
-    nestedData.Law.File = await fileResult(nestedData.Law);
-    nestedData.Law.Chapter = await chapterResult(nestedData.Law);
-    for (eachChapter of nestedData.Law.Chapter) {
-        eachChapter.Article = await articleResult(eachChapter);
-        for (eachArticle of eachChapter.Article) {
-            eachArticle.Clause = await clauseResult(eachArticle);
-            for (eachClause of eachArticle.Clause) {
-                eachClause.subPara = await subParaResult(eachClause);
-                for (eachSubpara of eachClause.subPara) {
-                    eachSubpara.Item = await itemResult(eachSubpara);
-                };
-            };
-        };
-    };
-
-    return nestedData;
+    const lawRefNameArr = Array.from(lawSortedByRefined, arg => arg.refined_name);
+    return lawRefNameArr;
 };
 
-totalData("10ㆍ27법난 피해자의 명예회복 등에 관한 법률", "2019-03-25 00:00:00", "206034");
+const updateRevTable = async (refNameList) => {
+    refNameList.map(async (refName) => {
+        const lawByName = await Law.findAll({
+            where: {
+                refined_name: refName
+            },
+            order: [['enforcement_date', 'ASC']],
+            raw: true
+        });
+        lawByName.map((eachLaw, index) => {
+            if (index + 1 === lawByName.length) {
+                return;
+            } else {
+                Revision.create({
+                    old_law_id: eachLaw.law_id,
+                    new_law_id: lawByName[index + 1].law_id,
+                    statement: String(eachLaw.enforcement_date),
+                    reason: String(eachLaw.enforcement_date)
+                });
+            }
+        });
+    });
+};
+
+const startUpateRevTable = async () => {
+    const lawRefNameArr = await findLawRefNameList();
+    updateRevTable(lawRefNameArr);
+};
+
+startUpateRevTable();
+
+
