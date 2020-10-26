@@ -22,7 +22,7 @@ function ArtcleLink() {
 
   //편:part 장:chapter 절:section 관:sub-section
 
-  ArtcleLink = (
+  /*ArtcleLink = (
     <div className='artclelink-accordion'>
       <input type='checkbox' id='contTitle' />
       <label htmlFor='contTitle'>본문</label>
@@ -30,7 +30,7 @@ function ArtcleLink() {
         <div>
           {ArtcleLink.map((chapEle, chapEleIndex) => (
             <div key={chapEleIndex}>
-              <div>
+              <div> 
                 <input type='checkbox' id='part-contTitle' />
                 {chapEle.context.substring(0, 3).includes('편') && (
                   <label htmlFor='part-contTitle'>
@@ -48,7 +48,7 @@ function ArtcleLink() {
                     </span>
                   </label>
                 )}
-                {/* <div>
+                {<div>
                   {ArtcleLink.map((chapEle, chapEleIndex) => (
                     <div key={chapEleIndex}>
                       <input type='checkbox' id='chapter-contTitle' />
@@ -70,41 +70,14 @@ function ArtcleLink() {
                       )}
                     </div>
                   ))}
-                </div> */}
+                </div>}
               </div>
             </div>
           ))}
         </div>
       </div>
     </div>
-  );
-
-  Chapter = Chapter.map((chapEle, chapEleIndex) => (
-    <div className='artlcelink-accordion' key={chapEleIndex}>
-      <input type='checkbox' id={`${chapEle.id}-contTitle`} />
-      <label htmlFor={`${chapEle.id}-contTitle`}>
-        <span className='artclelink-title'>{chapEle.context}</span>
-        <span className='artclelink-date'>{chapEle.date}</span>
-      </label>
-      <div>
-        <p>
-          {chapEle.Article &&
-            chapEle.Article.map((artEle, artEleIndex) => (
-              <div key={artEleIndex}>
-                {artEle.article_title && (
-                  <a
-                    href={articleUrlfragment(artEle.article_id)}
-                    className='artclelink-article-title'
-                  >
-                    {artEle.article_title}
-                  </a>
-                )}
-              </div>
-            ))}
-        </p>
-      </div>
-    </div>
-  ));
+  );*/
 
   //부칙 Addenda
   const addendaUrlfragment = (strFrom) => {
@@ -137,7 +110,7 @@ function ArtcleLink() {
   return (
     <div>
       <div className='artclelink-contanier'>
-        {ArtcleLink}
+        {/*{ArtcleLink}*/}
         {Addenda}
         {/* {Chapter} */}
 

@@ -24,14 +24,14 @@ class SearchResult extends React.Component {
     // 데이터들의 새로운 페이지로 스테이트 업데이트
     this.setState({ pageOfItems: pageOfItems });
   }
-
+  
   handleClickSearch = (refined_name, number, enforcement_date) => {
     const { lawinfo } = this.props;
     axios
       .get(
-        `http://13.125.112.243/search?lawName=${encodeURIComponent(
+        `http://13.125.112.243/law/${encodeURIComponent(
           refined_name
-        )}&lawNum=${number}&enfDate=${enforcement_date}`
+        )}?lawNum=${number}&enfDate=${enforcement_date}`
       )
       .then((res) => {
         lawinfo(res.data);
@@ -46,13 +46,13 @@ class SearchResult extends React.Component {
         window.open(
           `/law/${encodeURIComponent(
             refined_name
-          )}&lawNum=${number}&enfDate=${format(
+          )}?lawNum=${number}&enfDate=${format(
             new Date(enforcement_date),
             'yyyy-MM-dd'
           )}`,
           '_blank'
         );
-      }) //http://url.com/law/119소방구조법?ruleID=123&date=20060401
+      })
       .catch(function (err) {
         if (err.res) {
           console.log(err.res.data);
