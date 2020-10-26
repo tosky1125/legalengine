@@ -11,12 +11,12 @@ function SideInfo(props) {
   console.log(sideInfoData);
   const [isLoaded, setisLoaded] = useState(false);
 
-  const handleClickSearch = (refined_name, number, enforcement_date) => {
+  const handleClickSearch = (name, number, enforcement_date) => {
     const { lawinfo } = props;
     axios
       .get(
         `http://13.125.112.243/law/${encodeURIComponent(
-          refined_name
+          name
         )}?lawNum=${number}&enfDate=${enforcement_date}`
       )
       .then((res) => {
@@ -28,7 +28,7 @@ function SideInfo(props) {
       .then(() => {
         window.open(
           `/law/${encodeURIComponent(
-            refined_name
+            name
           )}?lawNum=${number}&enfDate=${format(
             new Date(enforcement_date),
             'yyyy-MM-dd'

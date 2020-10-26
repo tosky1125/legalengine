@@ -8,10 +8,10 @@ class MainInfo extends React.Component {
   render() {
     let law = JSON.parse(localStorage.Law);
     console.log(law);
-
+    
     let { Chapter } = law;
     let { File } = law;
-
+    console.log(law.refined_name);
     const keyword = JSON.parse(localStorage.searchWord);
     const searchDate = JSON.parse(localStorage.searchDate);
 
@@ -43,7 +43,7 @@ class MainInfo extends React.Component {
         return ['0', '0'];
       }
     };
-
+    
     const relatedLaw = (context) => {
       const selectedLaw = lawRegex.test(context)
         ? context.match(lawRegex)[1]
