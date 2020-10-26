@@ -27,7 +27,7 @@ function SideInfo(props) {
       })
       .then(() => {
         window.open(
-          `/view?lawName=${encodeURIComponent(
+          `/law/lawName=${encodeURIComponent(
             name
           )}&lawNum=${number}&enfDate=${format(
             new Date(enforcement_date),

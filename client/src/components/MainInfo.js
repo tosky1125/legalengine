@@ -13,7 +13,7 @@ class MainInfo extends React.Component {
     let { File } = law;
 
     const keyword = JSON.parse(localStorage.searchWord);
-    const searchDate = JSON.parse(localStorage.searchDate);
+    // const searchDate = JSON.parse(localStorage.searchDate);
 
     const regex = new RegExp(keyword, 'g');
     const lawRegex = new RegExp(/\「(.*?)\」/);
@@ -263,8 +263,8 @@ class MainInfo extends React.Component {
                   </div>
                   {Chapter}
                   <br />
-                  <br />
                   {File}
+                  <br />
                 </div>
               </td>
             </tr>

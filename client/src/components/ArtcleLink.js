@@ -8,7 +8,7 @@ function ArtcleLink() {
   let { Chapter } = law;
   // console.log(Chapter);
 
-  let ArtcleLink = law.Chapter;
+  let ArticleLink = law.Chapter;
   // console.log(ArtcleLink);
 
   let Addenda = law.Chapter;
@@ -22,62 +22,133 @@ function ArtcleLink() {
 
   //편:part 장:chapter 절:section 관:sub-section
 
-  ArtcleLink = (
+  // const chapSlicer = (str) => {
+  //   const temp = str.slice(2);
+  //   let chapSlice;
+  //   for (let i = 0; i < temp.length; i++) {
+  //     if (temp[i] === ':') {
+  //       chapSlice = `${temp.slice(0, i)}:0`;
+  //     }
+  //   }
+  //   return chapSlice;
+  // };
+
+  // const subChapSlicer = (str, sub) => {
+  //   const temp = str.slice(2);
+  //   let subChapSlice;
+  //   for (let i = 0; i < temp.length; i++) {
+  //     if (temp[i] === ':') {
+  //       subChapSlice = `${temp.slice(0, i)}:${sub}`;
+  //     }
+  //   }
+  //   return subChapSlice;
+  // };
+
+  let tempPart;
+  let tempChapter;
+  let tempSection;
+  let tempSubSection;
+  let tempArticle;
+  let result = {};
+
+  ArticleLink = (
     <div className='artclelink-accordion'>
       <input type='checkbox' id='contTitle' />
       <label htmlFor='contTitle'>본문</label>
       <div>
-        <div>
-          {ArtcleLink.map((chapEle, chapEleIndex) => (
-            <div key={chapEleIndex}>
-              <div>
-                <input type='checkbox' id='part-contTitle' />
-                {chapEle.context.substring(0, 3).includes('편') && (
-                  <label htmlFor='part-contTitle'>
-                    <span
-                      type='checkbox'
-                      id='part-contTitle'
-                      className='artclelink-title'
-                    >
-                      {chapEle.context.substring(0, 3).includes('편') &&
-                        chapEle.context}
-                      <span className='artclelink-date'>
-                        {chapEle.context.substring(0, 3).includes('편') &&
-                          chapEle.date}
-                      </span>
-                    </span>
-                  </label>
-                )}
-                {/* <div>
-                  {ArtcleLink.map((chapEle, chapEleIndex) => (
-                    <div key={chapEleIndex}>
-                      <input type='checkbox' id='chapter-contTitle' />
-                      {chapEle.context.substring(0, 3).includes('장') && (
-                        <label htmlFor='chapter-contTitle'>
-                          <span
-                            type='checkbox'
-                            id='chapter-contTitle'
-                            className='artclelink-title'
-                          >
-                            {chapEle.context.substring(0, 3).includes('장') &&
-                              chapEle.context}
-                            <span className='artclelink-date'>
-                              {chapEle.context.substring(0, 3).includes('장') &&
-                                chapEle.date}
-                            </span>
-                          </span>
-                        </label>
-                      )}
-                    </div>
-                  ))}
-                </div> */}
-              </div>
-            </div>
-          ))}
-        </div>
+        <input type='checkbox' id='part-contTitle' />
+        {ArtcleLink.forEach((ele) => {
+          if (ele.context.substing(0, 3).includes('편')) {
+            tempPart = ele;
+            tempChapter = null;
+            tempSection = null;
+            tempSubSection = null;
+            tempArticle = null;
+            result[ele] = new Object();
+          } else if (ele.context.substing(0, 3).includes('장')) {
+            if (!tempPart) {
+              result[tempPart] = {};
+            }
+            tempChapter = ele;
+            tempSection = null;
+            tempSubSection = null;
+            tempArticle = null;
+            result[tempPart][tempChapter] = new Object();
+          } else if (ele.context.substing(0, 3).includes('절')) {
+            if (!tempPart) {
+              result[tempPart] = {};
+            }
+            if (!tempChapter) {
+              result[tempPart][tempChapter] = {};
+            }
+            tempSection = ele;
+            tempPart = null;
+            tempChapter = null;
+            tempSubSection = null;
+            tempArticle = null;
+            result[tempPart][tempChapter][ele] = new Object();
+          }
+        })}
       </div>
     </div>
   );
+
+  // ArtcleLink = (
+  //   <div className='artclelink-accordion'>
+  //     <input type='checkbox' id='contTitle' />
+  //     <label htmlFor='contTitle'>본문</label>
+  //     <div>
+  //       <div>
+  //         {ArtcleLink.map((chapEle, chapEleIndex) => (
+  //           <div key={chapEleIndex}>
+  //             <div>
+  //               <input type='checkbox' id='part-contTitle' />
+  //               {chapEle.context.substring(0, 3).includes('편') && (
+  //                 <label htmlFor='part-contTitle'>
+  //                   <span
+  //                     type='checkbox'
+  //                     id='part-contTitle'
+  //                     className='artclelink-title'
+  //                   >
+  //                     {chapEle.context.substring(0, 3).includes('편') &&
+  //                       chapEle.context}
+  //                     <span className='artclelink-date'>
+  //                       {chapEle.context.substring(0, 3).includes('편') &&
+  //                         chapEle.date}
+  //                     </span>
+  //                   </span>
+  //                 </label>
+  //               )}
+  //             </div>
+  //             <div>
+  //               {ArtcleLink.map((chapEle, chapEleIndex) => (
+  //                 <div key={chapEleIndex}>
+  //                   <input type='checkbox' id='chapter-contTitle' />
+  //                   {chapEle.context.substring(0, 3).includes('장') && (
+  //                     <label htmlFor='chapter-contTitle'>
+  //                       <span
+  //                         type='checkbox'
+  //                         id='chapter-contTitle'
+  //                         className='artclelink-title'
+  //                       >
+  //                         {chapEle.context.substring(0, 3).includes('장') &&
+  //                           chapEle.context}
+  //                         <span className='artclelink-date'>
+  //                           {chapEle.context.substring(0, 3).includes('장') &&
+  //                             chapEle.date}
+  //                         </span>
+  //                       </span>
+  //                     </label>
+  //                   )}
+  //                 </div>
+  //               ))}
+  //             </div>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
     <div className='artlcelink-accordion' key={chapEleIndex}>
