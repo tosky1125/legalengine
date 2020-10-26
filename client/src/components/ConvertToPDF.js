@@ -10,12 +10,12 @@ const ConvertToPDF = () => {
   });
  
   return (
-    <span>
-      <span className='pdf-btn-wrapper'>
+    <div className='pdf-btn-form'>
+      <div className='pdf-btn-wrapper'>
       <button className='pdf-btn' onClick={handlePrint}>PDF & 프린트</button>
-      </span>
+      </div>
       <MainInfo ref={componentRef} />
-    </span>
+    </div>
   );
 };
 

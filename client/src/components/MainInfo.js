@@ -14,7 +14,7 @@ class MainInfo extends React.Component {
 
     const keyword = JSON.parse(localStorage.searchWord);
     const searchDate = JSON.parse(localStorage.searchDate);
-    // '구조'
+
     const regex = new RegExp(keyword, 'g');
     const lawRegex = new RegExp(/\「(.*?)\」/);
 
@@ -277,6 +277,8 @@ class MainInfo extends React.Component {
             </tr>
           </tfoot>
         </table>
+        <div class='maininfo-page-header'></div>
+        <div class='maininfo-page-footer'></div>
       </div>
     );
   }
