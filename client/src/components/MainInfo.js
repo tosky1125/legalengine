@@ -235,13 +235,11 @@ class MainInfo extends React.Component {
 
     return (
       <div>
-        <div className='maininfo-page-header'></div>
-        <div className='maininfo-page-footer'></div>
         <table>
           <thead>
             <tr>
               <td>
-                <div className='maininfo-page-header-space'></div>
+              <div className='maininfo-page-header-space'></div>
               </td>
             </tr>
           </thead>
