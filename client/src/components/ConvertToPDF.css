@@ -4,8 +4,8 @@
   margin-left: 30rem;
 }
 .pdf-btn {
-  background-color: #008cba;
-  border: 1px solid #008cba;
+  background-color: #2c84ff;
+  border: 2px solid #2c84ff;
   color: white;
   padding: 10px 20px;
   text-align: center;
@@ -20,7 +20,7 @@
 
 .pdf-btn:hover {
   background-color: white;
-  border: 1px solid #008cba;
+  border: 2px solid #2c84ff;
   color: #008cba;
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
