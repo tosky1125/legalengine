@@ -11,13 +11,20 @@ class MainInfo extends React.Component {
 
     let { Chapter } = law;
     let { File } = law;
+
     const keyword = JSON.parse(localStorage.searchWord);
     const searchDate = JSON.parse(localStorage.searchDate);
-    
+
     const regex = new RegExp(keyword, 'g');
     const lawRegex = new RegExp(/\「(.*?)\」/);
 
-    const artUrlfragment = (strFrom) => {
+    const addendaUrlfragment = (strFrom) => {
+      const str = String(strFrom);
+      const addendaUrl = '0'.repeat(1) + str;
+      return addendaUrl;
+    };
+
+    const articleUrlfragment = (strFrom) => {
       const str = String(strFrom);
       const artUrl = '0'.repeat(3) + str;
       return artUrl;
@@ -41,7 +48,7 @@ class MainInfo extends React.Component {
       const selectedLaw = lawRegex.test(context)
         ? context.match(lawRegex)[1]
         : null;
-      console.log(selectedLaw);
+      // console.log(selectedLaw);
       if (selectedLaw) {
         const inTagLaw = lawRegex.test(context)
           ? context.match(lawRegex)[0]
@@ -51,22 +58,20 @@ class MainInfo extends React.Component {
           `<span onclick=fetch('http://13.125.112.243')>${inTagLaw}</span>`
         );
       }
-      console.log(context);
+      // console.log(context);
       return context;
     };
     Chapter = Chapter.map((chapEle, chapEleIndex) => (
       <div key={chapEleIndex}>
+        <a name={addendaUrlfragment(chapEle.chapter_id)}></a>
         <span className='maininfo-chapter-titles'>{chapEle.context}</span>
         <span className='date'>&nbsp;{chapEle.date}</span>
         {chapEle.Article &&
           chapEle.Article.map((artEle, artEleIndex) => (
             <div className='maininfo-contents' key={artEleIndex}>
-              <a name={artUrlfragment(artEle.article_id)}></a>
+              <a name={articleUrlfragment(artEle.article_id)}></a>
               {artEle.article_title && (
-                <div
-                  className='maininfo-article-title'
-                  name={artUrlfragment(artEle.article_id)}
-                >
+                <div className='maininfo-article-title'>
                   {artEle.article_title}&nbsp;&nbsp;
                 </div>
               )}
@@ -87,7 +92,7 @@ class MainInfo extends React.Component {
                 {artEle.flag_yeon && (
                   <button className='maininfo-buttons-yeon'>
                     {/* <a 
-                    href='http://www.law.go.kr/LSW/lsJoHstProc.do?lsid={추후삽입}&lsiSeq={Law.number}&joNo=0002&joBrNo=00&lType=0002'
+                    href='http://www.law.go.kr/LSW/lsJoHstProc.do?lsid={뭐야이거}&lsiSeq={Law.number}&joNo={조문번호}&joBrNo={조문번호'의'}&lType={뭐야이거}'
                     target='_blank'
                   >                   
                   </a> */}
@@ -121,7 +126,7 @@ class MainInfo extends React.Component {
                       artEle.context &&
                       relatedLaw(artEle.context).replace(
                         regex,
-                        `<span class='keyword-highlight'>${keyword}</span>`
+                        `<span className='keyword-highlight'>${keyword}</span>`
                       ),
                   }}
                 ></span>
@@ -139,7 +144,7 @@ class MainInfo extends React.Component {
                               claEle.context
                                 .replace(
                                   regex,
-                                  `<span class='keyword-highlight'>${keyword}</span>`
+                                  `<span className='keyword-highlight'>${keyword}</span>`
                                 )
                                 .replace(/\s+/, ''),
                           }}
@@ -157,7 +162,7 @@ class MainInfo extends React.Component {
                                       subEle.context &&
                                       subEle.context.replace(
                                         regex,
-                                        `<span class='keyword-highlight'>${keyword}</span>`
+                                        `<span className='keyword-highlight'>${keyword}</span>`
                                       ),
                                   }}
                                 ></span>
@@ -184,7 +189,7 @@ class MainInfo extends React.Component {
                                                 itEle.context &&
                                                 itEle.context.replace(
                                                   regex,
-                                                  `<span class='keyword-highlight'>${keyword}</span>`
+                                                  `<span className='keyword-highlight'>${keyword}</span>`
                                                 ),
                                             }}
                                           ></span>
@@ -207,9 +212,11 @@ class MainInfo extends React.Component {
           ))}
       </div>
     ));
+
     File = File
       ? File.map((ele) => (
           <div className='file'>
+            <a name='file'></a>
             <span>{ele.context}</span>
             <span>{ele.date}</span>
             {ele.hwp && (
@@ -225,14 +232,16 @@ class MainInfo extends React.Component {
           </div>
         ))
       : null;
-    
-  return (
+
+    return (
       <div>
+        <div className='maininfo-page-header'></div>
+        <div className='maininfo-page-footer'></div>
         <table>
           <thead>
             <tr>
               <td>
-                <div class='maininfo-page-header-space'></div>
+                <div className='maininfo-page-header-space'></div>
               </td>
             </tr>
           </thead>
@@ -253,6 +262,8 @@ class MainInfo extends React.Component {
                     </p>
                   </div>
                   {Chapter}
+                  <br />
+                  <br />
                   {File}
                 </div>
               </td>
@@ -261,7 +272,7 @@ class MainInfo extends React.Component {
           <tfoot>
             <tr>
               <td>
-                <div class='mainifo-page-footer-space'></div>
+                <div className='mainifo-page-footer-space'></div>
               </td>
             </tr>
           </tfoot>
