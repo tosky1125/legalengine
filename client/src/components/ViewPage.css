@@ -12,7 +12,7 @@
   height: 75%;
   padding: 1rem;
   padding-top: 2rem;
-  overflow: hidden;
+  overflow: auto;
   border-right: 1px solid #eee;
 }
 .viewpage-articlelink-container {

@@ -11,12 +11,12 @@ function ArtcleLink() {
   // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
-  console.log(Addenda);
+  // console.log(Addenda);
 
   let File = law.File;
-  console.log(File)
+  // console.log(File);
 
-  //편:part 장:chapter 절:section 관:sub-section
+  //편:part 장{ele2Index}절:section 관:sub-section
 
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
@@ -33,7 +33,7 @@ function ArtcleLink() {
   let chapterNum = null;
   let sectionNum = null;
   let subSectionNum = null;
-  let result = {};
+  let result = [];
 
   ArticleLink = ArticleLink.map((chapEle) => {
     if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
@@ -44,7 +44,8 @@ function ArtcleLink() {
       partNum++;
       result[partNum] = {
         value: tempPart,
-        child: {},
+        article: chapEle.Article,
+        child: [],
       };
     } else if (
       chapEle.context &&
@@ -54,7 +55,8 @@ function ArtcleLink() {
         partNum++;
         result[partNum] = {
           value: null,
-          child: {},
+          article: null,
+          child: [],
         };
       }
       tempChapter = chapEle.context;
@@ -63,7 +65,8 @@ function ArtcleLink() {
       chapterNum++;
       result[partNum].child[chapterNum] = {
         value: tempChapter,
-        child: {},
+        article: chapEle.Article,
+        child: [],
       };
     } else if (
       chapEle.context &&
@@ -73,14 +76,16 @@ function ArtcleLink() {
         partNum++;
         result[partNum] = {
           value: null,
-          child: {},
+          article: null,
+          child: [],
         };
       }
       if (!chapterNum) {
         chapterNum++;
         result[partNum].child[chapterNum] = {
           value: null,
-          child: {},
+          article: null,
+          child: [],
         };
       }
       tempSection = chapEle.context;
@@ -88,7 +93,8 @@ function ArtcleLink() {
       sectionNum++;
       result[partNum].child[chapterNum].child[sectionNum] = {
         value: tempSection,
-        child: {},
+        article: chapEle.Article,
+        child: [],
       };
     } else if (
       chapEle.context &&
@@ -98,21 +104,24 @@ function ArtcleLink() {
         partNum++;
         result[partNum] = {
           value: null,
-          child: {},
+          article: null,
+          child: [],
         };
       }
       if (!chapterNum) {
         chapterNum++;
         result[partNum].child[chapterNum] = {
           value: null,
-          child: {},
+          article: null,
+          child: [],
         };
       }
       if (!sectionNum) {
         sectionNum++;
         result[partNum].child[chapterNum].child[sectionNum] = {
           value: null,
-          child: {},
+          article: null,
+          child: [],
         };
       }
       tempSubSection = chapEle.context;
@@ -121,147 +130,122 @@ function ArtcleLink() {
         subSectionNum
       ] = {
         value: tempSubSection,
+        article: chapEle.Article,
+        child: [],
       };
     }
-    // chapEle.Article && chapEle.Article.map((artEle) => {
-    //   artEle.article_title &&
-    // });
   });
 
-  // result = (
-  //   <div className='articlelink-accordion'>
-  //     <input type='checkbox' id='article-contTitle' />
-  //     <label htmlFor='article-contTitle'>본문</label>
-  //     <div>
-  //       {result[1].map((ele, eleIndex) => (
-  //         <div key={eleIndex}>
-  //           {ele.value ? `${ele.value}` : ele.child.value}
-  //         </div>
-  //       ))}
-  //     </div>
-  //   </div>
-  // );
+  console.log(result);
 
-  console.log(result[1]);
+  result = (
+    <div className='articlelink-accordion'>
+      <input type='checkbox' id='contTitle' />
+      <label htmlFor='contTitle'>본문</label>
+      <div>
+        {result.map((ele1, ele1Index) => (
+          <div>
+            <input type='checkbox' id={`${ele1Index}-part`} />
+            {ele1.value && (
+              <label htmlFor={`${ele1Index}-part`}>{ele1.value}</label>
+            )}
+            <div>
+              {ele1.child.length !== 0 &&
+                ele1.child.map((ele2, ele2Index) => (
+                  <div>
+                    <input type='checkbox' id={`${ele2Index}-chapter`} />
+                    {ele2.value && (
+                      <label htmlFor={`${ele2Index}-chapter`}>
+                        {ele2.value}
+                      </label>
+                    )}
+                    {ele2.child.length !== 0 &&
+                      ele2.child.map((ele3, ele3Index) => (
+                        <div>
+                          <input type='checkbox' id={`${ele3Index}-section`} />
+                          {ele3.value && (
+                            <label htmlFor={`${ele3Index}-section`}>
+                              {ele3.value}
+                            </label>
+                          )}
+                          {ele3.child.length !== 0 &&
+                            ele3.child.map((ele4, ele4Index) => (
+                              <div>
+                                <input
+                                  type='checkbox'
+                                  id={`${ele4Index}-subsection`}
+                                />
+                                {ele4.value && (
+                                  <label htmlFor={`${ele4Index}-subsection`}>
+                                    {ele4.value}
+                                  </label>
+                                )}
+                                {ele4.article.length !== 0 &&
+                                  ele4.article.map((artele4) => (
+                                    <a
+                                      href={articleUrlfragment(
+                                        artele4.article_id
+                                      )}
+                                    >
+                                      <div>
+                                        <span className='artclelink-article-title'>
+                                          {artele4.article_title}{' '}
+                                        </span>
+                                        <span className='date'>
+                                          {artele4.article_date}
+                                        </span>
+                                      </div>
+                                    </a>
+                                  ))}
+                              </div>
+                            ))}
+                          {ele3.article !== null &&
+                            ele3.article.map((artele3) => (
+                              <a href={articleUrlfragment(artele3.article_id)}>
+                                <div>
+                                  <span className='artclelink-article-title'>
+                                    {artele3.article_title}{' '}
+                                  </span>
+                                  <span className='date'>
+                                    {artele3.article_date}
+                                  </span>
+                                </div>
+                              </a>
+                            ))}
+                        </div>
+                      ))}
+                    {ele2.article !== null &&
+                      ele2.article.map((artele2) => (
+                        <a href={articleUrlfragment(artele2.article_id)}>
+                          <div>
+                            <span className='artclelink-article-title'>
+                              {artele2.article_title}{' '}
+                            </span>
+                            <span className='date'>{artele2.article_date}</span>
+                          </div>
+                        </a>
+                      ))}
+                  </div>
+                ))}
+              {ele1.article !== null &&
+                ele1.article.map((artele1) => (
+                  <a href={articleUrlfragment(artele1.article_id)}>
+                    <div>
+                      <span className='artclelink-article-title'>
+                        {artele1.article_title}{' '}
+                      </span>
+                      <span className='date'>{artele1.article_date}</span>
+                    </div>
+                  </a>
+                ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
-  // ArticleLink = (
-  //   <div className='artclelink-accordion'>
-  //     <input type='checkbox' id='contTitle' />
-  //     <label htmlFor='contTitle'>본문</label>
-  //     {ArticleLink.forEach((chapEle) => {
-  //       if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
-  //         tempPart = chapEle.context;
-  //         tempChapter = null;
-  //         tempSection = null;
-  //         tempSubSection = null;
-  //         result[partNum] = tempPart;
-  //         partNum++;
-  //       } else if (
-  //         chapEle.context &&
-  //         chapEle.context.substring(0, 3).includes('장')
-  //       ) {
-  //         if (!tempPart) {
-  //           result[partNum] = null;
-  //         }
-  //         tempChapter = chapEle.context;
-  //         tempSection = null;
-  //         tempSubSection = null;
-  //         result[partNum][chapterNum] = tempChapter;
-  //       } else if (
-  //         chapEle.context &&
-  //         chapEle.context.substring(0, 3).includes('절')
-  //       ) {
-  //         if (!tempPart) {
-  //           result[partNum] = null;
-  //         }
-  //         if (!tempChapter) {
-  //           result[partNum][chapterNum] = null;
-  //         }
-  //         tempSection = chapEle.context;
-  //         tempSubSection = null;
-  //         result[partNum][chapterNum][sectionNum] = tempSection;
-  //       } else if (
-  //         chapEle.context &&
-  //         chapEle.context.substring(0, 3).includes('관')
-  //       ) {
-  //         if (!tempPart) {
-  //           result[partNum] = null;
-  //         }
-  //         if (!tempChapter) {
-  //           result[partNum][chapterNum] = null;
-  //         }
-  //         if (!sectionNum) {
-  //           result[partNum][chapterNum][sectionNum] = null;
-  //         }
-  //         tempSubSection = chapEle.context;
-  //         result[partNum][chapterNum][sectionNum][
-  //           subsectionNum
-  //         ] = tempSubSection;
-  //       }
-  //       console.log(result);
-  //       return result;
-  //     })}
-  //   </div>
-  // );
-
-  // console.log(result);
-
-  // ArtcleLink = (
-  //   <div className='articlelink-accordion'>
-  //     <input type='checkbox' id='contTitle' />
-  //     <label htmlFor='contTitle'>본문</label>
-  //     <div>
-  //       <div>
-  //         {ArtcleLink.map((chapEle, chapEleIndex) => (
-  //           <div key={chapEleIndex}>
-  //             <div>
-  //               <input type='checkbox' id='part-contTitle' />
-  //               {chapEle.context.substring(0, 3).includes('편') && (
-  //                 <label htmlFor='part-contTitle'>
-  //                   <span
-  //                     type='checkbox'
-  //                     id='part-contTitle'
-  //                     className='artclelink-title'
-  //                   >
-  //                     {chapEle.context.substring(0, 3).includes('편') &&
-  //                       chapEle.context}
-  //                     <span className='artclelink-date'>
-  //                       {chapEle.context.substring(0, 3).includes('편') &&
-  //                         chapEle.date}
-  //                     </span>
-  //                   </span>
-  //                 </label>
-  //               )}
-  //             </div>
-  //             <div>
-  //               {ArtcleLink.map((chapEle, chapEleIndex) => (
-  //                 <div key={chapEleIndex}>
-  //                   <input type='checkbox' id='chapter-contTitle' />
-  //                   {chapEle.context.substring(0, 3).includes('장') && (
-  //                     <label htmlFor='chapter-contTitle'>
-  //                       <span
-  //                         type='checkbox'
-  //                         id='chapter-contTitle'
-  //                         className='artclelink-title'
-  //                       >
-  //                         {chapEle.context.substring(0, 3).includes('장') &&
-  //                           chapEle.context}
-  //                         <span className='artclelink-date'>
-  //                           {chapEle.context.substring(0, 3).includes('장') &&
-  //                             chapEle.date}
-  //                         </span>
-  //                       </span>
-  //                     </label>
-  //                   )}
-  //                 </div>
-  //               ))}
-  //             </div>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  console.log(result);
 
   //부칙 Addenda
   const addendaUrlfragment = (strFrom) => {
@@ -292,31 +276,18 @@ function ArtcleLink() {
   );
   File = (
     <div className='file-container'>
-      <input type='checkbox' id='file-contTitle' />
-      <label htmlFor='contTitle'>서식</label>
-      <div> 
-        <a href='#file'
-          className='articlelink-article-title'
-        >
-        </a>
-      </div>
+      <a href='#file' className='articlelink-file-title'>
+        서식
+      </a>
     </div>
-  )
+  );
 
   return (
     <div>
       <div className='artclelink-contanier'>
-        <div className='artclelink-accordion'>
-          <input type='checkbox' id='contTitle' />
-          <label htmlFor='contTitle'>본문</label>
-          {/* {result} */}
-
-          <div></div>
-          {Addenda}
-          {File}
-          <div></div>
-          
-        </div>
+        {result}
+        {Addenda}
+        {File}
       </div>
     </div>
   );
