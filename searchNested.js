@@ -86,6 +86,7 @@ const itemResult = async (subParaData) => {
 return itemResult;
 };
 const totalData = async (name, eDate, number) => {
+
   let nestedData = {};
   const extractedKeyword = extractKeyword(name);
   const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
@@ -120,5 +121,6 @@ const totalData = async (name, eDate, number) => {
       };
   };
   return nestedData;
+
 };
 module.exports = totalData;

@@ -23,7 +23,7 @@ module.exports = {
         },
       },
       // order: [Sequelize.literal(`FIELD('type', '법률, '대통령령', '총리령', '대법원규칙`)`],
-      group: ['refined_name'],
+      group: 'refined_name',
       raw: true
     });
     res.send(searchResult);
