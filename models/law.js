@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: 'new_law_id',
         constraints: false
       });
-      Law.belongsTo(models.Law_Type, {
+      Law.belongsTo(models.LawType, {
         foreignKey: 'type',
         targetKey: 'type',
         constraints: false
@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    context: DataTypes.TEXT
+    context: DataTypes.TEXT('long')
   }, {
     sequelize,
     timestamps: false,

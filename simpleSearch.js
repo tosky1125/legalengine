@@ -38,7 +38,7 @@ const simpleTotalData = async (name, eDate, number) => {
             number: number,
         },
         raw: true
-    })
+    });
 
     simpleTotalDataResult.Related =  relatedLaws;
     simpleTotalDataResult.Law = mainLaws;
@@ -46,7 +46,22 @@ const simpleTotalData = async (name, eDate, number) => {
     return simpleTotalDataResult;
 };
 
-module.exports = simpleTotalData;
+const findLawForInline = async (name, eDate) => {
+    const refinedName = rmSpaceAndSymbols(name);
+    const parsedDate = parseDate(eDate);
+    const findLawNAttrs = await Law.findOne({
+        where: {
+            refined_name: refinedName,
+            enforcement_date: {
+                [Op.lte]: parsedDate
+            }
+        },
+        raw: true
+    });
+    return findLawNAttrs;
+};
+
+module.exports = { simpleTotalData, findLawForInline };
 
 
 

@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       tag: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT('long')
       },
       createdAt: {
         allowNull: false,
