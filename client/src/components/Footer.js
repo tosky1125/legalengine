@@ -1,16 +1,15 @@
 import React from 'react';
 import './Footer.css';
 
-// 주식회사 까리용
-// © 2019 Carillon Inc., All rights reserved.
-
-// vh, rem CSS 공부하기
-
 function Footer() {
   return (
     <div className='footer-form'>
-      <span>주식회사 까리용</span>
-      <span>© 2019 Carillon Inc., All rights reserved.</span>
+      <span className="footer-name">주식회사 까리용</span>
+      <span className="footer-rights">© 2020 Carillon Inc., All rights reserved.</span>
+      <span className="footer-guideline">
+        <a className="footer-guideline-term" href="https://legalengine.co.kr/termsofservice">이용약관</a>
+        <a className="footer-guideline-policy" href="https://legalengine.co.kr/privacypolicy">개인정보 이용방침</a>
+      </span>
     </div>
   );
 }

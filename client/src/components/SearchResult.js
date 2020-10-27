@@ -24,12 +24,16 @@ class SearchResult extends React.Component {
     // 데이터들의 새로운 페이지로 스테이트 업데이트
     this.setState({ pageOfItems: pageOfItems });
   }
-
-  handleClickSearch = (name, number, enforcement_date) => {
+  
+  handleClickSearch = (name, lawNum, enfDate) => {
     const { lawinfo } = this.props;
+    const payload = { lawNum, enfDate };
     axios
-      .get(
-        `http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`
+      .post(
+        `http://13.125.112.243/law/${encodeURIComponent(
+          name
+        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
+        payload
       )
       .then((res) => {
         lawinfo(res.data);
@@ -42,8 +46,10 @@ class SearchResult extends React.Component {
       })
       .then(() => {
         window.open(
-          `/view?lawName=${name}&lawNum=${number}&enfDate=${format(
-            new Date(enforcement_date),
+          `/law/${encodeURIComponent(
+            name.replace(/[^가-힣^0-9]/g, '')
+          )}?lawNum=${lawNum}&enfDate=${format(
+            new Date(enfDate),
             'yyyy-MM-dd'
           )}`,
           '_blank'
@@ -62,13 +68,15 @@ class SearchResult extends React.Component {
         console.log(err.config);
       });
   };
-
+  
   render() {
     if (this.props.lawlist.length === 0) {
       return (
         <div>
-          <SearchBar />
-          <div className='searchresult-empty'>검색 결과가 없습니다.</div>
+          <div className='searchresult-container'>
+            <SearchBar />
+            <div className='searchresult-empty'>검색 결과가 없습니다.</div>
+          </div>
         </div>
       );
     }

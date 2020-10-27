@@ -11,11 +11,15 @@ function SideInfo(props) {
   console.log(sideInfoData);
   const [isLoaded, setisLoaded] = useState(false);
 
-  const handleClickSearch = (name, number, enforcement_date) => {
+  const handleClickSearch = (name, lawNum, enfDate) => {
     const { lawinfo } = props;
+    const payload = { lawNum, enfDate };
     axios
-      .get(
-        `http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`
+      .post(
+        `http://13.125.112.243/law/${encodeURIComponent(
+          name
+        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
+        payload
       )
       .then((res) => {
         lawinfo(res.data);
@@ -25,8 +29,8 @@ function SideInfo(props) {
       })
       .then(() => {
         window.open(
-          `/view?lawName=${name}&lawNum=${number}&enfDate=${format(
-            new Date(enforcement_date),
+          `/law/${encodeURIComponent(name)}?lawNum=${lawNum}&enfDate=${format(
+            new Date(enfDate),
             'yyyy-MM-dd'
           )}`,
           '_blank'
@@ -53,6 +57,7 @@ function SideInfo(props) {
       </div>
     );
   }
+
   return (
     <div>
       {sideInfoData.map((sideInfo, sideInfoIndex) => (
@@ -75,7 +80,7 @@ function SideInfo(props) {
             &nbsp;
             {sideInfo.number}호,&nbsp;
             {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
-            ,&nbsp;
+            &nbsp;
             {sideInfo.amendment_status}]
           </p>
         </div>
