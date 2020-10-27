@@ -10,7 +10,7 @@ function ArtcleLink() {
   // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
-  // console.log(Addenda);
+  console.log(Addenda);
 
   //편:part 장:chapter 절:section 관:sub-section
 
@@ -119,16 +119,26 @@ function ArtcleLink() {
         value: tempSubSection,
       };
     }
-    // {
-    //   chapEle.Article &&
-    //     chapEle.Article.map((artEle) => {
-    //       artEle.context && ;
-    //     });
-    // }
-    return result;
+    // chapEle.Article && chapEle.Article.map((artEle) => {
+    //   artEle.article_title &&
+    // });
   });
 
-  console.log(result);
+  // result = (
+  //   <div className='articlelink-accordion'>
+  //     <input type='checkbox' id='article-contTitle' />
+  //     <label htmlFor='article-contTitle'>본문</label>
+  //     <div>
+  //       {result[1].map((ele, eleIndex) => (
+  //         <div key={eleIndex}>
+  //           {ele.value ? `${ele.value}` : ele.child.value}
+  //         </div>
+  //       ))}
+  //     </div>
+  //   </div>
+  // );
+
+  console.log(result[1]);
 
   // ArticleLink = (
   //   <div className='artclelink-accordion'>
@@ -193,7 +203,7 @@ function ArtcleLink() {
   // console.log(result);
 
   // ArtcleLink = (
-  //   <div className='artclelink-accordion'>
+  //   <div className='articlelink-accordion'>
   //     <input type='checkbox' id='contTitle' />
   //     <label htmlFor='contTitle'>본문</label>
   //     <div>
@@ -283,14 +293,19 @@ function ArtcleLink() {
         <div className='artclelink-accordion'>
           <input type='checkbox' id='contTitle' />
           <label htmlFor='contTitle'>본문</label>
+<<<<<<< HEAD
           
+=======
+          {/* {result} */}
+
+>>>>>>> 35d013753ee19ec5e68c7ac538c7d2158c6aac79
           <div></div>
           {Addenda}
           {/* {File && (
-          <div className='artclelink-formatting'>
-            <a href='#file'>서식</a>
-          </div>
-        )} */}
+            <div className='artclelink-formatting'>
+              <a href='#file'>서식</a>
+            </div>
+          )} */}
         </div>
       </div>
     </div>
