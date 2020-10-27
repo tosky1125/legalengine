@@ -1,140 +1,209 @@
-const { 
-    Article,
-    Chapter,
-    Clause,
-    Item,
-    Law_Type,
-    Law,
-    File,
-    Ministry,
-    Revision,
-    Subparagraph
-  } = require('./models');
-  
-  const {
-    Op
-  } = require('sequelize');
+const {
+  Article,
+  Chapter,
+  Clause,
+  Item,
+  Law_Type,
+  Law,
+  File,
+  Ministry,
+  Revision,
+  Subparagraph
+} = require('./models');
 
-  const {
-      extractKeyword
-  } = require('./strHandlerSet');
+const {
+  Op
+} = require('sequelize');
 
-  const lawResult = async (name, eDate, number) => {
-    let lawResult = await Law.findOne({
-      where: {
-          number: number,
-          enforcement_date: {
-              [Op.lte]: eDate
-          },
-          name: {
-              [Op.substring]: name
-          }
+const {
+  extractKeyword
+} = require('./strHandlerSet');
+
+const lawResult = async (name, eDate, number) => {
+  let lawResult = await Law.findOne({
+    where: {
+      number: number,
+      enforcement_date: {
+        [Op.lte]: eDate
       },
-      raw: true
+      name: {
+        [Op.substring]: name
+      }
+    },
+    raw: true
   });
   return lawResult;
 };
 
 const fileResult = async (lawData) => {
-    const fileResult = await File.findAll({
-        where: {
-            law_id: lawData.law_id
-        },
-        raw: true
-    });
-    return fileResult;
+  const fileResult = await File.findAll({
+    where: {
+      law_id: lawData.law_id
+    },
+    raw: true
+  });
+  return fileResult;
 }
 
 const chapterResult = async (lawData) => {
   let chapterResult = await Chapter.findAll({
-      raw: true,
-      where: {
-          law_id: lawData.law_id
-      }
+    raw: true,
+    where: {
+      law_id: lawData.law_id
+    }
   });
   return chapterResult;
 };
 
 const articleResult = async (chapData) => {
   let articleResult = await Article.findAll({
-      raw:true,
-      where: {
-          chapter_id: chapData.id
-      }
+    raw: true,
+    where: {
+      chapter_id: chapData.id
+    }
   });
   return articleResult;
 };
 
 const clauseResult = async (artData) => {
   let clauseResult = await Clause.findAll({
-      raw: true,
-      where: {
-          article_id: artData.id
-      }
+    raw: true,
+    where: {
+      article_id: artData.id
+    }
   });
   return clauseResult;
 };
 
 const subParaResult = async (clauseData) => {
   let subParaResult = await Subparagraph.findAll({
-      raw: true,
-      where: {
-          clause_id: clauseData.id
-      }
+    raw: true,
+    where: {
+      clause_id: clauseData.id
+    }
   });
   return subParaResult;
 };
 
 const itemResult = async (subParaData) => {
   let itemResult = await Item.findAll({
-      raw: true,
-      where: {
-          sub_id: subParaData.id
-      }
+    raw: true,
+    where: {
+      sub_id: subParaData.id
+    }
   });
   return itemResult;
 };
 
 const totalData = async (name, eDate, number) => {
-    let nestedData = {};
-    const keyword = extractKeyword(name);
-    const related = await Law.findAll({
-        where: {
-                [Op.or]: [
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행령'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법령'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '법률'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '규칙'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행'}}]},
-                    {[Op.and]: [{name: {[Op.substring]: keyword}}, {name: {[Op.substring]: '시행규칙'}}]},
-                ],
+  let nestedData = {};
+  const keyword = extractKeyword(name);
+  const related = await Law.findAll({
+    where: {
+      [Op.or]: [{
+          [Op.and]: [{
+            name: {
+              [Op.substring]: keyword
+            }
+          }, {
+            name: {
+              [Op.substring]: '법'
+            }
+          }]
         },
-        order: [['name', 'ASC'], ['enforcement_date', 'DESC']],
-        group: ['name'],
-        raw: true
-    });
-    nestedData.Related = related;
+        {
+          [Op.and]: [{
+            name: {
+              [Op.substring]: keyword
+            }
+          }, {
+            name: {
+              [Op.substring]: '시행령'
+            }
+          }]
+        },
+        {
+          [Op.and]: [{
+            name: {
+              [Op.substring]: keyword
+            }
+          }, {
+            name: {
+              [Op.substring]: '법령'
+            }
+          }]
+        },
+        {
+          [Op.and]: [{
+            name: {
+              [Op.substring]: keyword
+            }
+          }, {
+            name: {
+              [Op.substring]: '법률'
+            }
+          }]
+        },
+        {
+          [Op.and]: [{
+            name: {
+              [Op.substring]: keyword
+            }
+          }, {
+            name: {
+              [Op.substring]: '규칙'
+            }
+          }]
+        },
+        {
+          [Op.and]: [{
+            name: {
+              [Op.substring]: keyword
+            }
+          }, {
+            name: {
+              [Op.substring]: '시행'
+            }
+          }]
+        },
+        {
+          [Op.and]: [{
+            name: {
+              [Op.substring]: keyword
+            }
+          }, {
+            name: {
+              [Op.substring]: '시행규칙'
+            }
+          }]
+        },
+      ],
+    },
+    order: [
+      ['name', 'ASC'],
+      ['enforcement_date', 'DESC']
+    ],
+    group: ['name'],
+    raw: true
+  });
+  nestedData.Related = related;
 
-    nestedData.Law = await lawResult(name, eDate, number);
-    nestedData.Law.File = await fileResult(nestedData.Law);
-    nestedData.Law.Chapter = await chapterResult(nestedData.Law);
-    for (eachChapter of nestedData.Law.Chapter) {
-        eachChapter.Article = await articleResult(eachChapter);
-        for (eachArticle of eachChapter.Article) {
-            eachArticle.Clause = await clauseResult(eachArticle);
-            for (eachClause of eachArticle.Clause) {
-                eachClause.subPara = await subParaResult(eachClause);
-                for (eachSubpara of eachClause.subPara) {
-                    eachSubpara.Item = await itemResult(eachSubpara);
-                };
-            };
+  nestedData.Law = await lawResult(name, eDate, number);
+  nestedData.Law.File = await fileResult(nestedData.Law);
+  nestedData.Law.Chapter = await chapterResult(nestedData.Law);
+  for (eachChapter of nestedData.Law.Chapter) {
+    eachChapter.Article = await articleResult(eachChapter);
+    for (eachArticle of eachChapter.Article) {
+      eachArticle.Clause = await clauseResult(eachArticle);
+      for (eachClause of eachArticle.Clause) {
+        eachClause.subPara = await subParaResult(eachClause);
+        for (eachSubpara of eachClause.subPara) {
+          eachSubpara.Item = await itemResult(eachSubpara);
         };
+      };
     };
-    return nestedData;
+  };
+  return nestedData;
 };
 
 module.exports = totalData;
-
-
-
