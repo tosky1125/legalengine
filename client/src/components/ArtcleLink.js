@@ -7,7 +7,7 @@ function ArtcleLink() {
   console.log(law);
 
   let ArticleLink = law.Chapter;
-  console.log(ArticleLink);
+  // console.log(ArticleLink);
   // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
@@ -28,7 +28,6 @@ function ArtcleLink() {
   let tempChapter = null;
   let tempSection = null;
   let tempSubSection = null;
-  let tempArticle = null;
   let partNum = null;
   let chapterNum = null;
   let sectionNum = null;
@@ -180,63 +179,75 @@ function ArtcleLink() {
                                     {ele4.value}
                                   </label>
                                 )}
-                                {ele4.article.length !== 0 &&
+                                {ele4.article !== null &&
                                   ele4.article.map((artele4) => (
-                                    <a
-                                      href={articleUrlfragment(
-                                        artele4.article_id
-                                      )}
-                                    >
-                                      <div>
-                                        <span className='artclelink-article-title'>
-                                          {artele4.article_title}{' '}
-                                        </span>
-                                        <span className='date'>
-                                          {artele4.article_date}
-                                        </span>
-                                      </div>
-                                    </a>
+                                    <div>
+                                      <a
+                                        href={articleUrlfragment(
+                                          artele4.article_id
+                                        )}
+                                      >
+                                        <div>
+                                          <span className='artclelink-article-title'>
+                                            {artele4.article_title}{' '}
+                                          </span>
+                                          <span className='date'>
+                                            {artele4.article_date}
+                                          </span>
+                                        </div>
+                                      </a>
+                                    </div>
                                   ))}
                               </div>
                             ))}
                           {ele3.article !== null &&
                             ele3.article.map((artele3) => (
-                              <a href={articleUrlfragment(artele3.article_id)}>
-                                <div>
-                                  <span className='artclelink-article-title'>
-                                    {artele3.article_title}{' '}
-                                  </span>
-                                  <span className='date'>
-                                    {artele3.article_date}
-                                  </span>
-                                </div>
-                              </a>
+                              <div>
+                                <a
+                                  href={articleUrlfragment(artele3.article_id)}
+                                >
+                                  <div>
+                                    <span className='artclelink-article-title'>
+                                      {artele3.article_title}{' '}
+                                    </span>
+                                    <span className='date'>
+                                      {artele3.article_date}
+                                    </span>
+                                  </div>
+                                </a>
+                              </div>
                             ))}
                         </div>
                       ))}
                     {ele2.article !== null &&
                       ele2.article.map((artele2) => (
-                        <a href={articleUrlfragment(artele2.article_id)}>
-                          <div>
-                            <span className='artclelink-article-title'>
-                              {artele2.article_title}{' '}
-                            </span>
-                            <span className='date'>{artele2.article_date}</span>
-                          </div>
-                        </a>
+                        <div>
+                          <a href={articleUrlfragment(artele2.article_id)}>
+                            <div>
+                              <span className='artclelink-article-title'>
+                                {artele2.article_title}{' '}
+                              </span>
+                              <span className='date'>
+                                {artele2.article_date}
+                              </span>
+                            </div>
+                          </a>
+                        </div>
                       ))}
                   </div>
                 ))}
               {ele1.article !== null &&
                 ele1.article.map((artele1) => (
-                  <a href={articleUrlfragment(artele1.article_id)}>
-                    <div>
-                      <span className='artclelink-article-title'>
-                        {artele1.article_title}{' '}
-                      </span>
-                      <span className='date'>{artele1.article_date}</span>
-                    </div>
-                  </a>
+                  <div>
+                    <a href={articleUrlfragment(artele1.article_id)}>
+                      <div>
+                        <span className='artclelink-article-title'>
+                          {artele1.article_title}
+                        </span>
+                        <span className='date'>{artele1.article_date}</span>
+                      </div>
+                    </a>
+                  </div>
                 ))}
             </div>
           </div>
