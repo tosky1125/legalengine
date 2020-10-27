@@ -27,11 +27,13 @@ class SearchResult extends React.Component {
 
   handleClickSearch = (name, lawNum, enfDate) => {
     const { lawinfo } = this.props;
+    const payload = { lawNum, enfDate };
     axios
-      .get(
+      .post(
         `http://13.125.112.243/law/${encodeURIComponent(
-        name
-      )}?lawNum=${lawNum}&enfDate=${enfDate}`
+          name
+        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
+        payload
       )
       .then((res) => {
         lawinfo(res.data);

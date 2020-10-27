@@ -13,11 +13,13 @@ function SideInfo(props) {
 
   const handleClickSearch = (name, lawNum, enfDate) => {
     const { lawinfo } = props;
+    const payload = { lawNum, enfDate };
     axios
-      .get(
+      .post(
         `http://13.125.112.243/law/${encodeURIComponent(
           name
-        )}?lawNum=${lawNum}&enfDate=${enfDate}`
+        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
+        payload
       )
       .then((res) => {
         lawinfo(res.data);
