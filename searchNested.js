@@ -112,7 +112,7 @@ const totalData = async (name, eDate, number) => {
             },
         },
         order: [['enforcement_date', 'DESC']],
-        group: ['refined_name'],
+        group: 'refined_name',
         raw: true
     });
 
