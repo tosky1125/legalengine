@@ -1,25 +1,3 @@
-@media print {
-  .maininfo-buttons {
-    display: none;
-  }
-  /*.keyword-highlight {
-    background-color: none;
-  }*/
-  .file-img {
-    display: none;
-  }
-  thead {
-    display: table-header-group;
-  }
-  tfoot {
-    display: table-footer-group;
-  }
-}
-
-@page {
-  margin: 12mm;
-}
-
 .maininfo-page-header {
   position: fixed;
   top: 0mm;
