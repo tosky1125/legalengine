@@ -75,7 +75,7 @@ const spec = async () => {
     let subParNum;
     let itemNum = null;
     let hhjm = '';
-    const state = (str) => {      
+    const state = (str) => {
       str = str.replace(/\s+/, '');
       const twoCharFront = `${str[0]}${str[1]}`;
       const threeCharFront = `${str[0]}${str[1]}${str[2]}`;
@@ -259,15 +259,16 @@ const spec = async () => {
       } else {
         for (let j = 0; j < texts.length; j += 1) {
           // context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
+          
           let cont = texts[j].textContent;
+          console.log(cont, texts[j].className);
           let date = null;
           // 항 호 목의 날짜가 아닌 조의 날짜의 경우 해당 class 로 날짜값만 있기에 하위 연산 필요없음. continue 로 다음 loop 실행
-          if (texts[j].className === 'pty1_de2') {
+          if (texts[j].className === 'pty1_de2' && cont.replace(texts[j].lastChild.textContent, '') === '') {
             ele.date = cont;
             continue;
           }
           if (texts[j].className === 'rule_area') {
-            ele.date = cont;
             continue;
           }
           // 조의 0번째 index 의 태그에는 무조건 타이틀이 있음. 조 밑으로 들어온 것이기 때문에 조가 없는 경우는 없음.
@@ -282,8 +283,8 @@ const spec = async () => {
           cont = cont.replace(ele.title, '').replace(date, '').replace(/\s+/, '');
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           const checkState = cont;
-          
-          state(checkState);
+          checkState.replace(/\s+/, '') === "" ? hhjm = 'others' : state(checkState);
+
 
           if (hhjm === '항') {
             // 하위 카테고리의 index는 null값으로 초기화
@@ -362,8 +363,7 @@ const spec = async () => {
               date,
               context: cont,
             });
-          } else {
-            // 항호목이 아닌 경우의 context는 조의 context 로 할당
+          } else if (hhjm === 'others') {} else { // 항호목이 아닌 경우의 context는 조의 context 로 할당
             ele.context = cont;
             ele.cont_date = date;
           }
@@ -385,11 +385,11 @@ const spec = async () => {
         array[2] = Array.from(array[2].children);
         array = array.flat();
       }
-      
+
       for (let j = 1; j < array.length; j += 1) {
         cont = array[j].textContent;
-        
-        
+
+
         let title = null;
         let date = null;
         if (array[j].children.length > 0 && array[j].children[0].className === 'bl') {
@@ -422,7 +422,7 @@ const spec = async () => {
         } else {
           cont = cont.replace(title, '').replace(date, '').replace(/\s+/, '');
           const checkState = cont;
-          checkState.replace(/\s+/,'') === "" ? hhjm = 'others' : state(checkState);
+          checkState.replace(/\s+/, '') === "" ? hhjm = 'others' : state(checkState);
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
         }
         if (hhjm === '항') {
@@ -544,7 +544,8 @@ const spec = async () => {
             date,
             context: cont,
           });
-        } else {
+        } else if(hhjm ==='others'){}
+        else {
           clauseNum = undefined;
           subParNum = undefined;
           itemNum = undefined;
@@ -759,7 +760,7 @@ const init = async () => {
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number + newJoCount);
-      contCheck = contCheck.sub && contCheck.sub.context  ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.sub && contCheck.sub.context ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
