@@ -13,8 +13,9 @@ function ConvertToPDF(props) {
     window.onafterprint = function(){  
       document.body.innerHTML = initBody;
     }
-    window.print();     
-  }     
+    window.print();
+    window.location.reload();
+  }
   
   return (
     <div className='pdf-button-form'>
