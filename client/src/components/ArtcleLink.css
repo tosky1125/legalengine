@@ -15,7 +15,7 @@
   cursor: pointer;
 }
 
-.artclelink-date {
+.date {
   color: rgb(36, 138, 179);
   font-weight: normal;
   font-size: small;
@@ -90,7 +90,7 @@ input[id*='part'] + label em {
 input[id*='part'] + label + div {
   max-height: 0;
   transition: all 0.5s;
-  overflow: hidden;
+  overflow-y: auto;
   background-color: #fff;
   font-size: small;
 }
@@ -131,7 +131,7 @@ input[id*='chapter'] + label em {
 input[id*='chapter'] + label + div {
   max-height: 0;
   transition: all 0.5s;
-  overflow: hidden;
+  overflow-y: auto;
   background-color: #fff;
   font-size: small;
 }
@@ -172,7 +172,7 @@ input[id*='section'] + label em {
 input[id*='section'] + label + div {
   max-height: 0;
   transition: all 0.5s;
-  overflow: hidden;
+  overflow-y: auto;
   background-color: #fff;
   font-size: small;
 }
@@ -213,7 +213,7 @@ input[id*='subsection'] + label em {
 input[id*='subsection'] + label + div {
   max-height: 0;
   transition: all 0.5s;
-  overflow: hidden;
+  overflow-y: auto;
   background-color: #fff;
   font-size: small;
 }
