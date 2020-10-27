@@ -10,7 +10,6 @@ const {
     rmSpaceAndSymbols, extractKeyword, parseDate
   } = require('./strHandlerSet');
 
-
 const simpleTotalData = async (name, eDate, number) => {
     let simpleTotalDataResult = {};
 
@@ -19,7 +18,7 @@ const simpleTotalData = async (name, eDate, number) => {
     const parsedDate = parseDate(eDate);
 
     const relatedLaws = await Law.findAll({
-        attributes: ['name', 'refined_name', 'enforcement_date', 'number'],
+        group: 'refined_name',
         where: {
             refined_name: {
                 [Op.substring]: refinedKeyword
@@ -28,8 +27,8 @@ const simpleTotalData = async (name, eDate, number) => {
                 [Op.lte]: parsedDate
             },
         },
+        attributes: ['name', 'refined_name', 'enforcement_date', 'number'],
         order: [['enforcement_date', 'DESC']],
-        group: ['refined_name'],
         raw: true
     });
 
