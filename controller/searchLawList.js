@@ -24,7 +24,7 @@ module.exports = {
       order: [[sequelize.fn('FIELD', sequelize.col('type'), '법률', '대통령령', '총리령', '대법원규칙')], ['enforcement_date', 'DESC']],
       // order: [Sequelize.literal(`FIELD('type', '법률, '대통령령', '총리령', '대법원규칙`)`],
       
-      // group: ['refined_name'],
+      group: ['refined_name'],
       raw: true
     });
     res.send(searchResult);
