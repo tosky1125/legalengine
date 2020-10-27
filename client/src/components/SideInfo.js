@@ -11,8 +11,6 @@ function SideInfo(props) {
   console.log(sideInfoData);
   const [isLoaded, setisLoaded] = useState(false);
 
-  // const { name, lawNum, enfDate } = props;
-
   const handleClickSearch = (name, lawNum, enfDate) => {
     const { lawinfo } = props;
     axios
@@ -79,11 +77,9 @@ function SideInfo(props) {
             [{sideInfo.type}
             &nbsp;
             {sideInfo.number}호,&nbsp;
-
-            {/* 서버에서 수정 후 각주 해제 */}
-            {/* {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
-            ,&nbsp;
-            {sideInfo.amendment_status}] */}
+            {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
+            &nbsp;
+            {sideInfo.amendment_status}]
           </p>
         </div>
       ))}

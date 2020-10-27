@@ -24,7 +24,7 @@ function ViewPage(props) {
           <SideInfo />
         </div>
         <div className='viewpage-articlelink-container'>
-          {/* <ArticleLink /> */}
+          <ArticleLink />
         </div>
         <ConvertToPDF name={name} lawNum={lawNum} enfDate={enfDate} />
       </div>
