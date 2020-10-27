@@ -75,7 +75,7 @@ const spec = async () => {
     let subParNum;
     let itemNum = null;
     let hhjm = '';
-    const state = (str) => {
+    const state = (str) => {      
       str = str.replace(/\s+/, '');
       const twoCharFront = `${str[0]}${str[1]}`;
       const threeCharFront = `${str[0]}${str[1]}${str[2]}`;
@@ -266,7 +266,10 @@ const spec = async () => {
             ele.date = cont;
             continue;
           }
-
+          if (texts[j].className === 'rule_area') {
+            ele.date = cont;
+            continue;
+          }
           // 조의 0번째 index 의 태그에는 무조건 타이틀이 있음. 조 밑으로 들어온 것이기 때문에 조가 없는 경우는 없음.
           if (j === 0) {
             ele.title = texts[j].children[1].textContent;
@@ -278,7 +281,8 @@ const spec = async () => {
           // context 에서 날짜와 제목을 날려준다.
           cont = cont.replace(ele.title, '').replace(date, '').replace(/\s+/, '');
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
-          const checkState = cont.slice(0, 10);
+          const checkState = cont;
+          
           state(checkState);
 
           if (hhjm === '항') {
@@ -381,8 +385,11 @@ const spec = async () => {
         array[2] = Array.from(array[2].children);
         array = array.flat();
       }
+      
       for (let j = 1; j < array.length; j += 1) {
         cont = array[j].textContent;
+        
+        
         let title = null;
         let date = null;
         if (array[j].children.length > 0 && array[j].children[0].className === 'bl') {
@@ -414,9 +421,9 @@ const spec = async () => {
           hhjm = '목';
         } else {
           cont = cont.replace(title, '').replace(date, '').replace(/\s+/, '');
-          const checkState = cont.slice(0, 10);
+          const checkState = cont;
+          checkState.replace(/\s+/,'') === "" ? hhjm = 'others' : state(checkState);
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
-          state(checkState);
         }
         if (hhjm === '항') {
           // 하위 카테고리의 index는 null값으로 초기화
@@ -901,5 +908,5 @@ const init = async () => {
   await init();
 };
 // let k = 49;
-let k = 53654;
+let k = 53622;
 init();
