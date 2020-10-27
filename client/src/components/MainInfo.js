@@ -12,28 +12,33 @@ const MainInfo = (props) => {
 
   // API Call
   useEffect(() => {
-    axios
-      .get(
-        `http://13.125.112.243/law/${encodeURIComponent(
-          name
-        )}?lawNum=${lawNum}&enfDate=${enfDate}`
-      )
-      .then((data) => {
-        setResult(data.data.Law.context);
-        // console.log(data.data.Law.context);
-      })
-      .catch(function (err) {
-        if (err.res) {
-          console.log(err.res.data);
-          console.log(err.res.status);
-          console.log(err.res.headers);
-        } else if (err.req) {
-          console.log(err.req);
-        } else {
-          console.log('Error', err.message);
-        }
-        console.log(err.config);
-      });
+    const payload = { lawNum, enfDate };
+    let url = `http://13.125.112.243/law/${encodeURIComponent(
+      name
+    )}?lawNum=${lawNum}&enfDate=${enfDate}`;
+    if (!lawNum) {
+      url = `http://url.com/law/${name}?enfDate=${enfDate}`;
+    } else {
+      axios
+        .post(url, payload)
+        .then((data) => {
+          alert('hi');
+          setResult(data.data.Law.context);
+          console.log(data.data.Law.context);
+        })
+        .catch(function (err) {
+          if (err.res) {
+            console.log(err.res.data);
+            console.log(err.res.status);
+            console.log(err.res.headers);
+          } else if (err.req) {
+            console.log(err.req);
+          } else {
+            console.log('Error', err.message);
+          }
+          console.log(err.config);
+        });
+    }
   }, []);
 
   return (

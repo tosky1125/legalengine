@@ -6,16 +6,17 @@ import SideInfo from './SideInfo';
 import ArticleLink from './ArtcleLink';
 import './ViewPage.css';
 import ConvertToPDF from './ConvertToPDF';
+import queryString from 'query-string';
 
 function ViewPage(props) {
   const [name] = useState(props.match.params.key);
-  const [lawNum] = useState(
-    decodeURIComponent(props.location.search.slice(8, 14))
-  );
-  const [enfDate] = useState(
-    decodeURIComponent(props.location.search.slice(23))
-  );
-
+  const { lawNum, enfDate } = queryString.parse(props.location.search);
+  //  = useState(
+  //   decodeURIComponent(props.location.search.slice(8, 13))
+  // );
+  // const [enfDate] = useState(
+  //   decodeURIComponent(props.location.search.slice(22))
+  // );
 
   return (
     <div>
