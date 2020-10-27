@@ -10,6 +10,7 @@ module.exports = {
     const refinedKeyword = rmSpaceAndSymbols(searchWord).replace('법', '');
 
     const searchResult = await Law.findAll({
+      order: [[sequelize.fn('FIELD', sequelize.col('type'), '법률', '대통령령', '총리령', '대법원규칙')], ['enforcement_date', 'DESC']],
       attributes: [
         'number', 'name', 'promulgation_date', 'enforcement_date', 'type', 'amendment_status', 'ministry'
       ],
@@ -21,9 +22,7 @@ module.exports = {
           [Op.substring]: refinedKeyword,
         },
       },
-      order: [[sequelize.fn('FIELD', sequelize.col('type'), '법률', '대통령령', '총리령', '대법원규칙')], ['enforcement_date', 'DESC']],
       // order: [Sequelize.literal(`FIELD('type', '법률, '대통령령', '총리령', '대법원규칙`)`],
-      
       group: ['refined_name'],
       raw: true
     });

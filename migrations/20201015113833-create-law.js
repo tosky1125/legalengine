@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
         references: {
-          model: 'Law_Types',
+          model: 'LawTypes',
           key: 'type'
         }
       },
@@ -45,7 +45,7 @@ module.exports = {
         }
       },
       context: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT('long')
       }
     });
   },

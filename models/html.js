@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   HTML.init({
     law_id: DataTypes.INTEGER,
-    tag: DataTypes.TEXT
+    tag: DataTypes.TEXT('long')
   }, {
     sequelize,
     modelName: 'HTML',

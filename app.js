@@ -8,6 +8,8 @@ const revisionRouter = require('./router/revision');
 
 // test for replace /law API
 const lawTestRouter = require('./router/lawTest');
+// router for create inline links API
+const nestRouter = require('./router/nest')
 
 const revision = require('./testR');
 
@@ -27,6 +29,7 @@ app.use(morgan('combined'));
 app.use('/search', searchRouter);
 app.use('/law', lawRouter);
 app.use('/revision', revisionRouter);
+app.use('/nest', nestRouter);
 
 // test for replace /law API
 app.use('/lawTest', lawTestRouter);
