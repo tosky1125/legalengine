@@ -7,7 +7,14 @@ module.exports = {
   post: async (req, res) => {
     const { date, searchWord } = req.body;
     const parsedDate = parse(date, 'yyyy-MM-dd', new Date());
-    const refinedKeyword = rmSpaceAndSymbols(searchWord).replace('법', '');
+
+    let refinedKeyword;
+
+    if (searchWord.length < 3) {
+      refinedKeyword = rmSpaceAndSymbols(searchWord);
+    } else {
+      refinedKeyword = rmSpaceAndSymbols(searchWord).replace('법', '');
+    }
 
     const searchResult = await Law.findAll({
       order: [[sequelize.fn('FIELD', sequelize.col('type'), '법률', '대통령령', '총리령', '대법원규칙')], ['enforcement_date', 'DESC']],
