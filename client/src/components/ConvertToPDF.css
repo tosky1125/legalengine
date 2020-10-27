@@ -27,8 +27,7 @@
     display: none;
   }
   @page {
-    margin: 12mm;
-    padding: 10mm;
+    size: A4 portrait;
   }
 }
 

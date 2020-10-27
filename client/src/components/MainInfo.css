@@ -16,7 +16,15 @@ ins {
   text-decoration: none;
 }
 
-.keyword-highlight {
+/*.keyword-highlight:not(h1) {
+  background-color: #f12ea760;
+}*/
+
+.maininfo-law-head {
+  text-align: center;
+}
+
+div[key] .keyword-highlight {
   background-color: #f12ea760;
 }
 
@@ -29,9 +37,7 @@ ins {
   overflow: auto;
 }
 
-.maininfo-law-head {
-  text-align: center;
-}
+
 .maininfo-law-head-info {
   color: rgb(36, 138, 179);
 }
