@@ -6,6 +6,9 @@ const searchRouter = require('./router/search');
 const lawRouter = require('./router/law');
 const revisionRouter = require('./router/revision');
 
+// test for replace /law API
+const lawTestRouter = require('./router/lawTest');
+
 const revision = require('./testR');
 
 const app = express();
@@ -24,6 +27,9 @@ app.use(morgan('combined'));
 app.use('/search', searchRouter);
 app.use('/law', lawRouter);
 app.use('/revision', revisionRouter);
+
+// test for replace /law API
+app.use('/lawTest', lawTestRouter);
 
 app.get('/', (req, res) => res.send('hello world'));
 
