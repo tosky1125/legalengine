@@ -25,6 +25,7 @@ ins {
   left: 20vw;
   right: 20vw;
   width: 55vw;
+  bottom: 5vh;
   padding: 1.5rem;
   overflow: auto;
 }

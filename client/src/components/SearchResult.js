@@ -3,7 +3,6 @@ import SearchBar from './SearchBar';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import Pagination from './Pagination';
-// import Pagination2 from './2Pagination2';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';

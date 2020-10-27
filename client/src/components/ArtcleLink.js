@@ -7,10 +7,10 @@ function ArtcleLink() {
 
   let ArticleLink = law.Chapter;
   console.log(ArticleLink);
-  // console.log(JSON.stringify(ArticleLink));
+  console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
-  console.log(Addenda);
+  // console.log(Addenda);
 
   //편:part 장:chapter 절:section 관:sub-section
 
@@ -29,6 +29,7 @@ function ArtcleLink() {
   let chapterNum = null;
   let sectionNum = null;
   let subSectionNum = null;
+  let articleNum = null;
   let result = {};
 
   ArticleLink = ArticleLink.map((chapEle) => {
@@ -138,7 +139,7 @@ function ArtcleLink() {
   //   </div>
   // );
 
-  console.log(result[1]);
+  console.log(result);
 
   // ArticleLink = (
   //   <div className='artclelink-accordion'>
