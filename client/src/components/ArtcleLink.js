@@ -6,7 +6,7 @@ function ArtcleLink() {
   // console.log(law);
 
   let ArticleLink = law.Chapter;
-  // console.log(ArticleLink);
+  console.log(ArticleLink);
   // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
@@ -283,10 +283,9 @@ function ArtcleLink() {
         <div className='artclelink-accordion'>
           <input type='checkbox' id='contTitle' />
           <label htmlFor='contTitle'>본문</label>
-          {result}
+          
           <div></div>
           {Addenda}
-
           {/* {File && (
           <div className='artclelink-formatting'>
             <a href='#file'>서식</a>

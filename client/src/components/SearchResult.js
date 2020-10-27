@@ -24,15 +24,16 @@ class SearchResult extends React.Component {
     // 데이터들의 새로운 페이지로 스테이트 업데이트
     this.setState({ pageOfItems: pageOfItems });
   }
-
+  
   handleClickSearch = (name, lawNum, enfDate) => {
     const { lawinfo } = this.props;
+    const payload = {lawNum, enfDate};
     axios
-      .get(
+      .post(
         `http://13.125.112.243/law/${encodeURIComponent(
         name
       )}?lawNum=${lawNum}&enfDate=${enfDate}`
-      )
+      , payload)
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
@@ -66,7 +67,7 @@ class SearchResult extends React.Component {
         console.log(err.config);
       });
   };
-
+  
   render() {
     if (this.props.lawlist.length === 0) {
       return (
