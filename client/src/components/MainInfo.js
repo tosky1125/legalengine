@@ -22,9 +22,7 @@ const MainInfo = (props) => {
       axios
         .post(url, payload)
         .then((data) => {
-          alert('hi');
           setResult(data.data.Law.context);
-          console.log(data.data.Law.context);
         })
         .catch(function (err) {
           if (err.res) {
