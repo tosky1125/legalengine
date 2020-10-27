@@ -3,7 +3,7 @@ const { Law } = require('../models');
 const {
   format
 } = require('date-fns');
-let k = 29; 
+let k = 1; 
 const htmlMaker = async () => {
   let findLaw = await Law.findOne({
     where : {
@@ -139,26 +139,14 @@ const htmlMaker = async () => {
           <a name='file'></a>
           <span>${ele.context}</span>
           <span>${ele.date}</span>
-          ${ele.hwp && `<a href=${ele.hwp} alt='한글'><button class='file-button-hwp'></button></a>`}
+          <div class='file-button'>${ele.hwp && `<button class='file-button-hwp'><a href=${ele.hwp} alt='한글'>한글</button>`}
           ${ele.pdf && (
-        `<a href=${ele.pdf} alt='PDF'>
-          <button class='file-button-pdf'></button>
-            </a>`)}
-        </div>`
+        `<button class='file-button-pdf'><a href=${ele.pdf} alt='PDF'/>PDF</button>`)}</div></div>`
     ))
     : null;
   const head = ` <div>
-  <table>
-    <thead>
-      <tr>
-        <td>
         <div class='maininfo-page-header-space'></div>
-        </td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
+          <div class='maininfo-wrapper'>
           <div class='maininfo-container'>
             <div class='maininfo-law-head'>
               <h1>${findLaw.name}</h1>
@@ -168,24 +156,30 @@ const htmlMaker = async () => {
                 ${number}호,&nbsp;
                 ${format(new Date(findLaw.promulgation_date), 'yyyy.MM.dd.')} ${findLaw.amendment_status}]</p>
             </div>`;
-  const bottom =  `</div></td></tr></tbody><tfoot><tr><td><div class='mainifo-page-footer-space'></div></td>
-</tr>
-</tfoot>
-</table>
-<div class='maininfo-page-header'></div>
-<div class='maininfo-page-footer'></div>
-</div>`;
+  const bottom =  `</div><tfoot><div class='mainifo-page-footer-space'></div></tfoot><div class='maininfo-page-header'></div><div class='maininfo-page-footer'></div></div></div>`;
 
 Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g,'><');
 console.log(Chapter);
   File = File.join('').replace(/null/g, '').replace(/>,</g,'><');
-  const html = `${head}${Chapter}<br /><br />${File}${bottom}`;
-  console.log(html);
+  const html = `${head}${Chapter}<br /><br /><div className='file-container'>
+  <input type='checkbox' id='file-contTitle' />
+  <label htmlFor='contTitle'>서식</label>
+  <div> 
+    <a name='file'
+      className='articlelink-article-title'
+    >
+    </a>
+  </div>
+</div>${File}${bottom}`;
   
   
-  // await Law.update({ context : html }, { where : { law_id : k }})
-  // k--;
-  // await htmlMaker();
+  
+  await Law.update({ context : html }, { where : { law_id : k }})
+  k++;
+  if(k === 61){
+    return 'hi';
+  }
+  await htmlMaker();
 };
 
 htmlMaker();

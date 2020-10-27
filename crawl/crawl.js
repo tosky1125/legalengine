@@ -245,10 +245,12 @@ const spec = async () => {
       if (ele.child[1]) texts = Array.from(ele.child[1].children);
       else texts = ele.child[0].textContent;
       button.forEach((e) => {
-        if (e.lastChild.title.includes('조문')) ele.flag_pan = 1;
-        else if (e.lastChild.firstChild.alt === '연혁') ele.flag_yeon = 1;
-        else if (e.lastChild.title.includes('행정')) ele.flag_hang = 1;
-        else if (e.lastChild.title.includes('규정')) ele.flag_gyu = 1;
+        if(e.lastChild.title){
+          if (e.lastChild.title.includes('조문')) ele.flag_pan = 1;
+          else if (e.lastChild.firstChild.alt === '연혁') ele.flag_yeon = 1;
+          else if (e.lastChild.title.includes('행정')) ele.flag_hang = 1;
+          else if (e.lastChild.title.includes('규정')) ele.flag_gyu = 1;
+        }
       });
 
       // 하위 노드가 있는 경우와 없는 경우로 분류.
@@ -909,5 +911,5 @@ const init = async () => {
   await init();
 };
 // let k = 49;
-let k = 53622;
+let k = 53051;
 init();
