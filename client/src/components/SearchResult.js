@@ -3,6 +3,7 @@ import SearchBar from './SearchBar';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import Pagination from './Pagination';
+// import Pagination2 from './2Pagination2';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
@@ -23,18 +24,36 @@ class SearchResult extends React.Component {
     // 데이터들의 새로운 페이지로 스테이트 업데이트
     this.setState({ pageOfItems: pageOfItems });
   }
-
-  handleClickSearch = (name, number, enforcement_date) => {
-    const { lawinfo, history } = this.props;
+  
+  handleClickSearch = (name, lawNum, enfDate) => {
+    const { lawinfo } = this.props;
+    const payload = { lawNum, enfDate };
     axios
-      .get(`http://13.125.112.243/search?lawName=${name}&lawNum=${number}&enfDate=${enforcement_date}`)
+      .post(
+        `http://13.125.112.243/law/${encodeURIComponent(
+          name
+        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
+        payload
+      )
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
+        localStorage.Law = JSON.stringify(res.data.Law);
+        localStorage.related = JSON.stringify(res.data.Related);
         this.setState({
           isLoaded: true,
         });
-        history.push('/view');
+      })
+      .then(() => {
+        window.open(
+          `/law/${encodeURIComponent(
+            name.replace(/[^가-힣^0-9]/g, '')
+          )}?lawNum=${lawNum}&enfDate=${format(
+            new Date(enfDate),
+            'yyyy-MM-dd'
+          )}`,
+          '_blank'
+        );
       })
       .catch(function (err) {
         if (err.res) {
@@ -49,47 +68,62 @@ class SearchResult extends React.Component {
         console.log(err.config);
       });
   };
+  
   render() {
     if (this.props.lawlist.length === 0) {
       return (
         <div>
-          <SearchBar />
-          <div className='search-empty'>검색 결과가 없습니다.</div>
+          <div className='searchresult-container'>
+            <SearchBar />
+            <div className='searchresult-empty'>검색 결과가 없습니다.</div>
+          </div>
         </div>
       );
     }
     return (
       <div>
-        <div className='container'>
+        <div className='searchresult-container'>
           <SearchBar />
-          <div className='law-number'>총 {this.props.lawlist.length} 개</div>
-          <div className='page-list text-center'>
+          <div className='searchresult-law-number'>
+            총 {this.props.lawlist.length} 건의 결과
+          </div>
+          <div className='searchresult-page-list text-center'>
             {this.state.pageOfItems.map((item, index) => (
               <div
-                className='page'
+                to='/view'
+                target='_blank'
+                className='searchresult-page'
                 key={index}
                 onClick={() =>
-                  this.handleClickSearch(item.name, item.number, item.enforcement_date)
+                  this.handleClickSearch(
+                    item.name,
+                    item.number,
+                    item.enforcement_date
+                  )
                 }
               >
-                <h3 className='name'>{item.name}</h3>
-                <span className='type'>{item.type}&nbsp;</span>
-                <span className='number'>{item.number}호&nbsp;</span>
-                <span className='admendment'>
+                <h3 className='searchresult-name'>{item.name}</h3>
+
+                <span className='searchresult-type'>{item.type}&nbsp;</span>
+                <span className='searchresult-number'>
+                  {item.number}호&nbsp;
+                </span>
+                <span className='searchresult-admendment'>
                   {item.amendment_status}&nbsp;
                 </span>
-                <span className='ministry'>{item.ministry}&nbsp;</span>
-                <span className='promulgation'>
-                  공포일:{' '}
-                  {format(new Date(item.promulgation_date), 'yyyy-MM-dd')}&nbsp;
+                <span className='searchresult-ministry'>
+                  {item.ministry}&nbsp;
                 </span>
-                <span className='enforcement'>
-                  시행일:{' '}
-                  {format(new Date(item.enforcement_date), 'yyyy-MM-dd')}
+                <span className='searchresult-promulgation'>
+                  공포일자 :{' '}
+                  {format(new Date(item.promulgation_date), 'yyyy.MM.dd')}&nbsp;
+                </span>
+                <span className='searchresult-enforcement'>
+                  시행일자 :{' '}
+                  {format(new Date(item.enforcement_date), 'yyyy.MM.dd')}
                 </span>
               </div>
             ))}
-
             <div>
               <Pagination
                 items={this.props.lawlist}
@@ -97,13 +131,6 @@ class SearchResult extends React.Component {
               />
             </div>
           </div>
-        </div>
-        <hr />
-        <div className='credits text-center'>
-          <p>
-            <a href='/'>주식회사 까리용</a>
-          </p>
-          <p>© 2019 Carillon Inc., All rights reserved.</p>
         </div>
       </div>
     );
@@ -113,7 +140,7 @@ class SearchResult extends React.Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
-    lawlistdetail: state.lawinfo.lawlistdetail,
+    lawDetail: state.lawinfo.lawDetail,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
