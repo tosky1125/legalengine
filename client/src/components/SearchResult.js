@@ -24,9 +24,18 @@ class SearchResult extends React.Component {
     // 데이터들의 새로운 페이지로 스테이트 업데이트
     this.setState({ pageOfItems: pageOfItems });
   }
-
+  
   handleClickSearch = (name, lawNum, enfDate) => {
     const { lawinfo } = this.props;
+<<<<<<< HEAD
+    const payload = {lawNum, enfDate};
+    axios
+      .post(
+        `http://13.125.112.243/law/${encodeURIComponent(
+        name
+      )}?lawNum=${lawNum}&enfDate=${enfDate}`
+      , payload)
+=======
     const payload = { lawNum, enfDate };
     axios
       .post(
@@ -35,6 +44,7 @@ class SearchResult extends React.Component {
         )}?lawNum=${lawNum}&enfDate=${enfDate}`,
         payload
       )
+>>>>>>> 35d013753ee19ec5e68c7ac538c7d2158c6aac79
       .then((res) => {
         lawinfo(res.data);
         console.log(res.data);
@@ -68,7 +78,7 @@ class SearchResult extends React.Component {
         console.log(err.config);
       });
   };
-
+  
   render() {
     if (this.props.lawlist.length === 0) {
       return (

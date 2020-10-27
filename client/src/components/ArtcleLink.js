@@ -293,11 +293,14 @@ function ArtcleLink() {
         <div className='artclelink-accordion'>
           <input type='checkbox' id='contTitle' />
           <label htmlFor='contTitle'>본문</label>
+<<<<<<< HEAD
+          
+=======
           {/* {result} */}
 
+>>>>>>> 35d013753ee19ec5e68c7ac538c7d2158c6aac79
           <div></div>
           {Addenda}
-
           {/* {File && (
             <div className='artclelink-formatting'>
               <a href='#file'>서식</a>

@@ -26,7 +26,9 @@
   .file-button {
     display: none;
   }
-
+  button {
+    display: none;
+  }
   thead {
     display: table-header-group;
   }
