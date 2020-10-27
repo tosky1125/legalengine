@@ -290,7 +290,7 @@ function ArtcleLink() {
       </div>
     </div>
   );
-  /*File = (
+  File = (
     <div className='file-container'>
       <input type='checkbox' id='file-contTitle' />
       <label htmlFor='contTitle'>서식</label>
@@ -301,27 +301,7 @@ function ArtcleLink() {
         </a>
       </div>
     </div>
-  )*/
-  /*File = File
-      ? File.map((ele) => (
-          <div className='file'>
-            <a name='file'></a>
-            <span>{ele.context}</span>
-            <span>{ele.date}</span>
-            {ele.hwp && (
-              <a href={ele.hwp} alt='한글'>
-                <img className='file-img' src={hwp} alt='hwp' />
-              </a>
-            )}
-            {ele.pdf && (
-              <a href={ele.pdf} alt='PDF'>
-                <img className='file-img' src={pdf} alt='pdf' />
-              </a>
-            )}
-          </div>
-        ))
-      : null;
-  */
+  )
 
   return (
     <div>
