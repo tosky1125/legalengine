@@ -63,88 +63,6 @@ input[id*='contTitle']:checked + label + div {
   max-height: 30rem;
 }
 
-input[id*='part-contTitle'] {
-  display: none;
-}
-input[id*='part-contTitle'] + label {
-  display: block;
-  padding: 0.5rem;
-  border-bottom: 0;
-  color: black;
-  font-weight: 600;
-  background-color: #fff;
-  cursor: pointer;
-  position: relative;
-}
-
-input[id*='part-contTitle'] + label em {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  margin-top: -15px;
-  display: inline-block;
-}
-
-input[id*='part-contTitle'] + label + div {
-  max-height: 0;
-  transition: all 0.5s;
-  overflow: hidden;
-  background-color: #fff;
-  font-size: small;
-}
-
-input[id*='chapter-contTitle'] + label p {
-  display: inline-block;
-  padding: 20px;
-}
-
-input[id*='chapter-contTitle']:checked + label + div {
-  max-height: 30rem;
-}
-
-input[id*='chapter-contTitle'] {
-  display: none;
-}
-input[id*='chapter-contTitle'] + label {
-  display: block;
-  padding: 0.5rem;
-  border-bottom: 0;
-  color: black;
-  font-weight: 600;
-  background-color: #fff;
-  cursor: pointer;
-  position: relative;
-}
-
-input[id*='chapter-contTitle'] + label em {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  margin-top: -15px;
-  display: inline-block;
-}
-
-input[id*='chapter-contTitle'] + label + div {
-  max-height: 0;
-  transition: all 0.5s;
-  overflow: hidden;
-  background-color: #fff;
-  font-size: small;
-}
-
-input[id*='chapter-contTitle'] + label p {
-  display: inline-block;
-  padding: 20px;
-}
-
-input[id*='chapter-contTitle']:checked + label + div {
-  max-height: 30rem;
-}
-
 input[id*='addenda-contTitle'] {
   display: none;
 }
@@ -184,4 +102,15 @@ input[id*='addenda-contTitle'] + label p {
 
 input[id*='addenda-contTitle']:checked + label + div {
   max-height: 30rem;
+}
+
+.articlelink-file-title {
+  display: block;
+  padding: 0.5rem;
+  border-bottom: 0;
+  color: black;
+  font-weight: 600;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
 }

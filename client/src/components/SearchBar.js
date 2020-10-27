@@ -58,7 +58,11 @@ function SearchBar(props) {
   return (
     <div>
       <div className='searchbar-container'>
-        <form className='searchbar-form' autocomplete='off' onSubmit={handleSubmit(handleSearch)}>
+        <form
+          className='searchbar-form'
+          autoComplete='off'
+          onSubmit={handleSubmit(handleSearch)}
+        >
           <div className='searchbar-flex'>
             <label className='searchbar-Term'>
               <input

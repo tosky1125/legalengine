@@ -1,16 +1,20 @@
 import React from 'react';
 import './ArtcleLink.css';
+import queryString from 'query-string';
 
 function ArtcleLink() {
   const law = JSON.parse(localStorage.Law);
-  // console.log(law);
+  console.log(law);
 
   let ArticleLink = law.Chapter;
   console.log(ArticleLink);
-  console.log(JSON.stringify(ArticleLink));
+  // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
   // console.log(Addenda);
+
+  let File = law.File;
+  // console.log(File);
 
   //편:part 장:chapter 절:section 관:sub-section
 
@@ -29,7 +33,6 @@ function ArtcleLink() {
   let chapterNum = null;
   let sectionNum = null;
   let subSectionNum = null;
-  let articleNum = null;
   let result = {};
 
   ArticleLink = ArticleLink.map((chapEle) => {
@@ -42,6 +45,7 @@ function ArtcleLink() {
       result[partNum] = {
         value: tempPart,
         child: {},
+        article: chapEle.Article,
       };
     } else if (
       chapEle.context &&
@@ -49,10 +53,7 @@ function ArtcleLink() {
     ) {
       if (!partNum) {
         partNum++;
-        result[partNum] = {
-          value: null,
-          child: {},
-        };
+        result[partNum] = { value: null, child: {} };
       }
       tempChapter = chapEle.context;
       tempSection = null;
@@ -61,6 +62,7 @@ function ArtcleLink() {
       result[partNum].child[chapterNum] = {
         value: tempChapter,
         child: {},
+        article: chapEle.Article,
       };
     } else if (
       chapEle.context &&
@@ -68,17 +70,11 @@ function ArtcleLink() {
     ) {
       if (!partNum) {
         partNum++;
-        result[partNum] = {
-          value: null,
-          child: {},
-        };
+        result[partNum] = { value: null, child: {} };
       }
       if (!chapterNum) {
         chapterNum++;
-        result[partNum].child[chapterNum] = {
-          value: null,
-          child: {},
-        };
+        result[partNum].child[chapterNum] = { value: null, child: {} };
       }
       tempSection = chapEle.context;
       tempSubSection = null;
@@ -86,6 +82,7 @@ function ArtcleLink() {
       result[partNum].child[chapterNum].child[sectionNum] = {
         value: tempSection,
         child: {},
+        article: chapEle.Article,
       };
     } else if (
       chapEle.context &&
@@ -93,17 +90,11 @@ function ArtcleLink() {
     ) {
       if (!partNum) {
         partNum++;
-        result[partNum] = {
-          value: null,
-          child: {},
-        };
+        result[partNum] = { value: null, child: {} };
       }
       if (!chapterNum) {
         chapterNum++;
-        result[partNum].child[chapterNum] = {
-          value: null,
-          child: {},
-        };
+        result[partNum].child[chapterNum] = { value: null, child: {} };
       }
       if (!sectionNum) {
         sectionNum++;
@@ -116,13 +107,8 @@ function ArtcleLink() {
       subSectionNum++;
       result[partNum].child[chapterNum].child[sectionNum].child[
         subSectionNum
-      ] = {
-        value: tempSubSection,
-      };
+      ] = { value: tempSubSection };
     }
-    // chapEle.Article && chapEle.Article.map((artEle) => {
-    //   artEle.article_title &&
-    // });
   });
 
   // result = (
@@ -130,9 +116,38 @@ function ArtcleLink() {
   //     <input type='checkbox' id='article-contTitle' />
   //     <label htmlFor='article-contTitle'>본문</label>
   //     <div>
-  //       {result[1].map((ele, eleIndex) => (
+  //       {result.map((ele, eleIndex) => (
   //         <div key={eleIndex}>
-  //           {ele.value ? `${ele.value}` : ele.child.value}
+  //           <div>
+  //             <input type='checkbox' id='part-contTitle' />
+  //             <label htmlFor='part-contTitle'>{ele.value}</label>
+  //             <div>
+  //               <input type='checkbox' id='chapter-conTitle' />
+  //               <label htmlFor='chapter-conTitle'>{ele.child.value}</label>
+  //               <div>
+  //                 <input type='checkbox' id='section-conTitle' />
+  //                 <label htmlFor='section-conTitle'>
+  //                   {ele.child.child.value}
+  //                 </label>
+  //                 <div>
+  //                   <input type='checkbox' id='subsection-conTitle' />
+  //                   <label htmlFor='subsection-conTitle'>
+  //                     {ele.child.child.child.value}
+  //                   </label>
+  //                   <div>
+  //                     {ele.article && (
+  //                       <a
+  //                         href={articleUrlfragment(ele.article.article_id)}
+  //                         className='articlelink-article-title'
+  //                       >
+  //                         {(ele.article.article_title, ele.article.date)}
+  //                       </a>
+  //                     )}
+  //                   </div>
+  //                 </div>
+  //               </div>
+  //             </div>
+  //           </div>
   //         </div>
   //       ))}
   //     </div>
@@ -140,68 +155,6 @@ function ArtcleLink() {
   // );
 
   console.log(result);
-
-  // ArticleLink = (
-  //   <div className='artclelink-accordion'>
-  //     <input type='checkbox' id='contTitle' />
-  //     <label htmlFor='contTitle'>본문</label>
-  //     {ArticleLink.forEach((chapEle) => {
-  //       if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
-  //         tempPart = chapEle.context;
-  //         tempChapter = null;
-  //         tempSection = null;
-  //         tempSubSection = null;
-  //         result[partNum] = tempPart;
-  //         partNum++;
-  //       } else if (
-  //         chapEle.context &&
-  //         chapEle.context.substring(0, 3).includes('장')
-  //       ) {
-  //         if (!tempPart) {
-  //           result[partNum] = null;
-  //         }
-  //         tempChapter = chapEle.context;
-  //         tempSection = null;
-  //         tempSubSection = null;
-  //         result[partNum][chapterNum] = tempChapter;
-  //       } else if (
-  //         chapEle.context &&
-  //         chapEle.context.substring(0, 3).includes('절')
-  //       ) {
-  //         if (!tempPart) {
-  //           result[partNum] = null;
-  //         }
-  //         if (!tempChapter) {
-  //           result[partNum][chapterNum] = null;
-  //         }
-  //         tempSection = chapEle.context;
-  //         tempSubSection = null;
-  //         result[partNum][chapterNum][sectionNum] = tempSection;
-  //       } else if (
-  //         chapEle.context &&
-  //         chapEle.context.substring(0, 3).includes('관')
-  //       ) {
-  //         if (!tempPart) {
-  //           result[partNum] = null;
-  //         }
-  //         if (!tempChapter) {
-  //           result[partNum][chapterNum] = null;
-  //         }
-  //         if (!sectionNum) {
-  //           result[partNum][chapterNum][sectionNum] = null;
-  //         }
-  //         tempSubSection = chapEle.context;
-  //         result[partNum][chapterNum][sectionNum][
-  //           subsectionNum
-  //         ] = tempSubSection;
-  //       }
-  //       console.log(result);
-  //       return result;
-  //     })}
-  //   </div>
-  // );
-
-  // console.log(result);
 
   // ArtcleLink = (
   //   <div className='articlelink-accordion'>
@@ -288,6 +241,14 @@ function ArtcleLink() {
     </div>
   );
 
+  File = (
+    <div className='file-container'>
+      <a href='#file' className='articlelink-file-title'>
+        서식
+      </a>
+    </div>
+  );
+
   return (
     <div>
       <div className='artclelink-contanier'>
@@ -296,14 +257,8 @@ function ArtcleLink() {
           <label htmlFor='contTitle'>본문</label>
           {/* {result} */}
 
-          <div></div>
           {Addenda}
-
-          {/* {File && (
-            <div className='artclelink-formatting'>
-              <a href='#file'>서식</a>
-            </div>
-          )} */}
+          {File}
         </div>
       </div>
     </div>

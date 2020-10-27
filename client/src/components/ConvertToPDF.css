@@ -2,12 +2,12 @@
   .maininfo-buttons {
     display: none;
   }
+  .maininfo-container {
+    display: block;
+  }
   .pdf-button {
     display: none;
   }
-  /*.keyword-highlight {
-    background-color: none;
-  }*/
   .viewpage-sideinfo-container {
     display: none;
   }
@@ -25,13 +25,6 @@
   }
   .file-button {
     display: none;
-  }
-
-  thead {
-    display: table-header-group;
-  }
-  tfoot {
-    display: table-footer-group;
   }
   @page {
     margin: 12mm;
