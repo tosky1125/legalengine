@@ -27,7 +27,7 @@ const simpleTotalData = async (name, eDate, number) => {
                 [Op.lte]: parsedDate
             },
         },
-        attributes: ['name', 'refined_name', 'enforcement_date', 'number'],
+        attributes: ['name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'],
         order: [['enforcement_date', 'DESC']],
         raw: true
     });
