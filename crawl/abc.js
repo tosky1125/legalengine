@@ -3,7 +3,7 @@ const { Law } = require('../models');
 const {
   format
 } = require('date-fns');
-let k = 1; 
+let k = 29; 
 const htmlMaker = async () => {
   let findLaw = await Law.findOne({
     where : {
@@ -54,7 +54,7 @@ const htmlMaker = async () => {
     }
     return context;
   };
-  
+  console.log(Chapter);
   Chapter = Chapter.map((chapEle, chapEleIndex) => (
     `<div key=${chapEleIndex}>
       <a name=${addendaUrlfragment(chapEle.chapter_id)}></a>
@@ -175,15 +175,17 @@ const htmlMaker = async () => {
 <div class='maininfo-page-header'></div>
 <div class='maininfo-page-footer'></div>
 </div>`;
-  Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g,'><');
+
+Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g,'><');
+console.log(Chapter);
   File = File.join('').replace(/null/g, '').replace(/>,</g,'><');
   const html = `${head}${Chapter}<br /><br />${File}${bottom}`;
+  console.log(html);
   
-  console.log(head);
   
-  await Law.update({ context : html }, { where : { law_id : k }})
-  k++;
-  await htmlMaker();
+  // await Law.update({ context : html }, { where : { law_id : k }})
+  // k--;
+  // await htmlMaker();
 };
 
 htmlMaker();

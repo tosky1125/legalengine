@@ -13,6 +13,7 @@ const {
   HTML,
   File,
 } = require('../models/index');
+const revision = require('../testR');
 const axios = require('axios');
 const {
   Op
@@ -253,7 +254,7 @@ const spec = async () => {
       // 없다면 바로 context를 받아 '조'로 마무리
       // 있다면 순회하면서 호 항 목 으로 분류
       if (typeof texts === 'string') {
-        ele.context = texts;
+        ele.context = texts.replace(/\s+/,'');
       } else {
         for (let j = 0; j < texts.length; j += 1) {
           // context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
@@ -274,7 +275,7 @@ const spec = async () => {
             date = texts[j].lastChild.textContent;
           }
           // context 에서 날짜와 제목을 날려준다.
-          cont = cont.replace(ele.title, '').replace(date, '');
+          cont = cont.replace(ele.title, '').replace(date, '').replace(/\s+/,'');
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           const checkState = cont.slice(0, 10);
           state(checkState);
@@ -411,7 +412,7 @@ const spec = async () => {
           cont = array[j].lastElementChild.src;
           hhjm = '목';
         } else {
-          cont = cont.replace(title, '').replace(date, '');
+          cont = cont.replace(title, '').replace(date, '').replace(/\s+/,'');
           const checkState = cont.slice(0, 10);
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           state(checkState);
@@ -584,16 +585,13 @@ const spec = async () => {
 };
 
 const checkRevision = async (law_number, law_eDate, article_id, clause_id = null, sub_id = null, item_id = null) => {
-  const data = {
-    law_number,
+  const result = await revision(law_number,
     law_eDate,
     article_id,
     clause_id,
     sub_id,
-    item_id,
-  };
-  const result = await axios.post('http://13.125.112.243', data);
-  return result.data;
+    item_id);
+  return result;
 };
 
 const init = async () => {
@@ -647,8 +645,6 @@ const init = async () => {
     } = art;
 
     if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      console.log(a);
-      console.log(context);
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_number);
       contCheck = contCheck.article ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
@@ -694,8 +690,11 @@ const init = async () => {
       newJoCount -= 1;
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      console.log(context);
+      console.log(oldLaw);
+      console.log(oldLaw.number);
+      console.log(a);
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount)
+      console.log(contCheck);
       contCheck = contCheck.clause ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
@@ -895,9 +894,10 @@ const init = async () => {
       date,
     });
   };
+  if(k === 61) return 'hi';
   k -= 1;
   await init();
 };
 // let k = 49;
-let k = 39830;
+let k = 60;
 init();

@@ -3,7 +3,7 @@ const convert = require('xml-js');
 const {
   Law,
   Ministry,
-  Law_Type
+  LawType
 } = require('./models');
 const { rmSpaceAndSymbols } = require('./strHandlerSet');
 
@@ -36,7 +36,7 @@ const getLaws = async () => {
         name: ele['소관부처명']._text,
       },
     });
-    await Law_Type.findOrCreate({
+    await LawType.findOrCreate({
       where: {
         type: ele['법령구분명']._text
       },

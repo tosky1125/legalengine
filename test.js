@@ -442,4 +442,5 @@ const testForFile = async (str) => {
   return result;
 };
 
-testForFile("평창 올림픽 법");
+// testForFile("평창 올림픽 법");
+
