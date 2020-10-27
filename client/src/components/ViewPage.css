@@ -1,27 +1,25 @@
-.viewpage-container {
+.searched-date {
   position: relative;
-  block-size: auto;
-  bottom: 5vh;
-  top: 10vh;
-  overflow: hidden;
+  margin: 1.5rem;
+  padding: 1rem;
+  font-weight: 700;
+  border-style: solid;
 }
 
-.viewpage-sideinfo-container {
-  position: fixed;
-  width: 18vw;
-  height: 75%;
-  padding: 1rem;
-  padding-top: 2rem;
-  overflow: hidden;
-  border-right: 1px solid #eee;
+.view-container {
+  position: relative;
+  display: flex;
+  block-size: 40vh;
 }
-.viewpage-articlelink-container {
-  position: fixed;
-  width: 18vw;
-  height: 75%;
-  right: 0;
-  padding: 1rem;
-  padding-top: 2rem;
-  border-left: 1px solid #eee;
-  overflow: auto;
+
+.sideinfo-container {
+  border-style: solid;
+  margin: 1.5rem;
+  flex: 1;
+}
+
+.maininfo-container {
+  border-style: solid;
+  margin: 1.5rem;
+  flex: 3;
 }

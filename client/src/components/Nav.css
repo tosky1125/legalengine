@@ -1,16 +1,11 @@
-.nav-container {
-  position: fixed;
+.nav-form {
   background-color: #ffffff;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  top: 0;
+  height: 6rem;
   border-bottom: 0.5px solid #eee;
-  z-index: 10000;
 }
 
 .nav-logo {
   height: 4rem;
   width: 12rem;
-  margin-top: 0.5rem;
-  margin-left: 2rem;
+  margin: 1rem;
 }
