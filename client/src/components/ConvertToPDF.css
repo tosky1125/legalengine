@@ -1,9 +1,52 @@
-.pdf-btn-wrapper {
+@media print {
+  .maininfo-buttons {
+    display: none;
+  }
+  .pdf-button {
+    display: none;
+  }
+  /*.keyword-highlight {
+    background-color: none;
+  }*/
+  .viewpage-sideinfo-container {
+    display: none;
+  }
+  .viewpage-articlelink-container {
+    display: none;
+  }
+  .footer-form {
+    display: none;
+  }
+  .nav-container {
+    display: none;
+  }
+  .sideInfo-body {
+    display: none;
+  }
+  .file-button {
+    display: none;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+  tfoot {
+    display: table-footer-group;
+  }
+  @page {
+    margin: 12mm;
+    padding: 10mm;
+  }
+}
+
+
+
+.pdf-button-wrapper {
   text-align: right;
   margin-right: 40rem;
   margin-left: 30rem;
 }
-.pdf-btn {
+.pdf-button {
   background-color: #d93728;
   border: 2px solid #d93728;
   color: white;
@@ -18,7 +61,7 @@
   z-index: 1;
 }
 
-.pdf-btn:hover {
+.pdf-button:hover {
   background-color: white;
   border: 2px solid #d93728;
   color: #d93728;
