@@ -98,7 +98,6 @@ const itemResult = async (subParaData) => {
 };
 
 const simpleTotalData = async (name, eDate, number) => {
-    console.log(eDate);
     let simpleTotalDataResult = {};
     const extractedKeyword = extractKeyword(name);
     const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
@@ -149,6 +148,7 @@ const findLawForInline = async (name, eDate) => {
         },
         raw: true
     });
+    console.log(findLawNAttrs);
     return findLawNAttrs;
 };
 
