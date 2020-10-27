@@ -14,11 +14,7 @@ const ConvertToPDF = (props) => {
           PDF & 프린트
         </button>
       </div>
-      <MainInfo
-        name={name}
-        lawNum={lawNum}
-        enfDate={enfDate}
-      />
+      <MainInfo name={name} lawNum={lawNum} enfDate={enfDate} />
     </div>
   );
 };

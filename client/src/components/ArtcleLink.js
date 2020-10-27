@@ -3,13 +3,16 @@ import './ArtcleLink.css';
 
 function ArtcleLink() {
   const law = JSON.parse(localStorage.Law);
-  console.log(law);
+  // console.log(law);
 
   let ArticleLink = law.Chapter;
-  console.log(ArticleLink);
+  // console.log(ArticleLink);
+  // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
-  console.log(Addenda);
+  // console.log(Addenda);
+
+  //편:part 장:chapter 절:section 관:sub-section
 
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
@@ -17,57 +20,177 @@ function ArtcleLink() {
     return artUrl;
   };
 
-  //편:part 장:chapter 절:section 관:sub-section
+  let tempPart = null;
+  let tempChapter = null;
+  let tempSection = null;
+  let tempSubSection = null;
+  let tempArticle = null;
+  let partNum = null;
+  let chapterNum = null;
+  let sectionNum = null;
+  let subSectionNum = null;
+  let result = {};
 
+  ArticleLink = ArticleLink.map((chapEle) => {
+    if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
+      tempPart = chapEle.context;
+      tempChapter = null;
+      tempSection = null;
+      tempSubSection = null;
+      partNum++;
+      result[partNum] = {
+        value: tempPart,
+        child: {},
+      };
+    } else if (
+      chapEle.context &&
+      chapEle.context.substring(0, 3).includes('장')
+    ) {
+      if (!partNum) {
+        partNum++;
+        result[partNum] = {
+          value: null,
+          child: {},
+        };
+      }
+      tempChapter = chapEle.context;
+      tempSection = null;
+      tempSubSection = null;
+      chapterNum++;
+      result[partNum].child[chapterNum] = {
+        value: tempChapter,
+        child: {},
+      };
+    } else if (
+      chapEle.context &&
+      chapEle.context.substring(0, 3).includes('절')
+    ) {
+      if (!partNum) {
+        partNum++;
+        result[partNum] = {
+          value: null,
+          child: {},
+        };
+      }
+      if (!chapterNum) {
+        chapterNum++;
+        result[partNum].child[chapterNum] = {
+          value: null,
+          child: {},
+        };
+      }
+      tempSection = chapEle.context;
+      tempSubSection = null;
+      sectionNum++;
+      result[partNum].child[chapterNum].child[sectionNum] = {
+        value: tempSection,
+        child: {},
+      };
+    } else if (
+      chapEle.context &&
+      chapEle.context.substring(0, 3).includes('관')
+    ) {
+      if (!partNum) {
+        partNum++;
+        result[partNum] = {
+          value: null,
+          child: {},
+        };
+      }
+      if (!chapterNum) {
+        chapterNum++;
+        result[partNum].child[chapterNum] = {
+          value: null,
+          child: {},
+        };
+      }
+      if (!sectionNum) {
+        sectionNum++;
+        result[partNum].child[chapterNum].child[sectionNum] = {
+          value: null,
+          child: {},
+        };
+      }
+      tempSubSection = chapEle.context;
+      subSectionNum++;
+      result[partNum].child[chapterNum].child[sectionNum].child[
+        subSectionNum
+      ] = {
+        value: tempSubSection,
+      };
+    }
+    // {
+    //   chapEle.Article &&
+    //     chapEle.Article.map((artEle) => {
+    //       artEle.context && ;
+    //     });
+    // }
+    return result;
+  });
 
-  // let tempPart;
-  // let tempChapter;
-  // let tempSection;
-  // let tempSubSection;
-  // let tempArticle;
-  // let result = {};
+  console.log(result);
 
   // ArticleLink = (
   //   <div className='artclelink-accordion'>
   //     <input type='checkbox' id='contTitle' />
   //     <label htmlFor='contTitle'>본문</label>
-  //     <div>
-  //       <input type='checkbox' id='part-contTitle' />
-  //       {ArticleLink.forEach((ele) => {
-  //         if (ele.context.substring(0, 3).includes('편')) {
-  //           tempPart = ele;
-  //           tempChapter = null;
-  //           tempSection = null;
-  //           tempSubSection = null;
-  //           tempArticle = null;
-  //           result[ele] = new Object();
-  //         } else if (ele.context.substring(0, 3).includes('장')) {
-  //           if (!tempPart) {
-  //             result[tempPart] = {};
-  //           }
-  //           tempChapter = ele;
-  //           tempSection = null;
-  //           tempSubSection = null;
-  //           tempArticle = null;
-  //           result[tempPart][tempChapter] = new Object();
-  //         } else if (ele.context.substring(0, 3).includes('절')) {
-  //           if (!tempPart) {
-  //             result[tempPart] = {};
-  //           }
-  //           if (!tempChapter) {
-  //             result[tempPart][tempChapter] = {};
-  //           }
-  //           tempSection = ele;
-  //           tempPart = null;
-  //           tempChapter = null;
-  //           tempSubSection = null;
-  //           tempArticle = null;
-  //           result[tempPart][tempChapter][ele] = new Object();
+  //     {ArticleLink.forEach((chapEle) => {
+  //       if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
+  //         tempPart = chapEle.context;
+  //         tempChapter = null;
+  //         tempSection = null;
+  //         tempSubSection = null;
+  //         result[partNum] = tempPart;
+  //         partNum++;
+  //       } else if (
+  //         chapEle.context &&
+  //         chapEle.context.substring(0, 3).includes('장')
+  //       ) {
+  //         if (!tempPart) {
+  //           result[partNum] = null;
   //         }
-  //       })}
-  //     </div>
+  //         tempChapter = chapEle.context;
+  //         tempSection = null;
+  //         tempSubSection = null;
+  //         result[partNum][chapterNum] = tempChapter;
+  //       } else if (
+  //         chapEle.context &&
+  //         chapEle.context.substring(0, 3).includes('절')
+  //       ) {
+  //         if (!tempPart) {
+  //           result[partNum] = null;
+  //         }
+  //         if (!tempChapter) {
+  //           result[partNum][chapterNum] = null;
+  //         }
+  //         tempSection = chapEle.context;
+  //         tempSubSection = null;
+  //         result[partNum][chapterNum][sectionNum] = tempSection;
+  //       } else if (
+  //         chapEle.context &&
+  //         chapEle.context.substring(0, 3).includes('관')
+  //       ) {
+  //         if (!tempPart) {
+  //           result[partNum] = null;
+  //         }
+  //         if (!tempChapter) {
+  //           result[partNum][chapterNum] = null;
+  //         }
+  //         if (!sectionNum) {
+  //           result[partNum][chapterNum][sectionNum] = null;
+  //         }
+  //         tempSubSection = chapEle.context;
+  //         result[partNum][chapterNum][sectionNum][
+  //           subsectionNum
+  //         ] = tempSubSection;
+  //       }
+  //       console.log(result);
+  //       return result;
+  //     })}
   //   </div>
   // );
+
+  // console.log(result);
 
   // ArtcleLink = (
   //   <div className='artclelink-accordion'>
@@ -157,15 +280,19 @@ function ArtcleLink() {
   return (
     <div>
       <div className='artclelink-contanier'>
-        {/* {ArticleLink} */}
-        {/* {Addenda} */}
-        {/* {Chapter} */}
+        <div className='artclelink-accordion'>
+          <input type='checkbox' id='contTitle' />
+          <label htmlFor='contTitle'>본문</label>
+          {result}
+          <div></div>
+          {Addenda}
 
-        {/* {File && (
+          {/* {File && (
           <div className='artclelink-formatting'>
             <a href='#file'>서식</a>
           </div>
         )} */}
+        </div>
       </div>
     </div>
   );
