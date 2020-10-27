@@ -3,7 +3,16 @@
     display: none;
   }
   .maininfo-container {
-    display: block;
+      background-color: white;
+      height: 100%;
+      width: 20%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin: 0;
+      padding: 15px;
+      font-size: 14px;
+      line-height: 18px;
   }
   .pdf-button {
     display: none;

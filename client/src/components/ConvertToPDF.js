@@ -6,15 +6,16 @@ function ConvertToPDF(props) {
   const { name, lawNum, enfDate } = props;
   
   function content_print(){    
-    var initBody = document.body.innerHTML;
+    const initBody = document.body.innerHTML;
     window.onbeforeprint = function(){
       document.body.innerHTML = document.querySelector('.maininfo-container').innerHTML;
     }    
     window.onafterprint = function(){  
       document.body.innerHTML = initBody;
     }
-    window.print();     
-  }     
+    window.print();
+    window.location.reload();
+  }
   
   return (
     <div className='pdf-button-form'>
