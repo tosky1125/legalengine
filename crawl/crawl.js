@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer');
+const {
+  format
+} = require('date-fns');
 const diff = require('./diff');
-const { format } =require('date-fns');
 const {
   Law,
   Chapter,
@@ -11,6 +13,7 @@ const {
   HTML,
   File,
 } = require('../models/index');
+const revision = require('../testR');
 const axios = require('axios');
 const {
   Op
@@ -18,8 +21,6 @@ const {
 
 
 const spec = async () => {
-  // 법령 목록에서 아이디 k 값을 찾는다.
-
   const data = await Law.findOne({
     where: {
       law_id: k,
@@ -33,17 +34,17 @@ const spec = async () => {
   };
   const justBefore = await Law.findOne({
     where: {
-      name: data.name,
+      refined_name: data.refined_name,
       enforcement_date: {
-        [Op.lt]: data.enforcement_date
-      }
+        [Op.lt]: data.enforcement_date,
+      },
     },
-    raw: true
+    raw: true,
   });
   data.oldLaw = justBefore;
 
-  const url = `https://www.law.go.kr/lsInfoP.do?lsiSeq=${data.number}&efYd=${format(new Date(data.enforcement_date), 'yyyyMMdd')}#0000`;
-
+  const url = `https://www.law.go.kr/lsInfoP.do?lsiSeq=${data.number}&efYd=${format(new Date(data.enforcement_date), 'yyyyMMdd')}`;
+  console.log(url);
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox'],
@@ -253,7 +254,7 @@ const spec = async () => {
       // 없다면 바로 context를 받아 '조'로 마무리
       // 있다면 순회하면서 호 항 목 으로 분류
       if (typeof texts === 'string') {
-        ele.context = texts;
+        ele.context = texts.replace(/\s+/,'');
       } else {
         for (let j = 0; j < texts.length; j += 1) {
           // context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
@@ -274,7 +275,7 @@ const spec = async () => {
             date = texts[j].lastChild.textContent;
           }
           // context 에서 날짜와 제목을 날려준다.
-          cont = cont.replace(ele.title, '').replace(date, '');
+          cont = cont.replace(ele.title, '').replace(date, '').replace(/\s+/,'');
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           const checkState = cont.slice(0, 10);
           state(checkState);
@@ -296,7 +297,7 @@ const spec = async () => {
             });
           } else if (hhjm === '호') {
 
-            
+
             // 하위 카테고리의 index는 null값으로 초기화
             if (subParNum === undefined) {
               subParNum = null;
@@ -411,7 +412,7 @@ const spec = async () => {
           cont = array[j].lastElementChild.src;
           hhjm = '목';
         } else {
-          cont = cont.replace(title, '').replace(date, '');
+          cont = cont.replace(title, '').replace(date, '').replace(/\s+/,'');
           const checkState = cont.slice(0, 10);
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           state(checkState);
@@ -584,16 +585,13 @@ const spec = async () => {
 };
 
 const checkRevision = async (law_number, law_eDate, article_id, clause_id = null, sub_id = null, item_id = null) => {
-  const data = {
-    law_number,
+  const result = await revision(law_number,
     law_eDate,
     article_id,
     clause_id,
     sub_id,
-    item_id,
-  };
-  const result = await axios.post('http://13.125.112.243', data);
-  return result.data;
+    item_id);
+  return result;
 };
 
 const init = async () => {
@@ -607,7 +605,7 @@ const init = async () => {
     data,
     file,
   } = await spec();
-  
+
   const a = k;
   let {
     oldLaw
@@ -647,13 +645,9 @@ const init = async () => {
     } = art;
 
     if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      console.log(a);
-      console.log(context);
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_number);
-      console.log(oldLaw.number, oldLaw.enforcement_date, article_number);
-      console.log(contCheck.article);
-      contCheck = contCheck.article.context.replace(regex1, '').replace(regex2, '');
-      context = diff(contCheck, context).replace(regex2, '');
+      contCheck = contCheck.article ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
+      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
     let tmp = await Chapter.findOne({
@@ -696,13 +690,13 @@ const init = async () => {
       newJoCount -= 1;
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      console.log(context);
+      console.log(oldLaw);
+      console.log(oldLaw.number);
+      console.log(a);
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount)
-      console.log(contCheck)
-      contCheck = contCheck.clause.context.replace(regex1, '').replace(regex2, '');
-      console.log(contCheck)
-      context = diff(contCheck, context).replace(regex2, '');
-      console.log(context);
+      console.log(contCheck);
+      contCheck = contCheck.clause ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
+      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
     let tmp1 = await Chapter.findOne({
       where: {
@@ -756,8 +750,8 @@ const init = async () => {
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number + newJoCount);
-      contCheck = contCheck.sub.context.replace(regex1, '').replace(regex2, '');
-      context = diff(contCheck, context).replace(regex2, '');
+      contCheck = contCheck.sub ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
+      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
     let tmp1 = await Chapter.findOne({
@@ -831,8 +825,8 @@ const init = async () => {
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number + newJoCount);
-      contCheck = contCheck.item.context.replace(regex1, '').replace(regex2, '');
-      context = diff(contCheck, context).replace(regex2, '');
+      contCheck = contCheck.item ? contCheck.item.context.replace(regex1, '').replace(regex2, '') : null;
+      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
     let tmp1 = await Chapter.findOne({
@@ -885,19 +879,25 @@ const init = async () => {
       context
     })
   };
-  for(i of file){
-    const { context, hwp, pdf, date } = i;
+  for (i of file) {
+    const {
+      context,
+      hwp,
+      pdf,
+      date
+    } = i;
     await File.create({
-      law_id : a,
+      law_id: a,
       context,
       hwp,
       pdf,
       date,
     });
   };
+  if(k === 61) return 'hi';
   k -= 1;
   await init();
 };
 // let k = 49;
-let k = 42;
+let k = 60;
 init();
