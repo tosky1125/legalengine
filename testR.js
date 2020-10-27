@@ -53,7 +53,8 @@ const revision = async (
     
     
     // find law with it's id and it's enforcement date
-    const lawResult = await Law.findOne({
+console.log(law_number, law_eDate);
+  const lawResult = await Law.findOne({
         where: {
             number: law_number,
             enforcement_date: {
@@ -62,6 +63,7 @@ const revision = async (
         },
         raw: true
     });
+  console.log(lawResult);
     const { law_id } = lawResult;
     const article = await Article.findOne({
       where : {
