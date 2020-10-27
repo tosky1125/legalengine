@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import './ConvertToPDF.css';
-import MainInfo2 from './maininfo2';
+import MainInfo from './MainInfo';
 
 const ConvertToPDF = (props) => {
   const componentRef = useRef();
@@ -18,7 +18,7 @@ const ConvertToPDF = (props) => {
           PDF & 프린트
         </button>
       </div>
-      <MainInfo2
+      <MainInfo
         ref={componentRef}
         name={name}
         lawNum={lawNum}

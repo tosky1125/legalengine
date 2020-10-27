@@ -16,6 +16,7 @@ function ViewPage(props) {
     decodeURIComponent(props.location.search.slice(23))
   );
 
+
   return (
     <div>
       <div className='viewpage-container'>
