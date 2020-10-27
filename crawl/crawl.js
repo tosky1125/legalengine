@@ -648,7 +648,7 @@ const init = async () => {
 
     if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_number);
-      contCheck = contCheck.article ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.article && contCheck.article.context ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
@@ -697,7 +697,7 @@ const init = async () => {
       console.log(a);
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount)
       console.log(contCheck);
-      contCheck = contCheck.clause ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.clause && contCheck.clause.context ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
     let tmp1 = await Chapter.findOne({
@@ -752,7 +752,7 @@ const init = async () => {
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number + newJoCount);
-      contCheck = contCheck.sub ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.sub && contCheck.sub.context  ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
@@ -827,7 +827,7 @@ const init = async () => {
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number + newJoCount);
-      contCheck = contCheck.item ? contCheck.item.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.item && contCheck.item.context ? contCheck.item.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
