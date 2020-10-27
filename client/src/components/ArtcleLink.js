@@ -1,9 +1,10 @@
 import React from 'react';
 import './ArtcleLink.css';
+import queryString from 'query-string';
 
 function ArtcleLink() {
   const law = JSON.parse(localStorage.Law);
-  // console.log(law);
+  console.log(law);
 
   let ArticleLink = law.Chapter;
   console.log(ArticleLink);
@@ -11,6 +12,9 @@ function ArtcleLink() {
 
   let Addenda = law.Chapter;
   console.log(Addenda);
+
+  let File = law.File;
+  console.log(File)
 
   //편:part 장:chapter 절:section 관:sub-section
 
@@ -286,6 +290,38 @@ function ArtcleLink() {
       </div>
     </div>
   );
+  /*File = (
+    <div className='file-container'>
+      <input type='checkbox' id='file-contTitle' />
+      <label htmlFor='contTitle'>서식</label>
+      <div> 
+        <a href='#file'
+          className='articlelink-article-title'
+        >
+        </a>
+      </div>
+    </div>
+  )*/
+  /*File = File
+      ? File.map((ele) => (
+          <div className='file'>
+            <a name='file'></a>
+            <span>{ele.context}</span>
+            <span>{ele.date}</span>
+            {ele.hwp && (
+              <a href={ele.hwp} alt='한글'>
+                <img className='file-img' src={hwp} alt='hwp' />
+              </a>
+            )}
+            {ele.pdf && (
+              <a href={ele.pdf} alt='PDF'>
+                <img className='file-img' src={pdf} alt='pdf' />
+              </a>
+            )}
+          </div>
+        ))
+      : null;
+  */
 
   return (
     <div>
@@ -293,19 +329,13 @@ function ArtcleLink() {
         <div className='artclelink-accordion'>
           <input type='checkbox' id='contTitle' />
           <label htmlFor='contTitle'>본문</label>
-<<<<<<< HEAD
-          
-=======
           {/* {result} */}
 
->>>>>>> 35d013753ee19ec5e68c7ac538c7d2158c6aac79
           <div></div>
           {Addenda}
-          {/* {File && (
-            <div className='artclelink-formatting'>
-              <a href='#file'>서식</a>
-            </div>
-          )} */}
+          {File}
+          <div></div>
+          
         </div>
       </div>
     </div>

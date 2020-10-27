@@ -11,12 +11,6 @@ import queryString from 'query-string';
 function ViewPage(props) {
   const [name] = useState(props.match.params.key);
   const { lawNum, enfDate } = queryString.parse(props.location.search);
-  //  = useState(
-  //   decodeURIComponent(props.location.search.slice(8, 13))
-  // );
-  // const [enfDate] = useState(
-  //   decodeURIComponent(props.location.search.slice(22))
-  // );
 
   return (
     <div>
