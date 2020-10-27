@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MainInfo.css';
 
-const Maininfo = (props) => {
+const MainInfo = (props) => {
   // Data from API
   const [result, setResult] = useState([]);
   const { name, lawNum, enfDate } = props;
@@ -19,6 +19,17 @@ const Maininfo = (props) => {
     ).then((data) => {
       setResult(data.data.Law.context);
       console.log(data.data.Law.context);
+    }).catch(function (err) {
+      if (err.res) {
+        console.log(err.res.data);
+        console.log(err.res.status);
+        console.log(err.res.headers);
+      } else if (err.req) {
+        console.log(err.req);
+      } else {
+        console.log('Error', err.message);
+      }
+      console.log(err.config);
     });
   }, []);
 
@@ -31,4 +42,4 @@ const Maininfo = (props) => {
   );
 };
 
-export default Maininfo;
+export default MainInfo;
