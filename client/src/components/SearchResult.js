@@ -24,7 +24,7 @@ class SearchResult extends React.Component {
     // 데이터들의 새로운 페이지로 스테이트 업데이트
     this.setState({ pageOfItems: pageOfItems });
   }
-  
+
   handleClickSearch = (name, number, enforcement_date) => {
     const { lawinfo } = this.props;
     axios
@@ -45,7 +45,7 @@ class SearchResult extends React.Component {
       .then(() => {
         window.open(
           `/law/${encodeURIComponent(
-            name.replace(/[^가-힣^0-9]/g, "")
+            name.replace(/[^가-힣^0-9]/g, '')
           )}?lawNum=${number}&enfDate=${format(
             new Date(enforcement_date),
             'yyyy-MM-dd'
