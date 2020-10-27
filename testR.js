@@ -71,7 +71,7 @@ console.log(law_number, law_eDate);
         article_id,
       }, raw : true,
     });
-    article_id = article.id;
+    article_id = article ? article.id : null;
     console.log(article);
     const clause = clause_id ? await Clause.findOne({
       where :{

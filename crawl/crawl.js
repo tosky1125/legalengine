@@ -59,9 +59,8 @@ const spec = async () => {
     // puppeteer 작동원리 상 외부에서 함수, 또는 변수를 불러올 수 없다.
     // 반대로 evalute 메소드 내에서 dom 을 이용해 연산하는 것들을 밖으로 내보낼 수 없다.
 
-    const ho = new Set(['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.']);
-    // const hang = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳', '㉑', '㉒', '㉓', '㉔', '㉕', '㉖', '㉗', '㉘', '㉙', '㉚', '㉛', '㉜', '㉝', '㉞', '㉟', '㊱', '㊲', '㊳', '㊴', '㊵', '㊶', '㊷', '㊸', '㊹', '㊺', '㊻', '㊼', '㊽', '㊾', '㊿'];
-    const mok = new Set(['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '0)']);
+    const ho = new Set(['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.', '13', '14', '15', '16', '17', '18', '19.', '20.']);
+    const mok = new Set(['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '10)', '11)', '12)', '13)', '14)', '15)', '16)', '17)', '18)', '19)', '20)']);
 
     const chapter = [];
     const article = [];
@@ -77,22 +76,24 @@ const spec = async () => {
     let itemNum = null;
     let hhjm = '';
     const state = (str) => {
-      for (let i = 0; i < str.length; i += 1) {
-        const twoCharFront = `${str[i]}${str[i + 1]}`;
-        const charCode = str[i].charCodeAt();
-        if (ho.has(twoCharFront)) {
-          hhjm = '호';
-          break;
-        } else if (mok.has(twoCharFront)) {
-          hhjm = '목';
-          break;
-        } else if ((charCode >= 0x2460 && charCode <= 0x2473) || charCode >= 0x3251 && charCode <= 0x325F) {
-          hhjm = '항';
-          break;
-        } else {
-          hhjm = '조';
-        }
+      str = str.replace(/\s+/, '');
+      const twoCharFront = `${str[0]}${str[1]}`;
+      const threeCharFront = `${str[0]}${str[1]}${str[2]}`;
+      const charCode = str[0].charCodeAt();
+      if (ho.has(twoCharFront) || ho.has(threeCharFront)) {
+        hhjm = '호';
+        return;
+      } else if (mok.has(twoCharFront) || mok.has(threeCharFront)) {
+        hhjm = '목';
+        return;
+      } else if ((charCode >= 0x2460 && charCode <= 0x2473) || charCode >= 0x3251 && charCode <= 0x325F) {
+        hhjm = '항';
+        return;
+      } else {
+        hhjm = '조';
+        return;
       }
+
     };
 
     const chapSlice = (str) => {
@@ -254,7 +255,7 @@ const spec = async () => {
       // 없다면 바로 context를 받아 '조'로 마무리
       // 있다면 순회하면서 호 항 목 으로 분류
       if (typeof texts === 'string') {
-        ele.context = texts.replace(/\s+/,'');
+        ele.context = texts.replace(/\s+/, '');
       } else {
         for (let j = 0; j < texts.length; j += 1) {
           // context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
@@ -275,7 +276,7 @@ const spec = async () => {
             date = texts[j].lastChild.textContent;
           }
           // context 에서 날짜와 제목을 날려준다.
-          cont = cont.replace(ele.title, '').replace(date, '').replace(/\s+/,'');
+          cont = cont.replace(ele.title, '').replace(date, '').replace(/\s+/, '');
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           const checkState = cont.slice(0, 10);
           state(checkState);
@@ -412,7 +413,7 @@ const spec = async () => {
           cont = array[j].lastElementChild.src;
           hhjm = '목';
         } else {
-          cont = cont.replace(title, '').replace(date, '').replace(/\s+/,'');
+          cont = cont.replace(title, '').replace(date, '').replace(/\s+/, '');
           const checkState = cont.slice(0, 10);
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           state(checkState);
@@ -610,6 +611,7 @@ const init = async () => {
   let {
     oldLaw
   } = data;
+  console.log(oldLaw);
   const regex1 = /(<([^>]+)>)/gi;
   const regex2 = /null/gi;
   await HTML.create({
@@ -646,7 +648,7 @@ const init = async () => {
 
     if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_number);
-      contCheck = contCheck.article ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.article && contCheck.article.context ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
@@ -695,7 +697,7 @@ const init = async () => {
       console.log(a);
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount)
       console.log(contCheck);
-      contCheck = contCheck.clause ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.clause && contCheck.clause.context ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
     let tmp1 = await Chapter.findOne({
@@ -750,7 +752,7 @@ const init = async () => {
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number + newJoCount);
-      contCheck = contCheck.sub ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.sub && contCheck.sub.context  ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
@@ -825,7 +827,7 @@ const init = async () => {
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
       let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number + newJoCount);
-      contCheck = contCheck.item ? contCheck.item.context.replace(regex1, '').replace(regex2, '') : null;
+      contCheck = contCheck.item && contCheck.item.context ? contCheck.item.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
@@ -894,10 +896,10 @@ const init = async () => {
       date,
     });
   };
-  if(k === 61) return 'hi';
+  if (k === 61) return 'hi';
   k -= 1;
   await init();
 };
 // let k = 49;
-let k = 60;
+let k = 53654;
 init();
