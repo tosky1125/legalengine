@@ -15,9 +15,9 @@ function SideInfo(props) {
     const { lawinfo } = props;
     axios
       .get(
-        `http://13.125.112.243/search?lawName=${encodeURIComponent(
+        `http://13.125.112.243/lawTest/${encodeURIComponent(
           name
-        )}&lawNum=${number}&enfDate=${enforcement_date}`
+        )}?lawNum=${number}&enfDate=${enforcement_date}`
       )
       .then((res) => {
         lawinfo(res.data);
@@ -27,9 +27,7 @@ function SideInfo(props) {
       })
       .then(() => {
         window.open(
-          `/law/lawName=${encodeURIComponent(
-            name
-          )}&lawNum=${number}&enfDate=${format(
+          `/law/${encodeURIComponent(name)}?lawNum=${number}&enfDate=${format(
             new Date(enforcement_date),
             'yyyy-MM-dd'
           )}`,

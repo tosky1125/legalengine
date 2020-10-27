@@ -29,9 +29,9 @@ class SearchResult extends React.Component {
     const { lawinfo } = this.props;
     axios
       .get(
-        `http://13.125.112.243/search?lawName=${encodeURIComponent(
+        `http://13.125.112.243/law/${encodeURIComponent(
           name
-        )}&lawNum=${number}&enfDate=${enforcement_date}`
+        )}?lawNum=${number}&enfDate=${enforcement_date}`
       )
       .then((res) => {
         lawinfo(res.data);
@@ -44,9 +44,9 @@ class SearchResult extends React.Component {
       })
       .then(() => {
         window.open(
-          `/law/lawName=${encodeURIComponent(
-            name
-          )}&lawNum=${number}&enfDate=${format(
+          `/law/${encodeURIComponent(
+            name.replace(/[^가-힣^0-9]/g, '')
+          )}?lawNum=${number}&enfDate=${format(
             new Date(enforcement_date),
             'yyyy-MM-dd'
           )}`,

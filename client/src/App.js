@@ -14,7 +14,7 @@ function App() {
         <Switch>
           <Route path='/' exact component={Main} />
           <Route path='/search' component={SearchResult} />
-          <Route path='/law' component={ViewPage} />
+          <Route path='/law/:key' component={ViewPage} />
         </Switch>
         <Footer />
       </Router>

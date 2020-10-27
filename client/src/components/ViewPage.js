@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
@@ -7,7 +7,15 @@ import ArticleLink from './ArtcleLink';
 import './ViewPage.css';
 import ConvertToPDF from './ConvertToPDF';
 
-function ViewPage() {
+function ViewPage(props) {
+  const [name] = useState(props.match.params.key);
+  const [lawNum] = useState(
+    decodeURIComponent(props.location.search.slice(8, 14))
+  );
+  const [enfDate] = useState(
+    decodeURIComponent(props.location.search.slice(23))
+  );
+
   return (
     <div>
       <div className='viewpage-container'>
@@ -15,9 +23,9 @@ function ViewPage() {
           <SideInfo />
         </div>
         <div className='viewpage-articlelink-container'>
-          <ArticleLink />
+          {/* <ArticleLink /> */}
         </div>
-        <ConvertToPDF />
+        <ConvertToPDF name={name} lawNum={lawNum} enfDate={enfDate} />
       </div>
     </div>
   );
