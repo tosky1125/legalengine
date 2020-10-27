@@ -30,7 +30,6 @@ const lawResult = async (name, eDate, number) => {
           },
           refined_name: refinedName
       },
-      attributes: ['law_id'],
       raw: true
   });
   return lawResult;
@@ -63,7 +62,7 @@ const articleResult = async (chapData) => {
       where: {
           chapter_id: chapData.id
       },
-      attributes: ['id', 'article_id', 'article_title', 'date', 'context'],
+      attributes: ['id', 'article_id', 'article_title', 'date'],
   });
   return articleResult;
 };
@@ -99,6 +98,7 @@ const itemResult = async (subParaData) => {
 };
 
 const simpleTotalData = async (name, eDate, number) => {
+    console.log(eDate);
     let simpleTotalDataResult = {};
     const extractedKeyword = extractKeyword(name);
     const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
@@ -127,19 +127,9 @@ const simpleTotalData = async (name, eDate, number) => {
     // });
 
     simpleTotalDataResult.Law = await lawResult(name, eDate, number);
-    simpleTotalDataResult.Law.File = await fileResult(simpleTotalDataResult.Law);
     simpleTotalDataResult.Law.Chapter = await chapterResult(simpleTotalDataResult.Law);
     for (eachChapter of simpleTotalDataResult.Law.Chapter) {
         eachChapter.Article = await articleResult(eachChapter);
-        for (eachArticle of eachChapter.Article) {
-            eachArticle.Clause = await clauseResult(eachArticle);
-            for (eachClause of eachArticle.Clause) {
-                eachClause.subPara = await subParaResult(eachClause);
-                for (eachSubpara of eachClause.subPara) {
-                    eachSubpara.Item = await itemResult(eachSubpara);
-                };
-            };
-        };
     };
 
     simpleTotalDataResult.Related =  relatedLaws;

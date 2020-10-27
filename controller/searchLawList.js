@@ -17,7 +17,7 @@ module.exports = {
     }
 
     const searchResult = await Law.findAll({
-      order: [[sequelize.fn('FIELD', sequelize.col('type'), '법률', '대통령령', '총리령', '대법원규칙')], ['enforcement_date', 'DESC']],
+      order: [[sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률'), "DESC"]],
       attributes: [
         'number', 'name', 'promulgation_date', 'enforcement_date', 'type', 'amendment_status', 'ministry'
       ],
