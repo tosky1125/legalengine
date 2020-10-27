@@ -1,5 +1,5 @@
 .artclelink-contanier {
-  overflow: auto;
+  overflow: hidden;
 }
 
 .artclelink-title {
@@ -49,7 +49,7 @@ input[id*='contTitle'] + label em {
 input[id*='contTitle'] + label + div {
   max-height: 0;
   transition: all 0.5s;
-  overflow: hidden;
+  overflow: auto;
   background-color: #fff;
   font-size: small;
 }
@@ -63,10 +63,10 @@ input[id*='contTitle']:checked + label + div {
   max-height: 30rem;
 }
 
-input[id*='part-contTitle'] {
+input[id*='part'] {
   display: none;
 }
-input[id*='part-contTitle'] + label {
+input[id*='part'] + label {
   display: block;
   padding: 0.5rem;
   border-bottom: 0;
@@ -77,7 +77,7 @@ input[id*='part-contTitle'] + label {
   position: relative;
 }
 
-input[id*='part-contTitle'] + label em {
+input[id*='part'] + label em {
   position: absolute;
   top: 50%;
   right: 10px;
@@ -87,7 +87,7 @@ input[id*='part-contTitle'] + label em {
   display: inline-block;
 }
 
-input[id*='part-contTitle'] + label + div {
+input[id*='part'] + label + div {
   max-height: 0;
   transition: all 0.5s;
   overflow: hidden;
@@ -95,19 +95,19 @@ input[id*='part-contTitle'] + label + div {
   font-size: small;
 }
 
-input[id*='chapter-contTitle'] + label p {
+input[id*='part'] + label p {
   display: inline-block;
   padding: 20px;
 }
 
-input[id*='chapter-contTitle']:checked + label + div {
+input[id*='part']:checked + label + div {
   max-height: 30rem;
 }
 
-input[id*='chapter-contTitle'] {
+input[id*='chapter'] {
   display: none;
 }
-input[id*='chapter-contTitle'] + label {
+input[id*='chapter'] + label {
   display: block;
   padding: 0.5rem;
   border-bottom: 0;
@@ -118,7 +118,7 @@ input[id*='chapter-contTitle'] + label {
   position: relative;
 }
 
-input[id*='chapter-contTitle'] + label em {
+input[id*='chapter'] + label em {
   position: absolute;
   top: 50%;
   right: 10px;
@@ -128,7 +128,7 @@ input[id*='chapter-contTitle'] + label em {
   display: inline-block;
 }
 
-input[id*='chapter-contTitle'] + label + div {
+input[id*='chapter'] + label + div {
   max-height: 0;
   transition: all 0.5s;
   overflow: hidden;
@@ -136,12 +136,94 @@ input[id*='chapter-contTitle'] + label + div {
   font-size: small;
 }
 
-input[id*='chapter-contTitle'] + label p {
+input[id*='chapter'] + label p {
   display: inline-block;
   padding: 20px;
 }
 
-input[id*='chapter-contTitle']:checked + label + div {
+input[id*='chpater']:checked + label + div {
+  max-height: 30rem;
+}
+
+input[id*='section'] {
+  display: none;
+}
+input[id*='section'] + label {
+  display: block;
+  padding: 0.5rem;
+  border-bottom: 0;
+  color: black;
+  font-weight: 600;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+}
+
+input[id*='section'] + label em {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  display: inline-block;
+}
+
+input[id*='section'] + label + div {
+  max-height: 0;
+  transition: all 0.5s;
+  overflow: hidden;
+  background-color: #fff;
+  font-size: small;
+}
+
+input[id*='section'] + label p {
+  display: inline-block;
+  padding: 20px;
+}
+
+input[id*='section']:checked + label + div {
+  max-height: 30rem;
+}
+
+input[id*='subsection'] {
+  display: none;
+}
+input[id*='subsection'] + label {
+  display: block;
+  padding: 0.5rem;
+  border-bottom: 0;
+  color: black;
+  font-weight: 600;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+}
+
+input[id*='subsection'] + label em {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  display: inline-block;
+}
+
+input[id*='subsection'] + label + div {
+  max-height: 0;
+  transition: all 0.5s;
+  overflow: hidden;
+  background-color: #fff;
+  font-size: small;
+}
+
+input[id*='subsection'] + label p {
+  display: inline-block;
+  padding: 20px;
+}
+
+input[id*='subsection']:checked + label + div {
   max-height: 30rem;
 }
 
@@ -184,4 +266,14 @@ input[id*='addenda-contTitle'] + label p {
 
 input[id*='addenda-contTitle']:checked + label + div {
   max-height: 30rem;
+}
+
+.artclelink-article-title {
+  padding: 1rem;
+  font-size: small;
+}
+
+.articlelink-file-title {
+  font-weight: 600;
+  padding: 0.5rem;
 }
