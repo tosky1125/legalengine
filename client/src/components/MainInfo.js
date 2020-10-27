@@ -6,6 +6,8 @@ const MainInfo = (props) => {
   // Data from API
   const [result, setResult] = useState([]);
   const { name, lawNum, enfDate } = props;
+  const keyword = JSON.parse(localStorage.searchWord);
+  const regex = new RegExp(keyword, 'g');
 
   // http://13.125.112.243/law/119구조구급에관한법률?lawNum=222449&enfDate=2021-10-21
   // http://13.125.112.243/law/119구조구급에관한법률시행령?lawNum=220037&enfDate=2021-10-21
@@ -38,7 +40,6 @@ const MainInfo = (props) => {
         console.log(err.config);
       });
   }, []);
-
   return (
     <div
       dangerouslySetInnerHTML={{
@@ -47,5 +48,4 @@ const MainInfo = (props) => {
     ></div>
   );
 };
-
 export default MainInfo;
