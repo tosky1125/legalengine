@@ -1,7 +1,25 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable camelcase */
+/* eslint-disable no-empty */
+/* eslint-disable no-continue */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-shadow */
+/* eslint-disable no-mixed-operators */
+/* eslint-disable max-len */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-undef */
 const puppeteer = require('puppeteer');
 const {
-  format
+  format,
 } = require('date-fns');
+const {
+  Op,
+} = require('sequelize');
 const diff = require('./diff');
 const {
   Law,
@@ -14,11 +32,6 @@ const {
   File,
 } = require('../models/index');
 const revision = require('../testR');
-const axios = require('axios');
-const {
-  Op
-} = require('sequelize');
-
 
 const spec = async () => {
   const data = await Law.findOne({
@@ -27,11 +40,11 @@ const spec = async () => {
     },
     raw: true,
   });
-  // 만약 첫 번째 실행결과에서 값을 못 찾을 경우 
+  // 만약 첫 번째 실행결과에서 값을 못 찾을 경우
   if (data === null) {
     const result = null;
     return result;
-  };
+  }
   const justBefore = await Law.findOne({
     where: {
       refined_name: data.refined_name,
@@ -44,7 +57,6 @@ const spec = async () => {
   data.oldLaw = justBefore;
 
   const url = `https://www.law.go.kr/lsInfoP.do?lsiSeq=${data.number}&efYd=${format(new Date(data.enforcement_date), 'yyyyMMdd')}`;
-  console.log(url);
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox'],
@@ -82,18 +94,13 @@ const spec = async () => {
       const charCode = str[0].charCodeAt();
       if (ho.has(twoCharFront) || ho.has(threeCharFront)) {
         hhjm = '호';
-        return;
       } else if (mok.has(twoCharFront) || mok.has(threeCharFront)) {
         hhjm = '목';
-        return;
       } else if ((charCode >= 0x2460 && charCode <= 0x2473) || charCode >= 0x3251 && charCode <= 0x325F) {
         hhjm = '항';
-        return;
       } else {
         hhjm = '조';
-        return;
       }
-
     };
 
     const chapSlice = (str) => {
@@ -129,8 +136,15 @@ const spec = async () => {
       }
       return sliceResult;
     };
-
-    // body 는 본문, subText 는 부칙의 배열 
+    const pgroupCheck = (body, index) => {
+      let i = 1;
+      while(body[index + i].nodeName !== 'DIV' && body[index+i].className!=='pgroup'){
+        i++;
+      }
+      return i;
+    }
+    // body 는 본문, subText 는 부칙의 배열
+    // eslint-disable-next-line no-undef
     const html = document.querySelector('#conScroll').outerHTML;
     const body = Array.from(document.querySelector('#conScroll').children);
     const subText = document.querySelector('#arDivArea') ? Array.from(document.querySelector('#arDivArea').children) : null;
@@ -140,20 +154,20 @@ const spec = async () => {
     // 일단 전부 조로 분류
 
     attached.forEach((ele) => {
-      let data = {
+      const data = {
         context: null,
         hwp: null,
         pdf: null,
-        date: null
+        date: null,
       };
       let cont = ele.textContent;
       const arr = Array.from(ele.children);
-      const filteredArr = arr.filter(e => {
+      const filteredArr = arr.filter((e) => {
         if (e.nodeName === 'A' && e.className !== 'blu' && e.href !== '') {
           return e;
         }
       });
-      const dateArr = arr.filter(e => {
+      const dateArr = arr.filter((e) => {
         if (e.nodeName === 'SPAN') return e;
       });
       if (filteredArr.length >= 1) {
@@ -202,12 +216,14 @@ const spec = async () => {
           }
 
           articleNum = arSlice(ele.id);
+          let i = 1;
+          
           article.push({
             chapter_id: chapterNum,
             article_number: articleNum,
             title: null,
             context: null,
-            child: body[index + 1].children,
+            child: body[index + pgroupCheck(body, index)].children,
             flag_yeon: null,
             flag_hang: null,
             flag_gyu: null,
@@ -245,7 +261,7 @@ const spec = async () => {
       if (ele.child[1]) texts = Array.from(ele.child[1].children);
       else texts = ele.child[0].textContent;
       button.forEach((e) => {
-        if(e.lastChild.title){
+        if (e.lastChild.title) {
           if (e.lastChild.title.includes('조문')) ele.flag_pan = 1;
           else if (e.lastChild.firstChild.alt === '연혁') ele.flag_yeon = 1;
           else if (e.lastChild.title.includes('행정')) ele.flag_hang = 1;
@@ -261,9 +277,8 @@ const spec = async () => {
       } else {
         for (let j = 0; j < texts.length; j += 1) {
           // context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
-          
+
           let cont = texts[j].textContent;
-          console.log(cont, texts[j].className);
           let date = null;
           // 항 호 목의 날짜가 아닌 조의 날짜의 경우 해당 class 로 날짜값만 있기에 하위 연산 필요없음. continue 로 다음 loop 실행
           if (texts[j].className === 'pty1_de2' && texts[j].lastChild && cont.replace(texts[j].lastChild.textContent, '') === '') {
@@ -285,8 +300,7 @@ const spec = async () => {
           cont = cont.replace(ele.title, '').replace(date, '').replace(/\s+/, '');
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
           const checkState = cont;
-          checkState.replace(/\s+/, '') === "" ? hhjm = 'others' : state(checkState);
-
+          checkState.replace(/\s+/, '') === '' ? hhjm = 'others' : state(checkState);
 
           if (hhjm === '항') {
             // 하위 카테고리의 index는 null값으로 초기화
@@ -304,8 +318,6 @@ const spec = async () => {
               context: cont,
             });
           } else if (hhjm === '호') {
-
-
             // 하위 카테고리의 index는 null값으로 초기화
             if (subParNum === undefined) {
               subParNum = null;
@@ -365,7 +377,9 @@ const spec = async () => {
               date,
               context: cont,
             });
-          } else if (hhjm === 'others') {} else { // 항호목이 아닌 경우의 context는 조의 context 로 할당
+          } else if (hhjm === 'others') {
+            console.error(cont);
+          } else { // 항호목이 아닌 경우의 context는 조의 context 로 할당
             ele.context = cont;
             ele.cont_date = date;
           }
@@ -390,7 +404,6 @@ const spec = async () => {
 
       for (let j = 1; j < array.length; j += 1) {
         cont = array[j].textContent;
-
 
         let title = null;
         let date = null;
@@ -424,7 +437,7 @@ const spec = async () => {
         } else {
           cont = cont.replace(title, '').replace(date, '').replace(/\s+/, '');
           const checkState = cont;
-          checkState.replace(/\s+/, '') === "" ? hhjm = 'others' : state(checkState);
+          checkState.replace(/\s+/, '') === '' ? hhjm = 'others' : state(checkState);
           // context를 잘라서 항호목을 파악해서 jjhm 변수에 결과값을 할당
         }
         if (hhjm === '항') {
@@ -546,8 +559,7 @@ const spec = async () => {
             date,
             context: cont,
           });
-        } else if(hhjm ==='others'){}
-        else {
+        } else if (hhjm === 'others') {} else {
           clauseNum = undefined;
           subParNum = undefined;
           itemNum = undefined;
@@ -606,7 +618,7 @@ const checkRevision = async (law_number, law_eDate, article_id, clause_id = null
 };
 
 const init = async () => {
-  let {
+  const {
     chapter,
     article,
     clause,
@@ -618,10 +630,10 @@ const init = async () => {
   } = await spec();
 
   const a = k;
-  let {
-    oldLaw
+  const {
+    oldLaw,
   } = data;
-  console.log(oldLaw);
+
   const regex1 = /(<([^>]+)>)/gi;
   const regex2 = /null/gi;
   await HTML.create({
@@ -629,7 +641,7 @@ const init = async () => {
     tag: html,
   });
   for (chapt of chapter) {
-    let {
+    const {
       chapter_number,
       date,
       context,
@@ -653,7 +665,7 @@ const init = async () => {
       flag_pan,
       flag_yeon,
       flag_hang,
-      flag_gyu
+      flag_gyu,
     } = art;
 
     if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
@@ -662,7 +674,7 @@ const init = async () => {
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
-    let tmp = await Chapter.findOne({
+    const tmp = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
@@ -683,7 +695,7 @@ const init = async () => {
       flag_hang,
       flag_gyu,
     });
-  };
+  }
   let curArt;
   let newJoCount = 0;
   for (cla of clause) {
@@ -692,7 +704,7 @@ const init = async () => {
       article_id,
       clause_number,
       date,
-      context
+      context,
     } = cla;
     if (curArt !== article_id) {
       curArt = article_id;
@@ -702,30 +714,26 @@ const init = async () => {
       newJoCount -= 1;
     }
     if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      console.log(oldLaw);
-      console.log(oldLaw.number);
-      console.log(a);
-      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount)
-      console.log(contCheck);
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount);
       contCheck = contCheck.clause && contCheck.clause.context ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
-    let tmp1 = await Chapter.findOne({
+    const tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
-    })
+    });
     chapter_id = tmp1.id;
-    let tmp2 = await Article.findOne({
+    const tmp2 = await Article.findOne({
       where: {
         law_id: a,
         chapter_id,
         article_id,
       },
-      raw: true
-    })
+      raw: true,
+    });
     article_id = tmp2.id;
     await Clause.create({
       law_id: a,
@@ -734,7 +742,7 @@ const init = async () => {
       clause_id: clause_number,
       date,
       context,
-    })
+    });
   }
   curArt = null;
   newJoCount = 0;
@@ -746,7 +754,7 @@ const init = async () => {
       clause_id,
       sub_number,
       date,
-      context
+      context,
     } = sub;
 
     if (curArt !== article_id) {
@@ -766,32 +774,32 @@ const init = async () => {
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
-    let tmp1 = await Chapter.findOne({
+    const tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
-    })
+    });
     chapter_id = tmp1.id;
-    let tmp2 = await Article.findOne({
+    const tmp2 = await Article.findOne({
       where: {
         law_id: a,
         chapter_id,
         article_id,
       },
       raw: true,
-    })
+    });
     article_id = tmp2.id;
-    let tmp3 = await Clause.findOne({
+    const tmp3 = await Clause.findOne({
       where: {
         law_id: a,
         chapter_id,
         article_id,
         clause_id,
       },
-      raw: true
-    })
+      raw: true,
+    });
     clause_id = tmp3.id;
 
     await Subparagraph.create({
@@ -802,7 +810,7 @@ const init = async () => {
       sub_id: sub_number,
       date,
       context,
-    })
+    });
   }
 
   curArt = null;
@@ -817,7 +825,7 @@ const init = async () => {
       sub_id,
       item_number,
       date,
-      context
+      context,
     } = it;
 
     if (curArt !== article_id) {
@@ -841,35 +849,35 @@ const init = async () => {
       context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
     }
 
-    let tmp1 = await Chapter.findOne({
+    const tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
         chapter_id,
       },
       raw: true,
-    })
+    });
     chapter_id = tmp1.id;
-    let tmp2 = await Article.findOne({
+    const tmp2 = await Article.findOne({
       where: {
         law_id: a,
         chapter_id,
         article_id,
       },
-      raw: true
-    })
+      raw: true,
+    });
     article_id = tmp2.id;
-    let tmp3 = await Clause.findOne({
+    const tmp3 = await Clause.findOne({
       where: {
         law_id: a,
         chapter_id,
         article_id,
         clause_id,
       },
-      raw: true
-    })
+      raw: true,
+    });
     clause_id = tmp3.id;
     // console.log(chapter_id, article_id, clause_id, sub_);
-    let tmp4 = await Subparagraph.findOne({
+    const tmp4 = await Subparagraph.findOne({
       where: {
         law_id: a,
         chapter_id,
@@ -877,8 +885,8 @@ const init = async () => {
         clause_id,
         sub_id,
       },
-      raw: true
-    })
+      raw: true,
+    });
     sub_id = tmp4.id;
     await Item.create({
       law_id: a,
@@ -888,15 +896,15 @@ const init = async () => {
       sub_id,
       item_id: item_number,
       date,
-      context
-    })
-  };
+      context,
+    });
+  }
   for (i of file) {
     const {
       context,
       hwp,
       pdf,
-      date
+      date,
     } = i;
     await File.create({
       law_id: a,
@@ -905,11 +913,11 @@ const init = async () => {
       pdf,
       date,
     });
-  };
+  }
   if (k === 61) return 'hi';
   k -= 1;
   await init();
 };
 // let k = 49;
-let k = 51664;
+let k = 14999;
 init();
