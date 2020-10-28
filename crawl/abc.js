@@ -3,7 +3,7 @@ const { Law } = require('../models');
 const {
   format
 } = require('date-fns');
-let k = 1; 
+let k = 52000; 
 const htmlMaker = async () => {
   let findLaw = await Law.findOne({
     where : {
@@ -176,7 +176,7 @@ console.log(Chapter);
   
   await Law.update({ context : html }, { where : { law_id : k }})
   k++;
-  if(k === 61){
+  if(k === 53000){
     return 'hi';
   }
   await htmlMaker();
