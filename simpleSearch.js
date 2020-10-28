@@ -51,7 +51,7 @@ const chapterResult = async (lawData) => {
       where: {
           law_id: lawData.law_id
       },
-      attributes: ['id', 'chapter_id', 'date', 'context'],
+      attributes: ['id', 'law_id', 'chapter_id', 'date', 'context'],
   });
   return chapterResult;
 };
@@ -62,7 +62,7 @@ const articleResult = async (chapData) => {
       where: {
           chapter_id: chapData.id
       },
-      attributes: ['id', 'article_id', 'article_title', 'date'],
+      attributes: ['id', 'law_id', 'article_id', 'article_title', 'date'],
   });
   return articleResult;
 };
@@ -118,20 +118,17 @@ const simpleTotalData = async (name, eDate, number) => {
         raw: true
     });
 
-    // const mainLaws = await Law.findOne({
-    //     where: {
-    //         number: number,
-    //     },
-    //     raw: true
-    // });
-
+    
+    // nested 구조 + 필요한 것들만
     simpleTotalDataResult.Law = await lawResult(name, eDate, number);
     simpleTotalDataResult.Law.Chapter = await chapterResult(simpleTotalDataResult.Law);
     for (eachChapter of simpleTotalDataResult.Law.Chapter) {
         eachChapter.Article = await articleResult(eachChapter);
     };
-
+    // 연관법령
     simpleTotalDataResult.Related =  relatedLaws;
+    // 첨부파일
+    simpleTotalDataResult.Law.File = await fileResult(simpleTotalDataResult.Law);
 
     return simpleTotalDataResult;
 };
@@ -151,26 +148,6 @@ const findLawForInline = async (name, eDate) => {
     console.log(findLawNAttrs);
     return findLawNAttrs;
 };
-
-const nestedDataFinder = async (name, eDate, number) => {
-    let nestedData = {};
-
-    nestedData.Law = await lawResult(name, eDate, number);
-    nestedData.Law.File = await fileResult(nestedData.Law);
-    nestedData.Law.Chapter = await chapterResult(nestedData.Law);
-    for (eachChapter of nestedData.Law.Chapter) {
-        eachChapter.Article = await articleResult(eachChapter);
-        for (eachArticle of eachChapter.Article) {
-            eachArticle.Clause = await clauseResult(eachArticle);
-            for (eachClause of eachArticle.Clause) {
-                eachClause.subPara = await subParaResult(eachClause);
-                for (eachSubpara of eachClause.subPara) {
-                    eachSubpara.Item = await itemResult(eachSubpara);
-                };
-            };
-        };
-    };
-}
 
 module.exports = { simpleTotalData, findLawForInline };
 
