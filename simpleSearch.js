@@ -105,7 +105,7 @@ const simpleTotalData = async (name, eDate, number) => {
     const parsedDate = parseDate(eDate);
 
     const relatedLaws = await Law.findAll({
-        order: [[sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률'), "DESC"]],
+        order: [[sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"]],
         attributes: ['name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'],
         where: {
             enforcement_date: {
