@@ -266,7 +266,7 @@ const spec = async () => {
           console.log(cont, texts[j].className);
           let date = null;
           // 항 호 목의 날짜가 아닌 조의 날짜의 경우 해당 class 로 날짜값만 있기에 하위 연산 필요없음. continue 로 다음 loop 실행
-          if (texts[j].className === 'pty1_de2' && cont.replace(texts[j].lastChild.textContent, '') === '') {
+          if (texts[j].className === 'pty1_de2' && texts[j].lastChild && cont.replace(texts[j].lastChild.textContent, '') === '') {
             ele.date = cont;
             continue;
           }
@@ -911,5 +911,5 @@ const init = async () => {
   await init();
 };
 // let k = 49;
-let k = 53051;
+let k = 51664;
 init();
