@@ -20,12 +20,11 @@ const {
     rmSpaceAndSymbols, extractKeyword, parseDate
 } = require('./strHandlerSet');
 
-const lawResult = async (name, eDate, number) => {
+const lawResult = async (name, eDate) => {
     const refinedName = rmSpaceAndSymbols(name);
     const parsedDate = parseDate(eDate);
     const lawResult = await Law.findOne({
       where: {
-          number: number,
           enforcement_date: {
               [Op.lte]: parsedDate
           },
@@ -98,7 +97,7 @@ const itemResult = async (subParaData) => {
   return itemResult;
 };
 
-const simpleTotalData = async (name, eDate, number) => {
+const simpleTotalData = async (name, eDate) => {
     let simpleTotalDataResult = {};
     const extractedKeyword = extractKeyword(name);
     const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
@@ -121,7 +120,7 @@ const simpleTotalData = async (name, eDate, number) => {
 
     simpleTotalDataResult.Related =  relatedLaws;
 
-    simpleTotalDataResult.Law = await lawResult(name, eDate, number);
+    simpleTotalDataResult.Law = await lawResult(name, eDate);
     simpleTotalDataResult.Law.Chapter = await chapterResult(simpleTotalDataResult.Law);
     for (eachChapter of simpleTotalDataResult.Law.Chapter) {
         eachChapter.Article = await articleResult(eachChapter);
