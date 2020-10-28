@@ -10,9 +10,7 @@ const MainInfo = (props) => {
   const changeStr = (str, keyword) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
-    const {
-      length
-    } = keyword;
+    const { length } = keyword;
     for (let i = 0; i < str.length; i++) {
       const keyCheck = str.slice(i, i + length);
       if (bracket.has(str[i])) {
@@ -24,7 +22,10 @@ const MainInfo = (props) => {
         str = `${tmp1}thishashkey${tmp2}`;
       }
     }
-    str = str.replace(/thishashkey/g, `<span class='keyword-highlight'>${keyword}</span>`);
+    str = str.replace(
+      /thishashkey/g,
+      `<span class='keyword-highlight'>${keyword}</span>`
+    );
     return str;
   };
 
@@ -43,7 +44,7 @@ const MainInfo = (props) => {
     axios
       .post(url, payload)
       .then((data) => {
-        setResult(changeStr(data.data.Law.context, keyword));
+        setResult(data.data.Law.context);
         // console.log(data.data.Law.context);
       })
       .catch(function (err) {
@@ -59,6 +60,7 @@ const MainInfo = (props) => {
         console.log(err.config);
       });
   }, []);
+
   return (
     <div
       dangerouslySetInnerHTML={{

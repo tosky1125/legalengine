@@ -3,16 +3,16 @@
     display: none;
   }
   .maininfo-container {
-      background-color: white;
-      height: 100%;
-      width: 20%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      margin: 0;
-      padding: 15px;
-      font-size: 14px;
-      line-height: 18px;
+    background-color: white;
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 18px;
   }
   .pdf-button {
     display: none;
@@ -50,9 +50,10 @@
   border: 2px solid #d93728;
   color: white;
   padding: 10px 20px;
+  left: 12vw;
   text-align: center;
   text-decoration: none;
-  position: fixed;
+  position: relative;
   font-size: 18px;
   border-radius: 8px;
   transition-duration: 0.4s;

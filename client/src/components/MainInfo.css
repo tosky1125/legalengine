@@ -38,7 +38,6 @@ div[key] .keyword-highlight {
   overflow: auto;
 }
 
-
 .maininfo-law-head-info {
   color: rgb(36, 138, 179);
 }
@@ -119,7 +118,7 @@ div[key] .keyword-highlight {
   color: #f44336;
 }
 
-.viewpage-buttons-gyu {
+.maininfo-buttons-gyu {
   background-color: #555555;
   border: 1px solid #555555;
   border-radius: 4px;
@@ -131,7 +130,7 @@ div[key] .keyword-highlight {
   font-size: 16px;
 }
 
-.viewpage-buttons-gyu:hover {
+.maininfo-buttons-gyu:hover {
   background-color: white;
   color: #555555;
 }
