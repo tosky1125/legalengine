@@ -3,9 +3,9 @@ const convert = require('xml-js');
 const {
   Law,
   Ministry,
-  LawType
-} = require('../models');
-const { rmSpaceAndSymbols } = require('../strHandlerSet');
+  LawType,
+} = require('./models');
+const { rmSpaceAndSymbols } = require('./strHandlerSet');
 
 const monthToDate = (string) => {
   const year = string.slice(0, 4);
@@ -17,20 +17,20 @@ const monthToDate = (string) => {
 
 let i = 1;
 const getLaws = async () => {
-  let response = await axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML&display=100&page=${i}`)
+  const response = await axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=tosky0514&type=XML&display=100&page=${i}`);
   let data = convert.xml2json(response.data, {
     compact: true,
     spaces: 4,
   });
   data = JSON.parse(data);
   data = data.LawSearch.law;
-  
-  for(ele of data){
+
+  for (ele of data) {
     !ele['소관부처명']._text ? ele['소관부처명']._text = '부서명없음' : false;
     !ele['법령구분명']._text ? ele['법령구분명']._text = '법령구분명없음' : false;
     await Ministry.findOrCreate({
       where: {
-        name: ele['소관부처명']._text
+        name: ele['소관부처명']._text,
       },
       defaults: {
         name: ele['소관부처명']._text,
@@ -38,7 +38,7 @@ const getLaws = async () => {
     });
     await LawType.findOrCreate({
       where: {
-        type: ele['법령구분명']._text
+        type: ele['법령구분명']._text,
       },
       defaults: {
         type: ele['법령구분명']._text,
@@ -55,9 +55,9 @@ const getLaws = async () => {
       ministry: ele['소관부처명']._text,
       amendment_status: ele['제개정구분명']._text,
       contexts: ele['법령명한글']._cdata,
-      refined_name : rmSpaceAndSymbols(ele['법령명한글']._cdata),
+      refined_name: rmSpaceAndSymbols(ele['법령명한글']._cdata),
     });
-  };
+  }
   i++;
 
   await getLaws();

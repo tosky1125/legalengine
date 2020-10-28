@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Law extends Model {
     /**
@@ -18,25 +18,25 @@ module.exports = (sequelize, DataTypes) => {
       Law.hasMany(models.File, {
         as: 'file',
         foreignKey: 'law_id',
-        sourceKey: 'law_id'
+        sourceKey: 'law_id',
       });
       Law.belongsTo(models.Revision, {
         foreignKey: 'law_id',
         targetKey: 'new_law_id',
-        constraints: false
+        constraints: false,
       });
       Law.belongsTo(models.LawType, {
         foreignKey: 'type',
         targetKey: 'type',
-        constraints: false
+        constraints: false,
       });
       Law.belongsTo(models.Ministry, {
         foreignKey: 'ministry',
         targetKey: 'name',
-        constraints: false
+        constraints: false,
       });
     }
-  };
+  }
   Law.init({
     law_id: {
       type: DataTypes.INTEGER,
@@ -49,16 +49,16 @@ module.exports = (sequelize, DataTypes) => {
     promulgation_date: DataTypes.DATE,
     type: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     promulgation_number: DataTypes.INTEGER,
     enforcement_date: DataTypes.DATE,
     amendment_status: DataTypes.STRING,
     ministry: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
-    context: DataTypes.TEXT('long')
+    context: DataTypes.TEXT('long'),
   }, {
     sequelize,
     timestamps: false,

@@ -167,6 +167,3 @@ const nestedDataFinder = async (name, eDate, number) => {
 }
 
 module.exports = { simpleTotalData, findLawForInline };
-
-
-
