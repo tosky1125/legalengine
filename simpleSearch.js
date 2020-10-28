@@ -8,7 +8,8 @@ const {
     Article,
     Clause,
     Subparagraph,
-    Item
+    Item,
+    sequelize
 } = require('./models');
   
 const {
@@ -104,34 +105,27 @@ const simpleTotalData = async (name, eDate, number) => {
     const parsedDate = parseDate(eDate);
 
     const relatedLaws = await Law.findAll({
-        group: 'refined_name',
+        order: [[sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률'), "DESC"]],
+        attributes: ['name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'],
         where: {
-            refined_name: {
-                [Op.substring]: refinedKeyword
-            },
             enforcement_date: {
                 [Op.lte]: parsedDate
             },
+            refined_name: {
+                [Op.substring]: refinedKeyword
+            },
         },
-        attributes: ['name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'],
-        order: [['enforcement_date', 'DESC']],
+        group: 'refined_name',
         raw: true
     });
 
-    // const mainLaws = await Law.findOne({
-    //     where: {
-    //         number: number,
-    //     },
-    //     raw: true
-    // });
+    simpleTotalDataResult.Related =  relatedLaws;
 
     simpleTotalDataResult.Law = await lawResult(name, eDate, number);
     simpleTotalDataResult.Law.Chapter = await chapterResult(simpleTotalDataResult.Law);
     for (eachChapter of simpleTotalDataResult.Law.Chapter) {
         eachChapter.Article = await articleResult(eachChapter);
     };
-
-    simpleTotalDataResult.Related =  relatedLaws;
 
     return simpleTotalDataResult;
 };

@@ -906,10 +906,10 @@ const init = async () => {
       date,
     });
   };
-  if (k === 61) return 'hi';
+  if (k === 87831) return 'hi';
   k -= 1;
   await init();
 };
 // let k = 49;
-let k = 51664;
+let k = 100000;
 init();
