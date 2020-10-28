@@ -913,7 +913,6 @@ const init = async () => {
       pdf,
       date,
     });
-  }
   if (k === 15000) return 'hi';
   k -= 1;
   await init();
