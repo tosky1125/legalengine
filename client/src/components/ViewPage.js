@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
-import SideInfo from './SideInfo';
-import ArticleLink from './ArtcleLink';
+import SideInfo from '../components/SideInfo';
+import ArticleLink from '../components/ArtcleLink';
 import './ViewPage.css';
-import ConvertToPDF from './ConvertToPDF';
+import ConvertToPDF from '../components/ConvertToPDF';
 import queryString from 'query-string';
 
 function ViewPage(props) {
