@@ -3,7 +3,7 @@ const { Law } = require('../models');
 const {
   format
 } = require('date-fns');
-let k = 52000; 
+let k = 82164; 
 const htmlMaker = async () => {
   let findLaw = await Law.findOne({
     where : {
@@ -72,7 +72,7 @@ const htmlMaker = async () => {
             <span class='maininfo-buttons'>
               ${artEle.flag_pan && (
                 `<button class='maininfo-buttons-pan'>
-                  <a href='http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=200188&joNo=${joSlicer(artEle.article_id)[0]}&joBrNo=${joSlicer(artEle.article_id)[1]}' target='_blank' rel='noopener noreferrer'>판</a></button>`
+                  <a href='http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=${number}&joNo=${joSlicer(artEle.article_id)[0]}&joBrNo=${joSlicer(artEle.article_id)[1]}' target='_blank' rel='noopener noreferrer'>판</a></button>`
               )}
               ${artEle.flag_yeon && `<button class='maininfo-buttons-yeon'>연</button>` }
               ${artEle.flag_hang && `<button class='maininfo-buttons-hang'>행</button>` }
@@ -176,7 +176,7 @@ console.log(Chapter);
   
   await Law.update({ context : html }, { where : { law_id : k }})
   k++;
-  if(k === 53000){
+  if(k === 87830){
     return 'hi';
   }
   await htmlMaker();

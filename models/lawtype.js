@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class LawType extends Model {
     /**
@@ -13,21 +13,21 @@ module.exports = (sequelize, DataTypes) => {
       LawType.hasMany(models.Law, {
         as: 'law',
         foreignKey: 'type',
-        sourceKey: 'type'
-      })
+        sourceKey: 'type',
+      });
     }
-  };
+  }
   LawType.init({
     type: {
       primaryKey: true,
       allowNull: true,
-      type: DataTypes.STRING
-    }
+      type: DataTypes.STRING,
+    },
   }, {
     sequelize,
     timestamps: false,
     modelName: 'LawType',
   });
-  LawType.removeAttribute('id')
+  LawType.removeAttribute('id');
   return LawType;
 };
