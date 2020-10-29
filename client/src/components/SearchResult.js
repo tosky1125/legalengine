@@ -5,7 +5,9 @@ import * as searchlist from '../modules/searchlist';
 import Pagination from './Pagination';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import * as lawinfo from '../modules/lawinfo';
+import * as Law from '../modules/Law';
+import * as Related from '../modules/Related';
+import * as Result from '../modules/Result';
 import './SearchResult.css';
 import { format } from 'date-fns';
 
@@ -25,20 +27,22 @@ class SearchResult extends React.Component {
   }
 
   handleClickSearch = (name, lawNum, enfDate) => {
-    const { lawinfo } = this.props;
+    const { Law, Related, Result, history } = this.props;
     const payload = { lawNum, enfDate };
     axios
       .post(
-        `http://13.125.112.243/law/${encodeURIComponent(
+        `http://13.125.112.243:80/law/${encodeURIComponent(
           name
         )}?lawNum=${lawNum}&enfDate=${enfDate}`,
         payload
       )
       .then((res) => {
-        lawinfo(res.data);
         console.log(res.data);
-        localStorage.Law = JSON.stringify(res.data.Law);
-        localStorage.related = JSON.stringify(res.data.Related);
+        Related(res.data.Related);
+        Law(res.data.Law);
+        Result(res.data.Law.context);
+        // localStorage.Law = JSON.stringify(res.data.Law);
+        // localStorage.related = JSON.stringify(res.data.Related);
         this.setState({
           isLoaded: true,
         });
@@ -53,6 +57,14 @@ class SearchResult extends React.Component {
           )}`,
           '_blank'
         );
+        // history.push(
+        //   `/law/${encodeURIComponent(
+        //     name.replace(/[^가-힣^0-9]/g, '')
+        //   )}?lawNum=${lawNum}&enfDate=${format(
+        //     new Date(enfDate),
+        //     'yyyy-MM-dd'
+        //   )}`
+        // );
       })
       .catch(function (err) {
         if (err.res) {
@@ -139,10 +151,14 @@ class SearchResult extends React.Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
-    lawDetail: state.lawinfo.lawDetail,
+    Law: state.Law.Law,
+    Related: state.Related.Related,
+    Result: state.Result.Result,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
-    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
+    Law: (data) => dispatch(Law.Law(data)),
+    Related: (data) => dispatch(Related.Related(data)),
+    Result: (data) => dispatch(Result.Result(data)),
   })
 )(withRouter(SearchResult));
