@@ -1,13 +1,12 @@
 import React from 'react';
-import './ArtcleLink.css';
-import queryString from 'query-string';
+import './ArticleLink.css';
 
-function ArtcleLink() {
+function ArticleLink() {
   const law = JSON.parse(localStorage.Law);
-  console.log(law);
+  // console.log(law);
 
   let ArticleLink = law.Chapter;
-  // console.log(ArticleLink);
+  console.log(ArticleLink);
   // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
@@ -279,7 +278,7 @@ function ArtcleLink() {
     </div>
   );
 
-  console.log(result);
+  // console.log(result);
 
   //부칙 Addenda
   const addendaUrlfragment = (strFrom) => {
@@ -336,7 +335,7 @@ function ArtcleLink() {
 
   return (
     <div>
-      <div className='artclelink-contanier'>
+      <div className='articlelink-contanier'>
         {result}
         {Addenda}
         {File}
@@ -345,4 +344,4 @@ function ArtcleLink() {
   );
 }
 
-export default ArtcleLink;
+export default ArticleLink;
