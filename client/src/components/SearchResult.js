@@ -79,10 +79,12 @@ class SearchResult extends React.Component {
         <div>
           <div className='searchresult-container'>
             <SearchBar />
-            <h3 className='searchresult-empty'>
-              <p>검색 결과가 없습니다.</p>
-              <p>다른 검색어를 입력해주시기 바랍니다.</p>
-            </h3>
+            <div className='searchresult-empty'>
+              <h3>
+                <p>검색 결과가 없습니다.</p>
+                <p>다른 검색어를 입력해주시기 바랍니다.</p>
+              </h3>
+            </div>
           </div>
         </div>
       );
@@ -95,7 +97,8 @@ class SearchResult extends React.Component {
           href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
         />
         <Row>
-          <Col md-auto>
+        <Col md={1}></Col>
+          <Col md={10}>
             <Card className='searchresult-form'>
               <Card.Header>
                 <Card.Title as='h5'>
@@ -163,6 +166,7 @@ class SearchResult extends React.Component {
               </Card.Body>
             </Card>
           </Col>
+          <Col md={1}></Col>
         </Row>
       </div>
     );

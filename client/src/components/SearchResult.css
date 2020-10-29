@@ -4,21 +4,21 @@
 
 .searchresult-container {
   position: relative;
-  top: 10vh;
-  bottom: 5vh;
-  overflow: hidden;
-  margin-left: 5rem;
-  margin-right: 5rem;
-  width: 90%;
+  margin-top: 10rem;
+  /* top: 10rem; */
+  height: 57rem;
+  width: 100%;
 }
 
 .searchresult-empty {
-  margin: 10rem;
+  margin: 10.5rem;
+  height: 40rem;
   text-align: center;
 }
 
 .searchresult-form {
   margin: 0 auto;
+  display: block;
 }
 
 .searchresult-pagination {
