@@ -10,7 +10,7 @@ const propTypes = {
 
 const defaultProps = {
   initialPage: 1,
-  pageSize: 6,
+  pageSize: 5,
 };
 
 class Pagination extends React.Component {
@@ -111,7 +111,7 @@ class Pagination extends React.Component {
     }
 
     return (
-      <>
+      <div>
         <ul className='pagination'>
           <link
             rel='stylesheet'
@@ -152,7 +152,7 @@ class Pagination extends React.Component {
             </a>
           </li>
         </ul>
-      </>
+      </div>
     );
   }
 }
