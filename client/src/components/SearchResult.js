@@ -10,7 +10,7 @@ import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 import './SearchResult.css';
 import { format } from 'date-fns';
-import {Row, Col, Card, Table, Tabs, Tab} from 'react-bootstrap';
+import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 
 class SearchResult extends React.Component {
   constructor(props) {
@@ -58,14 +58,6 @@ class SearchResult extends React.Component {
           )}`,
           '_blank'
         );
-        // history.push(
-        //   `/law/${encodeURIComponent(
-        //     name.replace(/[^가-힣^0-9]/g, '')
-        //   )}?lawNum=${lawNum}&enfDate=${format(
-        //     new Date(enfDate),
-        //     'yyyy-MM-dd'
-        //   )}`
-        // );
       })
       .catch(function (err) {
         if (err.res) {
@@ -88,8 +80,8 @@ class SearchResult extends React.Component {
           <div className='searchresult-container'>
             <SearchBar />
             <h3 className='searchresult-empty'>
-            <p>검색 결과가 없습니다.</p>
-            <p>다른 검색어를 입력해주시기 바랍니다.</p>
+              <p>검색 결과가 없습니다.</p>
+              <p>다른 검색어를 입력해주시기 바랍니다.</p>
             </h3>
           </div>
         </div>
@@ -99,19 +91,22 @@ class SearchResult extends React.Component {
       <div className='searchresult-container'>
         <SearchBar />
         <link
-            rel='stylesheet'
-            href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+          rel='stylesheet'
+          href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
         />
         <Row>
           <Col md-auto>
             <Card className='searchresult-form'>
               <Card.Header>
-                <Card.Title as='h5'> 총 {this.props.lawlist.length} 건의 결과</Card.Title>
+                <Card.Title as='h5'>
+                  {' '}
+                  총 {this.props.lawlist.length} 건의 결과
+                </Card.Title>
               </Card.Header>
               <Card.Body className='px-0 py-2'>
                 <Table responsive hover>
                   <tbody>
-                      {this.state.pageOfItems.map((item, index) => (
+                    {this.state.pageOfItems.map((item, index) => (
                       <tr
                         className='searchresult-section'
                         key={index}
@@ -124,9 +119,11 @@ class SearchResult extends React.Component {
                         }
                       >
                         <td>
-                          <h4 className="mb-1">{item.name}</h4>
-                          <p className="m-0">
-                            <span className='searchresult-type'>{item.type}</span>
+                          <h4 className='mb-1'>{item.name}</h4>
+                          <p className='m-0'>
+                            <span className='searchresult-type'>
+                              {item.type}
+                            </span>
                             <span className='searchresult-number'>
                               {item.number}호
                             </span>
@@ -136,16 +133,25 @@ class SearchResult extends React.Component {
                             <span className='searchresult-ministry'>
                               {item.ministry}
                             </span>
-                            <span className="searchresult-promulgation">
-                            시행일자 :{' '}{format(new Date(item.enforcement_date), 'yyyy.MM.dd')}
-                          </span>
-                          <span className="searchresult-enforcement">
-                            공포일자 :{' '}{format(new Date(item.promulgation_date), 'yyyy.MM.dd')}&nbsp;
-                          </span>
+                            <span className='searchresult-promulgation'>
+                              시행일자 :{' '}
+                              {format(
+                                new Date(item.enforcement_date),
+                                'yyyy.MM.dd'
+                              )}
+                            </span>
+                            <span className='searchresult-enforcement'>
+                              공포일자 :{' '}
+                              {format(
+                                new Date(item.promulgation_date),
+                                'yyyy.MM.dd'
+                              )}
+                              &nbsp;
+                            </span>
                           </p>
                         </td>
                       </tr>
-                      ))}
+                    ))}
                   </tbody>
                 </Table>
                 <div className='text-center'>
@@ -158,7 +164,7 @@ class SearchResult extends React.Component {
             </Card>
           </Col>
         </Row>
-      </div>  
+      </div>
     );
   }
 }
