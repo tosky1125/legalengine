@@ -13,6 +13,7 @@
 {
     background-color: #eee;
     color: white !Important;
+    border-radius: 6px;
     border: none !Important;
 }
 
@@ -21,12 +22,14 @@
     color: white !Important;
     background-color: #a01e2d !Important;
     border: solid 1px #a01e2d !Important;
+    border-radius: 6px;
 }
 
 .pagination > .active > a:hover
 {
     background-color: #a01e2d !Important;
     border: solid 1px #a01e2d;
+    border-radius: 4px;
 }
 
 /* .pagination-container {
