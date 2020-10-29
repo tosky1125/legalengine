@@ -6,7 +6,7 @@ import './Footer.css';
 const Footer = () => {
   return (
     <div className='footer'>
-      <div className='footer-copyright text-center navbar navbar-sticky-bottom'>
+      <div className='footer-copyright text-center navbar navbar-fixed-bottom'>
         <Container fluid='md'>
         <Row>
         <Col md={1} />
