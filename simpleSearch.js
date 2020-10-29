@@ -126,6 +126,8 @@ const simpleTotalData = async (name, eDate) => {
         eachChapter.Article = await articleResult(eachChapter);
     };
 
+    simpleTotalDataResult.File = await fileResult(simpleTotalDataResult.Law);
+
     return simpleTotalDataResult;
 };
 
