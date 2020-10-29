@@ -75,10 +75,12 @@ class SearchResult extends React.Component {
         <div>
           <div className='searchresult-container'>
             <SearchBar />
-            <h3 className='searchresult-empty'>
-            <p>검색 결과가 없습니다.</p>
-            <p>다른 검색어를 입력해주시기 바랍니다.</p>
-            </h3>
+            <div className='searchresult-empty'>
+              <h3>
+                <p>검색 결과가 없습니다.</p>
+                <p>다른 검색어를 입력해주시기 바랍니다.</p>
+              </h3>
+            </div>
           </div>
         </div>
       );

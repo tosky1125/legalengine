@@ -22,30 +22,3 @@
   text-decoration: none;
   color: grey !important;
 }
-
-
-/*
-
-.footer-form {
-  background-color: #f8f9fa;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 4vh;
-  text-align: center;
-  padding-top: 1.5rem;
-}
-
-grid-template-columns: 1fr 1fr;
-display: grid;
-
-.footer-name {
-  width: 30%;
-}
-.footer-rights {
-  width: 30%;
-  margin-left: 20%;
-}
-
-*/
