@@ -4,15 +4,20 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
-import * as lawinfo from '../modules/lawinfo';
+import * as Law from '../modules/Law';
+import * as Related from '../modules/Related';
+import * as Result from '../modules/Result';
 
 function SideInfo(props) {
-  let sideInfoData = JSON.parse(localStorage.related);
-  console.log(sideInfoData);
+  // let sideInfoData = JSON.parse(localStorage.related);
+  // console.log(sideInfoData);
   const [isLoaded, setisLoaded] = useState(false);
 
+  const { Related1 } = props;
+  console.log(Related1);
+
   const handleClickSearch = (name, lawNum, enfDate) => {
-    const { lawinfo } = props;
+    const { Law, Related, Result } = props;
     const payload = { lawNum, enfDate };
     axios
       .post(
@@ -21,15 +26,19 @@ function SideInfo(props) {
         )}?lawNum=${lawNum}&enfDate=${enfDate}`,
         payload
       )
-      .then((res) => {
-        lawinfo(res.data);
-        console.log(res.data);
-        localStorage.Law = JSON.stringify(res.data.Law);
+      .then((data) => {
+        Related(data.data.Related);
+        Law(data.data.Law);
+        Result(data.data.Law.context);
+        // console.log(data.data);
+        // localStorage.Law = JSON.stringify(res.data.Law);
         setisLoaded(true);
       })
       .then(() => {
         window.open(
-          `/law/${encodeURIComponent(name)}?lawNum=${lawNum}&enfDate=${format(
+          `/law/${encodeURIComponent(
+            name.replace(/[^가-힣^0-9]/g, '')
+          )}?lawNum=${lawNum}&enfDate=${format(
             new Date(enfDate),
             'yyyy-MM-dd'
           )}`,
@@ -50,7 +59,7 @@ function SideInfo(props) {
       });
   };
 
-  if (sideInfoData.length === 0) {
+  if (Related1.length === 0) {
     return (
       <div>
         <div>검색 결과가 없습니다.</div>
@@ -60,7 +69,7 @@ function SideInfo(props) {
 
   return (
     <div>
-      {sideInfoData.map((sideInfo, sideInfoIndex) => (
+      {Related1.map((sideInfo, sideInfoIndex) => (
         <div className='sideInfo-body' key={sideInfoIndex}>
           <h3
             className='sideInfo-title'
@@ -92,9 +101,13 @@ function SideInfo(props) {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
-    lawDetail: state.lawinfo.lawDetail,
+    Law: state.Law.Law,
+    Related1: state.Related.Related,
+    Result: state.Result.Result,
   }),
   (dispatch) => ({
-    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
+    Law: (data) => dispatch(Law.Law(data)),
+    Related: (data) => dispatch(Related.Related(data)),
+    Result: (data) => dispatch(Result.Result(data)),
   })
 )(withRouter(SideInfo));

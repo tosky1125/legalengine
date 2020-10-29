@@ -5,10 +5,12 @@ import * as searchlist from '../modules/searchlist';
 import Pagination from './Pagination';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import * as lawinfo from '../modules/lawinfo';
+import * as Law from '../modules/Law';
+import * as Related from '../modules/Related';
+import * as Result from '../modules/Result';
 import './SearchResult.css';
 import { format } from 'date-fns';
-import {Row, Col, Card, Table, Tabs, Tab} from 'react-bootstrap';
+import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 
 class SearchResult extends React.Component {
   constructor(props) {
@@ -26,20 +28,22 @@ class SearchResult extends React.Component {
   }
 
   handleClickSearch = (name, lawNum, enfDate) => {
-    const { lawinfo } = this.props;
+    const { Law, Related, Result, history } = this.props;
     const payload = { lawNum, enfDate };
     axios
       .post(
-        `http://13.125.112.243/law/${encodeURIComponent(
+        `http://13.125.112.243:80/law/${encodeURIComponent(
           name
         )}?lawNum=${lawNum}&enfDate=${enfDate}`,
         payload
       )
       .then((res) => {
-        lawinfo(res.data);
         console.log(res.data);
-        localStorage.Law = JSON.stringify(res.data.Law);
-        localStorage.related = JSON.stringify(res.data.Related);
+        Related(res.data.Related);
+        Law(res.data.Law);
+        Result(res.data.Law.context);
+        // localStorage.Law = JSON.stringify(res.data.Law);
+        // localStorage.related = JSON.stringify(res.data.Related);
         this.setState({
           isLoaded: true,
         });
@@ -89,20 +93,23 @@ class SearchResult extends React.Component {
       <div className='searchresult-container'>
         <SearchBar />
         <link
-            rel='stylesheet'
-            href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+          rel='stylesheet'
+          href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
         />
         <Row>
         <Col md={1}></Col>
           <Col md={10}>
             <Card className='searchresult-form'>
               <Card.Header>
-                <Card.Title as='h5'> 총 {this.props.lawlist.length} 건의 결과</Card.Title>
+                <Card.Title as='h5'>
+                  {' '}
+                  총 {this.props.lawlist.length} 건의 결과
+                </Card.Title>
               </Card.Header>
               <Card.Body className='px-0 py-2'>
                 <Table responsive hover>
                   <tbody>
-                      {this.state.pageOfItems.map((item, index) => (
+                    {this.state.pageOfItems.map((item, index) => (
                       <tr
                         className='searchresult-section'
                         key={index}
@@ -115,9 +122,11 @@ class SearchResult extends React.Component {
                         }
                       >
                         <td>
-                          <h4 className="mb-1">{item.name}</h4>
-                          <p className="m-0">
-                            <span className='searchresult-type'>{item.type}</span>
+                          <h4 className='mb-1'>{item.name}</h4>
+                          <p className='m-0'>
+                            <span className='searchresult-type'>
+                              {item.type}
+                            </span>
                             <span className='searchresult-number'>
                               {item.number}호
                             </span>
@@ -127,16 +136,25 @@ class SearchResult extends React.Component {
                             <span className='searchresult-ministry'>
                               {item.ministry}
                             </span>
-                            <span className="searchresult-promulgation">
-                            시행일자 :{' '}{format(new Date(item.enforcement_date), 'yyyy.MM.dd')}
-                          </span>
-                          <span className="searchresult-enforcement">
-                            공포일자 :{' '}{format(new Date(item.promulgation_date), 'yyyy.MM.dd')}&nbsp;
-                          </span>
+                            <span className='searchresult-promulgation'>
+                              시행일자 :{' '}
+                              {format(
+                                new Date(item.enforcement_date),
+                                'yyyy.MM.dd'
+                              )}
+                            </span>
+                            <span className='searchresult-enforcement'>
+                              공포일자 :{' '}
+                              {format(
+                                new Date(item.promulgation_date),
+                                'yyyy.MM.dd'
+                              )}
+                              &nbsp;
+                            </span>
                           </p>
                         </td>
                       </tr>
-                      ))}
+                    ))}
                   </tbody>
                 </Table>
                 <div className='text-center'>
@@ -150,7 +168,7 @@ class SearchResult extends React.Component {
           </Col>
           <Col md={1}></Col>
         </Row>
-      </div>  
+      </div>
     );
   }
 }
@@ -200,10 +218,14 @@ class SearchResult extends React.Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
-    lawDetail: state.lawinfo.lawDetail,
+    Law: state.Law.Law,
+    Related: state.Related.Related,
+    Result: state.Result.Result,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
-    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
+    Law: (data) => dispatch(Law.Law(data)),
+    Related: (data) => dispatch(Related.Related(data)),
+    Result: (data) => dispatch(Result.Result(data)),
   })
 )(withRouter(SearchResult));
