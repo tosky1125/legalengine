@@ -704,87 +704,93 @@ const init = async () => {
       date,
       context,
     });
-    for (art of article) {
-      const {
-        article_number,
-        title,
-        date,
-        cont_date,
-        context,
-        flag_pan,
-        flag_yeon,
-        flag_hang,
-        flag_gyu,
-        clause,
-      } = art;
-
-      const ar = await Article.create({
-        law_id: a,
-        chapter_id: chap.id,
-        article_title: title,
-        article_id: article_number,
-        date,
-        cont_date,
-        context,
-        flag_pan,
-        flag_yeon,
-        flag_hang,
-        flag_gyu,
-      });
-
-      for (cla of clause) {
+    if (article) {
+      for (art of article) {
         const {
-          clause_number,
+          article_number,
+          title,
           date,
+          cont_date,
           context,
-          subPara,
-        } = cla;
+          flag_pan,
+          flag_yeon,
+          flag_hang,
+          flag_gyu,
+          clause,
+        } = art;
 
-        const cl = await Clause.create({
+        const ar = await Article.create({
           law_id: a,
           chapter_id: chap.id,
-          article_id: ar.id,
-          clause_id: clause_number,
+          article_title: title,
+          article_id: article_number,
           date,
+          cont_date,
           context,
+          flag_pan,
+          flag_yeon,
+          flag_hang,
+          flag_gyu,
         });
-
-
-        for (sub of subPara) {
-          const {
-            sub_number,
-            date,
-            context,
-            item,
-          } = sub;
-
-          const su = await Subparagraph.create({
-            law_id: a,
-            chapter_id: chap.id,
-            article_id: ar.id,
-            clause_id: cl.id,
-            sub_id: sub_number,
-            date,
-            context,
-          });
-
-          for (it of item) {
-            let {
-              item_number,
+        if (clause) {
+          for (cla of clause) {
+            const {
+              clause_number,
               date,
               context,
-            } = it;
+              subPara,
+            } = cla;
 
-            await Item.create({
+            const cl = await Clause.create({
               law_id: a,
               chapter_id: chap.id,
               article_id: ar.id,
-              clause_id: cl.id,
-              sub_id: su.id,
-              item_id: item_number,
+              clause_id: clause_number,
               date,
               context,
             });
+
+            if (subPara) {
+              for (sub of subPara) {
+                const {
+                  sub_number,
+                  date,
+                  context,
+                  item,
+                } = sub;
+
+                const su = await Subparagraph.create({
+                  law_id: a,
+                  chapter_id: chap.id,
+                  article_id: ar.id,
+                  clause_id: cl.id,
+                  sub_id: sub_number,
+                  date,
+                  context,
+                });
+                console.log(item);
+                if (item) {
+                  for (it of item) {
+                    let {
+                      item_number,
+                      date,
+                      context,
+                    } = it;
+
+                    await Item.create({
+                      law_id: a,
+                      chapter_id: chap.id,
+                      article_id: ar.id,
+                      clause_id: cl.id,
+                      sub_id: su.id,
+                      item_id: item_number,
+                      date,
+                      context,
+                    });
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -810,11 +816,11 @@ const init = async () => {
     law_id: a,
     tag: html,
   });
-  if (k === 61) return 'hi';
+  if (k === 15000) return 'hi';
   k -= 1;
   await init();
 }
-let k = 13446;
+let k = 27217;
 init();
 
 
