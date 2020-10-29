@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
+import * as Result from '../modules/Result';
 
 function SideInfo(props) {
   // let sideInfoData = JSON.parse(localStorage.related);
@@ -16,7 +17,7 @@ function SideInfo(props) {
   console.log(Related1);
 
   const handleClickSearch = (name, lawNum, enfDate) => {
-    const { Law } = props;
+    const { Law, Related, Result } = props;
     const payload = { lawNum, enfDate };
     axios
       .post(
@@ -25,15 +26,19 @@ function SideInfo(props) {
         )}?lawNum=${lawNum}&enfDate=${enfDate}`,
         payload
       )
-      .then((res) => {
-        Law(res.data);
-        // console.log(res.data);
+      .then((data) => {
+        Related(data.data.Related);
+        Law(data.data.Law);
+        Result(data.data.Law.context);
+        // console.log(data.data);
         // localStorage.Law = JSON.stringify(res.data.Law);
         setisLoaded(true);
       })
       .then(() => {
         window.open(
-          `/law/${encodeURIComponent(name)}?lawNum=${lawNum}&enfDate=${format(
+          `/law/${encodeURIComponent(
+            name.replace(/[^가-힣^0-9]/g, '')
+          )}?lawNum=${lawNum}&enfDate=${format(
             new Date(enfDate),
             'yyyy-MM-dd'
           )}`,
@@ -98,9 +103,11 @@ export default connect(
     lawlist: state.searchlist.lawlist,
     Law: state.Law.Law,
     Related1: state.Related.Related,
+    Result: state.Result.Result,
   }),
   (dispatch) => ({
     Law: (data) => dispatch(Law.Law(data)),
     Related: (data) => dispatch(Related.Related(data)),
+    Result: (data) => dispatch(Result.Result(data)),
   })
 )(withRouter(SideInfo));

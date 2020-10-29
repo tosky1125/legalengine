@@ -22,7 +22,7 @@ function ViewPage(props) {
 
     // setTimeout(() => {
     //   setisLoaded(true);
-    // }, 500);
+    // }, 1000);
 
     let url = `http://13.125.112.243/law/${encodeURIComponent(
       name
