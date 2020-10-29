@@ -5,19 +5,21 @@ import './SearchBar.css';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
 import * as searchword from '../modules/searchword';
+import * as searchdate from '../modules/searchdate';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
 
 function SearchBar(props) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchWord, setSearchWord] = useState('');
   const [isLoaded, setisLoaded] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
   const today = format(new Date(), 'yyyy-MM-dd');
   const [searchDate, setSearchDate] = useState(today);
+  // searchdate(searchDate)
 
   const handleChangeTerm = (e) => {
-    setSearchTerm(e.target.value);
+    setSearchWord(e.target.value);
     console.log(e.target.value);
   };
 
@@ -27,13 +29,12 @@ function SearchBar(props) {
   };
 
   const handleSearch = () => {
-    const payload = { searchWord: searchTerm, date: searchDate };
-    const { searchlist, history } = props;
-    localStorage.searchWord = JSON.stringify(searchTerm);
-    localStorage.searchDate = JSON.stringify(searchDate);
-
-    console.log(typeof searchTerm);
-    console.log(typeof searchDate);
+    const payload = { searchWord: searchWord, date: searchDate };
+    const { searchlist, history, searchword, searchdate } = props;
+    // localStorage.searchWord = JSON.stringify(searchWord);
+    // localStorage.searchDate = JSON.stringify(searchDate);
+    searchword(searchWord);
+    searchdate(searchDate);
 
     axios
       .post('http://13.125.112.243/search', payload)
@@ -41,7 +42,6 @@ function SearchBar(props) {
         searchlist(res.data);
         setisLoaded(true);
         console.log(res.data);
-        localStorage.list = JSON.stringify(res.data);
       })
       .then(() => {
         history.push('/search');
@@ -72,7 +72,7 @@ function SearchBar(props) {
             <label className='searchbar-Term'>
               <input
                 type='text'
-                name='setSearchTerm'
+                name='setSearchWord'
                 ref={register({
                   required: true,
                   minLength: 2,
@@ -95,7 +95,7 @@ function SearchBar(props) {
             </button>
           </div>
           <div className='valid-error'>
-            {errors.setSearchTerm && '문자&숫자 2글자 이상 입력 가능합니다.'}
+            {errors.setSearchWord && '문자&숫자 2글자 이상 입력 가능합니다.'}
           </div>
         </form>
       </div>
@@ -105,11 +105,13 @@ function SearchBar(props) {
 
 export default connect(
   (state) => ({
-    lawlist: state.searchlist.lawlist,
+    seachlist: state.searchlist.seachlist,
     searchword: state.searchword.searchword,
+    searchdate: state.searchdate.searchdate,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
     searchword: (data) => dispatch(searchword.searchword(data)),
+    searchdate: (data) => dispatch(searchdate.seachdate(data)),
   })
 )(withRouter(SearchBar));

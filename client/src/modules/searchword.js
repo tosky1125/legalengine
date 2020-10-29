@@ -5,13 +5,13 @@ const SEARCHWORD = 'searchword';
 export const searchword = createAction(SEARCHWORD);
 
 const initialState = {
-  searchword: null,
+  searchTerm: '',
 };
 
 export default handleActions(
   {
     [SEARCHWORD]: (state, action) => ({
-      searchword: action.payload,
+      searchTerm: action.payload,
     }),
   },
   initialState

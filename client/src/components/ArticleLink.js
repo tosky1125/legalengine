@@ -1,23 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as Law from '../modules/Law';
+import * as Related from '../modules/Related';
 import './ArticleLink.css';
 
-function ArticleLink() {
-  const law = JSON.parse(localStorage.Law);
-  console.log(law);
-  console.log('hi');
+function ArticleLink(props) {
+  const { LawData } = props;
+  console.log(LawData);
 
-  let ArticleLink = law.Chapter;
-  console.log(ArticleLink);
+  // const law2 = LawData.Chapter;
+  // console.log(law2);
+
+  // const law = JSON.parse(localStorage.Law);
+  // console.log(law);
+
+  let ArticleLink = LawData.Chapter;
+  // console.log(ArticleLink);
+
   // console.log(JSON.stringify(ArticleLink));
+  let Addenda = LawData.Chapter;
+  // console.log(Addenda);
 
-  let Addenda = law.Chapter;
-  console.log(Addenda);
-
-  let File = law.File;
-  console.log(File);
+  let File = LawData.File;
+  // console.log(File);
 
   //편:part 장{ele2Index}절:section 관:sub-section
-
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
     const artUrl = '#' + '0'.repeat(3) + str;
@@ -34,7 +41,7 @@ function ArticleLink() {
   let subSectionNum = null;
   let result = [];
 
-  console.log(ArticleLink);
+  // console.log(ArticleLink);
 
   ArticleLink = ArticleLink.map((chapEle) => {
     if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
@@ -143,9 +150,10 @@ function ArticleLink() {
       };
     }
   });
-  console.log(ArticleLink);
-  console.log(Array.isArray(result));
-  console.log(result);
+
+  // console.log(ArticleLink);
+  // console.log(Array.isArray(result));
+  // console.log(result);
 
   result = (
     <div className='articlelink-accordion'>
@@ -279,8 +287,6 @@ function ArticleLink() {
     </div>
   );
 
-  // console.log(result);
-
   //부칙 Addenda
   const addendaUrlfragment = (strFrom) => {
     const str = String(strFrom);
@@ -334,7 +340,7 @@ function ArticleLink() {
     </div>
   );
 
-  if (law.File.length !== 0) {
+  if (LawData.File.length !== 0) {
     return (
       <div>
         <div className='articlelink-contanier'>
@@ -356,4 +362,13 @@ function ArticleLink() {
   }
 }
 
-export default ArticleLink;
+export default connect(
+  (state) => ({
+    LawData: state.Law.Law,
+    Related: state.Related.Related,
+  }),
+  (dispatch) => ({
+    Law: (data) => dispatch(Law.Law(data)),
+    Related: (data) => dispatch(Related.Related(data)),
+  })
+)(ArticleLink);

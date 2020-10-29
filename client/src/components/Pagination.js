@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Pagination.css';
 
 const propTypes = {
   items: PropTypes.array.isRequired,
@@ -90,69 +89,60 @@ class Pagination extends React.Component {
 
   render() {
     let pager = this.state.pager;
+
     if (!pager.pages || pager.pages.length <= 1) {
       // 페이지가 1이면 페이저 디스플레이 안하기
       return null;
     }
+
     return (
-      <div>
-        <ul className='pagination-container'>
-          <span className='pagination-pager-first'>
-            <span className={pager.currentPage === 1 ? 'disabled' : ''}>
-              <a href='#page' onClick={() => this.setPage(1)}>
-                {'<<'}
+      <>
+        <ul className='pagination'>
+          <link
+            rel='stylesheet'
+            href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+          />
+          <li className={pager.currentPage === 1 ? 'disabled' : ''}>
+            <a href='#page' onClick={() => this.setPage(1)}>
+              {'<<'}
+            </a>
+          </li>
+          <li className={pager.currentPage === 1 ? 'disabled' : ''}>
+            <a href='#page' onClick={() => this.setPage(pager.currentPage - 1)}>
+              {'<'}
+            </a>
+          </li>
+          {pager.pages.map((page, index) => (
+            <li
+              key={index}
+              className={pager.currentPage === page ? 'active' : ''}
+            >
+              <a href='#page' onClick={() => this.setPage(page)}>
+                {page}
               </a>
-            </span>
-          </span>
-          <span className='pagination-pager-previous'>
-            <span className={pager.currentPage === 1 ? 'disabled' : ''}>
-              <a
-                href='#page'
-                onClick={() => this.setPage(pager.currentPage - 1)}
-              >
-                {'<'}
-              </a>
-            </span>
-          </span>
-          {pager.pages.map((page, pageIndex) => (
-            <span key={pageIndex} className='pagination-pager-numbers'>
-              <span className={pager.currentPage === page ? 'active' : ''}>
-                <a href='#page' onClick={() => this.setPage(page)}>
-                  {page}
-                </a>
-              </span>
-            </span>
+            </li>
           ))}
-          <span className='pagination-pager-next'>
-            <span
-              className={
-                pager.currentPage === pager.totalPages ? 'disabled' : ''
-              }
-            >
-              <a
-                href='#page'
-                onClick={() => this.setPage(pager.currentPage + 1)}
-              >
-                {'>'}
-              </a>
-            </span>
-          </span>
-          <span className='pagination-pager-end'>
-            <span
-              className={
-                pager.currentPage === pager.totalPages ? 'disabled' : ''
-              }
-            >
-              <a href='#page' onClick={() => this.setPage(pager.totalPages)}>
-                {'>>'}
-              </a>
-            </span>
-          </span>
+          <li
+            className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
+          >
+            <a href='#page' onClick={() => this.setPage(pager.currentPage + 1)}>
+              {'>'}
+            </a>
+          </li>
+          <li
+            className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
+          >
+            <a href='#page' onClick={() => this.setPage(pager.totalPages)}>
+              {'>>'}
+            </a>
+          </li>
         </ul>
-      </div>
+      </>
     );
   }
 }
+
 Pagination.propTypes = propTypes;
 Pagination.defaultProps = defaultProps;
 export default Pagination;
+

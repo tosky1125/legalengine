@@ -1,3 +1,25 @@
+@media print {
+  .maininfo-buttons {
+    display: none;
+  }
+  .keyword-highlight {
+    background-color: none;
+  }
+  .file-img {
+    display: none;
+  }
+  thead {
+    display: table-header-group;
+  }
+  tfoot {
+    display: table-footer-group;
+  }
+}
+
+@page {
+  margin: 12mm;
+}
+
 .maininfo-page-header {
   position: fixed;
   top: 0mm;
@@ -33,7 +55,7 @@ div[key] .keyword-highlight {
   left: 20vw;
   right: 20vw;
   width: 55vw;
-  bottom: 5vh;
+  top: -5vh;
   padding: 1.5rem;
   overflow: auto;
 }
