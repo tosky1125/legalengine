@@ -1,28 +1,21 @@
 import React from 'react';
 import './ArticleLink.css';
-
 function ArticleLink() {
   const law = JSON.parse(localStorage.Law);
   // console.log(law);
-
   let ArticleLink = law.Chapter;
   console.log(ArticleLink);
   // console.log(JSON.stringify(ArticleLink));
-
   let Addenda = law.Chapter;
   // console.log(Addenda);
-
   let File = law.File;
   console.log(File);
-
   //편:part 장{ele2Index}절:section 관:sub-section
-
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
     const artUrl = '#' + '0'.repeat(3) + str;
     return artUrl;
   };
-
   let tempPart = null;
   let tempChapter = null;
   let tempSection = null;
@@ -32,9 +25,7 @@ function ArticleLink() {
   let sectionNum = null;
   let subSectionNum = null;
   let result = [];
-
   console.log(ArticleLink);
-
   ArticleLink = ArticleLink.map((chapEle) => {
     if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
       tempPart = chapEle.context;
@@ -145,7 +136,6 @@ function ArticleLink() {
   console.log(ArticleLink);
   console.log(Array.isArray(result));
   console.log(result);
-
   result = (
     <div className='articlelink-accordion'>
       <input type='checkbox' id='contTitle' />
@@ -277,16 +267,13 @@ function ArticleLink() {
       </div>
     </div>
   );
-
   // console.log(result);
-
   //부칙 Addenda
   const addendaUrlfragment = (strFrom) => {
     const str = String(strFrom);
     const addendaUrl = '#' + '0'.repeat(1) + str;
     return addendaUrl;
   };
-
   Addenda = (
     <div>
       <input type='checkbox' id='addenda-contTitle' />
@@ -307,13 +294,11 @@ function ArticleLink() {
       </div>
     </div>
   );
-
   const fileUrlfragment = (strFrom) => {
     const str = String(strFrom);
-    const addendaUrl = '#' + 'form' + str;
+    const addendaUrl = '#form' + str;
     return addendaUrl;
   };
-
   File = (
     <div>
       <input type='checkbox' id='file-contTitle' />
@@ -332,7 +317,6 @@ function ArticleLink() {
       </div>
     </div>
   );
-
   return (
     <div>
       <div className='articlelink-contanier'>
