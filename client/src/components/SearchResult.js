@@ -122,7 +122,7 @@ class SearchResult extends React.Component {
                         }
                       >
                         <td>
-                          <h4 className='mb-1'>{item.name}</h4>
+                          <h4 className='mb-3'>{item.name}</h4>
                           <p className='m-0'>
                             <span className='searchresult-type'>
                               {item.type}

@@ -51,8 +51,8 @@ body {
 
 .searchbar-btn {
   margin-left: 2rem;
-  background-color: #d93728;
-  border: 2px solid #d93728;
+  background-color: #a01e2d;
+  border: 2px solid #a01e2d;
   border-radius: 0.5rem;
   height: 3rem;
   width: 5rem;
@@ -65,7 +65,7 @@ body {
 .searchbar-btn:hover {
   cursor: pointer;
   background-color: white;
-  color: #d93728;
+  color: #a01e2d;
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
@@ -129,8 +129,8 @@ body {
 
   .searchbar-btn {
     margin-right: 2rem;
-    background-color: #d93728;
-    border: 2px solid #d93728;
+    background-color: #a01e2d;
+    border: 2px solid #a01e2d;
     border-radius: 0.3rem;
     height: 3rem;
     width: 20rem;

@@ -1,4 +1,35 @@
-.pagination-container {
+.pagination > li > a
+{
+    background-color: white;
+    color: grey !Important;
+    font-size: 1.6rem;
+    border: none !Important;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    background-color: #eee;
+    color: white !Important;
+    border: none !Important;
+}
+
+.pagination > .active > a
+{
+    color: white !Important;
+    background-color: #a01e2d !Important;
+    border: solid 1px #a01e2d !Important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: #a01e2d !Important;
+    border: solid 1px #a01e2d;
+}
+
+/* .pagination-container {
   text-align: center;
   font-size: 1.3em;
 }
@@ -36,4 +67,4 @@
   margin-left: 0.2rem;
   border-radius: 4px;
   font-size: 1.1rem;
-}
+} */
