@@ -217,12 +217,14 @@ const spec = async () => {
 
           articleNum = arSlice(ele.id);
           let i = 1;
-          
+          let bodyChild = body[index + pgroupCheck(body, index)].children;
+          let text = null;
+          bodyChild.length === 0 ? text = body[index + pgroupCheck(body, index)].textContent : false;
           article.push({
             chapter_id: chapterNum,
             article_number: articleNum,
             title: null,
-            context: null,
+            context: text,
             child: body[index + pgroupCheck(body, index)].children,
             flag_yeon: null,
             flag_hang: null,
@@ -256,6 +258,7 @@ const spec = async () => {
     }
     // 본문에서 전부 조의 하위노드로 분류한 것들을 항 호 목으로 분류
     article.forEach((ele) => {
+      if(ele.child.length !== 0){
       const button = Array.from(ele.child[0].children);
       let texts = null;
       if (ele.child[1]) texts = Array.from(ele.child[1].children);
@@ -389,7 +392,9 @@ const spec = async () => {
       clauseNum = undefined;
       subParNum = undefined;
       itemNum = null;
-    });
+    }
+  }
+    );
     // 부칙 분류
     for (let i = length; i < chapter.length; i += 1) {
       // 부칙은 편장절관 자식 노드에 조 항 호 목이 있기에 배열로 분류
