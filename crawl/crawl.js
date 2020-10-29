@@ -668,11 +668,11 @@ const init = async () => {
       flag_gyu,
     } = art;
 
-    if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_number);
-      contCheck = contCheck.article && contCheck.article.context ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
-      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
-    }
+    // if (oldLaw && date && date.includes('개정') && !date.includes('전문') && !date.includes('제목') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+    //   let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_number);
+    //   contCheck = contCheck.article && contCheck.article.context ? contCheck.article.context.replace(regex1, '').replace(regex2, '') : null;
+    //   context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
+    // }
 
     const tmp = await Chapter.findOne({
       where: {
@@ -696,8 +696,8 @@ const init = async () => {
       flag_gyu,
     });
   }
-  let curArt;
-  let newJoCount = 0;
+  // let curArt;
+  // let newJoCount = 0;
   for (cla of clause) {
     let {
       chapter_id,
@@ -706,18 +706,18 @@ const init = async () => {
       date,
       context,
     } = cla;
-    if (curArt !== article_id) {
-      curArt = article_id;
-      newJoCount = 0;
-    }
-    if (date && date.includes('신설')) {
-      newJoCount -= 1;
-    }
-    if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount);
-      contCheck = contCheck.clause && contCheck.clause.context ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
-      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
-    }
+    // if (curArt !== article_id) {
+    //   curArt = article_id;
+    //   newJoCount = 0;
+    // }
+    // if (date && date.includes('신설')) {
+    //   newJoCount -= 1;
+    // }
+    // if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+    //   let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount);
+    //   contCheck = contCheck.clause && contCheck.clause.context ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
+    //   context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
+    // }
     const tmp1 = await Chapter.findOne({
       where: {
         law_id: a,
@@ -744,9 +744,9 @@ const init = async () => {
       context,
     });
   }
-  curArt = null;
-  newJoCount = 0;
-  let curClause;
+  // curArt = null;
+  // newJoCount = 0;
+  // let curClause;
   for (sub of subPara) {
     let {
       chapter_id,
@@ -757,22 +757,22 @@ const init = async () => {
       context,
     } = sub;
 
-    if (curArt !== article_id) {
-      curArt = article_id;
-      newJoCount = 0;
-    }
-    if (curClause !== clause_id) {
-      curClause = clause_id;
-      newJoCount = 0;
-    }
-    if (date && date.includes('신설')) {
-      newJoCount -= 1;
-    }
-    if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number + newJoCount);
-      contCheck = contCheck.sub && contCheck.sub.context ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
-      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
-    }
+    // if (curArt !== article_id) {
+    //   curArt = article_id;
+    //   newJoCount = 0;
+    // }
+    // if (curClause !== clause_id) {
+    //   curClause = clause_id;
+    //   newJoCount = 0;
+    // }
+    // if (date && date.includes('신설')) {
+    //   newJoCount -= 1;
+    // }
+    // if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+    //   let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_number + newJoCount);
+    //   contCheck = contCheck.sub && contCheck.sub.context ? contCheck.sub.context.replace(regex1, '').replace(regex2, '') : null;
+    //   context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
+    // }
 
     const tmp1 = await Chapter.findOne({
       where: {
@@ -813,10 +813,10 @@ const init = async () => {
     });
   }
 
-  curArt = null;
-  curClause = null;
-  newJoCount = 0;
-  let curSub;
+  // curArt = null;
+  // curClause = null;
+  // newJoCount = 0;
+  // let curSub;
   for (it of item) {
     let {
       chapter_id,
@@ -828,26 +828,26 @@ const init = async () => {
       context,
     } = it;
 
-    if (curArt !== article_id) {
-      curArt = article_id;
-      newJoCount = 0;
-    }
-    if (curClause !== clause_id) {
-      curClause = clause_id;
-      newJoCount = 0;
-    }
-    if (curSub !== sub_id) {
-      curClause = sub_id;
-      newJoCount = 0;
-    }
-    if (date && date.includes('신설')) {
-      newJoCount -= 1;
-    }
-    if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number + newJoCount);
-      contCheck = contCheck.item && contCheck.item.context ? contCheck.item.context.replace(regex1, '').replace(regex2, '') : null;
-      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
-    }
+    // if (curArt !== article_id) {
+    //   curArt = article_id;
+    //   newJoCount = 0;
+    // }
+    // if (curClause !== clause_id) {
+    //   curClause = clause_id;
+    //   newJoCount = 0;
+    // }
+    // if (curSub !== sub_id) {
+    //   curClause = sub_id;
+    //   newJoCount = 0;
+    // }
+    // if (date && date.includes('신설')) {
+    //   newJoCount -= 1;
+    // }
+    // if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+    //   let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_id, sub_id, item_number + newJoCount);
+    //   contCheck = contCheck.item && contCheck.item.context ? contCheck.item.context.replace(regex1, '').replace(regex2, '') : null;
+    //   context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
+    // }
 
     const tmp1 = await Chapter.findOne({
       where: {
