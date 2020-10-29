@@ -816,11 +816,11 @@ const init = async () => {
     law_id: a,
     tag: html,
   });
-  if (k === 15000) return 'hi';
+  if (k === 87831) return 'hi';
   k -= 1;
   await init();
 }
-let k = 27217;
+let k = 95239;
 init();
 
 
@@ -1149,9 +1149,8 @@ const init = async () => {
       pdf,
       date,
     });
-
   }
-  if (k === 15000) return 'hi';
+  if (k === 54025) return 'hi';
   k -= 1;
   await init();
 };
