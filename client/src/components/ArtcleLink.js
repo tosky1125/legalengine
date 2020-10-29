@@ -1,8 +1,7 @@
 import React from 'react';
 import './ArtcleLink.css';
-import queryString from 'query-string';
 
-function ArtcleLink() {
+function ArticleLink() {
   const law = JSON.parse(localStorage.Law);
   console.log(law);
 
@@ -14,7 +13,7 @@ function ArtcleLink() {
   // console.log(Addenda);
 
   let File = law.File;
-  console.log(File);
+  // console.log(File);
 
   //편:part 장{ele2Index}절:section 관:sub-section
 
@@ -23,7 +22,7 @@ function ArtcleLink() {
     const artUrl = '#' + '0'.repeat(3) + str;
     return artUrl;
   };
-
+  
   let tempPart = null;
   let tempChapter = null;
   let tempSection = null;
@@ -33,8 +32,6 @@ function ArtcleLink() {
   let sectionNum = null;
   let subSectionNum = null;
   let result = [];
-
-  console.log(ArticleLink);
 
   ArticleLink = ArticleLink.map((chapEle) => {
     if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
@@ -134,17 +131,9 @@ function ArtcleLink() {
         article: chapEle.Article,
         child: [],
       };
-    } else if (!chapEle.chapter_id) {
-      partNum++;
-      result[partNum] = {
-        value: tempPart,
-        article: chapEle.Article,
-        child: [],
-      };
     }
   });
-  console.log(ArticleLink);
-  console.log(Array.isArray(result));
+
   console.log(result);
 
   result = (
@@ -154,19 +143,6 @@ function ArtcleLink() {
       <div>
         {result.map((ele1, ele1Index) => (
           <div>
-            {ele1.value &&
-              ele1.article.map((artele1) => (
-                <div>
-                  <a href={articleUrlfragment(artele1.article_id)}>
-                    <div>
-                      <span className='articlelink-article-title'>
-                        {artele1.article_title}
-                      </span>
-                      <span className='date'>{artele1.article_date}</span>
-                    </div>
-                  </a>
-                </div>
-              ))}
             <input type='checkbox' id={`${ele1Index}-part`} />
             {ele1.value && (
               <label htmlFor={`${ele1Index}-part`}>{ele1.value}</label>
@@ -210,14 +186,14 @@ function ArtcleLink() {
                                           artele4.article_id
                                         )}
                                       >
-                                        <span>
-                                          <span className='articlelink-article-title'>
+                                        <div>
+                                          <span className='artclelink-article-title'>
                                             {artele4.article_title}{' '}
                                           </span>
                                           <span className='date'>
                                             {artele4.article_date}
                                           </span>
-                                        </span>
+                                        </div>
                                       </a>
                                     </div>
                                   ))}
@@ -229,14 +205,14 @@ function ArtcleLink() {
                                 <a
                                   href={articleUrlfragment(artele3.article_id)}
                                 >
-                                  <span>
-                                    <span className='articlelink-article-title'>
-                                      {artele3.article_title}
+                                  <div>
+                                    <span className='artclelink-article-title'>
+                                      {artele3.article_title}{' '}
                                     </span>
                                     <span className='date'>
                                       {artele3.article_date}
                                     </span>
-                                  </span>
+                                  </div>
                                 </a>
                               </div>
                             ))}
@@ -247,7 +223,7 @@ function ArtcleLink() {
                         <div>
                           <a href={articleUrlfragment(artele2.article_id)}>
                             <div>
-                              <span className='articlelink-article-title'>
+                              <span className='artclelink-article-title'>
                                 {artele2.article_title}{' '}
                               </span>
                               <span className='date'>
@@ -264,7 +240,7 @@ function ArtcleLink() {
                   <div>
                     <a href={articleUrlfragment(artele1.article_id)}>
                       <div>
-                        <span className='articlelink-article-title'>
+                        <span className='artclelink-article-title'>
                           {artele1.article_title}
                         </span>
                         <span className='date'>{artele1.article_date}</span>
@@ -289,7 +265,7 @@ function ArtcleLink() {
   };
 
   Addenda = (
-    <div>
+    <div className='artclelink-accordion'>
       <input type='checkbox' id='addenda-contTitle' />
       <label htmlFor='addenda-contTitle'>부칙</label>
       <div>
@@ -298,9 +274,9 @@ function ArtcleLink() {
             {chapEle.chapter_id > 6 && (
               <a
                 href={addendaUrlfragment(chapEle.chapter_id)}
-                className='articlelink-article-title'
+                className='artclelink-article-title'
               >
-                {chapEle.date}
+                {(chapEle.context, chapEle.date)}
               </a>
             )}
           </div>
@@ -308,29 +284,11 @@ function ArtcleLink() {
       </div>
     </div>
   );
-
-  const fileUrlfragment = (strFrom) => {
-    const str = String(strFrom);
-    const addendaUrl = '#' + 'form' + str;
-    return addendaUrl;
-  };
-
   File = (
-    <div>
-      <input type='checkbox' id='file-contTitle' />
-      <label htmlFor='file-contTitle'>서식</label>
-      <div>
-        {File.map((fileEle, fileEleIndex) => (
-          <div key={fileEleIndex}>
-            <a
-              href={fileUrlfragment(fileEle.id)}
-              className='articlelink-file-title'
-            >
-              {fileEle.context}
-            </a>
-          </div>
-        ))}
-      </div>
+    <div className='file-container'>
+      <a href='#file' className='articlelink-file-title'>
+        서식
+      </a>
     </div>
   );
 
@@ -345,4 +303,4 @@ function ArtcleLink() {
   );
 }
 
-export default ArtcleLink;
+export default ArticleLink;
