@@ -914,10 +914,10 @@ const init = async () => {
       date,
     });
   }
-  if (k === 61) return 'hi';
+  if (k === 54025) return 'hi';
   k -= 1;
   await init();
 };
 // let k = 49;
-let k = 14656;
+let k = 64734;
 init();
