@@ -6,10 +6,16 @@
 
 .main-logo {
   display: block;
-  width: 30%;
-  padding-top: 5rem;
+  padding-top: 10rem;
   margin: 0 auto;
-  margin-bottom: 5rem;
+}
+
+.main-ele-logo {
+}
+
+.main-ele-logo-dot {
+  color: #d93728;
+  font-size: 3rem;
 }
 
 @media (max-width: 767px) {
