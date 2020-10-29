@@ -1,6 +1,7 @@
 .main-container {
   position: relative;
-  top: 10vh;
+  margin: 11rem;
+  height: 52rem;
   text-align: center;
 }
 
