@@ -1,4 +1,4 @@
-const { simpleTotalData, findLawForInline } = require('../simpleSearch');
+const { simpleTotalData } = require('../simpleSearch');
 module.exports = {
     post: async (req, res) => {
       const { lawName } = req.params;
