@@ -4,8 +4,8 @@ const {
   Law,
   Ministry,
   LawType
-} = require('./models');
-const { rmSpaceAndSymbols } = require('./strHandlerSet');
+} = require('../models');
+const { rmSpaceAndSymbols } = require('../strHandlerSet');
 
 const monthToDate = (string) => {
   const year = string.slice(0, 4);
