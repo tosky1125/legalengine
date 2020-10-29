@@ -4,6 +4,7 @@ import axios from 'axios';
 import './SearchBar.css';
 import { connect } from 'react-redux';
 import * as searchlist from '../modules/searchlist';
+import * as searchword from '../modules/searchword';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
 
@@ -30,6 +31,10 @@ function SearchBar(props) {
     const { searchlist, history } = props;
     localStorage.searchWord = JSON.stringify(searchTerm);
     localStorage.searchDate = JSON.stringify(searchDate);
+
+    console.log(typeof searchTerm);
+    console.log(typeof searchDate);
+
     axios
       .post('http://13.125.112.243/search', payload)
       .then((res) => {
@@ -101,8 +106,10 @@ function SearchBar(props) {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
+    searchword: state.searchword.searchword,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
+    searchword: (data) => dispatch(searchword.searchword(data)),
   })
 )(withRouter(SearchBar));

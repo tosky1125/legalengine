@@ -3,14 +3,15 @@ import './ArticleLink.css';
 
 function ArticleLink() {
   const law = JSON.parse(localStorage.Law);
-  // console.log(law);
+  console.log(law);
+  console.log('hi');
 
   let ArticleLink = law.Chapter;
   console.log(ArticleLink);
   // console.log(JSON.stringify(ArticleLink));
 
   let Addenda = law.Chapter;
-  // console.log(Addenda);
+  console.log(Addenda);
 
   let File = law.File;
   console.log(File);
@@ -310,7 +311,7 @@ function ArticleLink() {
 
   const fileUrlfragment = (strFrom) => {
     const str = String(strFrom);
-    const addendaUrl = '#' + 'form' + str;
+    const addendaUrl = '#form' + str;
     return addendaUrl;
   };
 
@@ -333,15 +334,26 @@ function ArticleLink() {
     </div>
   );
 
-  return (
-    <div>
-      <div className='articlelink-contanier'>
-        {result}
-        {Addenda}
-        {File}
+  if (law.File.length !== 0) {
+    return (
+      <div>
+        <div className='articlelink-contanier'>
+          {result}
+          {Addenda}
+          {File}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>
+        <div className='articlelink-contanier'>
+          {result}
+          {Addenda}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default ArticleLink;
