@@ -91,7 +91,8 @@ class SearchResult extends React.Component {
             href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
         />
         <Row>
-          <Col md-auto>
+        <Col md={1}></Col>
+          <Col md={10}>
             <Card className='searchresult-form'>
               <Card.Header>
                 <Card.Title as='h5'> 총 {this.props.lawlist.length} 건의 결과</Card.Title>
@@ -145,6 +146,7 @@ class SearchResult extends React.Component {
               </Card.Body>
             </Card>
           </Col>
+          <Col md={1}></Col>
         </Row>
       </div>  
     );

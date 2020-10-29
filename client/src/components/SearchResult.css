@@ -4,12 +4,10 @@
 
 .searchresult-container {
   position: relative;
-  top: 10vh;
-  bottom: 5vh;
-  overflow: hidden;
-  margin-left: 5rem;
-  margin-right: 5rem;
-  width: 90%;
+  margin-top: 10rem;
+  /* top: 10rem; */
+  height: 80%;
+  width: 100%;
 }
 
 .searchresult-empty {
@@ -19,6 +17,7 @@
 
 .searchresult-form {
   margin: 0 auto;
+  display: block;
 }
 
 .searchresult-pagination {

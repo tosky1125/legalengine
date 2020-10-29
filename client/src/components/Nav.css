@@ -2,7 +2,7 @@
   position: fixed;
   background-color: #ffffff;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(20, 1fr);
   top: 0;
   border-bottom: 0.5px solid #eee;
   z-index: 10000;

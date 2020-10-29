@@ -1,3 +1,31 @@
+.footer {
+  clear: both;
+  position: relative;
+  z-index: 1; 
+  height: -3em; 
+  margin-top: 5em;
+}
+
+.footer-copyright {
+  padding-top: 1.3rem;
+  color: grey;
+  background-color: #efefef;
+}
+
+.footer-links-term {
+  text-decoration: none;
+  color: grey !important;
+}
+
+.footer-links-policy {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: grey !important;
+}
+
+
+/*
+
 .footer-form {
   background-color: #f8f9fa;
   position: fixed;
@@ -8,10 +36,10 @@
   text-align: center;
   padding-top: 1.5rem;
 }
-/* 
+
 grid-template-columns: 1fr 1fr;
 display: grid;
-*/
+
 .footer-name {
   width: 30%;
 }
@@ -19,17 +47,5 @@ display: grid;
   width: 30%;
   margin-left: 20%;
 }
-.footer-guideline {
-  width: 30%;
-  margin-left: 20%;
-}
 
-.footer-guideline-term:hover {
-  border-bottom: 1px solid black;
-}
-.footer-guideline-policy {
-  margin-left: 1rem;
-}
-.footer-guideline-policy:hover {
-  border-bottom: 1px solid black;
-}
+*/
