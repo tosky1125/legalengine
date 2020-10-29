@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as lawinfo from '../modules/lawinfo';
 import SideInfo from '../components/SideInfo';
-import ArticleLink from '../components/ArtcleLink';
+import ArticleLink from '../components/ArticleLink';
 import './ViewPage.css';
 import ConvertToPDF from '../components/ConvertToPDF';
 import queryString from 'query-string';
