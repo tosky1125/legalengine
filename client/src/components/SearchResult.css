@@ -1,5 +1,4 @@
-.page-list :hover {
-  background-color: lightgrey;
+.searchresult-section :hover {
   cursor: pointer;
 }
 
@@ -13,6 +12,20 @@
   width: 90%;
 }
 
+.searchresult-empty {
+  margin: 10rem;
+  text-align: center;
+}
+
+.searchresult-form {
+  margin: 0 auto;
+}
+
+.searchresult-pagination {
+  justify-content: center;
+  
+}
+
 .searchresult-law-number {
   font-weight: bolder;
   font-size: larger;
@@ -23,10 +36,6 @@
   padding: 2rem;
   padding-top: 1rem;
   text-align: left;
-}
-
-.searchresult-page:hover {
-  cursor: pointer;
 }
 
 .searchresult-name {
