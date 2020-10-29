@@ -26,7 +26,6 @@ const extractKeyword = (str) => {
 
 // 전달받은 날짜 + 시간 문자열을 정제하기
 const parseDate = (dateStr) => {
-    console.log(dateStr);
     const parsedDate = add(new Date(dateStr), {
         days: 1,
         hours: -15
