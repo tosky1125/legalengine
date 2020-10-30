@@ -8,6 +8,7 @@ import * as searchword from '../modules/searchword';
 import * as searchdate from '../modules/searchdate';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
+import { Col, Container, Row } from 'react-bootstrap';
 
 function SearchBar(props) {
   const [searchWord, setSearchWord] = useState('');
@@ -62,43 +63,47 @@ function SearchBar(props) {
 
   return (
     <div>
+      <Container>
       <div className='searchbar-container'>
+        <Col md={2} />
         <form
-          className='searchbar-form'
-          autoComplete='off'
-          onSubmit={handleSubmit(handleSearch)}
+        className='searchbar-form'
+        autoComplete='off'
+        onSubmit={handleSubmit(handleSearch)}
         >
-          <div className='searchbar-flex'>
-            <label className='searchbar-Term'>
-              <input
-                type='text'
-                name='setSearchWord'
-                ref={register({
-                  required: true,
-                  minLength: 2,
-                  pattern: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|  0-9|*+$]/,
-                })}
-                placeholder='법령을 검색해보세요.'
-                onChange={handleChangeTerm}
+          <Col md={8}>
+          <div className='searchbar-box'>
+            <input
+              type='text'
+              name='setSearchWord'
+              className='searchbar-box-word'
+              ref={register({
+              required: true,
+              minLength: 2,
+              pattern: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|  0-9|*+$]/,
+              })}
+              placeholder='법령을 검색해보세요.'
+              onChange={handleChangeTerm}
               />
-            </label>
-            <label className='searchbar-date'>
-              <input
-                type='date'
-                name='date'
-                value={searchDate}
-                onChange={handleChangeDate}
-              />
-            </label>
+            <input
+              type='date'
+              name='date'
+              className='searchbar-box-calendar'
+              value={searchDate}
+              onChange={handleChangeDate}
+            />
             <button className='searchbar-btn' type='submit'>
               검색
             </button>
-          </div>
-          <div className='valid-error'>
-            {errors.setSearchWord && '문자&숫자 2글자 이상 입력 가능합니다.'}
-          </div>
+            </div>
+            <p className='valid-error'>
+            {errors.setSearchWord && '문자와 숫자 2글자 이상 입력해주세요.'}
+            </p>
+          </Col>
+          <Col md={2} />
         </form>
       </div>
+      </Container>      
     </div>
   );
 }
