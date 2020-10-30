@@ -1,11 +1,14 @@
 const axios = require('axios');
 const convert = require('xml-js');
+const spec = require('./getLawDesc');
+const init = require('./dbUpdate');
+const tag = require('./tagBuilder');
 const {
   Law,
   Ministry,
   LawType,
 } = require('./models');
-const { rmSpaceAndSymbols } = require('./strHandlerSet');
+const { rmSpaceAndSymbols } = require('../strHandlerSet');
 const apiKey = 'tosky0514'
 const monthToDate = (string) => {
   const year = string.slice(0, 4);
@@ -15,16 +18,15 @@ const monthToDate = (string) => {
   return result;
 };
 
-let i = 1;
 const getLaws = async () => {
-  const response = await axios.get(`http://www.law.go.kr/DRF/lawSearch.do?target=eflaw&OC=${tosky0514}&type=XML&display=100&page=${i}`);
+  const date = new Date().toLocaleDateString('ko-KR').replace(/[^0-9]/g,'');
+  const response = await axios.get(`https://www.law.go.kr/DRF/lawSearch.do?OC=${apiKey}&target=eflaw&type=XML&date=${date}&max=100`);
   let data = convert.xml2json(response.data, {
     compact: true,
     spaces: 4,
   });
   data = JSON.parse(data);
   data = data.LawSearch.law;
-
   for (ele of data) {
     !ele['소관부처명']._text ? ele['소관부처명']._text = '부서명없음' : false;
     !ele['법령구분명']._text ? ele['법령구분명']._text = '법령구분명없음' : false;
@@ -44,7 +46,7 @@ const getLaws = async () => {
         type: ele['법령구분명']._text,
       },
     });
-    await Law.create({
+    const law = await Law.create({
       law_id: ele._attributes.id,
       name: ele['법령명한글']._cdata,
       number: ele['법령일련번호']._text,
@@ -57,10 +59,10 @@ const getLaws = async () => {
       contexts: ele['법령명한글']._cdata,
       refined_name: rmSpaceAndSymbols(ele['법령명한글']._cdata),
     });
+    const desc = await spec(law);
+    await init(desc,law.law_id);
+    await tag(law);
   }
-  i++;
-
-  await getLaws();
 };
 
-getLaws();
+module.exports = getLaws;
