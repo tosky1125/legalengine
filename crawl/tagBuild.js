@@ -67,7 +67,7 @@ const htmlMaker = async () => {
     (chapEle, chapEleIndex) =>
       `<div key=${chapEleIndex}>
     <a name=${addendaUrlfragment(chapEle.chapter_id)}></a>
-    ${chapEle.chapter_id && chapEle.chapter_id.length < 5 ? `<span class='maininfo-chapter-titles'>${chapEle.context}</span>` : `<span class='maininfo-addenda-title'>${chapEle.context}</span>`}
+    ${chapEle.chapter_id && chapEle.chapter_id.length < 5 ? `<span class='maininfo-chapter-titles'>${chapEle.context}</span>` : `<div class='maininfo-contents'><span class='maininfo-addenda-title'>${chapEle.context}</span></div>`}
     <span class='date'>${chapEle.date}</span>
     ${
       chapEle.Article &&
