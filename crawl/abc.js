@@ -3,7 +3,8 @@ const { Law } = require('../models');
 const {
   format
 } = require('date-fns');
-let k = 82164; 
+let k = 12908; 
+// db 에서 모든 해당하는 law_id 의 값을 nested 형태로 가져온 뒤에, client 사이드의  innerHTML 로 넣어줄 수 있도록 완성형 tag 로 작성.
 const htmlMaker = async () => {
   let findLaw = await Law.findOne({
     where : {
@@ -176,7 +177,7 @@ console.log(Chapter);
   
   await Law.update({ context : html }, { where : { law_id : k }})
   k++;
-  if(k === 87830){
+  if(k === 13160){
     return 'hi';
   }
   await htmlMaker();

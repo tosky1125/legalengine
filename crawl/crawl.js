@@ -595,7 +595,7 @@ const spec = async () => {
       subParNum = undefined;
       itemNum = undefined;
     }
-
+    // nested 구조 
     item.forEach(ele => {
       const {
         chapter_id,
@@ -672,18 +672,18 @@ const spec = async () => {
   return result;
 };
 
-const checkRevision = async (law_number, law_eDate, article_id, clause_id = null, sub_id = null, item_id = null) => {
-  const result = await revision(law_number,
-    law_eDate,
-    article_id,
-    clause_id,
-    sub_id,
-    item_id);
-  return result;
-};
+// const checkRevision = async (law_number, law_eDate, article_id, clause_id = null, sub_id = null, item_id = null) => {
+//   const result = await revision(law_number,
+//     law_eDate,
+//     article_id,
+//     clause_id,
+//     sub_id,
+//     item_id);
+//   return result;
+// };
 
 const init = async () => {
-
+//db update
   const a = k;
 
   const {
@@ -816,11 +816,11 @@ const init = async () => {
     law_id: a,
     tag: html,
   });
-  if (k === 15000) return 'hi';
+  if (k === 4001) return 'hi';
   k -= 1;
   await init();
 }
-let k = 27217;
+let k = 8227;
 init();
 
 
