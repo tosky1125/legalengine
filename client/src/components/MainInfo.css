@@ -38,26 +38,30 @@ ins {
   text-decoration: none;
 }
 
-/*.keyword-highlight:not(h1) {
-  background-color: #f12ea760;
-}*/
-
 .maininfo-law-head {
   text-align: center;
 }
 
-div[key] .keyword-highlight {
+div[key] .searchword-highlight {
   background-color: #f12ea760;
 }
 
 .maininfo-container {
-  position: relative;
+  position: fixed;
   left: 20vw;
   right: 20vw;
-  width: 55vw;
-  top: -5vh;
-  padding: 1.5rem;
+  width: 61vw;
+  height: 80%;
+  align-content: center;
+  padding: 1rem;
+
   overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.maininfo-container::-webkit-scrollbar {
+  display: none;
 }
 
 .maininfo-law-head-info {
@@ -73,6 +77,7 @@ div[key] .keyword-highlight {
 
 .maininfo-contents {
   line-height: 200%;
+  padding-top: 1.5rem;
 }
 
 .maininfo-article-title {
@@ -163,7 +168,7 @@ div[class*='maininfo'] {
 
 a {
   text-decoration: none;
-  color: inherit;
+  color: inherit !important;
 }
 
 .date {

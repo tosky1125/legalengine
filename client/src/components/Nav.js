@@ -6,7 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 
 function NavBar() {
   return (
-    <div className='nav-form container-fluid'>
+    <div className='nav-form container-fluid navbar-fixed-top'>
       <Row>
         <Col md={8} xl={12}>
           <Link to='/'>

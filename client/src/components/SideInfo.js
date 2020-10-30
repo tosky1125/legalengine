@@ -13,8 +13,8 @@ function SideInfo(props) {
   // console.log(sideInfoData);
   const [isLoaded, setisLoaded] = useState(false);
 
-  const { Related1 } = props;
-  console.log(Related1);
+  const { RelatedLaw } = props;
+  console.log(RelatedLaw);
 
   const handleClickSearch = (name, lawNum, enfDate) => {
     const { Law, Related, Result } = props;
@@ -59,7 +59,7 @@ function SideInfo(props) {
       });
   };
 
-  if (Related1.length === 0) {
+  if (RelatedLaw.length === 0) {
     return (
       <div>
         <div>검색 결과가 없습니다.</div>
@@ -69,9 +69,13 @@ function SideInfo(props) {
 
   return (
     <div>
-      {Related1.map((sideInfo, sideInfoIndex) => (
+      <link
+        rel='stylesheet'
+        href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+      />
+      {RelatedLaw.map((sideInfo, sideInfoIndex) => (
         <div className='sideInfo-body' key={sideInfoIndex}>
-          <h3
+          <h4
             className='sideInfo-title'
             onClick={() =>
               handleClickSearch(
@@ -82,15 +86,17 @@ function SideInfo(props) {
             }
           >
             {sideInfo.name}
-          </h3>
+          </h4>
           <p className='sideInfo-info'>
             [시행 {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}]
-            [{sideInfo.type}
-            &nbsp;
-            {sideInfo.number}호,&nbsp;
-            {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
-            &nbsp;
-            {sideInfo.amendment_status}]
+            <p>
+              [{sideInfo.type}
+              &nbsp;
+              {sideInfo.number}호,&nbsp;
+              {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
+              &nbsp;
+              {sideInfo.amendment_status}]
+            </p>
           </p>
         </div>
       ))}
@@ -102,7 +108,7 @@ export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
     Law: state.Law.Law,
-    Related1: state.Related.Related,
+    RelatedLaw: state.Related.Related,
     Result: state.Result.Result,
   }),
   (dispatch) => ({
