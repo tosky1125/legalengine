@@ -670,4 +670,4 @@ const spec = async (data) => {
 // };
 
 
-module.exports = spec();
+module.exports = spec;

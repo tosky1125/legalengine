@@ -145,4 +145,4 @@ const init = async (spec, k) => {
   });
 }
 
-module.exports = init();
+module.exports = init;
