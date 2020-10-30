@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
+import * as searchword from '../modules/searchword';
 import './SearchResult.css';
 import { format } from 'date-fns';
 import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
@@ -28,7 +29,7 @@ class SearchResult extends React.Component {
   }
 
   handleClickSearch = (name, lawNum, enfDate) => {
-    const { Law, Related, Result } = this.props;
+    const { searchword1 } = this.props;
     const payload = { lawNum, enfDate };
     axios
       .post(
@@ -38,10 +39,10 @@ class SearchResult extends React.Component {
         payload
       )
       .then((res) => {
-        console.log(res.data);
-        Related(res.data.Related);
-        Law(res.data.Law);
-        Result(res.data.Law.context);
+        // console.log(res.data);
+        // Related(res.data.Related);
+        // Law(res.data.Law);
+        // Result(res.data.Law.context);
         // localStorage.Law = JSON.stringify(res.data.Law);
         // localStorage.related = JSON.stringify(res.data.Related);
         this.setState({
@@ -55,7 +56,7 @@ class SearchResult extends React.Component {
           )}?lawNum=${lawNum}&enfDate=${format(
             new Date(enfDate),
             'yyyy-MM-dd'
-          )}`,
+          )}&searchword=${searchword1}`,
           '_blank'
         );
       })
@@ -218,12 +219,14 @@ class SearchResult extends React.Component {
 export default connect(
   (state) => ({
     lawlist: state.searchlist.lawlist,
+    searchword1: state.searchword.searchword,
     Law: state.Law.Law,
     Related: state.Related.Related,
     Result: state.Result.Result,
   }),
   (dispatch) => ({
     searchlist: (data) => dispatch(searchlist.searchlist(data)),
+    searchword: (data) => dispatch(searchword.searchword(data)),
     Law: (data) => dispatch(Law.Law(data)),
     Related: (data) => dispatch(Related.Related(data)),
     Result: (data) => dispatch(Result.Result(data)),

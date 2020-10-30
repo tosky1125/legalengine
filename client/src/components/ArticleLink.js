@@ -24,6 +24,7 @@ function ArticleLink(props) {
   // console.log(File);
 
   //편:part 장{ele2Index}절:section 관:sub-section
+
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
     const artUrl = '#' + '0'.repeat(3) + str;
@@ -157,7 +158,10 @@ function ArticleLink(props) {
   result = (
     <div className='articlelink-accordion'>
       <input type='checkbox' id='contTitle' />
-      <label htmlFor='contTitle'>본문</label>
+
+      <label htmlFor='contTitle'>
+        <h4>본문</h4>
+      </label>
       <div>
         {result.map((ele1, ele1Index) => (
           <div key={ele1Index}>
@@ -296,7 +300,9 @@ function ArticleLink(props) {
   Addenda = (
     <div>
       <input type='checkbox' id='addenda-contTitle' />
-      <label htmlFor='addenda-contTitle'>부칙</label>
+      <label htmlFor='addenda-contTitle'>
+        <h4>부칙</h4>
+      </label>
       <div>
         {Addenda.map((chapEle, chapEleIndex) => (
           <div key={chapEleIndex}>
@@ -323,7 +329,9 @@ function ArticleLink(props) {
   File = (
     <div>
       <input type='checkbox' id='file-contTitle' />
-      <label htmlFor='file-contTitle'>서식</label>
+      <label htmlFor='file-contTitle'>
+        <h4>서식</h4>
+      </label>
       <div>
         {File.map((fileEle, fileEleIndex) => (
           <div key={fileEleIndex}>

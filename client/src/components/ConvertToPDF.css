@@ -42,19 +42,17 @@
 
 .pdf-button-wrapper {
   text-align: right;
-  margin-right: 40rem;
-  margin-left: 30rem;
+  margin-right: 20vw;
 }
 .pdf-button {
   background-color: #a01e2d;
   border: 2px solid #a01e2d;
   color: white;
-  padding: 10px 20px;
-  left: 12vw;
   text-align: center;
   text-decoration: none;
   position: relative;
-  font-size: 18px;
+  padding: 8px 8px;
+  font-size: 12px;
   border-radius: 8px;
   transition-duration: 0.4s;
   cursor: pointer;

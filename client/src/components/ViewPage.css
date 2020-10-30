@@ -3,25 +3,39 @@
   block-size: auto;
   bottom: 5vh;
   top: 10vh;
-  overflow: hidden;
 }
 
 .viewpage-sideinfo-container {
   position: fixed;
   width: 18vw;
-  height: 75%;
+
+  height: 80%;
   padding: 1.5rem;
   margin: 1rem;
-  overflow: auto;
+  margin-top: 5vh;
   border-right: 1px solid #eee;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+.viewpage-sideinfo-container::-webkit-scrollbar {
+  display: none;
+}
+
 .viewpage-articlelink-container {
   position: fixed;
   width: 18vw;
   height: 75%;
   right: 0;
   padding: 1rem;
-  padding-top: 2rem;
+  margin-top: 5vh;
   border-left: 1px solid #eee;
   overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.viewpage-articlelink-container::-webkit-scrollbar {
+  display: none;
 }

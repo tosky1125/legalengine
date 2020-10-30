@@ -1,5 +1,11 @@
-.articlelink-contanier {
-  overflow: hidden;
+.articlelink-accordion {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.articlelink-accordion ::-webkit-scrollbar {
+  display: none;
 }
 
 .articlelink-title {
@@ -37,12 +43,13 @@ input[id*='contTitle'] + label + div {
 }
 
 input[id*='contTitle']:checked + label + div {
-  max-height: 35rem;
+  max-height: 50rem;
 }
 
 input[id*='part'] {
   display: none;
 }
+
 input[id*='part'] + label {
   display: block;
   padding: 0.5rem;

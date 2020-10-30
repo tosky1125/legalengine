@@ -21,7 +21,7 @@ function ConvertToPDF() {
     <div className='pdf-button-form'>
       <div className='pdf-button-wrapper'>
         <button className='pdf-button' onClick={() => content_print()}>
-          PDF & 프린트
+          프린트
         </button>
       </div>
       <MainInfo />

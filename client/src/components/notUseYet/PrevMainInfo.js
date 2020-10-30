@@ -8,7 +8,7 @@ class PrevMainInfo extends React.Component {
   render() {
     let law = JSON.parse(localStorage.Law);
     console.log(law);
-    
+
     let { Chapter } = law;
     let { File } = law;
     console.log(law.refined_name);
@@ -43,7 +43,7 @@ class PrevMainInfo extends React.Component {
         return ['0', '0'];
       }
     };
-    
+
     const relatedLaw = (context) => {
       const selectedLaw = lawRegex.test(context)
         ? context.match(lawRegex)[1]
@@ -61,177 +61,181 @@ class PrevMainInfo extends React.Component {
       // console.log(context);
       return context;
     };
-    Chapter = Chapter.map((chapEle, chapEleIndex) => (
-      <div key={chapEleIndex}>
-        <a name={addendaUrlfragment(chapEle.chapter_id)}></a>
-        <span className='maininfo-chapter-titles'>{chapEle.context}</span>
-        <span className='date'>&nbsp;{chapEle.date}</span>
-        {chapEle.Article &&
-          chapEle.Article.map((artEle, artEleIndex) => (
-            <div className='maininfo-contents' key={artEleIndex}>
-              <a name={articleUrlfragment(artEle.article_id)}></a>
-              {artEle.article_title && (
-                <div className='maininfo-article-title'>
-                  {artEle.article_title}&nbsp;&nbsp;
-                </div>
-              )}
-              <span className='maininfo-buttons'>
-                {artEle.flag_pan && (
-                  <button className='maininfo-buttons-pan'>
-                    <a
-                      href={`http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=200188&joNo=${
-                        joSlicer(artEle.article_id)[0]
-                      }&joBrNo=${joSlicer(artEle.article_id)[1]}`}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      판
-                    </a>
-                  </button>
-                )}
-                {artEle.flag_yeon && (
-                  <button className='maininfo-buttons-yeon'>
-                    {/* <a 
-                    href='http://www.law.go.kr/LSW/lsJoHstProc.do?lsid={뭐야이거}&lsiSeq={Law.number}&joNo={조문번호}&joBrNo={조문번호'의'}&lType={뭐야이거}'
-                    target='_blank'
-                  >                   
-                  </a> */}
-                    {/* javascript:fJoHstShow(this,'000695','216111','58955861','010202'); */}
-                    연
-                  </button>
-                )}
-                {artEle.flag_hang && (
-                  <button className='maininfo-buttons-hang'>
-                    {/* <a
-                    href='http://www.law.go.kr/LSW/conAdmrulByLsPop.do?&lsiSeq={Law.number}&joNo={조(0001)}&joBrNo={조 하위}&datClsCd=010102&dguBun=DEG'
-                    target='_blank'
-                  ></a> */}
-                    행
-                  </button>
-                )}
-                {artEle.flag_gyu && (
-                  <button className='maininfo-buttons-gyu'>
-                    {/* <a
-                    href='http://www.law.go.kr/LSW/lsCtlInfListR.do?lsiSeq={law.number}&lsId={추후삽입}&joNo=0001&joBrNo=00'
-                    target='_blank'
-                  ></a> */}
-                    규
-                  </button>
-                )}
-              </span>
-              <div className='maininfo-article-context'>
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      artEle.context &&
-                      relatedLaw(artEle.context).replace(
-                        regex,
-                        `<span className='keyword-highlight'>${keyword}</span>`
-                      ),
-                  }}
-                ></span>
-                <span className='date'>{artEle.cont_date}</span>
-              </div>
-              {artEle.Clause &&
-                artEle.Clause.map((claEle, claEleIndex) => {
-                  return (
-                    <div key={claEleIndex}>
-                      <div className='maininfo-clause-context'>
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              claEle.context &&
-                              claEle.context
-                                .replace(
-                                  regex,
-                                  `<span className='keyword-highlight'>${keyword}</span>`
-                                )
-                                .replace(/\s+/, ''),
-                          }}
-                        ></span>
-                        <span className='date'>{claEle.date}</span>
-                      </div>
-                      {claEle.subPara &&
-                        claEle.subPara.map((subEle, subEleIndex) => {
-                          return (
-                            <div key={subEleIndex}>
-                              <div className='maininfo-sub-context'>
-                                <span
-                                  dangerouslySetInnerHTML={{
-                                    __html:
-                                      subEle.context &&
-                                      subEle.context.replace(
-                                        regex,
-                                        `<span className='keyword-highlight'>${keyword}</span>`
-                                      ),
-                                  }}
-                                ></span>
-                              </div>
-                              <span className='date'>{subEle.date}</span>
-                              {subEle.Item &&
-                                subEle.Item.map((itEle, itEleIndex) => {
-                                  if (itEle.context.includes('http')) {
-                                    return (
-                                      <img
-                                        key={itEleIndex}
-                                        className='img'
-                                        src={itEle.context}
-                                        alt={itEle.context}
-                                      ></img>
-                                    );
-                                  } else {
-                                    return (
-                                      <div key={itEleIndex}>
-                                        <div className='maininfo-item-context'>
-                                          <span
-                                            dangerouslySetInnerHTML={{
-                                              __html:
-                                                itEle.context &&
-                                                itEle.context.replace(
-                                                  regex,
-                                                  `<span className='keyword-highlight'>${keyword}</span>`
-                                                ),
-                                            }}
-                                          ></span>
-                                          <span className='date'>
-                                            {itEle.date}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    );
+
+    Chapter = Chapter.map(
+      (chapEle, chapEleIndex) =>
+        `<div key=${chapEleIndex}>
+      <a name=${addendaUrlfragment(chapEle.chapter_id)}></a>
+      <span class='maininfo-chapter-titles'>${chapEle.context}</span>
+      <span class='date'>${chapEle.date}</span>
+      ${
+        chapEle.Article &&
+        chapEle.Article.map(
+          (artEle, artEleIndex) =>
+            `<div>
+            <div class='maininfo-contents' key=${artEleIndex}>
+            <a name=${articleUrlfragment(artEle.article_id)}></a>
+            ${
+              artEle.article_title &&
+              `<div class='maininfo-article-title'>
+                ${artEle.article_title}
+              </div>`
+            }
+            <span class='maininfo-buttons'>
+              ${
+                artEle.flag_pan &&
+                `<button class='maininfo-buttons-pan'>
+                  <a href='http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=${number}&joNo=${
+                  joSlicer(artEle.article_id)[0]
+                }&joBrNo=${
+                  joSlicer(artEle.article_id)[1]
+                }' target='_blank' rel='noopener noreferrer'>판</a></button>`
+              }
+              ${
+                artEle.flag_yeon &&
+                `<button class='maininfo-buttons-yeon'>연</button>`
+              }
+              ${
+                artEle.flag_hang &&
+                `<button class='maininfo-buttons-hang'>행</button>`
+              }
+              ${
+                artEle.flag_gyu &&
+                `<button class='maininfo-buttons-gyu'>규</button>`
+              }
+            </span>      
+            ${
+              artEle.context &&
+              `<div class='maininfo-article-context'>
+              <span>${relatedLaw(artEle.context)}
+              ${
+                artEle.cont_date &&
+                `<span class='date'>${artEle.cont_date}</span>`
+              }
+            </div>`
+            }          
+            ${
+              artEle.Clause &&
+              artEle.Clause.map((claEle, claEleIndex) => {
+                return `<div key=${claEleIndex}>
+                ${
+                  claEle.context &&
+                  `<div class='maininfo-clause-context'>
+                      <span>${relatedLaw(claEle.context)}</span>
+                      ${
+                        claEle.date &&
+                        `<span class='date'>${claEle.date}</span>`
+                      }
+                    </div>`
+                }
+                    ${
+                      claEle.subPara &&
+                      claEle.subPara.map((subEle, subEleIndex) => {
+                        return `<div key=${subEleIndex}>
+                        ${
+                          subEle.context &&
+                          `<div class='maininfo-sub-context'>
+                              <span>${relatedLaw(subEle.context)}
+                              </span>
+                              ${
+                                subEle.date &&
+                                `<span class='date'>${subEle.date}</span>`
+                              }
+                              </div>`
+                        }
+                            ${
+                              subEle.Item &&
+                              subEle.Item.map((itEle, itEleIndex) => {
+                                if (itEle.context.includes('http')) {
+                                  return `<img
+                                      key=${itEleIndex}
+                                      class='img'
+                                      src=${itEle.context}
+                                      alt=${itEle.context}
+                                    ></img>`;
+                                } else {
+                                  return `<div key=${itEleIndex}>
+                                  ${
+                                    itEle.context &&
+                                    `<div class='maininfo-item-context'>
+                                        <span>${relatedLaw(
+                                          itEle.context
+                                        )}</span>
+                                        ${
+                                          itEle.date &&
+                                          `<span class='date'>
+                                          ${itEle.date}
+                                        </span>`
+                                        }
+                                      </div>`
                                   }
-                                })}
-                            </div>
-                          );
-                        })}
-                    </div>
-                  );
-                })}
-              <div className='date'>{artEle.date}</div>
-            </div>
-          ))}
-      </div>
-    ));
+                                    </div>`;
+                                }
+                              })
+                            }
+                          </div>`;
+                      })
+                    }
+                  </div>`;
+              })
+            }
+            <div class='date'>${artEle.date}</div>
+          </div>
+          </div>`
+        )
+      } 
+    </div>`
+    );
 
     File = File
-      ? File.map((ele) => (
-          <div className='file'>
-            <a name='file'></a>
-            <span>{ele.context}</span>
-            <span>{ele.date}</span>
-            {ele.hwp && (
-              <a href={ele.hwp} alt='한글'>
-                <img className='file-img' src={hwp} alt='hwp' />
-              </a>
-            )}
-            {ele.pdf && (
-              <a href={ele.pdf} alt='PDF'>
-                <img className='file-img' src={pdf} alt='pdf' />
-              </a>
-            )}
-          </div>
-        ))
+      ? File.map(
+          (ele) =>
+            `<div class='file'>
+          <a name='file'></a>
+          <span>${ele.context}</span>
+          <span>${ele.date}</span>
+          <div class='file-button'>${
+            ele.hwp &&
+            `<button class='file-button-hwp'><a href=${ele.hwp} alt='한글'>한글</button>`
+          }
+          ${
+            ele.pdf &&
+            `<button class='file-button-pdf'><a href=${ele.pdf} alt='PDF'/>PDF</button>`
+          }</div></div>`
+        )
       : null;
+    const head = ` <div>
+        <div class='maininfo-page-header-space'></div>
+          <div class='maininfo-wrapper'>
+          <div class='maininfo-container'>
+            <div class='maininfo-law-head'>
+              <h1>${findLaw.name}</h1>
+              <p class='maininfo-law-head-info'>
+                [시행  ${format(
+                  new Date(findLaw.enforcement_date),
+                  'yyyy.MM.dd.'
+                )}] [
+                ${findLaw.type}&nbsp;
+                ${number}호,&nbsp;
+                ${format(new Date(findLaw.promulgation_date), 'yyyy.MM.dd.')} ${
+      findLaw.amendment_status
+    }]</p>
+            </div>`;
+    const bottom = `</div><tfoot><div class='mainifo-page-footer-space'></div></tfoot><div class='maininfo-page-header'></div><div class='maininfo-page-footer'></div></div></div>`;
+
+    Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g, '><');
+    console.log(Chapter);
+    File = File.join('').replace(/null/g, '').replace(/>,</g, '><');
+    const html = `${head}${Chapter}<br /><br /><div className='file-container'>
+  <input type='checkbox' id='file-contTitle' />
+  <label htmlFor='contTitle'>서식</label>
+  <div> 
+    <a name='file'
+      className='articlelink-article-title'
+    >
+    </a>
+  </div>
+</div>${File}${bottom}`;
 
     return (
       <div>
@@ -239,7 +243,7 @@ class PrevMainInfo extends React.Component {
           <thead>
             <tr>
               <td>
-              <div className='maininfo-page-header-space'></div>
+                <div className='maininfo-page-header-space'></div>
               </td>
             </tr>
           </thead>

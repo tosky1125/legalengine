@@ -6,7 +6,7 @@ import './MainInfo.css';
 const MainInfo = (props) => {
   // Data from API
 
-  const { LawText } = props;
+  const { LawText, searchword } = props;
 
   // console.log(Result2);
 
