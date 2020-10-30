@@ -1,47 +1,112 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './SideInfo.css';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import { format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
-import * as date from '../modules/date';
-import * as lawinfo from '../modules/lawinfo';
+import * as Law from '../modules/Law';
+import * as Related from '../modules/Related';
+import * as Result from '../modules/Result';
 
 function SideInfo(props) {
-  const { lawDetail } = props;
-  console.log(lawDetail);
+  const [isLoaded, setisLoaded] = useState(false);
+  const { RelatedLaw } = props;
+  console.log(RelatedLaw);
+  const handleClickSearch = (name, lawNum, enfDate) => {
+    const { Law, Related, Result } = props;
+    const payload = { lawNum, enfDate };
+    axios
+      .post(
+        `http://13.125.112.243/law/${encodeURIComponent(
+          name
+        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
+        payload
+      )
+      .then((data) => {
+        Related(data.data.Related);
+        Law(data.data.Law);
+        Result(data.data.Law.context);
+        setisLoaded(true);
+      })
+      .then(() => {
+        window.open(
+          `/law/${encodeURIComponent(
+            name.replace(/[^가-힣^0-9]/g, '')
+          )}?lawNum=${lawNum}&enfDate=${format(
+            new Date(enfDate),
+            'yyyy-MM-dd'
+          )}`,
+          '_blank'
+        );
+      })
+      .catch(function (err) {
+        if (err.res) {
+          console.log(err.res.data);
+          console.log(err.res.status);
+          console.log(err.res.headers);
+        } else if (err.req) {
+          console.log(err.req);
+        } else {
+          console.log('Error', err.message);
+        }
+        console.log(err.config);
+      });
+  };
+  if (RelatedLaw.length === 0) {
+    return (
+      <div>
+        <div>검색 결과가 없습니다.</div>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <ol className='법령명'>
-        <div className='법령명-sideinfo-head'>
-          <li className='법령명-sideinfo-title'></li>
-          <li className='시행일자'></li>
-          <li className='법률 번호 공포일 개정'></li>
+    <div>
+      <link
+        rel='stylesheet'
+        href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+      />
+      {RelatedLaw.map((sideInfo, sideInfoIndex) => (
+        <div className='sideInfo-body' key={sideInfoIndex}>
+          <h4
+            className='sideInfo-title'
+            onClick={() =>
+              handleClickSearch(
+                sideInfo.name,
+                sideInfo.number,
+                sideInfo.enforcement_date
+              )
+            }
+          >
+            {sideInfo.name}
+          </h4>
+          <p className='sideInfo-info'>
+            [시행 {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}]
+            <p>
+              [{sideInfo.type}
+              &nbsp;
+              {sideInfo.number}호,&nbsp;
+              {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
+              &nbsp;
+              {sideInfo.amendment_status}]
+            </p>
+          </p>
         </div>
-        <div className='법령명-sideinfo-body'>
-          <button className='본문'>본문</button>
-          <button className='부칙'>부칙</button>
-        </div>
-      </ol>
-      <ol className='조문내용'>
-        <div className='조문내용-sideinfo-head'>
-          <li className='조문내용-sideinfo-title'>{lawDetail.law.name}</li>
-          <li className='시행일자'></li>
-          <li className='법률 번호 공포일 개정'></li>
-        </div>
-        <div className='조문내용-sideinfo-body'>
-          <li className='조'></li>
-          <li className='조'></li>
-        </div>
-      </ol>
-    </>
+      ))}
+    </div>
   );
 }
 
 export default connect(
   (state) => ({
-    lawDetail: state.lawinfo.lawDetail,
-    date: state.date.date,
+    lawlist: state.searchlist.lawlist,
+    Law: state.Law.Law,
+    RelatedLaw: state.Related.Related,
+    Result: state.Result.Result,
   }),
   (dispatch) => ({
-    lawinfo: (data) => dispatch(lawinfo.lawinfo(data)),
-    date: (data) => dispatch(date.date(data)),
+    Law: (data) => dispatch(Law.Law(data)),
+    Related: (data) => dispatch(Related.Related(data)),
+    Result: (data) => dispatch(Result.Result(data)),
   })
 )(withRouter(SideInfo));

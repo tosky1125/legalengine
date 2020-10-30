@@ -1,17 +1,17 @@
 import { createAction, handleActions } from 'redux-actions';
 
-const DATE = 'date';
+const LAW = 'Law';
 
-export const date = createAction(DATE);
+export const Law = createAction(LAW);
 
 const initialState = {
-  date: '',
+  Law: {},
 };
 
 export default handleActions(
   {
-    [DATE]: (state, action) => ({
-      date: action.payload,
+    [LAW]: (state, action) => ({
+      Law: action.payload,
     }),
   },
   initialState
