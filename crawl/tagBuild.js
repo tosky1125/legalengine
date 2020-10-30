@@ -3,9 +3,10 @@ const { Law } = require('../models');
 const {
   format
 } = require('date-fns');
-let k = 12908; 
+let k = 30; 
 // db 에서 모든 해당하는 law_id 의 값을 nested 형태로 가져온 뒤에, client 사이드의  innerHTML 로 넣어줄 수 있도록 완성형 tag 로 작성.
 const htmlMaker = async () => {
+  console.log(k);
   let findLaw = await Law.findOne({
     where : {
       law_id : k,
@@ -34,6 +35,12 @@ const htmlMaker = async () => {
     return artUrl;
   };
 
+  const fileUrlfragment = (strFrom) => {
+    const str = String(strFrom);
+    const addendaUrl = 'form' + str;
+    return addendaUrl;
+  };
+
   const joSlicer = (strFrom) => {
     const str = String(strFrom);
     if (str.includes(':')) {
@@ -56,88 +63,135 @@ const htmlMaker = async () => {
     return context;
   };
   console.log(Chapter);
-  Chapter = Chapter.map((chapEle, chapEleIndex) => (
-    `<div key=${chapEleIndex}>
-      <a name=${addendaUrlfragment(chapEle.chapter_id)}></a>
-      <span class='maininfo-chapter-titles'>${chapEle.context}</span>
-      <span class='date'>${chapEle.date}</span>
-      ${chapEle.Article &&
-        chapEle.Article.map((artEle, artEleIndex) => (
-          `<div class='maininfo-contents' key=${artEleIndex}>
-            <a name=${articleUrlfragment(artEle.article_id)}></a>
-            ${artEle.article_title && (
-              `<div class='maininfo-article-title'>
-                ${artEle.article_title}
-              </div>`
-            )}
-            <span class='maininfo-buttons'>
-              ${artEle.flag_pan && (
-                `<button class='maininfo-buttons-pan'>
-                  <a href='http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=${number}&joNo=${joSlicer(artEle.article_id)[0]}&joBrNo=${joSlicer(artEle.article_id)[1]}' target='_blank' rel='noopener noreferrer'>판</a></button>`
-              )}
-              ${artEle.flag_yeon && `<button class='maininfo-buttons-yeon'>연</button>` }
-              ${artEle.flag_hang && `<button class='maininfo-buttons-hang'>행</button>` }
-              ${artEle.flag_gyu && `<button class='maininfo-buttons-gyu'>규</button>` }
-            </span>
-            <div class='maininfo-article-context'>
-              <span>${artEle.context ? relatedLaw(artEle.context) : ''}</span>
-              <span class='date'>${artEle.cont_date}</span>
-            </div>
-            ${artEle.Clause &&
-              artEle.Clause.map((claEle, claEleIndex) => {
-                return (
-                  `<div key=${claEleIndex}>
-                    <div class='maininfo-clause-context'>
-                      <span>${claEle.context ? relatedLaw(claEle.context) : ''}</span>
-                      <span class='date'>${claEle.date}</span>
-                    </div>
-                    ${claEle.subPara && claEle.subPara.map((subEle, subEleIndex) => {
-                        return (
-                          `<div key=${subEleIndex}>
-                            <div class='maininfo-sub-context'>
-                              <span>${subEle.context ? relatedLaw(subEle.context) : ''}</span>
-                            </div>
-                            <span class='date'>${subEle.date}</span>
-                            ${subEle.Item &&
-                              subEle.Item.map((itEle, itEleIndex) => {
-                                if (itEle.context.includes('http')) {
-                                  return (
-                                    `<img
-                                      key=${itEleIndex}
-                                      class='img'
-                                      src=${itEle.context}
-                                      alt=${itEle.context}
-                                    ></img>`
-                                  )
-                                } else {
-                                  return (
-                                    `<div key=${itEleIndex}>
-                                      <div class='maininfo-item-context'>
-                                        <span>${itEle.context ? relatedLaw(itEle.context) : null}</span>
-                                        <span class='date'>
-                                          ${itEle.date}
-                                        </span>
-                                      </div>
-                                    </div>`
-                                  )
-                                }
-                              })}
-                          </div>`
-                        )
-                      })}
-                  </div>`
-                );
-              })}
-            <div class='date'>${artEle.date}</div>
+  Chapter = Chapter.map(
+    (chapEle, chapEleIndex) =>
+      `<div key=${chapEleIndex}>
+    <a name=${addendaUrlfragment(chapEle.chapter_id)}></a>
+    ${chapEle.chapter_id && chapEle.chapter_id.length < 5 ? `<span class='maininfo-chapter-titles'>${chapEle.context}</span>` : `<span class='maininfo-addenda-title'>${chapEle.context}</span>`}
+    <span class='date'>${chapEle.date}</span>
+    ${
+      chapEle.Article &&
+      chapEle.Article.map(
+        (artEle, artEleIndex) =>
+          `<div>
+          <div class='maininfo-contents' key=${artEleIndex}>
+          <a name=${articleUrlfragment(artEle.article_id)}></a>
+          ${
+            artEle.article_title &&
+            `<div class='maininfo-article-title'>
+              ${artEle.article_title}
+            </div>`
+          }
+          <span class='maininfo-buttons'>
+            ${
+              artEle.flag_pan &&
+              `<button class='maininfo-buttons-pan'>
+                <a href='http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=${number}&joNo=${
+                joSlicer(artEle.article_id)[0]
+              }&joBrNo=${
+                joSlicer(artEle.article_id)[1]
+              }' target='_blank' rel='noopener noreferrer'>판</a></button>`
+            }
+            ${
+              artEle.flag_yeon &&
+              `<button class='maininfo-buttons-yeon'>연</button>`
+            }
+            ${
+              artEle.flag_hang &&
+              `<button class='maininfo-buttons-hang'>행</button>`
+            }
+            ${
+              artEle.flag_gyu &&
+              `<button class='maininfo-buttons-gyu'>규</button>`
+            }
+          </span>      
+          ${
+            artEle.context &&
+            `<div class='maininfo-article-context'>
+            <span>${relatedLaw(artEle.context)}
+            ${
+              artEle.cont_date &&
+              `<span class='date'>${artEle.cont_date}</span>`
+            }
           </div>`
-        ))} 
-    </div>`
-  ));
+          }          
+          ${
+            artEle.Clause &&
+            artEle.Clause.map((claEle, claEleIndex) => {
+              return `<div key=${claEleIndex}>
+              ${
+                claEle.context &&
+                `<div class='maininfo-clause-context'>
+                    <span>${relatedLaw(claEle.context)}</span>
+                    ${
+                      claEle.date &&
+                      `<span class='date'>${claEle.date}</span>`
+                    }
+                  </div>`
+              }
+                  ${
+                    claEle.subPara &&
+                    claEle.subPara.map((subEle, subEleIndex) => {
+                      return `<div key=${subEleIndex}>
+                      ${
+                        subEle.context &&
+                        `<div class='maininfo-sub-context'>
+                            <span>${relatedLaw(subEle.context)}
+                            </span>
+                            ${
+                              subEle.date &&
+                              `<span class='date'>${subEle.date}</span>`
+                            }
+                            </div>`
+                      }
+                          ${
+                            subEle.Item &&
+                            subEle.Item.map((itEle, itEleIndex) => {
+                              if (itEle.context.includes('http')) {
+                                return `<img
+                                    key=${itEleIndex}
+                                    class='img'
+                                    src=${itEle.context}
+                                    alt=${itEle.context}
+                                  ></img>`;
+                              } else {
+                                return `<div key=${itEleIndex}>
+                                ${
+                                  itEle.context &&
+                                  `<div class='maininfo-item-context'>
+                                      <span>${relatedLaw(
+                                        itEle.context
+                                      )}</span>
+                                      ${
+                                        itEle.date &&
+                                        `<span class='date'>
+                                        ${itEle.date}
+                                      </span>`
+                                      }
+                                    </div>`
+                                }
+                                  </div>`;
+                              }
+                            })
+                          }
+                        </div>`;
+                    })
+                  }
+                </div>`;
+            })
+          }
+          <div class='date'>${artEle.date}</div>
+        </div>
+        </div>`
+      )
+    } 
+  </div>`
+  );
 
   File = File
     ? File.map((ele) => (
       `<div class='file'>
-          <a name='file'></a>
+          <a name='${fileUrlfragment(ele.id)}'></a>
           <span>${ele.context}</span>
           <span>${ele.date}</span>
           <div class='file-button'>${ele.hwp && `<button class='file-button-hwp'><a href=${ele.hwp} alt='한글'>한글</button>`}
@@ -160,7 +214,6 @@ const htmlMaker = async () => {
   const bottom =  `</div><tfoot><div class='mainifo-page-footer-space'></div></tfoot><div class='maininfo-page-header'></div><div class='maininfo-page-footer'></div></div></div>`;
 
 Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g,'><');
-console.log(Chapter);
   File = File.join('').replace(/null/g, '').replace(/>,</g,'><');
   const html = `${head}${Chapter}<br /><br /><div className='file-container'>
   <input type='checkbox' id='file-contTitle' />
@@ -177,7 +230,7 @@ console.log(Chapter);
   
   await Law.update({ context : html }, { where : { law_id : k }})
   k++;
-  if(k === 13160){
+  if(k === 30000){
     return 'hi';
   }
   await htmlMaker();

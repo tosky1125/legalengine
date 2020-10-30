@@ -1,10 +1,12 @@
+
+// diff 알고리즘 불필요한 내용들 전부 삭제 후 띄어쓰기 기준 split 후 before after parameter 비교
+
 function escape(s) {
   var n = s;
   n = n.replace(/&/g, "&amp;");
   n = n.replace(/</g, "&lt;");
   n = n.replace(/>/g, "&gt;");
   n = n.replace(/"/g, "&quot;");
-
   return n;
 };
 
