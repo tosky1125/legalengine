@@ -10,7 +10,7 @@ import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 import './SearchResult.css';
 import { format } from 'date-fns';
-import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
+import { Row, Col, Card, Table } from 'react-bootstrap';
 
 class SearchResult extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class SearchResult extends React.Component {
   }
 
   handleClickSearch = (name, lawNum, enfDate) => {
-    const { Law, Related, Result, history } = this.props;
+    const { Law, Related, Result } = this.props;
     const payload = { lawNum, enfDate };
     axios
       .post(

@@ -40,21 +40,25 @@
   }
 }
 
+.pdf-button-container {
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+}
+
 .pdf-button-wrapper {
-  text-align: right;
-  margin-right: 40rem;
-  margin-left: 30rem;
+  text-align: center;
 }
 .pdf-button {
   background-color: #a01e2d;
   border: 2px solid #a01e2d;
   color: white;
-  padding: 10px 20px;
-  left: 12vw;
+  padding: 8px 8px;
   text-align: center;
   text-decoration: none;
   position: relative;
-  font-size: 18px;
+  font-size: 12px;
   border-radius: 8px;
   transition-duration: 0.4s;
   cursor: pointer;

@@ -8,7 +8,7 @@ import * as searchword from '../modules/searchword';
 import * as searchdate from '../modules/searchdate';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container } from 'react-bootstrap';
 
 function SearchBar(props) {
   const [searchWord, setSearchWord] = useState('');
