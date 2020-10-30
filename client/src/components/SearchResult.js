@@ -28,7 +28,7 @@ class SearchResult extends React.Component {
   }
 
   handleClickSearch = (name, lawNum, enfDate) => {
-    const { Law, Related, Result, history } = this.props;
+    const { Law, Related, Result } = this.props;
     const payload = { lawNum, enfDate };
     axios
       .post(
@@ -97,7 +97,7 @@ class SearchResult extends React.Component {
           href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
         />
         <Row>
-        <Col md={1}></Col>
+          <Col md={1}></Col>
           <Col md={10}>
             <Card className='searchresult-form'>
               <Card.Header>

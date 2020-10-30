@@ -1,7 +1,6 @@
 .viewpage-container {
   position: relative;
   block-size: auto;
-  
   bottom: 5vh;
   top: 10vh;
   overflow: hidden;
@@ -11,8 +10,8 @@
   position: fixed;
   width: 18vw;
   height: 75%;
-  padding: 1rem;
-  padding-top: 2rem;
+  padding: 1.5rem;
+  margin: 1rem;
   overflow: auto;
   border-right: 1px solid #eee;
 }

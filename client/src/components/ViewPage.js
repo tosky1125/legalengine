@@ -10,6 +10,7 @@ import ArticleLink from '../components/ArticleLink';
 import './ViewPage.css';
 import ConvertToPDF from '../components/ConvertToPDF';
 import queryString from 'query-string';
+// import { Spinner } from 'react-bootstrap';
 
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
@@ -66,12 +67,24 @@ function ViewPage(props) {
           <div className='viewpage-articlelink-container'>
             <ArticleLink />
           </div>
-          <ConvertToPDF name={name} lawNum={lawNum} enfDate={enfDate} />
+          <ConvertToPDF />
         </div>
       </div>
     );
   } else {
-    return <div>hi</div>;
+    return (
+      <div>
+        {/* <link
+          rel='stylesheet'
+          href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
+        />
+        <div className='maininfo-container'>
+          <Spinner animation='border' role='status'>
+            <span className='sr-only'>Loading...</span>
+          </Spinner>
+        </div> */}
+      </div>
+    );
   }
 }
 

@@ -15,7 +15,6 @@ function ArticleLink(props) {
   // console.log(law);
 
   let ArticleLink = LawData.Chapter;
-  // console.log(ArticleLink);
 
   // console.log(JSON.stringify(ArticleLink));
   let Addenda = LawData.Chapter;
@@ -161,10 +160,10 @@ function ArticleLink(props) {
       <label htmlFor='contTitle'>본문</label>
       <div>
         {result.map((ele1, ele1Index) => (
-          <div>
+          <div key={ele1Index}>
             {ele1.value &&
-              ele1.article.map((artele1) => (
-                <div>
+              ele1.article.map((artele1, artele1Index) => (
+                <div key={artele1Index}>
                   <a href={articleUrlfragment(artele1.article_id)}>
                     <div>
                       <span className='articlelink-article-title'>
@@ -182,7 +181,7 @@ function ArticleLink(props) {
             <div>
               {ele1.child.length !== 0 &&
                 ele1.child.map((ele2, ele2Index) => (
-                  <div>
+                  <div key={ele2Index}>
                     <input type='checkbox' id={`${ele2Index}-chapter`} />
                     {ele2.value && (
                       <label htmlFor={`${ele2Index}-chapter`}>
@@ -191,7 +190,7 @@ function ArticleLink(props) {
                     )}
                     {ele2.child.length !== 0 &&
                       ele2.child.map((ele3, ele3Index) => (
-                        <div>
+                        <div key={ele3Index}>
                           <input type='checkbox' id={`${ele3Index}-section`} />
                           {ele3.value && (
                             <label htmlFor={`${ele3Index}-section`}>
@@ -200,7 +199,7 @@ function ArticleLink(props) {
                           )}
                           {ele3.child.length !== 0 &&
                             ele3.child.map((ele4, ele4Index) => (
-                              <div>
+                              <div key={ele4Index}>
                                 <input
                                   type='checkbox'
                                   id={`${ele4Index}-subsection`}
@@ -211,8 +210,8 @@ function ArticleLink(props) {
                                   </label>
                                 )}
                                 {ele4.article !== null &&
-                                  ele4.article.map((artele4) => (
-                                    <div>
+                                  ele4.article.map((artele4, artele4Index) => (
+                                    <div key={artele4Index}>
                                       <a
                                         href={articleUrlfragment(
                                           artele4.article_id
@@ -220,7 +219,7 @@ function ArticleLink(props) {
                                       >
                                         <span>
                                           <span className='articlelink-article-title'>
-                                            {artele4.article_title}{' '}
+                                            {artele4.article_title}
                                           </span>
                                           <span className='date'>
                                             {artele4.article_date}
@@ -232,8 +231,8 @@ function ArticleLink(props) {
                               </div>
                             ))}
                           {ele3.article !== null &&
-                            ele3.article.map((artele3) => (
-                              <div>
+                            ele3.article.map((artele3, artele3Index) => (
+                              <div key={artele3Index}>
                                 <a
                                   href={articleUrlfragment(artele3.article_id)}
                                 >
@@ -251,8 +250,8 @@ function ArticleLink(props) {
                         </div>
                       ))}
                     {ele2.article !== null &&
-                      ele2.article.map((artele2) => (
-                        <div>
+                      ele2.article.map((artele2, artele2Index) => (
+                        <div key={artele2Index}>
                           <a href={articleUrlfragment(artele2.article_id)}>
                             <div>
                               <span className='articlelink-article-title'>
@@ -268,8 +267,8 @@ function ArticleLink(props) {
                   </div>
                 ))}
               {ele1.article !== null &&
-                ele1.article.map((artele1) => (
-                  <div>
+                ele1.article.map((artele1, artele1Index) => (
+                  <div key={artele1Index}>
                     <a href={articleUrlfragment(artele1.article_id)}>
                       <div>
                         <span className='articlelink-article-title'>
