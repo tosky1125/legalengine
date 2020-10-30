@@ -816,11 +816,11 @@ const init = async () => {
     law_id: a,
     tag: html,
   });
-  if (k === 15000) return 'hi';
+  if (k === 30901) return 'hi';
   k -= 1;
   await init();
 }
-let k = 16000;
+let k = 31000;
 init();
 
 
