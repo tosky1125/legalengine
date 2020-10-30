@@ -10,11 +10,9 @@ import ArticleLink from './ArticleLink';
 import './ViewPage.css';
 import ConvertToPDF from '../components/ConvertToPDF';
 import queryString from 'query-string';
-
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
   const [name] = useState(props.match.params.key);
-
   const changeStr = (str, searchword) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
@@ -36,19 +34,15 @@ function ViewPage(props) {
     );
     return str;
   };
-
   useEffect(() => {
     const { Law, Related, Result } = props;
     const { lawNum, enfDate, searchword } = queryString.parse(
       props.location.search
     );
-
     const payload = { lawNum, enfDate };
-
     let url = `http://13.125.112.243/law/${encodeURIComponent(
       name
     )}?lawNum=${lawNum}&enfDate=${enfDate}`;
-
     if (!lawNum) {
       url = `http://13.125.112.243/law/${name}?enfDate=${enfDate}`;
     }
@@ -73,7 +67,6 @@ function ViewPage(props) {
         console.log(err.config);
       });
   }, []);
-
   if (isLoaded === true) {
     return (
       <div className='viewpage-container'>
@@ -97,7 +90,6 @@ function ViewPage(props) {
     );
   }
 }
-
 export default connect(
   (state) => ({
     Law: state.Law.Law,

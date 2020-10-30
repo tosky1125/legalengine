@@ -1,5 +1,8 @@
-body {
-  font-family: 'Nanum Gothic', sans-serif;
+.search-container {
+  margin: 36px auto;
+  width: 100%;
+  height: 100%;
+  max-width: 800px;
 }
 
 .searchbar-container {
