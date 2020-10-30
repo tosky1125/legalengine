@@ -58,7 +58,6 @@ function ViewPage(props) {
 
   if (isLoaded === true) {
     return (
-      <div>
         <div className='viewpage-container'>
           <div className='viewpage-sideinfo-container'>
             <SideInfo />
@@ -68,10 +67,17 @@ function ViewPage(props) {
           </div>
           <ConvertToPDF name={name} lawNum={lawNum} enfDate={enfDate} />
         </div>
-      </div>
     );
   } else {
-    return <div>hi</div>;
+    return (
+      <div>  
+        <div className='loder-container'>
+        <p className='loader-message'>Loading...</p>
+          <div className="loader">
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 
