@@ -1,7 +1,6 @@
 import React from 'react';
 import './ConvertToPDF.css';
 import MainInfo from './MainInfo';
-import { Row, Col, Container } from 'react-bootstrap';
 
 function ConvertToPDF() {
   function content_print() {
