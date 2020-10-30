@@ -13,11 +13,7 @@ import queryString from 'query-string';
 
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
-  const { Law, Related, Result } = props;
   const [name] = useState(props.match.params.key);
-  const { lawNum, enfDate, searchword } = queryString.parse(
-    props.location.search
-  );
 
   const changeStr = (str, searchword) => {
     const bracket = new Set(['<', '>']);
@@ -42,6 +38,11 @@ function ViewPage(props) {
   };
 
   useEffect(() => {
+    const { Law, Related, Result } = props;
+    const { lawNum, enfDate, searchword } = queryString.parse(
+      props.location.search
+    );
+
     const payload = { lawNum, enfDate };
 
     let url = `http://13.125.112.243/law/${encodeURIComponent(
@@ -57,9 +58,6 @@ function ViewPage(props) {
         Related(data.data.Related);
         Law(data.data.Law);
         Result(changeStr(data.data.Law.context, searchword));
-        console.log(data.data.Law);
-        console.log(data.data.Related);
-        // console.log(data.data.Law.context);
         setisLoaded(true);
       })
       .catch(function (err) {
@@ -78,20 +76,25 @@ function ViewPage(props) {
 
   if (isLoaded === true) {
     return (
-      <div>
-        <div className='viewpage-container'>
-          <div className='viewpage-sideinfo-container'>
-            <SideInfo />
-          </div>
-          <div className='viewpage-articlelink-container'>
-            <ArticleLink />
-          </div>
-          <ConvertToPDF />
+      <div className='viewpage-container'>
+        <div className='viewpage-sideinfo-container'>
+          <SideInfo />
         </div>
+        <div className='viewpage-articlelink-container'>
+          <ArticleLink />
+        </div>
+        <ConvertToPDF />
       </div>
     );
   } else {
-    return <div>hi</div>;
+    return (
+      <div>
+        <div className='loder-container'>
+          <p className='loader-message'>Loading...</p>
+          <div className='loader'></div>
+        </div>
+      </div>
+    );
   }
 }
 

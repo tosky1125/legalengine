@@ -8,22 +8,13 @@ function ArticleLink(props) {
   const { LawData } = props;
   console.log(LawData);
 
-  // const law2 = LawData.Chapter;
-  // console.log(law2);
-
-  // const law = JSON.parse(localStorage.Law);
-  // console.log(law);
-
   let ArticleLink = LawData.Chapter;
 
-  // console.log(JSON.stringify(ArticleLink));
   let Addenda = LawData.Chapter;
-  // console.log(Addenda);
 
   let File = LawData.File;
-  // console.log(File);
 
-  //편:part 장{ele2Index}절:section 관:sub-section
+  //편:part 장:chapter 절:section 관:sub-section
 
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
@@ -40,8 +31,6 @@ function ArticleLink(props) {
   let sectionNum = null;
   let subSectionNum = null;
   let result = [];
-
-  // console.log(ArticleLink);
 
   ArticleLink = ArticleLink.map((chapEle) => {
     if (chapEle.context && chapEle.context.substring(0, 3).includes('편')) {
@@ -149,11 +138,8 @@ function ArticleLink(props) {
         child: [],
       };
     }
+    return result;
   });
-
-  // console.log(ArticleLink);
-  // console.log(Array.isArray(result));
-  // console.log(result);
 
   result = (
     <div className='articlelink-accordion'>
@@ -320,6 +306,7 @@ function ArticleLink(props) {
     </div>
   );
 
+  //서식 File
   const fileUrlfragment = (strFrom) => {
     const str = String(strFrom);
     const addendaUrl = '#form' + str;

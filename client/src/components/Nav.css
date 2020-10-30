@@ -1,12 +1,3 @@
-/* .nav-container {
-  position: fixed;
-  background-color: black;
-  display: grid;
-  grid-template-columns: repeat(20, 1fr);
-  top: 0;
-  border-bottom: 0.5px solid #eee;
-  z-index: 10000;
-} */
 .nav-form {
   background-color: white;
   border-bottom: 1px solid #eee;

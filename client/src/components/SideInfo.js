@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
-import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 
 function SideInfo(props) {
   // let sideInfoData = JSON.parse(localStorage.related);

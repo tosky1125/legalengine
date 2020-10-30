@@ -18,13 +18,14 @@ function ConvertToPDF() {
   }
 
   return (
-    <div className='pdf-button-form'>
+    <div className='pdf-button-container'>
+      <MainInfo />
       <div className='pdf-button-wrapper'>
         <button className='pdf-button' onClick={() => content_print()}>
           프린트
         </button>
       </div>
-      <MainInfo />
+      <div></div>
     </div>
   );
 }

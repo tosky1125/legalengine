@@ -38,10 +38,6 @@ ins {
   text-decoration: none;
 }
 
-/*.keyword-highlight:not(h1) {
-  background-color: #f12ea760;
-}*/
-
 .maininfo-law-head {
   text-align: center;
 }
@@ -172,7 +168,7 @@ div[class*='maininfo'] {
 
 a {
   text-decoration: none;
-  color: inherit;
+  color: inherit !important;
 }
 
 .date {

@@ -1,73 +1,29 @@
-.pagination > li > a
-{
-    background-color: white;
-    color: grey !Important;
-    font-size: 1.6rem;
-    border: none !Important;
+.pagination > li > a {
+  background-color: white;
+  color: grey !important;
+  font-size: 1.6rem;
+  border: none !important;
 }
 
 .pagination > li > a:focus,
 .pagination > li > a:hover,
 .pagination > li > span:focus,
-.pagination > li > span:hover
-{
-    background-color: #eee;
-    color: white !Important;
-    border-radius: 6px;
-    border: none !Important;
+.pagination > li > span:hover {
+  background-color: #eee;
+  color: white !important;
+  border-radius: 6px;
+  border: none !important;
 }
 
-.pagination > .active > a
-{
-    color: white !Important;
-    background-color: #a01e2d !Important;
-    border: solid 1px #a01e2d !Important;
-    border-radius: 6px;
+.pagination > .active > a {
+  color: white !important;
+  background-color: #a01e2d !important;
+  border: solid 1px #a01e2d !important;
+  border-radius: 6px;
 }
 
-.pagination > .active > a:hover
-{
-    background-color: #a01e2d !Important;
-    border: solid 1px #a01e2d;
-    border-radius: 4px;
-}
-
-/* .pagination-container {
-  text-align: center;
-  font-size: 1.3em;
-}
-
-.pagination-pager-first {
-  margin-left: 0.7rem;
-  border-radius: 4px;
-  padding: 0.2rem;
-  font-size: 1.1rem;
-}
-.pagination-pager-previous {
-  padding: 0.2rem;
-  margin-left: 0.2rem;
-  border-radius: 4px;
-  font-size: 1.1rem;
-}
-.pagination-pager-numbers {
-  margin-left: 0.7rem;
-  padding: 0.4rem;
+.pagination > .active > a:hover {
+  background-color: #a01e2d !important;
+  border: solid 1px #a01e2d;
   border-radius: 4px;
 }
-.pagination-pager-numbers:hover {
-  background-color: lightslategray;
-  color: white;
-}
-
-.pagination-pager-next {
-  margin-left: 0.7rem;
-  padding: 0.2rem;
-  border-radius: 4px;
-  font-size: 1.1rem;
-}
-.pagination-pager-end {
-  padding: 0.2rem;
-  margin-left: 0.2rem;
-  border-radius: 4px;
-  font-size: 1.1rem;
-} */

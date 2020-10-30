@@ -1,21 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Main from './components/Main';
+import { BrowserRouter as Router } from 'react-router-dom';
 import NavBar from './components/Nav';
-import ViewPage from './components/ViewPage';
 import Footer from './components/Footer';
-import SearchResult from './components/SearchResult';
+import PageTransition from './PageTransition';
 
 function App() {
   return (
     <div>
       <Router>
         <NavBar />
-        <Switch>
-          <Route path='/' exact component={Main} />
-          <Route path='/search' component={SearchResult} />
-          <Route path='/law/:key' component={ViewPage} />
-        </Switch>
+        <PageTransition />
         <Footer />
       </Router>
     </div>
