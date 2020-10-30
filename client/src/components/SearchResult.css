@@ -1,0 +1,4 @@
+.page-list :hover {
+  background-color: lightgrey;
+  cursor: pointer;
+}
