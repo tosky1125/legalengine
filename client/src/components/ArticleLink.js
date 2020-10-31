@@ -6,7 +6,6 @@ import './ArticleLink.css';
 
 function ArticleLink(props) {
   const { LawData } = props;
-  console.log(LawData);
 
   let ArticleLink = LawData.Chapter;
 

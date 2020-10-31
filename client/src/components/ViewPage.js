@@ -10,15 +10,21 @@ import ArticleLink from './ArticleLink';
 import './ViewPage.css';
 import ConvertToPDF from '../components/ConvertToPDF';
 import queryString from 'query-string';
+
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
   const [name] = useState(props.match.params.key);
+
   const changeStr = (str, searchword) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
+
     const { length } = searchword;
+    console.log(length);
+    console.log(str);
     for (let i = 0; i < str.length; i++) {
       const keyCheck = str.slice(i, i + length);
+
       if (bracket.has(str[i])) {
         isOn = !isOn;
       }
@@ -28,12 +34,14 @@ function ViewPage(props) {
         str = `${tmp1}thishashkey${tmp2}`;
       }
     }
+
     str = str.replace(
       /thishashkey/g,
       `<span class='searchword-highlight'>${searchword}</span>`
     );
     return str;
   };
+
   useEffect(() => {
     const { Law, Related, Result } = props;
     const { lawNum, enfDate, searchword } = queryString.parse(
@@ -51,7 +59,13 @@ function ViewPage(props) {
       .then((data) => {
         Related(data.data.Related);
         Law(data.data.Law);
-        Result(changeStr(data.data.Law.context, searchword));
+        console.log(searchword);
+        if (searchword) {
+          Result(changeStr(data.data.Law.context, searchword));
+        } else {
+          Result(data.data.Law.context);
+        }
+        console.log(data.data);
         setisLoaded(true);
       })
       .catch(function (err) {
@@ -67,6 +81,7 @@ function ViewPage(props) {
         console.log(err.config);
       });
   }, []);
+
   if (isLoaded === true) {
     return (
       <div className='viewpage-container'>

@@ -54,7 +54,6 @@ div[key] .searchword-highlight {
   height: 80%;
   align-content: center;
   padding: 1rem;
-
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -81,6 +80,14 @@ div[key] .searchword-highlight {
 }
 
 .maininfo-article-title {
+  display: inline;
+  color: #161694;
+  padding-left: 0.5rem;
+  font-size: medium;
+  font-weight: 500;
+}
+
+.maininfo-addenda-title {
   display: inline;
   color: #161694;
   padding-left: 0.5rem;
@@ -187,6 +194,7 @@ a {
   font-size: 16px;
   transition-duration: 0.4s;
 }
+
 .file-button-pdf {
   background-color: #e20f32;
   border: 1px solid #e20f32;

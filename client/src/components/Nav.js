@@ -1,8 +1,8 @@
 import React from 'react';
-import logo from '../images/logo.svg';
 import './Nav.css';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+import logo from '../images/logo.svg';
 
 function NavBar() {
   return (
@@ -10,7 +10,7 @@ function NavBar() {
       <Row>
         <Col md={8} xl={12}>
           <Link to='/'>
-            <img className='nav-logo' src={logo} alt='logo'></img>
+            <img className='nav-logo' src={logo} alt='logo' />
           </Link>
         </Col>
       </Row>
