@@ -7,15 +7,13 @@ import './ArticleLink.css';
 function ArticleLink(props) {
   const { LawData } = props;
   console.log(LawData);
-
+  
+  // eslint-disable-next-line no-unused-vars
   let ArticleLink = LawData.Chapter;
-
   let Addenda = LawData.Chapter;
-
   let File = LawData.File;
 
   //편:part 장:chapter 절:section 관:sub-section
-
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
     const artUrl = '#' + '0'.repeat(3) + str;
