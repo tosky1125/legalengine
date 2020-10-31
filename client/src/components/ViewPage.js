@@ -10,13 +10,16 @@ import ArticleLink from './ArticleLink';
 import './ViewPage.css';
 import ConvertToPDF from '../components/ConvertToPDF';
 import queryString from 'query-string';
+
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
   const [name] = useState(props.match.params.key);
+  
   const changeStr = (str, searchword) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
     const { length } = searchword;
+    
     for (let i = 0; i < str.length; i++) {
       const keyCheck = str.slice(i, i + length);
       if (bracket.has(str[i])) {
@@ -34,6 +37,7 @@ function ViewPage(props) {
     );
     return str;
   };
+
   useEffect(() => {
     const { Law, Related, Result } = props;
     const { lawNum, enfDate, searchword } = queryString.parse(
@@ -54,7 +58,7 @@ function ViewPage(props) {
         Result(changeStr(data.data.Law.context, searchword));
         setisLoaded(true);
       })
-      .catch(function (err) {
+      .catch((err) => {
         if (err.res) {
           console.log(err.res.data);
           console.log(err.res.status);
@@ -66,7 +70,10 @@ function ViewPage(props) {
         }
         console.log(err.config);
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
+
   if (isLoaded === true) {
     return (
       <div className='viewpage-container'>
@@ -90,6 +97,7 @@ function ViewPage(props) {
     );
   }
 }
+
 export default connect(
   (state) => ({
     Law: state.Law.Law,

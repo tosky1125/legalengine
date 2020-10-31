@@ -107,7 +107,6 @@ input[id*='section'] + label {
 }
 
 input[id*='section'] + label + div {
-  /* max-height: 0; */
   transition: all 0.5s;
   overflow-y: auto;
 }
@@ -130,7 +129,6 @@ input[id*='subsection'] + label {
 }
 
 input[id*='subsection'] + label + div {
-  /* max-height: 0; */
   transition: all 0.5s;
   overflow-y: auto;
 }
