@@ -21,7 +21,6 @@ function SearchBar(props) {
     setSearchWord(e.target.value);
     console.log(e.target.value);
   };
-
   const handleChangeDate = (e) => {
     setSearchDate(e.target.value);
     console.log(e.target.value);
@@ -29,16 +28,14 @@ function SearchBar(props) {
 
   const handleSearch = () => {
     const payload = { searchWord: searchWord, date: searchDate };
-    const { searchlist, history, searchword, searchdate } = props;
+    const { searchlist, history, searchword } = props;
     searchword(searchWord);
-    searchdate(searchDate);
 
     axios
       .post('http://13.125.112.243/search', payload)
       .then((res) => {
         searchlist(res.data);
         setisLoaded(true);
-        console.log(res.data);
       })
       .then(() => {
         history.push('/search');
@@ -56,7 +53,6 @@ function SearchBar(props) {
         console.log(err.config);
       });
   };
-
   return (
     <div>
       <Container>
@@ -103,7 +99,6 @@ function SearchBar(props) {
     </div>
   );
 }
-
 export default connect(
   (state) => ({
     seachlist: state.searchlist.seachlist,

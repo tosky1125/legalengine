@@ -9,13 +9,9 @@ import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 
 function SideInfo(props) {
-  // let sideInfoData = JSON.parse(localStorage.related);
-  // console.log(sideInfoData);
   const [isLoaded, setisLoaded] = useState(false);
-
   const { RelatedLaw } = props;
   console.log(RelatedLaw);
-
   const handleClickSearch = (name, lawNum, enfDate) => {
     const { Law, Related, Result } = props;
     const payload = { lawNum, enfDate };
@@ -30,8 +26,6 @@ function SideInfo(props) {
         Related(data.data.Related);
         Law(data.data.Law);
         Result(data.data.Law.context);
-        // console.log(data.data);
-        // localStorage.Law = JSON.stringify(res.data.Law);
         setisLoaded(true);
       })
       .then(() => {
@@ -58,7 +52,6 @@ function SideInfo(props) {
         console.log(err.config);
       });
   };
-
   if (RelatedLaw.length === 0) {
     return (
       <div>

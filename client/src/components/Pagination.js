@@ -8,60 +8,47 @@ const propTypes = {
   initialPage: PropTypes.number,
   pageSize: PropTypes.number,
 };
-
 const defaultProps = {
   initialPage: 1,
   pageSize: 5,
 };
-
 class Pagination extends React.Component {
   constructor(props) {
     super(props);
     this.state = { pager: {} };
   }
-
   componentDidMount() {
     // 데이터 배열이 있을 때, 페이지 셋업
     if (this.props.items && this.props.items.length) {
       this.setPage(this.props.initialPage);
     }
   }
-
   componentDidUpdate(prevProps) {
     // 데이터 배열이 변하면 페이지도 리셋
     if (this.props.items !== prevProps.items) {
       this.setPage(this.props.initialPage);
     }
   }
-
   setPage(page) {
     let { items, pageSize } = this.props;
     let pager = this.state.pager;
-
     if (page < 1 || page > pager.totalPages) {
       return;
     }
-
     // specified page를 위한 페이저 객체
     pager = this.getPager(items.length, page, pageSize);
-
     // 데이터 배열에서 나온 데이터들을 위한 새로운 페이지 만들기
     let pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
-
     this.setState({ pager: pager });
-
     // 부모 컴포넌트에서 페이지바꾸기 함수 불러오기
     this.props.onChangePage(pageOfItems);
   }
-
   getPager(totalItems, currentPage, pageSize) {
     let defaultNum = 10;
     currentPage = currentPage || 1;
     pageSize = pageSize || defaultNum;
-
     // 전체 페이지 계산
     let totalPages = Math.ceil(totalItems / pageSize);
-
     let startPage, endPage;
     if (totalPages <= defaultNum) {
       startPage = 1;
@@ -79,16 +66,13 @@ class Pagination extends React.Component {
         endPage = currentPage + 4;
       }
     }
-
     // 데이터 인덱스 엔드
     let startIndex = (currentPage - 1) * pageSize;
     let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-
     // 페이지 배열 생성 -> 페이저에서 반복안되게
     let pages = [...Array(endPage + 1 - startPage).keys()].map(
       (i) => startPage + i
     );
-
     //페이저 프로퍼티 반환
     return {
       totalItems: totalItems,
@@ -102,15 +86,12 @@ class Pagination extends React.Component {
       pages: pages,
     };
   }
-
   render() {
     let pager = this.state.pager;
-
     if (!pager.pages || pager.pages.length <= 1) {
       // 페이지가 1이면 페이저 디스플레이 안하기
       return null;
     }
-
     return (
       <div>
         <ul className='pagination'>
@@ -157,7 +138,6 @@ class Pagination extends React.Component {
     );
   }
 }
-
 Pagination.propTypes = propTypes;
 Pagination.defaultProps = defaultProps;
 export default Pagination;

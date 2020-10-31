@@ -25,7 +25,6 @@ function ConvertToPDF() {
           프린트
         </button>
       </div>
-      <div></div>
     </div>
   );
 }
