@@ -14,6 +14,8 @@ function SideInfo(props) {
   const { RelatedLaw } = props;
   console.log(RelatedLaw);
   // 클릭시 syntax url에 맞는 쿼리문으로 포맷해 새창에서 열기
+  // 기존 방식은 IE 에서 팝업창으로 인식하는 경우가 있어, 새탭이 아닌
+  // 완전히 새로운 창에서 여는 방식을 채택. 하지만 고객 선호에 따라 수정해야할 수 있음.
   const handleClickSearch = (name, lawNum, enfDate) => {
     const { Law, Related, Result } = props;
     const payload = { lawNum, enfDate };
