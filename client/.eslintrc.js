@@ -34,5 +34,7 @@ module.exports = {
     'react/no-danger': 'off',
     'no-unused-vars': 'off',
     'class-methods-use-this': 'off',
+    "no-script-url": 0,
+    'jsx-a11y/anchor-is-valid': 0,
   },
 };

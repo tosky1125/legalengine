@@ -98,12 +98,12 @@ class Pagination extends React.Component {
             href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
           />
           <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-            <a href='#page' onClick={() => this.setPage(1)}>
+            <a href='javascript:void(0)' onClick={() => this.setPage(1)}>
               {'<<'}
             </a>
           </li>
           <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-            <a href='#page' onClick={() => this.setPage(pager.currentPage - 1)}>
+            <a href='javascript:void(0)' onClick={() => this.setPage(pager.currentPage - 1)}>
               {'<'}
             </a>
           </li>
@@ -112,7 +112,7 @@ class Pagination extends React.Component {
               key={index}
               className={pager.currentPage === page ? 'active' : ''}
             >
-              <a href='#page' onClick={() => this.setPage(page)}>
+              <a href='javascript:void(0)' onClick={() => this.setPage(page)}>
                 {page}
               </a>
             </li>
@@ -120,14 +120,14 @@ class Pagination extends React.Component {
           <li
             className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
           >
-            <a href='#page' onClick={() => this.setPage(pager.currentPage + 1)}>
+            <a href='javascript:void(0)' onClick={() => this.setPage(pager.currentPage + 1)}>
               {'>'}
             </a>
           </li>
           <li
             className={pager.currentPage === pager.totalPages ? 'disabled' : ''}
           >
-            <a href='#page' onClick={() => this.setPage(pager.totalPages)}>
+            <a href='javascript:void(0)' onClick={() => this.setPage(pager.totalPages)}>
               {'>>'}
             </a>
           </li>
