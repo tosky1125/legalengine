@@ -35,7 +35,7 @@ const contDiff = async () => {
       let newArtCount = 0;
       for (artEle of chapEle.Article) {
         
-        if (artEle.cont_date && artEle.cont_date.includes('신설') && artEle.cont_date.include(dateForm)) {
+        if (artEle.cont_date && artEle.cont_date.includes('신설') && artEle.cont_date.includes(dateForm)) {
           newArtCount -= 1;
         }
         let artNum = typeof artIdToNum(artEle.article_id) === 'number' ? `${artIdToNum(artEle.article_id) + newArtCount}:${artEle.article_id.slice(-1)}` : artEle.article_id;
@@ -124,11 +124,12 @@ const contDiff = async () => {
   }
   
   await htmlMaker(k);
+  if(k === 20000) return hi;
   k += 1;
   await contDiff();
 }
 
-let k = 1;
+let k = 3695;
 
 
 const getData = async (data) => {

@@ -123,73 +123,51 @@ const simpleTotalData = async (name, eDate) => {
     const parsedDate = parseDate(eDate);
     console.log(parsedDate);
 
-    // const refinedKeyword = extractKeyword(searchWord);
-
-    // const relatedLaws = await Law.findAll({
-    //     // type 중에서 '헌법', '법률', '대통령령', '총리령', '대법원규칙' 이 나온다면 해당 순수대로 정렬해줍니다
-    //     order: [
-    //       [sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"],
-    //       ['enforcement_date', 'DESC']
-    //     ],
-    //     // SELECT * 이 아닌, 그 중에서도 필요한 요소들만을 추출합니다
-    //     attributes: [
-    //       'number', 'name', 'promulgation_date', 'enforcement_date', 'type', 'amendment_status', 'ministry'
-    //     ],
-    //     // enforcement_date 가 parsedDate 이전이고, refinedKeyword 를 포함한 (substring) refined_name 을 가진 Law Record 들을 찾습니다
-    //     where: {
-    //       enforcement_date: {
-    //         [Op.lte]: parsedDate,
-    //       },
-    //       refined_name: {
-    //         [Op.substring]: refinedKeyword,
-    //       },
-    //     },
-    //     // 그리고 refined_name 으로 Grouping 을 해 줍니다 s
-    //     group: 'refined_name',
-    //     raw: true
-    //   });
-
-    // 연관법령을 찾아주고, relatedLaws 에 할당해줍니다 
-    const relatedLaws = await Law.findAll({
-        // type 중에서 '헌법', '법률', '대통령령', '총리령', '대법원규칙' 이 나온다면 해당 순수대로 정렬해줍니다
-        order: [
-            [sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"],
-            ['enforcement_date', 'DESC']
-        ],
-        // SELECT * 이 아닌, 그 중에서도 필요한 요소들만을 추출합니다
-        attributes: [
-            'name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'
-        ],
-        // enforcement_date 가 parsedDate 이전이고, refinedKeyword 를 포함한 (substring) refined_name 을 가진 Law Record 들을 찾습니다
-        where: {
-            enforcement_date: {
-                [Op.lte]: parsedDate
+    if (extractedKeyword === '') {
+        return {};
+    } else {
+        // 연관법령을 찾아주고, relatedLaws 에 할당해줍니다 
+        const relatedLaws = await Law.findAll({
+            // type 중에서 '헌법', '법률', '대통령령', '총리령', '대법원규칙' 이 나온다면 해당 순수대로 정렬해줍니다
+            order: [
+                [sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"],
+                ['enforcement_date', 'DESC']
+            ],
+            // SELECT * 이 아닌, 그 중에서도 필요한 요소들만을 추출합니다
+            attributes: [
+                'name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'
+            ],
+            // enforcement_date 가 parsedDate 이전이고, refinedKeyword 를 포함한 (substring) refined_name 을 가진 Law Record 들을 찾습니다
+            where: {
+                enforcement_date: {
+                    [Op.lte]: parsedDate
+                },
+                refined_name: {
+                    [Op.substring]: extractedKeyword
+                },
             },
-            refined_name: {
-                [Op.substring]: extractedKeyword
-            },
-        },
-        // 그리고 refined_name 으로 Grouping 을 해 줍니다 
-        group: 'refined_name',
-        raw: true
-    });
-
-    // return 할 Object 인 simpleTotalDataResult 에 Related 라는 key 값에 relatedLaws 를 할당해줍니다
-    simpleTotalDataResult.Related =  relatedLaws;
-
-    // 이제 위에 만들어준 Helper 함수들을 이용하여 Law 안에 Fragment Render 에 필요한 값들만을 Nested 하게 할당한다
-    simpleTotalDataResult.Law = await lawResult(name, eDate);
-    simpleTotalDataResult.Law.Chapter = await chapterResult(simpleTotalDataResult.Law);
-    for (eachChapter of simpleTotalDataResult.Law.Chapter) {
-        eachChapter.Article = await articleResult(eachChapter);
-    };
-
-    // 마지막으로, 해당 Law 에 포함된 File 들을 찾아준 뒤, File 이라는 key 값에 할당해준다
-    simpleTotalDataResult.Law.File = await fileResult(simpleTotalDataResult.Law);
-
-    // 해당 값들을 담은 simpleTotalDataResult 를 return 해준다 
-    console.log(simpleTotalDataResult);
-    return simpleTotalDataResult;
+            // 그리고 refined_name 으로 Grouping 을 해 줍니다 
+            group: 'refined_name',
+            raw: true
+        });
+    
+        // return 할 Object 인 simpleTotalDataResult 에 Related 라는 key 값에 relatedLaws 를 할당해줍니다
+        simpleTotalDataResult.Related =  relatedLaws;
+    
+        // 이제 위에 만들어준 Helper 함수들을 이용하여 Law 안에 Fragment Render 에 필요한 값들만을 Nested 하게 할당한다
+        simpleTotalDataResult.Law = await lawResult(name, eDate);
+        simpleTotalDataResult.Law.Chapter = await chapterResult(simpleTotalDataResult.Law);
+        for (eachChapter of simpleTotalDataResult.Law.Chapter) {
+            eachChapter.Article = await articleResult(eachChapter);
+        };
+    
+        // 마지막으로, 해당 Law 에 포함된 File 들을 찾아준 뒤, File 이라는 key 값에 할당해준다
+        simpleTotalDataResult.Law.File = await fileResult(simpleTotalDataResult.Law);
+    
+        // 해당 값들을 담은 simpleTotalDataResult 를 return 해준다 
+        console.log(simpleTotalDataResult);
+        return simpleTotalDataResult;
+    }
 };
 
 module.exports = { simpleTotalData };

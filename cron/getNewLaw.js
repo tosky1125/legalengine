@@ -79,5 +79,5 @@ const getLaws = async () => {
     await tag(law);
   }
 };
-getLaws();
-// module.exports = getLaws;
+// getLaws();
+module.exports = getLaws;
