@@ -10,6 +10,7 @@ import * as searchList from '../modules/searchList';
 import * as searchWord from '../modules/searchWord';
 
 function SearchBar(props) {
+
   const [word, setWord] = useState('');
   const [isLoaded, setisLoaded] = useState(false);
   const { register, handleSubmit, errors } = useForm();
@@ -19,11 +20,10 @@ function SearchBar(props) {
 
   const handleChangeTerm = (e) => {
     setWord(e.target.value);
-    console.log(e.target.value);
   };
+
   const handleChangeDate = (e) => {
     setSearchDate(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleSearch = () => {
@@ -53,6 +53,7 @@ function SearchBar(props) {
         console.log(err.config);
       });
   };
+
   return (
     <div>
       <Container>
@@ -99,6 +100,7 @@ function SearchBar(props) {
     </div>
   );
 }
+
 export default connect(
   (state) => ({
     seachlist: state.searchList.seachList,
