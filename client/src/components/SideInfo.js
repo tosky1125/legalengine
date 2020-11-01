@@ -9,6 +9,7 @@ import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 
 function SideInfo(props) {
+  // eslint-disable-next-line no-unused-vars
   const [isLoaded, setisLoaded] = useState(false);
   const { RelatedLaw } = props;
   console.log(RelatedLaw);

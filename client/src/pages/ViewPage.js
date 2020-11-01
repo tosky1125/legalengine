@@ -14,14 +14,12 @@ import './ViewPage.css';
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
   const [name] = useState(props.match.params.key);
-
   const changeStr = (str, searchword) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
 
     const { length } = searchword;
-    console.log(length);
-    console.log(str);
+    
     for (let i = 0; i < str.length; i++) {
       const keyCheck = str.slice(i, i + length);
 
@@ -68,7 +66,7 @@ function ViewPage(props) {
         console.log(data.data);
         setisLoaded(true);
       })
-      .catch(function (err) {
+      .catch((err) => {
         if (err.res) {
           console.log(err.res.data);
           console.log(err.res.status);
@@ -105,6 +103,7 @@ function ViewPage(props) {
     );
   }
 }
+
 export default connect(
   (state) => ({
     Law: state.Law.Law,

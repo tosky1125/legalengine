@@ -11,6 +11,7 @@ import * as searchword from '../modules/searchword';
 
 function SearchBar(props) {
   const [searchWord, setSearchWord] = useState('');
+  // eslint-disable-next-line no-unused-vars
   const [isLoaded, setisLoaded] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
@@ -19,11 +20,10 @@ function SearchBar(props) {
 
   const handleChangeTerm = (e) => {
     setSearchWord(e.target.value);
-    console.log(e.target.value);
   };
+
   const handleChangeDate = (e) => {
     setSearchDate(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleSearch = () => {
@@ -37,6 +37,7 @@ function SearchBar(props) {
       .then((res) => {
         searchlist(res.data);
         setisLoaded(true);
+        console.log(res.data);
       })
       .then(() => {
         history.push('/search');
@@ -54,6 +55,7 @@ function SearchBar(props) {
         console.log(err.config);
       });
   };
+
   return (
     <div>
       <Container>
@@ -100,6 +102,7 @@ function SearchBar(props) {
     </div>
   );
 }
+
 export default connect(
   (state) => ({
     seachlist: state.searchlist.seachlist,
