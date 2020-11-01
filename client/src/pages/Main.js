@@ -1,7 +1,7 @@
 import React from 'react';
 import './Main.css';
 import Typist from 'react-typist';
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
 
 function Main() {
   return (
