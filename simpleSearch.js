@@ -121,11 +121,15 @@ const simpleTotalData = async (name, eDate) => {
 
     // String 으로 들어온 날짜를 DB 에서 비교할 수 있도록 Date 객체로 parsing 해 줍니다
     const parsedDate = parseDate(eDate);
+    console.log(parsedDate);
 
     // 연관법령을 찾아주고, relatedLaws 에 할당해줍니다 
     const relatedLaws = await Law.findAll({
         // type 중에서 '헌법', '법률', '대통령령', '총리령', '대법원규칙' 이 나온다면 해당 순수대로 정렬해줍니다
-        order: [[sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"]],
+        order: [
+            ['enforcement_date', 'DESC'],
+            [sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"]
+        ],
         // SELECT * 이 아닌, 그 중에서도 필요한 요소들만을 추출합니다
         attributes: ['name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'],
         // enforcement_date 가 parsedDate 이전이고, refinedKeyword 를 포함한 (substring) refined_name 을 가진 Law Record 들을 찾습니다
@@ -156,6 +160,7 @@ const simpleTotalData = async (name, eDate) => {
     simpleTotalDataResult.Law.File = await fileResult(simpleTotalDataResult.Law);
 
     // 해당 값들을 담은 simpleTotalDataResult 를 return 해준다 
+    console.log(simpleTotalDataResult);
     return simpleTotalDataResult;
 };
 
