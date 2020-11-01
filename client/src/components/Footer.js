@@ -16,7 +16,7 @@ function Footer() {
               <span>
                 &copy;&nbsp;
                 {new Date().getFullYear()}
-                Carillon Inc., All rights reserved.
+                &nbsp;Carillon Inc., All rights reserved.
               </span>
             </Col>
             <Col md={2}>

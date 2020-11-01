@@ -26,7 +26,7 @@ function SearchBar(props) {
   };
   // 검색 버튼 클릭시 값이 변경된 스테이트를 서버에 전달
   const handleSearch = () => {
-    const payload = { searchWord: word, date: searchDate };
+    const payload = { keyword: word, date: searchDate };
     const { searchList, history, searchWord } = props;
     searchWord(word);
 
@@ -65,25 +65,29 @@ function SearchBar(props) {
           >
             <Col md={8}>
               <div className='searchbar-box'>
-                <input
-                  type='text'
-                  name='setWord'
-                  className='searchbar-box-word'
-                  ref={register({
-                    required: true,
-                    minLength: 2,
-                    pattern: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|  0-9|*+$]/,
-                  })}
-                  placeholder='법령을 검색해보세요.'
-                  onChange={handleChangeTerm}
-                />
-                <input
-                  type='date'
-                  name='date'
-                  className='searchbar-box-calendar'
-                  value={searchDate}
-                  onChange={handleChangeDate}
-                />
+                <label>
+                  <input
+                    type='text'
+                    name='setWord'
+                    className='searchbar-box-word'
+                    ref={register({
+                      required: true,
+                      minLength: 2,
+                      pattern: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|  0-9|*+$]/,
+                    })}
+                    placeholder='법령을 검색해보세요.'
+                    onChange={handleChangeTerm}
+                  />
+                </label>
+                <label>
+                  <input
+                    type='date'
+                    name='date'
+                    className='searchbar-box-calendar'
+                    value={searchDate}
+                    onChange={handleChangeDate}
+                  />
+                </label>
                 <button className='searchbar-btn' type='submit'>
                   검색
                 </button>

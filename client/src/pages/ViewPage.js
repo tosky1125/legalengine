@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -17,13 +18,11 @@ function ViewPage(props) {
   const [name] = useState(match.params.key);
 
   // 검색어 하이라이트
-  const changeStr = (str, searchWord) => {
+  const changeStr = (str, keyword) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
-    let changeLaw = '';
-    let temp = '';
 
-    const { length } = searchWord;
+    const { length } = keyword;
 
     for (let i = 0; i < str.length; i++) {
       const keyCheck = str.slice(i, i + length);
@@ -31,25 +30,27 @@ function ViewPage(props) {
       if (bracket.has(str[i])) {
         isOn = !isOn;
       }
-      if (!isOn && keyCheck === searchWord) {
+      if (!isOn && keyCheck === keyword) {
         const tmp1 = str.slice(0, i);
         const tmp2 = str.slice(i + length, str.length);
-        temp = `${tmp1}thishashkey${tmp2}`;
+        str = `${tmp1}thishashkey${tmp2}`;
       }
     }
 
-    changeLaw = temp.replace(
+    str = str.replace(
       /thishashkey/g,
-      `<span class='searchWord-highlight'>${searchWord}</span>`,
+      `<span class='keyword-highlight'>${keyword}</span>`,
     );
-    return changeLaw;
+    return str;
   };
 
   // 요청 받은 쿼리에 따라 서버에 Post 요청
   useEffect(() => {
     const { Law, Related, Result } = props;
-    const { lawNum, enfDate, searchWord } = queryString.parse(props.location.search);
+    const { lawNum, enfDate, keyword } = queryString.parse(props.location.search);
     const payload = { lawNum, enfDate };
+    console.log(keyword);
+    console.log(lawNum, enfDate);
 
     let url = `http://13.125.112.243/law/${encodeURIComponent(
       name,
@@ -63,8 +64,8 @@ function ViewPage(props) {
       .then((data) => {
         Related(data.data.Related);
         Law(data.data.Law);
-        if (searchWord) {
-          Result(changeStr(data.data.Law.context, searchWord));
+        if (keyword) {
+          Result(changeStr(data.data.Law.context, keyword));
         } else {
           Result(data.data.Law.context);
         }
