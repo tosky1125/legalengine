@@ -5,9 +5,9 @@ import './SearchBar.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
+import { Col, Container } from 'react-bootstrap';
 import * as searchlist from '../modules/searchlist';
 import * as searchword from '../modules/searchword';
-import { Col, Container } from 'react-bootstrap';
 
 function SearchBar(props) {
   const [searchWord, setSearchWord] = useState('');
@@ -27,7 +27,8 @@ function SearchBar(props) {
   };
 
   const handleSearch = () => {
-    const payload = { searchWord: searchWord, date: searchDate };
+    const payload = { searchWord, date: searchDate };
+    // eslint-disable-next-line no-shadow
     const { searchlist, history, searchword } = props;
     searchword(searchWord);
 

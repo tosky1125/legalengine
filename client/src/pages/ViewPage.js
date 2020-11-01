@@ -2,26 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
-import SideInfo from './SideInfo';
-import ArticleLink from './ArticleLink';
-import './ViewPage.css';
+import SideInfo from '../components/SideInfo';
+import ArticleLink from '../components/ArticleLink';
 import ConvertToPDF from '../components/ConvertToPDF';
-import queryString from 'query-string';
+import './ViewPage.css';
 
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
   const [name] = useState(props.match.params.key);
-  
   const changeStr = (str, searchword) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
+
     const { length } = searchword;
     
     for (let i = 0; i < str.length; i++) {
       const keyCheck = str.slice(i, i + length);
+
       if (bracket.has(str[i])) {
         isOn = !isOn;
       }
@@ -31,6 +32,7 @@ function ViewPage(props) {
         str = `${tmp1}thishashkey${tmp2}`;
       }
     }
+
     str = str.replace(
       /thishashkey/g,
       `<span class='searchword-highlight'>${searchword}</span>`
@@ -55,7 +57,13 @@ function ViewPage(props) {
       .then((data) => {
         Related(data.data.Related);
         Law(data.data.Law);
-        Result(changeStr(data.data.Law.context, searchword));
+        console.log(searchword);
+        if (searchword) {
+          Result(changeStr(data.data.Law.context, searchword));
+        } else {
+          Result(data.data.Law.context);
+        }
+        console.log(data.data);
         setisLoaded(true);
       })
       .catch((err) => {
@@ -70,9 +78,7 @@ function ViewPage(props) {
         }
         console.log(err.config);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
 
   if (isLoaded === true) {
     return (

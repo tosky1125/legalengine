@@ -37,7 +37,8 @@ function SideInfo(props) {
             new Date(enfDate),
             'yyyy-MM-dd'
           )}`,
-          '_blank'
+          '_blank',
+          'width=1024,height=800,top=70,left=330'
         );
       })
       .catch(function (err) {
@@ -53,6 +54,7 @@ function SideInfo(props) {
         console.log(err.config);
       });
   };
+
   if (RelatedLaw.length === 0) {
     return (
       <div>

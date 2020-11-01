@@ -1,71 +1,44 @@
 import React from 'react';
-import SearchBar from './SearchBar';
-import Pagination from './Pagination';
+import './SearchResult.css';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
+import { Row, Col, Card, Table } from 'react-bootstrap';
 import * as searchlist from '../modules/searchlist';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 import * as searchword from '../modules/searchword';
-import './SearchResult.css';
-import { Row, Col, Card, Table } from 'react-bootstrap';
+import SearchBar from '../components/SearchBar';
+import Pagination from '../components/Pagination';
 
 class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       pageOfItems: [],
-      isLoaded: false,
     };
     this.onChangePage = this.onChangePage.bind(this);
   }
 
   onChangePage(pageOfItems) {
     // 데이터들의 새로운 페이지로 스테이트 업데이트
-    this.setState({ pageOfItems: pageOfItems });
+    this.setState({ pageOfItems });
   }
 
   handleClickSearch = (name, lawNum, enfDate) => {
     const { searchTerm } = this.props;
-    const payload = { lawNum, enfDate };
-    axios
-      .post(
-        `http://13.125.112.243:80/law/${encodeURIComponent(
-          name
-        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
-        payload
-      )
-      .then((res) => {
-        this.setState({
-          isLoaded: true,
-        });
-      })
-      .then(() => {
-        window.open(
-          `/law/${encodeURIComponent(
-            name.replace(/[^가-힣^0-9]/g, '')
-          )}?lawNum=${lawNum}&enfDate=${format(
-            new Date(enfDate),
-            'yyyy-MM-dd'
-          )}&searchword=${searchTerm}`,
-          '_blank'
-        );
-      })
-      .catch(function (err) {
-        if (err.res) {
-          console.log(err.res.data);
-          console.log(err.res.status);
-          console.log(err.res.headers);
-        } else if (err.req) {
-          console.log(err.req);
-        } else {
-          console.log('Error', err.message);
-        }
-        console.log(err.config);
-      });
+
+    window.open(
+      `/law/${encodeURIComponent(
+        name.replace(/[^가-힣^0-9]/g, '')
+      )}?lawNum=${lawNum}&enfDate=${format(
+        new Date(enfDate),
+        'yyyy-MM-dd'
+      )}&searchword=${searchTerm}`,
+      '_blank',
+      'width=1024, height=800, top=100, left=300'
+    );
   };
 
   render() {
@@ -88,12 +61,13 @@ class SearchResult extends React.Component {
       <div className='searchresult-container'>
         <SearchBar />
         <Row>
-          <Col md={1}></Col>
+          <Col md={1} />
           <Col md={10}>
             <Card className='searchresult-form'>
               <Card.Header>
                 <Card.Title as='h5'>
-                  총 {this.props.lawlist.length}건의 결과
+                  총{this.props.lawlist.length}
+                  건의 결과
                 </Card.Title>
               </Card.Header>
               <Card.Body className='px-0 py-2'>
@@ -156,7 +130,7 @@ class SearchResult extends React.Component {
               </Card.Body>
             </Card>
           </Col>
-          <Col md={1}></Col>
+          <Col md={1} />
         </Row>
       </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import './Footer.css';
 
-const Footer = () => {
+function Footer() {
   return (
     <div className='footer'>
       <div className='footer-copyright text-center navbar navbar-fixed-bottom'>
@@ -14,7 +14,7 @@ const Footer = () => {
             </Col>
             <Col md={6}>
               <span>
-                &copy; {new Date().getFullYear()} Copyright Inc., All rights
+                &copy; {new Date().getFullYear()} Carillon Inc., All rights
                 reserved.
               </span>
             </Col>
@@ -42,6 +42,6 @@ const Footer = () => {
       />
     </div>
   );
-};
+}
 
 export default Footer;
