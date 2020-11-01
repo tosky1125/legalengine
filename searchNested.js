@@ -85,27 +85,53 @@ const itemResult = async (subParaData) => {
 });
 return itemResult;
 };
-/*const totalData = async (name, eDate, number) => {
+// const totalData = async (name, eDate, number) => {
+
+//   let nestedData = {};
+//   const extractedKeyword = extractKeyword(name);
+//   const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
+//   const parsedDate = parseDate(eDate);
+//   const relatedLaws = await Law.findAll({
+//       where: {
+//           refined_name: {
+//               [Op.substring]: refinedKeyword
+//           },
+//           enforcement_date: {
+//               [Op.lte]: parsedDate
+//           },
+//       },
+//       order: [['enforcement_date', 'DESC']],
+//       group: ['refined_name'],
+//       raw: true
+//   });
+//   nestedData.Related =  relatedLaws;
+//   nestedData.Law = await lawResult(name, eDate, number);
+//   nestedData.Law.File = await fileResult(nestedData.Law);
+//   nestedData.Law.Chapter = await chapterResult(nestedData.Law);
+//   for (eachChapter of nestedData.Law.Chapter) {
+//       eachChapter.Article = await articleResult(eachChapter);
+//       for (eachArticle of eachChapter.Article) {
+//           eachArticle.Clause = await clauseResult(eachArticle);
+//           for (eachClause of eachArticle.Clause) {
+//               eachClause.subPara = await subParaResult(eachClause);
+//               for (eachSubpara of eachClause.subPara) {
+//                   eachSubpara.Item = await itemResult(eachSubpara);
+//               };
+//           };
+//       };
+//   };
+//   return nestedData;
+
+// };
+const totalData = async (law_id) => {
 
   let nestedData = {};
-  const extractedKeyword = extractKeyword(name);
-  const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
-  const parsedDate = parseDate(eDate);
-  const relatedLaws = await Law.findAll({
-      where: {
-          refined_name: {
-              [Op.substring]: refinedKeyword
-          },
-          enforcement_date: {
-              [Op.lte]: parsedDate
-          },
-      },
-      order: [['enforcement_date', 'DESC']],
-      group: ['refined_name'],
-      raw: true
+  
+  nestedData.Law = await Law.findOne({
+    where : {
+      law_id : law_id
+    }
   });
-  nestedData.Related =  relatedLaws;
-  nestedData.Law = await lawResult(name, eDate, number);
   nestedData.Law.File = await fileResult(nestedData.Law);
   nestedData.Law.Chapter = await chapterResult(nestedData.Law);
   for (eachChapter of nestedData.Law.Chapter) {

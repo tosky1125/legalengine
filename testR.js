@@ -53,7 +53,7 @@ const revision = async (
     
     
     // find law with it's id and it's enforcement date
-console.log(law_number, law_eDate);
+
   const lawResult = await Law.findOne({
         where: {
             number: law_number,
@@ -63,7 +63,7 @@ console.log(law_number, law_eDate);
         },
         raw: true
     });
-  console.log(lawResult);
+  
     const { law_id } = lawResult;
     const article = await Article.findOne({
       where : {
@@ -72,7 +72,7 @@ console.log(law_number, law_eDate);
       }, raw : true,
     });
     article_id = article ? article.id : null;
-    console.log(article);
+    
     const clause = clause_id ? await Clause.findOne({
       where :{
         law_id,
@@ -80,7 +80,7 @@ console.log(law_number, law_eDate);
         clause_id,
       }, raw : true,
     }) : null;
-    console.log(clause);
+    
     clause_id = clause ? clause.id : null;
     const sub = sub_id ? await Subparagraph.findOne({
       where : {
@@ -91,7 +91,7 @@ console.log(law_number, law_eDate);
       }, raw : true,
     }) : null;
     sub_id = sub ? sub.id : null;
-    console.log(sub);
+    
     const item = item_id ? await Item.findOne({
       where : {
         law_id,
@@ -101,11 +101,11 @@ console.log(law_number, law_eDate);
         item_id,
       }
     }) : null;
-    console.log(item);
+    
     const result = { 
       article, clause, sub, item,
     }
-    console.log(result);
+    
     // // if article_id exist in parameters, find article and it's children table's result
     // if (article_id) {
     //     let articleResult = await Article.findAll({
