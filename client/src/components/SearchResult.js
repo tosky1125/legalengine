@@ -1,4 +1,5 @@
 import React from 'react';
+import './SearchResult.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -8,7 +9,6 @@ import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 import * as searchword from '../modules/searchword';
-import './SearchResult.css';
 import SearchBar from './SearchBar';
 import Pagination from './Pagination';
 
@@ -36,7 +36,8 @@ class SearchResult extends React.Component {
         new Date(enfDate),
         'yyyy-MM-dd'
       )}&searchword=${searchTerm}`,
-      '_blank'
+      '_blank',
+      'width=1024, height=800, top=100, left=300'
     );
   };
 
@@ -65,7 +66,7 @@ class SearchResult extends React.Component {
             <Card className='searchresult-form'>
               <Card.Header>
                 <Card.Title as='h5'>
-                  총 {this.props.lawlist.length}
+                  총{this.props.lawlist.length}
                   건의 결과
                 </Card.Title>
               </Card.Header>
