@@ -123,8 +123,8 @@ const contDiff = async () => {
     }
   }
   
+  await htmlMaker(k);
   k += 1;
-  await htmlMaker();
   await contDiff();
 }
 
