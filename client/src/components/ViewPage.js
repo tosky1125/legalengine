@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 import SideInfo from './SideInfo';
 import ArticleLink from './ArticleLink';
+import ConvertToPDF from './ConvertToPDF';
 import './ViewPage.css';
-import ConvertToPDF from '../components/ConvertToPDF';
-import queryString from 'query-string';
 
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
