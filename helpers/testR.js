@@ -6,7 +6,7 @@ const {
     Clause,
     Subparagraph,
     Item,
-} = require('./models');
+} = require('../models');
 
 const {
     Op
