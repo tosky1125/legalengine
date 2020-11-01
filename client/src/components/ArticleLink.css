@@ -84,7 +84,6 @@ input[id*='chapter'] + label {
 }
 
 input[id*='chapter'] + label + div {
-  /* max-height: 0; */
   transition: all 0.5s;
   overflow-y: auto;
 }

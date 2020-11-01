@@ -10,7 +10,6 @@ import * as searchList from '../modules/searchList';
 import * as searchWord from '../modules/searchWord';
 
 function SearchBar(props) {
-
   const [word, setWord] = useState('');
   const [isLoaded, setisLoaded] = useState(false);
   const { register, handleSubmit, errors } = useForm();

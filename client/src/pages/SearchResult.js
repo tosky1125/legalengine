@@ -6,8 +6,8 @@ import { format } from 'date-fns';
 import {
   Row, Col, Card, Table,
 } from 'react-bootstrap';
-import * as searchList from '../modules/searchList';
-import * as searchWord from '../modules/searchWord';
+import * as searchList from '../modules/SearchList';
+import * as searchWord from '../modules/SearchWord';
 import SearchBar from '../components/SearchBar';
 import Pagination from '../components/Pagination';
 

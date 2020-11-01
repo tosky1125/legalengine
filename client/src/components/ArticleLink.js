@@ -6,11 +6,11 @@ import './ArticleLink.css';
 
 function ArticleLink(props) {
   const { LawData } = props;
-  let ArticleLink = LawData.Chapter;
   let Addenda = LawData.Chapter;
-  let File = LawData.File;
+  let ArticleLink = LawData.Chapter;
+  let { File } = LawData;
 
-  //편:part 장:chapter 절:section 관:sub-section
+  // 편:part 장:chapter 절:section 관:sub-section
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
     const artUrl = `#${'0'.repeat(3)}${str}`;
@@ -139,7 +139,6 @@ function ArticleLink(props) {
   result = (
     <div className='articlelink-accordion'>
       <input type='checkbox' id='contTitle' />
-
       <label htmlFor='contTitle'>
         <h4>본문</h4>
       </label>

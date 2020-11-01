@@ -3,14 +3,14 @@ import './ConvertToPDF.css';
 import MainInfo from './MainInfo';
 
 function ConvertToPDF() {
-  function content_print() {
+  function contentPrint() {
     const initBody = document.body.innerHTML;
-    window.onbeforeprint = function () {
+    window.onbeforeprint = () => {
       document.body.innerHTML = document.querySelector(
-        '.maininfo-container'
+        '.maininfo-container',
       ).innerHTML;
     };
-    window.onafterprint = function () {
+    window.onafterprint = () => {
       document.body.innerHTML = initBody;
     };
     window.print();
@@ -21,7 +21,7 @@ function ConvertToPDF() {
     <div className='pdf-button-container'>
       <MainInfo />
       <div className='pdf-button-wrapper'>
-        <button className='pdf-button' onClick={() => content_print()}>
+        <button type='button' className='pdf-button' onClick={() => contentPrint()}>
           프린트
         </button>
       </div>

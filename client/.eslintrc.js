@@ -24,6 +24,15 @@ module.exports = {
     'no-console': 'off',
     'no-shadow': 'off', 
     'no-plusplus': 'off',
-    "import/no-named-as-default": 0,
+    'import/no-named-as-default': 0,
+    'react/no-array-index-key': 'off',
+    'jsx-a11y/label-has-associated-control': [ 2, {
+      'labelComponents': ['label'],
+      'labelAttributes': ['htmlFor'],
+      'controlComponents': ['input']
+    }],
+    'react/no-danger': 'off',
+    'no-unused-vars': 'off',
+    'class-methods-use-this': 'off',
   },
 };

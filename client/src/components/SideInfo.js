@@ -9,7 +9,6 @@ import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 
 function SideInfo(props) {
-  // eslint-disable-next-line no-unused-vars
   const [isLoaded, setisLoaded] = useState(false);
   const { RelatedLaw } = props;
   console.log(RelatedLaw);
@@ -71,16 +70,17 @@ function SideInfo(props) {
       />
       {RelatedLaw.map((sideInfo, sideInfoIndex) => (
         <div className='sideInfo-body' key={sideInfoIndex}>
-          <h4
+          <button
             className='sideInfo-title'
             onClick={() => handleClickSearch(
               sideInfo.name,
               sideInfo.number,
               sideInfo.enforcement_date,
             )}
+            type='button'
           >
-            {sideInfo.name}
-          </h4>
+            <h4>{sideInfo.name}</h4>
+          </button>
           <p className='sideInfo-info'>
             [시행
             {' '}
