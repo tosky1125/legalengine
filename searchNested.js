@@ -148,5 +148,31 @@ const totalData = async (law_id) => {
   };
   return nestedData;
 
+};*/
+
+const totalData = async (law_id) => {
+  let nestedData = {};
+  nestedData.Law = await Law.findOne({
+    where : {
+      law_id : law_id
+    }
+  });
+  nestedData.Law.File = await fileResult(nestedData.Law);
+  nestedData.Law.Chapter = await chapterResult(nestedData.Law);
+  for (eachChapter of nestedData.Law.Chapter) {
+      eachChapter.Article = await articleResult(eachChapter);
+      for (eachArticle of eachChapter.Article) {
+          eachArticle.Clause = await clauseResult(eachArticle);
+          for (eachClause of eachArticle.Clause) {
+              eachClause.subPara = await subParaResult(eachClause);
+              for (eachSubpara of eachClause.subPara) {
+                  eachSubpara.Item = await itemResult(eachSubpara);
+              };
+          };
+      };
+  };
+  return nestedData;
+
 };
+
 module.exports = totalData;

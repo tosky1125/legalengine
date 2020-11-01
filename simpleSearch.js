@@ -117,28 +117,56 @@ const simpleTotalData = async (name, eDate) => {
 
     // 법의 이름으로부터 연관법령을 조회하기 위한 키워드를 추출합니다
     const extractedKeyword = extractKeyword(name);
-    const refinedKeyword = rmSpaceAndSymbols(extractedKeyword);
+    console.log(extractKeyword);
 
     // String 으로 들어온 날짜를 DB 에서 비교할 수 있도록 Date 객체로 parsing 해 줍니다
     const parsedDate = parseDate(eDate);
     console.log(parsedDate);
 
+    // const refinedKeyword = extractKeyword(searchWord);
+
+    // const relatedLaws = await Law.findAll({
+    //     // type 중에서 '헌법', '법률', '대통령령', '총리령', '대법원규칙' 이 나온다면 해당 순수대로 정렬해줍니다
+    //     order: [
+    //       [sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"],
+    //       ['enforcement_date', 'DESC']
+    //     ],
+    //     // SELECT * 이 아닌, 그 중에서도 필요한 요소들만을 추출합니다
+    //     attributes: [
+    //       'number', 'name', 'promulgation_date', 'enforcement_date', 'type', 'amendment_status', 'ministry'
+    //     ],
+    //     // enforcement_date 가 parsedDate 이전이고, refinedKeyword 를 포함한 (substring) refined_name 을 가진 Law Record 들을 찾습니다
+    //     where: {
+    //       enforcement_date: {
+    //         [Op.lte]: parsedDate,
+    //       },
+    //       refined_name: {
+    //         [Op.substring]: refinedKeyword,
+    //       },
+    //     },
+    //     // 그리고 refined_name 으로 Grouping 을 해 줍니다 s
+    //     group: 'refined_name',
+    //     raw: true
+    //   });
+
     // 연관법령을 찾아주고, relatedLaws 에 할당해줍니다 
     const relatedLaws = await Law.findAll({
         // type 중에서 '헌법', '법률', '대통령령', '총리령', '대법원규칙' 이 나온다면 해당 순수대로 정렬해줍니다
         order: [
-            ['enforcement_date', 'DESC'],
-            [sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"]
+            [sequelize.fn('FIELD', sequelize.col('Law.type'), '대법원규칙', '총리령', '대통령령', '법률', '헌법'), "DESC"],
+            ['enforcement_date', 'DESC']
         ],
         // SELECT * 이 아닌, 그 중에서도 필요한 요소들만을 추출합니다
-        attributes: ['name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'],
+        attributes: [
+            'name', 'refined_name', 'promulgation_date', 'enforcement_date', 'number', 'amendment_status', 'type'
+        ],
         // enforcement_date 가 parsedDate 이전이고, refinedKeyword 를 포함한 (substring) refined_name 을 가진 Law Record 들을 찾습니다
         where: {
             enforcement_date: {
                 [Op.lte]: parsedDate
             },
             refined_name: {
-                [Op.substring]: refinedKeyword
+                [Op.substring]: extractedKeyword
             },
         },
         // 그리고 refined_name 으로 Grouping 을 해 줍니다 
