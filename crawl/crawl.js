@@ -70,9 +70,9 @@ const spec = async () => {
     // 연산에 필요한 변수와 함수들을 선언
     // puppeteer 작동원리 상 외부에서 함수, 또는 변수를 불러올 수 없다.
     // 반대로 evalute 메소드 내에서 dom 을 이용해 연산하는 것들을 밖으로 내보낼 수 없다.
-
-    const ho = new Set(['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.', '13', '14', '15', '16', '17', '18', '19.', '20.']);
-    const mok = new Set(['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '10)', '11)', '12)', '13)', '14)', '15)', '16)', '17)', '18)', '19)', '20)']);
+     
+    const ho = new Set(['0.', '1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.']);
+    const mok = new Set(['가.', '나.', '다.', '라.', '마.', '바.', '사.', '아.', '자.', '차.', '카.', '타.', '파.', '하.', '1)', '2)', '3)', '4)', '5)', '6)', '7)', '8)', '9)', '0)']);
 
     const chapter = [];
     const article = [];
@@ -90,7 +90,7 @@ const spec = async () => {
     const state = (str) => {
       str = str.replace(/\s+/, '');
       const twoCharFront = `${str[0]}${str[1]}`;
-      const threeCharFront = `${str[0]}${str[1]}${str[2]}`;
+      const threeCharFront = `${str[1]}${str[2]}`;
       const charCode = str[0].charCodeAt();
       if (ho.has(twoCharFront) || ho.has(threeCharFront)) {
         hhjm = '호';
@@ -194,11 +194,11 @@ const spec = async () => {
           }
           let chapDate = null;
           // 장에 date가 있는 경우가 있기 때문에, 하위 노드를 파악해서 date 를 할당.
-          if (body[index + 1].children[0].lastChild.className === 'sfon') {
+          if (body[index + 1].children[0] && body[index+1].children[0].lastChild.className === 'sfon') {
             chapDate = body[index + 1].children[0].lastChild.textContent;
           }
           // context 의 경우에는 별도의 태그로 감싸 있지 않기 때문에 제목과 날짜가 붙어 있다. 불러온 뒤에 replace 로 날려준다.
-          const cont = body[index + 1].innerText.slice(8).replace(chapDate, '');
+          const cont = body[index + 1].innerText.replace(/\s+/,'').replace(chapDate, '');
           chapter.push({
             chapter_number: chapterNum,
             context: cont,
@@ -232,6 +232,27 @@ const spec = async () => {
             flag_pan: null,
           });
         }
+      } 
+      else if (ele.nodeName === 'P' && ele.className === 'pty1' && ele.nextElementSibling.className === 'pgroup'){
+        console.log(ele.children);
+        console.log(ele.nextElementSibling);
+        chapterNum = chapterNum.slice(0,-1)+1
+        chapter.push({
+          chapter_number: chapterNum,
+          context: ele.textContent.replace(/\s+/,'').replace(/\s+$/,''),
+          date: null,
+        });
+        article.push({
+          chapter_id: chapterNum,
+          article_number: arSlice(ele.children[0].id),
+          title: null,
+          context: null,
+          child: ele.nextElementSibling.children,
+          flag_yeon: null,
+          flag_hang: null,
+          flag_gyu: null,
+          flag_pan: null,
+        })
       }
     });
     const {
@@ -293,7 +314,7 @@ const spec = async () => {
             }
             // 조의 0번째 index 의 태그에는 무조건 타이틀이 있음. 조 밑으로 들어온 것이기 때문에 조가 없는 경우는 없음.
             if (j === 0) {
-              ele.title = texts[j].children[1].textContent;
+              ele.title = texts[j].children[1] ? texts[j].children[1].textContent : null;
             }
             // 'sfon' class 는 날짜를 뜻하는데 조 자체의 날짜가 아닌 조의 하위 항호목의 날짜로 들어가기 때문에 미리 날짜변수에 할당
             if (texts[j].children.length !== 0 && texts[j].lastChild.className === 'sfon') {
@@ -672,15 +693,6 @@ const spec = async () => {
   return result;
 };
 
-// const checkRevision = async (law_number, law_eDate, article_id, clause_id = null, sub_id = null, item_id = null) => {
-//   const result = await revision(law_number,
-//     law_eDate,
-//     article_id,
-//     clause_id,
-//     sub_id,
-//     item_id);
-//   return result;
-// };
 
 const init = async () => {
 //db update
@@ -816,11 +828,11 @@ const init = async () => {
     law_id: a,
     tag: html,
   });
-  if (k === ) return 'hi';
+  if (k === 45530) return 'hi';
   k -= 1;
   await init();
 }
-let k = 54870;
+let k = 45539;
 init();
 
 
@@ -842,8 +854,6 @@ const init = async () => {
     oldLaw,
   } = data;
 
-  const regex1 = /(<([^>]+)>)/gi;
-  const regex2 = /null/gi;
   await HTML.create({
     law_id: a,
     tag: html,
@@ -942,18 +952,18 @@ const init = async () => {
       date,
       context,
     } = cla;
-    // if (curArt !== article_id) {
-    //   curArt = article_id;
-    //   newJoCount = 0;
-    // }
-    // if (date && date.includes('신설')) {
-    //   newJoCount -= 1;
-    // }
-    // if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
-    //   let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount);
-    //   contCheck = contCheck.clause && contCheck.clause.context ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
-    //   context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
-    // }
+    if (curArt !== article_id) {
+      curArt = article_id;
+      newJoCount = 0;
+    }
+    if (date && date.includes('신설')) {
+      newJoCount -= 1;
+    }
+    if (oldLaw && date && date.includes('개정') && date.includes(format(new Date(data.promulgation_date), 'yyyy. M. d.'))) {
+      let contCheck = await checkRevision(oldLaw.number, oldLaw.enforcement_date, article_id, clause_number + newJoCount);
+      contCheck = contCheck.clause && contCheck.clause.context ? contCheck.clause.context.replace(regex1, '').replace(regex2, '') : null;
+      context = contCheck && context ? diff(contCheck, context).replace(regex2, '') : context;
+    }
     const tmp1 = await Chapter.findOne({
       where: {
         law_id: a,

@@ -1,24 +1,19 @@
 const totalData = require('../searchNested');
-const { Law } = require('../models');
+const {
+  Law
+} = require('../models');
 const {
   format
 } = require('date-fns');
-let k = 30; 
-// db 에서 모든 해당하는 law_id 의 값을 nested 형태로 가져온 뒤에, client 사이드의  innerHTML 로 넣어줄 수 있도록 완성형 tag 로 작성.
-const htmlMaker = async () => {
-  console.log(k);
-  let findLaw = await Law.findOne({
-    where : {
-      law_id : k,
-    }, raw:true,
-  });
-  const { name, enforcement_date, number } = findLaw;
 
-  const law = await totalData(name, new Date(String(enforcement_date)), number);
+// db 에서 모든 해당하는 law_id 의 값을 nested 형태로 가져온 뒤에, client 사이드의  innerHTML 로 넣어줄 수 있도록 완성형 tag 로 작성.
+const htmlMaker = async (k) => {
+  const law = await totalData(k);
   let {
-    Chapter, File,
+    Chapter,
+    File,
+    number
   } = law.Law;
-  
   // const keyword = JSON.parse(localStorage.searchWord);
   // const regex = new RegExp(keyword, 'g');
   const lawRegex = new RegExp(/ 「(.*?)\」/, 'g');
@@ -57,17 +52,19 @@ const htmlMaker = async () => {
 
   const relatedLaw = (context) => {
     const inTagLaw = lawRegex.test(context) ? context.match(lawRegex)[0] : null;
-    if(inTagLaw){
+    if (inTagLaw) {
       context = context.replace(lawRegex, `<a href='/law/${inTagLaw.replace(/[^가-힣^0-9]/g, "")}?enfDate=${format(new Date(law.Law.enforcement_date), 'yyyy-MM-dd')}' target='_blank'>${inTagLaw}</a>`);
     }
     return context;
   };
-  console.log(Chapter);
   Chapter = Chapter.map(
     (chapEle, chapEleIndex) =>
-      `<div key=${chapEleIndex}>
+    `<div key=${chapEleIndex}>
     <a name=${addendaUrlfragment(chapEle.chapter_id)}></a>
-    ${chapEle.chapter_id && chapEle.chapter_id.length < 5 ? `<span class='maininfo-chapter-titles'>${chapEle.context}</span>` : `<div class='maininfo-contents'><span class='maininfo-addenda-title'>${chapEle.context}</span></div>`}
+    ${chapEle.chapter_id === '0:1' ? 
+    `<div class='maininfo-article-context'><span>${relatedLaw(chapEle.context)}</span></div>` : 
+    chapEle.chapter_id && chapEle.chapter_id.length < 6 ? `<span class='maininfo-chapter-titles'>${chapEle.context}</span>` 
+    : `<div class='maininfo-contents'><span class='maininfo-addenda-title'>${chapEle.context}</span></div>`}
     <span class='date'>${chapEle.date}</span>
     ${
       chapEle.Article &&
@@ -85,12 +82,11 @@ const htmlMaker = async () => {
           <span class='maininfo-buttons'>
             ${
               artEle.flag_pan &&
-              `<button class='maininfo-buttons-pan'>
-                <a href='http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=${number}&joNo=${
+              `<a href='http://www.law.go.kr/LSW/joStmdInfoP.do?lsiSeq=${number}&joNo=${
                 joSlicer(artEle.article_id)[0]
               }&joBrNo=${
                 joSlicer(artEle.article_id)[1]
-              }' target='_blank' rel='noopener noreferrer'>판</a></button>`
+              }' target='_blank' rel='noopener noreferrer'><button class='maininfo-buttons-pan'>판</button></a>`
             }
             ${
               artEle.flag_yeon &&
@@ -178,44 +174,46 @@ const htmlMaker = async () => {
                     })
                   }
                 </div>`;
-            })
-          }
-          <div class='date'>${artEle.date}</div>
-        </div>
-        </div>`
-      )
-    } 
-  </div>`
-  );
+  })
+} <
+div class = 'date' > $ {
+  artEle.date
+} < /div> < /
+div > <
+  /div>`
+)
+} <
+/div>`
+);
 
-  File = File
-    ? File.map((ele) => (
-      `<div class='file'>
+File = File ?
+  File.map((ele) => (
+    `<div class='file'>
           <a name='${fileUrlfragment(ele.id)}'></a>
           <span>${ele.context}</span>
           <span>${ele.date}</span>
           <div class='file-button'>${ele.hwp && `<button class='file-button-hwp'><a href=${ele.hwp} alt='한글'>한글</button>`}
           ${ele.pdf && (
         `<button class='file-button-pdf'><a href=${ele.pdf} alt='PDF'/>PDF</button>`)}</div></div>`
-    ))
-    : null;
-  const head = ` <div>
+  )) :
+  null;
+const head = ` <div>
         <div class='maininfo-page-header-space'></div>
           <div class='maininfo-wrapper'>
           <div class='maininfo-container'>
             <div class='maininfo-law-head'>
-              <h1>${findLaw.name}</h1>
+              <h1>${law.Law.name}</h1>
               <p class='maininfo-law-head-info'>
-                [시행  ${format(new Date(findLaw.enforcement_date), 'yyyy.MM.dd.')}] [
-                ${findLaw.type}&nbsp;
+                [시행  ${format(new Date(law.Law.enforcement_date), 'yyyy.MM.dd.')}] [
+                ${law.Law.type}&nbsp;
                 ${number}호,&nbsp;
-                ${format(new Date(findLaw.promulgation_date), 'yyyy.MM.dd.')} ${findLaw.amendment_status}]</p>
+                ${format(new Date(law.Law.promulgation_date), 'yyyy.MM.dd.')} ${law.Law.amendment_status}]</p>
             </div>`;
-  const bottom =  `</div><tfoot><div class='mainifo-page-footer-space'></div></tfoot><div class='maininfo-page-header'></div><div class='maininfo-page-footer'></div></div></div>`;
+const bottom = `</div><tfoot><div class='mainifo-page-footer-space'></div></tfoot><div class='maininfo-page-header'></div><div class='maininfo-page-footer'></div></div></div>`;
 
-Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g,'><');
-  File = File.join('').replace(/null/g, '').replace(/>,</g,'><');
-  const html = `${head}${Chapter}<br /><br /><div className='file-container'>
+Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g, '><');
+File = File.join('').replace(/null/g, '').replace(/>,</g, '><');
+const html = `${head}${Chapter}<br /><br />${File.length !== 0 ? `<div className='file-container'>
   <input type='checkbox' id='file-contTitle' />
   <label htmlFor='contTitle'>서식</label>
   <div> 
@@ -224,17 +222,17 @@ Chapter = Chapter.join('').replace(/null/g, '').replace(/>,</g,'><');
     >
     </a>
   </div>
-</div>${File}${bottom}`;
-  
-  
-  
-  await Law.update({ context : html }, { where : { law_id : k }})
-  k++;
-  if(k === 30000){
-    return 'hi';
+</div>${File}${bottom}` : `${bottom}`}`;
+console.log(Chapter[1])
+
+
+await Law.update({
+  context: html
+}, {
+  where: {
+    law_id: k
   }
-  await htmlMaker();
+})
 };
 
-htmlMaker();
-
+module.exports = htmlMaker;
