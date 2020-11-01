@@ -1,4 +1,4 @@
-const totalData = require('../searchNested');
+const totalData = require('../helpers/searchNested');
 module.exports = {
     get: async (req, res) => {
       const { lawName } = req.params;

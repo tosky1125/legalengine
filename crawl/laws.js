@@ -5,7 +5,7 @@ const {
   Ministry,
   LawType
 } = require('../models');
-const { rmSpaceAndSymbols } = require('../strHandlerSet');
+const { rmSpaceAndSymbols } = require('../helpers/strHandlerSet');
 
 const monthToDate = (string) => {
   const year = string.slice(0, 4);

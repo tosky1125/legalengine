@@ -8,7 +8,7 @@ const {
     Subparagraph,
     Item,
     sequelize
-} = require('./models');
+} = require('../models');
 
 // Operator 를 사용하기 위해서 sequelize 로부터 불러옵니다
 const {

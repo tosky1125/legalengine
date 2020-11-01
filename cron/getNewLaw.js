@@ -10,7 +10,7 @@ const {
 } = require('../models/index');
 const {
   rmSpaceAndSymbols
-} = require('../strHandlerSet');
+} = require('../helpers/strHandlerSet');
 const apiKey = 'tosky0514'
 const monthToDate = (string) => {
   const year = string.slice(0, 4);

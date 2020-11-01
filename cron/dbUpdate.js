@@ -8,7 +8,7 @@ const {
   HTML,
   File,
 } = require('../models/index');
-const revision = require('../testR');
+const revision = require('../helpers/testR');
 
 const init = async (spec, k) => {
   //db update

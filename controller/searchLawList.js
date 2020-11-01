@@ -1,6 +1,6 @@
 const { Law, sequelize } = require('../models');
 const { Op } = require('sequelize');
-const { extractKeyword } = require('../strHandlerSet');
+const { extractKeyword } = require('../helpers/strHandlerSet');
 const parse = require('date-fns/parse');
 
 module.exports = {

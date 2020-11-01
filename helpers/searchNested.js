@@ -9,7 +9,7 @@ const {
   Ministry,
   Revision,
   Subparagraph
-} = require('./models');
+} = require('../models');
 const {
   Op
 } = require('sequelize');

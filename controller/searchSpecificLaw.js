@@ -1,4 +1,4 @@
-const { simpleTotalData } = require('../simpleSearch');
+const { simpleTotalData } = require('../helpers/simpleSearch');
 module.exports = {
     post: async (req, res) => {
       const { lawName } = req.params;

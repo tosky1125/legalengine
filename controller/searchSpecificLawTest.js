@@ -1,4 +1,4 @@
-const simpleSearch = require('../simpleSearch');
+const simpleSearch = require('../helpers/simpleSearch');
 module.exports = {
     get: async (req, res) => {
       const { lawName } = req.params;

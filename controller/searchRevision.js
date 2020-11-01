@@ -1,6 +1,6 @@
 const { Law } = require('../models');
 const { Op } = require('sequelize');
-const { rmSpaceAndSymbols } = require('../strHandlerSet');
+const { rmSpaceAndSymbols } = require('../helpers/strHandlerSet');
 const parse = require('date-fns/parse');
   
   module.exports = {

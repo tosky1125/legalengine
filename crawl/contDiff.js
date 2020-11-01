@@ -1,7 +1,7 @@
 const {
   format,
 } = require('date-fns');
-const totalData = require('../searchNested');
+const totalData = require('../helpers/searchNested');
 const {
   Op,
 } = require('sequelize');

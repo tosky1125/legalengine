@@ -31,7 +31,7 @@ const {
   HTML,
   File,
 } = require('../models/index');
-const revision = require('../testR');
+const revision = require('../helpers/testR');
 
 const spec = async () => {
   const data = await Law.findOne({

@@ -1,4 +1,4 @@
-const totalData = require('../searchNested');
+const totalData = require('../helpers/searchNested');
 const { Law } = require('../models');
 const {
   format
