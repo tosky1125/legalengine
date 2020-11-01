@@ -42,7 +42,7 @@ ins {
   text-align: center;
 }
 
-div[key] .searchword-highlight {
+div[key] .keyword-highlight {
   background-color: #f12ea760;
 }
 

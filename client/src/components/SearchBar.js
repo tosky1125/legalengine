@@ -26,7 +26,7 @@ function SearchBar(props) {
   };
   // 검색 버튼 클릭시 값이 변경된 스테이트를 서버에 전달
   const handleSearch = () => {
-    const payload = { searchWord: word, date: searchDate };
+    const payload = { keyword: word, date: searchDate };
     const { searchList, history, searchWord } = props;
     searchWord(word);
 

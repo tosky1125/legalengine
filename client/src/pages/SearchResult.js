@@ -35,7 +35,7 @@ class SearchResult extends React.Component {
       )}?lawNum=${lawNum}&enfDate=${format(
         new Date(enfDate),
         'yyyy-MM-dd',
-      )}&searchWord=${searchTerm}`,
+      )}&keyword=${searchTerm}`,
       '_blank',
       // 'width=1200, height=800, top=100, left=300, resizable=yes', // 팝업 확인 없이 새창
     );
