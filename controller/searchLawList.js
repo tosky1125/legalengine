@@ -5,14 +5,14 @@ const parse = require('date-fns/parse');
 
 module.exports = {
   post: async (req, res) => {
-    const { date, searchWord } = req.body;
+    const { date, keyword } = req.body;
     const parsedDate = parse(date, 'yyyy-MM-dd', new Date());
-    const refinedKeyword = extractKeyword(searchWord);
+    const refinedKeyword = extractKeyword(keyword);
     console.log(refinedKeyword);
 
     // 만약 sort 된 경우에 빈 문자열이 나왔다면 
     if (refinedKeyword === '') {
-      return [];
+      res.send([]);
     } else {
       const searchResult = await Law.findAll({
         // type 중에서 '헌법', '법률', '대통령령', '총리령', '대법원규칙' 이 나온다면 해당 순수대로 정렬해줍니다

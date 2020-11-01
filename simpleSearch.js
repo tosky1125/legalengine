@@ -124,7 +124,7 @@ const simpleTotalData = async (name, eDate) => {
     console.log(parsedDate);
 
     if (extractedKeyword === '') {
-        return {};
+        res.send([]);
     } else {
         // 연관법령을 찾아주고, relatedLaws 에 할당해줍니다 
         const relatedLaws = await Law.findAll({
@@ -156,6 +156,10 @@ const simpleTotalData = async (name, eDate) => {
     
         // 이제 위에 만들어준 Helper 함수들을 이용하여 Law 안에 Fragment Render 에 필요한 값들만을 Nested 하게 할당한다
         simpleTotalDataResult.Law = await lawResult(name, eDate);
+
+        if (simpleTotalDataResult.Law.length === 0) {
+            res.send([]);
+        }
         simpleTotalDataResult.Law.Chapter = await chapterResult(simpleTotalDataResult.Law);
         for (eachChapter of simpleTotalDataResult.Law.Chapter) {
             eachChapter.Article = await articleResult(eachChapter);
