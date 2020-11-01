@@ -6,26 +6,25 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Col, Container } from 'react-bootstrap';
-import * as searchList from '../modules/searchList';
-import * as searchWord from '../modules/searchWord';
+import * as searchList from '../modules/SearchList';
+import * as searchWord from '../modules/SearchWord';
 
 function SearchBar(props) {
-
+  // 유저 입력값인 검색어와 날짜를 word, searchDate 스테이트로 받기
   const [word, setWord] = useState('');
   const [isLoaded, setisLoaded] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
   const today = format(new Date(), 'yyyy-MM-dd');
   const [searchDate, setSearchDate] = useState(today);
-
+  // 값이 입력되면 스테이트값 변경
   const handleChangeTerm = (e) => {
     setWord(e.target.value);
   };
-
   const handleChangeDate = (e) => {
     setSearchDate(e.target.value);
   };
-
+  // 검색 버튼 클릭시 값이 변경된 스테이트를 서버에 전달
   const handleSearch = () => {
     const payload = { searchWord: word, date: searchDate };
     const { searchList, history, searchWord } = props;

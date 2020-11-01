@@ -6,8 +6,8 @@ import { format } from 'date-fns';
 import {
   Row, Col, Card, Table,
 } from 'react-bootstrap';
-import * as searchList from '../modules/searchList';
-import * as searchWord from '../modules/searchWord';
+import * as searchList from '../modules/SearchList';
+import * as searchWord from '../modules/SearchWord';
 import SearchBar from '../components/SearchBar';
 import Pagination from '../components/Pagination';
 
@@ -76,8 +76,9 @@ class SearchResult extends React.Component {
               <Card.Body className='px-0 py-2'>
                 <Table responsive hover>
                   <tbody>
-                    {pageOfItems.map((item) => (
+                    {pageOfItems.map((item, itemIndex) => (
                       <tr
+                        key={itemIndex}
                         className='searchresult-section'
                         onClick={() => this.handleClickSearch(
                           item.name,
