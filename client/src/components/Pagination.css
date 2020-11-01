@@ -1,0 +1,29 @@
+.pagination > li > a {
+  background-color: white;
+  color: grey !important;
+  font-size: 1.6rem;
+  border: none !important;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+  background-color: #eee;
+  color: white !important;
+  border-radius: 6px;
+  border: none !important;
+}
+
+.pagination > .active > a {
+  color: white !important;
+  background-color: #a01e2d !important;
+  border: solid 1px #a01e2d !important;
+  border-radius: 6px;
+}
+
+.pagination > .active > a:hover {
+  background-color: #a01e2d !important;
+  border: solid 1px #a01e2d;
+  border-radius: 4px;
+}
