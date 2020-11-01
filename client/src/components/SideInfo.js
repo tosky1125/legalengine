@@ -10,8 +10,10 @@ import * as Result from '../modules/Result';
 
 function SideInfo(props) {
   const [isLoaded, setisLoaded] = useState(false);
+  // 연관법령 데이터
   const { RelatedLaw } = props;
   console.log(RelatedLaw);
+  // 클릭시 syntax url에 맞는 쿼리문으로 포맷해 새창에서 열기
   const handleClickSearch = (name, lawNum, enfDate) => {
     const { Law, Related, Result } = props;
     const payload = { lawNum, enfDate };
@@ -53,7 +55,7 @@ function SideInfo(props) {
         console.log(err.config);
       });
   };
-
+  // 서버에서 받아온 정보가 없을 경우 (서버와 연결 장애 혹은 데이터 없음)
   if (RelatedLaw.length === 0) {
     return (
       <div>
