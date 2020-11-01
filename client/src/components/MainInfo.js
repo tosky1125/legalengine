@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import { connect } from 'react-redux';
 import * as Result from '../modules/Result';
@@ -11,7 +12,7 @@ const MainInfo = (props) => {
       dangerouslySetInnerHTML={{
         __html: LawText,
       }}
-    ></div>
+    />
   );
 };
 
@@ -21,5 +22,5 @@ export default connect(
   }),
   (dispatch) => ({
     Result: (data) => dispatch(Result.Result(data)),
-  })
+  }),
 )(MainInfo);

@@ -3,12 +3,11 @@ import './SearchResult.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
-import { Row, Col, Card, Table } from 'react-bootstrap';
-import * as searchlist from '../modules/searchlist';
-import * as Law from '../modules/Law';
-import * as Related from '../modules/Related';
-import * as Result from '../modules/Result';
-import * as searchword from '../modules/searchword';
+import {
+  Row, Col, Card, Table,
+} from 'react-bootstrap';
+import * as searchList from '../modules/searchList';
+import * as searchWord from '../modules/searchWord';
 import SearchBar from '../components/SearchBar';
 import Pagination from '../components/Pagination';
 
@@ -21,28 +20,31 @@ class SearchResult extends React.Component {
     this.onChangePage = this.onChangePage.bind(this);
   }
 
+  // 데이터들의 새로운 페이지로 스테이트 업데이트
   onChangePage(pageOfItems) {
-    // 데이터들의 새로운 페이지로 스테이트 업데이트
     this.setState({ pageOfItems });
   }
 
+  // 검색 결과를 클릭하면 새로운 창을 띄우고 쿼리 요청
   handleClickSearch = (name, lawNum, enfDate) => {
     const { searchTerm } = this.props;
 
     window.open(
       `/law/${encodeURIComponent(
-        name.replace(/[^가-힣^0-9]/g, '')
+        name.replace(/[^가-힣^0-9]/g, ''),
       )}?lawNum=${lawNum}&enfDate=${format(
         new Date(enfDate),
-        'yyyy-MM-dd'
-      )}&searchword=${searchTerm}`,
+        'yyyy-MM-dd',
+      )}&searchWord=${searchTerm}`,
       '_blank',
-      'width=1024, height=800, top=100, left=300'
+      'width=1200, height=800, top=100, left=300',
     );
   };
 
   render() {
-    if (this.props.lawlist.length === 0) {
+    const { lawList } = this.props;
+    const { pageOfItems } = this.state;
+    if (lawList.length === 0) {
       return (
         <div>
           <div className='searchresult-container'>
@@ -66,24 +68,22 @@ class SearchResult extends React.Component {
             <Card className='searchresult-form'>
               <Card.Header>
                 <Card.Title as='h5'>
-                  총{this.props.lawlist.length}
+                  총&nbsp;
+                  {lawList.length}
                   건의 결과
                 </Card.Title>
               </Card.Header>
               <Card.Body className='px-0 py-2'>
                 <Table responsive hover>
                   <tbody>
-                    {this.state.pageOfItems.map((item, index) => (
+                    {pageOfItems.map((item) => (
                       <tr
                         className='searchresult-section'
-                        key={index}
-                        onClick={() =>
-                          this.handleClickSearch(
-                            item.name,
-                            item.number,
-                            item.enforcement_date
-                          )
-                        }
+                        onClick={() => this.handleClickSearch(
+                          item.name,
+                          item.number,
+                          item.enforcement_date,
+                        )}
                       >
                         <td>
                           <h4 className='mb-3'>{item.name}</h4>
@@ -92,7 +92,8 @@ class SearchResult extends React.Component {
                               {item.type}
                             </span>
                             <span className='searchresult-number'>
-                              {item.number}호
+                              {item.number}
+                              호
                             </span>
                             <span className='searchresult-admendment'>
                               {item.amendment_status}
@@ -101,17 +102,17 @@ class SearchResult extends React.Component {
                               {item.ministry}
                             </span>
                             <span className='searchresult-promulgation'>
-                              시행일자 :
+                              시행일자 :&nbsp;
                               {format(
                                 new Date(item.enforcement_date),
-                                'yyyy.MM.dd'
+                                'yyyy.MM.dd',
                               )}
                             </span>
                             <span className='searchresult-enforcement'>
-                              공포일자 :
+                              공포일자 :&nbsp;
                               {format(
                                 new Date(item.promulgation_date),
-                                'yyyy.MM.dd'
+                                'yyyy.MM.dd',
                               )}
                               &nbsp;
                             </span>
@@ -123,7 +124,7 @@ class SearchResult extends React.Component {
                 </Table>
                 <div className='text-center'>
                   <Pagination
-                    items={this.props.lawlist}
+                    items={lawList}
                     onChangePage={this.onChangePage}
                   />
                 </div>
@@ -139,17 +140,11 @@ class SearchResult extends React.Component {
 
 export default connect(
   (state) => ({
-    lawlist: state.searchlist.lawlist,
-    searchTerm: state.searchword.searchword,
-    Law: state.Law.Law,
-    Related: state.Related.Related,
-    Result: state.Result.Result,
+    lawList: state.searchList.lawList,
+    searchTerm: state.searchWord.searchWord,
   }),
   (dispatch) => ({
-    searchlist: (data) => dispatch(searchlist.searchlist(data)),
-    searchword: (data) => dispatch(searchword.searchword(data)),
-    Law: (data) => dispatch(Law.Law(data)),
-    Related: (data) => dispatch(Related.Related(data)),
-    Result: (data) => dispatch(Result.Result(data)),
-  })
+    searchList: (data) => dispatch(searchList.searchList(data)),
+    searchWord: (data) => dispatch(searchWord.searchWord(data)),
+  }),
 )(withRouter(SearchResult));
