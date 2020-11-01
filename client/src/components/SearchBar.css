@@ -2,6 +2,7 @@
   margin: 36px auto;
   width: 100%;
   height: 100%;
+  
   max-width: 800px;
 }
 
@@ -58,79 +59,17 @@
 }
 
 @media (max-width: 767px) {
-  .searchbar-container {
-    text-align: center;
-    margin: 30px auto;
-    width: 100%;
-  }
-
-  .searchbar-flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  .searchbar-form {
-    position: relative;
-    display: inline;
-  }
-
-  .searchbar-Term input {
-    padding: 10px 0;
-    font-size: large;
+  .searchbar-box-word {
+    width: 60vw;
+    height: 3.8rem;
+    font-size: 2rem;
     padding-left: 1rem;
-    width: 20rem;
-    height: 3rem;
-    color: #444;
-    box-sizing: border-box;
-    border: 1px solid lightgrey;
   }
-
-  .searchbar-date {
-    padding: 1rem;
-  }
-  .searchbar-date input {
-    padding: 10px 0;
+  
+  .searchbar-box-calendar {
+    width: 45vw;
+    font-size: 2rem;
+    height: 3.8rem;
     padding-left: 1rem;
-    font-size: large;
-    width: 20rem;
-    height: 3rem;
-    color: #444;
-    box-sizing: border-box;
-    border: 1px solid lightgrey;
-  }
-
-  .search-date {
-    margin-left: 0.1rem;
-  }
-
-  .searchbar-date {
-    margin-left: 0.1rem;
-  }
-
-  .searchbar-btn {
-    margin-right: 2rem;
-    background-color: #a01e2d;
-    border: 2px solid #a01e2d;
-    border-radius: 0.3rem;
-    height: 3rem;
-    width: 20rem;
-    font-size: 1.3em;
-    font-weight: bold;
-    transition-duration: 0.4s;
-  }
-
-  .searchbar-btn:hover {
-    cursor: pointer;
-    background-color: white;
-    font-weight: bold;
-    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-      0 17px 50px 0 rgba(0, 0, 0, 0.19);
-  }
-
-  .valid-error {
-    font-size: medium;
-    color: red;
   }
 }

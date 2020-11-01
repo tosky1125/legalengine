@@ -10,6 +10,8 @@ import * as Result from '../modules/Result';
 
 function SideInfo(props) {
   const [isLoaded, setisLoaded] = useState(false);
+  const { match } = props;
+  const [name] = useState(match.params.key);
   // 연관법령 데이터
   const { RelatedLaw } = props;
   console.log(RelatedLaw);
@@ -41,7 +43,7 @@ function SideInfo(props) {
             'yyyy-MM-dd',
           )}`,
           '_blank',
-          'width=1024,height=800,top=70,left=330',
+          // 'width=1200, height=800, top=120, left=350, resizable=yes', // 팝업 확인 없이 새창
         );
       })
       .catch((err) => {
@@ -73,9 +75,9 @@ function SideInfo(props) {
         href='https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'
       />
       {RelatedLaw.map((sideInfo, sideInfoIndex) => (
-        <div className='sideInfo-body' key={sideInfoIndex}>
+        <div className={sideInfo.name.replace(/[^ㄱ-ㅎ가-힇0-9]/g, '') === name ? 'selected-info' : 'sideInfo-body'} key={sideInfoIndex}>
           <button
-            className='sideInfo-title'
+            className={sideInfo.name.replace(/[^ㄱ-ㅎ가-힇0-9]/g, '') === name ? 'selected-title' : 'sideInfo-title'}
             onClick={() => handleClickSearch(
               sideInfo.name,
               sideInfo.number,
