@@ -18,9 +18,9 @@ function SideInfo(props) {
     axios
       .post(
         `http://13.125.112.243/law/${encodeURIComponent(
-          name
+          name,
         )}?lawNum=${lawNum}&enfDate=${enfDate}`,
-        payload
+        payload,
       )
       .then((data) => {
         Related(data.data.Related);
@@ -31,16 +31,16 @@ function SideInfo(props) {
       .then(() => {
         window.open(
           `/law/${encodeURIComponent(
-            name.replace(/[^가-힣^0-9]/g, '')
+            name.replace(/[^가-힣^0-9]/g, ''),
           )}?lawNum=${lawNum}&enfDate=${format(
             new Date(enfDate),
-            'yyyy-MM-dd'
+            'yyyy-MM-dd',
           )}`,
           '_blank',
-          'width=1024,height=800,top=70,left=330'
+          'width=1024,height=800,top=70,left=330',
         );
       })
-      .catch(function (err) {
+      .catch((err) => {
         if (err.res) {
           console.log(err.res.data);
           console.log(err.res.status);
@@ -72,25 +72,29 @@ function SideInfo(props) {
         <div className='sideInfo-body' key={sideInfoIndex}>
           <h4
             className='sideInfo-title'
-            onClick={() =>
-              handleClickSearch(
-                sideInfo.name,
-                sideInfo.number,
-                sideInfo.enforcement_date
-              )
-            }
+            onClick={() => handleClickSearch(
+              sideInfo.name,
+              sideInfo.number,
+              sideInfo.enforcement_date,
+            )}
           >
             {sideInfo.name}
           </h4>
           <p className='sideInfo-info'>
-            [시행 {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}]
+            [시행
+            {' '}
+            {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}
+            ]
             <p>
-              [{sideInfo.type}
+              [
+              {sideInfo.type}
               &nbsp;
-              {sideInfo.number}호,&nbsp;
+              {sideInfo.number}
+              호,&nbsp;
               {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
               &nbsp;
-              {sideInfo.amendment_status}]
+              {sideInfo.amendment_status}
+              ]
             </p>
           </p>
         </div>
@@ -101,7 +105,7 @@ function SideInfo(props) {
 
 export default connect(
   (state) => ({
-    lawlist: state.searchlist.lawlist,
+    lawList: state.searchList.lawList,
     Law: state.Law.Law,
     RelatedLaw: state.Related.Related,
     Result: state.Result.Result,
@@ -110,5 +114,5 @@ export default connect(
     Law: (data) => dispatch(Law.Law(data)),
     Related: (data) => dispatch(Related.Related(data)),
     Result: (data) => dispatch(Result.Result(data)),
-  })
+  }),
 )(withRouter(SideInfo));

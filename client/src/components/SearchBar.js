@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Col, Container } from 'react-bootstrap';
-import * as searchlist from '../modules/searchlist';
-import * as searchword from '../modules/searchword';
+import * as searchList from '../modules/searchList';
+import * as searchWord from '../modules/searchWord';
 
 function SearchBar(props) {
-  const [searchWord, setSearchWord] = useState('');
+  const [word, setWord] = useState('');
   const [isLoaded, setisLoaded] = useState(false);
   const { register, handleSubmit, errors } = useForm();
 
@@ -18,7 +18,7 @@ function SearchBar(props) {
   const [searchDate, setSearchDate] = useState(today);
 
   const handleChangeTerm = (e) => {
-    setSearchWord(e.target.value);
+    setWord(e.target.value);
     console.log(e.target.value);
   };
   const handleChangeDate = (e) => {
@@ -27,15 +27,14 @@ function SearchBar(props) {
   };
 
   const handleSearch = () => {
-    const payload = { searchWord, date: searchDate };
-    // eslint-disable-next-line no-shadow
-    const { searchlist, history, searchword } = props;
-    searchword(searchWord);
+    const payload = { searchWord: word, date: searchDate };
+    const { searchList, history, searchWord } = props;
+    searchWord(word);
 
     axios
       .post('http://13.125.112.243/search', payload)
       .then((res) => {
-        searchlist(res.data);
+        searchList(res.data);
         setisLoaded(true);
       })
       .then(() => {
@@ -68,7 +67,7 @@ function SearchBar(props) {
               <div className='searchbar-box'>
                 <input
                   type='text'
-                  name='setSearchWord'
+                  name='setWord'
                   className='searchbar-box-word'
                   ref={register({
                     required: true,
@@ -90,7 +89,7 @@ function SearchBar(props) {
                 </button>
               </div>
               <p className='valid-error'>
-                {errors.setSearchWord && '문자와 숫자 2글자 이상 입력해주세요.'}
+                {errors.setWord && '문자와 숫자 2글자 이상 입력해주세요.'}
               </p>
             </Col>
             <Col md={2} />
@@ -102,11 +101,11 @@ function SearchBar(props) {
 }
 export default connect(
   (state) => ({
-    seachlist: state.searchlist.seachlist,
-    searchword: state.searchword.searchword,
+    seachlist: state.searchList.seachList,
+    searchWord: state.searchWord.searchWord,
   }),
   (dispatch) => ({
-    searchlist: (data) => dispatch(searchlist.searchlist(data)),
-    searchword: (data) => dispatch(searchword.searchword(data)),
-  })
+    searchList: (data) => dispatch(searchList.searchList(data)),
+    searchWord: (data) => dispatch(searchWord.searchWord(data)),
+  }),
 )(withRouter(SearchBar));

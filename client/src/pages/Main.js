@@ -4,6 +4,7 @@ import Typist from 'react-typist';
 import SearchBar from '../components/SearchBar';
 
 function Main() {
+  // Typist 라이브러리 이용 메인페이지 typo 애니메이션 적용
   return (
     <div className='main-container'>
       <h1 className='main-logo'>

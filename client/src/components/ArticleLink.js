@@ -11,13 +11,13 @@ function ArticleLink(props) {
 
   let Addenda = LawData.Chapter;
 
-  let File = LawData.File;
+  let { File } = LawData;
 
-  //편:part 장:chapter 절:section 관:sub-section
+  // 편:part 장:chapter 절:section 관:sub-section
 
   const articleUrlfragment = (strFrom) => {
     const str = String(strFrom);
-    const artUrl = '#' + '0'.repeat(3) + str;
+    const artUrl = `#${'0'.repeat(3)}${str}`;
     return artUrl;
   };
 
@@ -44,8 +44,8 @@ function ArticleLink(props) {
         child: [],
       };
     } else if (
-      chapEle.context &&
-      chapEle.context.substring(0, 3).includes('장')
+      chapEle.context
+      && chapEle.context.substring(0, 3).includes('장')
     ) {
       if (!partNum) {
         partNum++;
@@ -65,8 +65,8 @@ function ArticleLink(props) {
         child: [],
       };
     } else if (
-      chapEle.context &&
-      chapEle.context.substring(0, 3).includes('절')
+      chapEle.context
+      && chapEle.context.substring(0, 3).includes('절')
     ) {
       if (!partNum) {
         partNum++;
@@ -93,8 +93,8 @@ function ArticleLink(props) {
         child: [],
       };
     } else if (
-      chapEle.context &&
-      chapEle.context.substring(0, 3).includes('관')
+      chapEle.context
+      && chapEle.context.substring(0, 3).includes('관')
     ) {
       if (!partNum) {
         partNum++;
@@ -150,8 +150,8 @@ function ArticleLink(props) {
       <div>
         {result.map((ele1, ele1Index) => (
           <div key={ele1Index}>
-            {ele1.value &&
-              ele1.article.map((artele1, artele1Index) => (
+            {ele1.value
+              && ele1.article.map((artele1, artele1Index) => (
                 <div key={artele1Index}>
                   <a href={articleUrlfragment(artele1.article_id)}>
                     <div>
@@ -168,8 +168,8 @@ function ArticleLink(props) {
               <label htmlFor={`${ele1Index}-part`}>{ele1.value}</label>
             )}
             <div>
-              {ele1.child.length !== 0 &&
-                ele1.child.map((ele2, ele2Index) => (
+              {ele1.child.length !== 0
+                && ele1.child.map((ele2, ele2Index) => (
                   <div key={ele2Index}>
                     <input type='checkbox' id={`${ele2Index}-chapter`} />
                     {ele2.value && (
@@ -177,8 +177,8 @@ function ArticleLink(props) {
                         {ele2.value}
                       </label>
                     )}
-                    {ele2.child.length !== 0 &&
-                      ele2.child.map((ele3, ele3Index) => (
+                    {ele2.child.length !== 0
+                      && ele2.child.map((ele3, ele3Index) => (
                         <div key={ele3Index}>
                           <input type='checkbox' id={`${ele3Index}-section`} />
                           {ele3.value && (
@@ -186,8 +186,8 @@ function ArticleLink(props) {
                               {ele3.value}
                             </label>
                           )}
-                          {ele3.child.length !== 0 &&
-                            ele3.child.map((ele4, ele4Index) => (
+                          {ele3.child.length !== 0
+                            && ele3.child.map((ele4, ele4Index) => (
                               <div key={ele4Index}>
                                 <input
                                   type='checkbox'
@@ -198,12 +198,12 @@ function ArticleLink(props) {
                                     {ele4.value}
                                   </label>
                                 )}
-                                {ele4.article !== null &&
-                                  ele4.article.map((artele4, artele4Index) => (
+                                {ele4.article !== null
+                                  && ele4.article.map((artele4, artele4Index) => (
                                     <div key={artele4Index}>
                                       <a
                                         href={articleUrlfragment(
-                                          artele4.article_id
+                                          artele4.article_id,
                                         )}
                                       >
                                         <span>
@@ -219,8 +219,8 @@ function ArticleLink(props) {
                                   ))}
                               </div>
                             ))}
-                          {ele3.article !== null &&
-                            ele3.article.map((artele3, artele3Index) => (
+                          {ele3.article !== null
+                            && ele3.article.map((artele3, artele3Index) => (
                               <div key={artele3Index}>
                                 <a
                                   href={articleUrlfragment(artele3.article_id)}
@@ -238,13 +238,14 @@ function ArticleLink(props) {
                             ))}
                         </div>
                       ))}
-                    {ele2.article !== null &&
-                      ele2.article.map((artele2, artele2Index) => (
+                    {ele2.article !== null
+                      && ele2.article.map((artele2, artele2Index) => (
                         <div key={artele2Index}>
                           <a href={articleUrlfragment(artele2.article_id)}>
                             <div>
                               <span className='articlelink-article-title'>
-                                {artele2.article_title}{' '}
+                                {artele2.article_title}
+                                {' '}
                               </span>
                               <span className='date'>
                                 {artele2.article_date}
@@ -255,8 +256,8 @@ function ArticleLink(props) {
                       ))}
                   </div>
                 ))}
-              {ele1.article !== null &&
-                ele1.article.map((artele1, artele1Index) => (
+              {ele1.article !== null
+                && ele1.article.map((artele1, artele1Index) => (
                   <div key={artele1Index}>
                     <a href={articleUrlfragment(artele1.article_id)}>
                       <div>
@@ -275,10 +276,10 @@ function ArticleLink(props) {
     </div>
   );
 
-  //부칙 Addenda
+  // 부칙 Addenda
   const addendaUrlfragment = (strFrom) => {
     const str = String(strFrom);
-    const addendaUrl = '#' + '0'.repeat(1) + str;
+    const addendaUrl = `#${'0'.repeat(1)}${str}`;
     return addendaUrl;
   };
 
@@ -305,10 +306,10 @@ function ArticleLink(props) {
     </div>
   );
 
-  //서식 File
+  // 서식 File
   const fileUrlfragment = (strFrom) => {
     const str = String(strFrom);
-    const addendaUrl = '#form' + str;
+    const addendaUrl = `#form${str}`;
     return addendaUrl;
   };
 
@@ -343,16 +344,15 @@ function ArticleLink(props) {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div>
-        <div className='articlelink-contanier'>
-          {result}
-          {Addenda}
-        </div>
-      </div>
-    );
   }
+  return (
+    <div>
+      <div className='articlelink-contanier'>
+        {result}
+        {Addenda}
+      </div>
+    </div>
+  );
 }
 
 export default connect(
@@ -363,5 +363,5 @@ export default connect(
   (dispatch) => ({
     Law: (data) => dispatch(Law.Law(data)),
     Related: (data) => dispatch(Related.Related(data)),
-  })
+  }),
 )(ArticleLink);

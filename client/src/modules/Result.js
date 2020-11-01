@@ -14,5 +14,5 @@ export default handleActions(
       Result: action.payload,
     }),
   },
-  initialState
+  initialState,
 );

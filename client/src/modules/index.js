@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
-import searchlist from './searchlist';
+import searchList from './searchList';
 import Law from './Law';
-import searchword from './searchword';
+import searchWord from './searchWord';
 import Related from './Related';
 import Result from './Result';
 
 export default combineReducers({
-  searchlist,
-  searchword,
+  searchList,
+  searchWord,
   Law,
   Related,
   Result,
