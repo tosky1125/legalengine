@@ -115,8 +115,14 @@ const simpleTotalData = async (name, eDate) => {
     // 담을 빈 객체를 선언해줍니다, 재할당이 있기 때문에 let으로 선언하였습니다
     let simpleTotalDataResult = {};
 
+    // "헌법" 이 inline 링크를 눌러 요청이 온다면, 앞에 "대한민국" 을 붙여줍니다
+    if(name === '헌법') {
+        name = '대한민국' + name;
+    }
+
     // 법의 이름으로부터 연관법령을 조회하기 위한 키워드를 추출합니다
-    const extractedKeyword = extractKeyword(name);
+    let extractedKeyword = extractKeyword(name);
+
     console.log(extractKeyword);
 
     // String 으로 들어온 날짜를 DB 에서 비교할 수 있도록 Date 객체로 parsing 해 줍니다
