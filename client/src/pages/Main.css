@@ -13,11 +13,10 @@
   font-size: 3rem;
 }
 @media (max-width: 767px) {
-  .main-logo {
-    display: block;
-    width: 20rem;
-    padding-top: 10rem;
-    margin: 0 auto;
-    margin-bottom: 2rem;
+  .main-container {
+    position: fixed;
+    top: 20vh;
+    text-align: center;
+    color: black;
   }
 }

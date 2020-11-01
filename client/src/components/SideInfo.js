@@ -41,7 +41,7 @@ function SideInfo(props) {
             'yyyy-MM-dd',
           )}`,
           '_blank',
-          'width=1024,height=800,top=70,left=330',
+          // 'width=1200, height=800, top=120, left=350, resizable=yes', // 팝업 확인 없이 새창
         );
       })
       .catch((err) => {

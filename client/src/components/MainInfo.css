@@ -209,3 +209,16 @@ a {
   font-size: 16px;
   transition-duration: 0.4s;
 }
+
+@media (max-width: 767px) {
+  .maininfo-container {
+    position: fixed; 
+    margin-left: -15vw; 
+    width: 90vw;
+    height: 85vh;
+    align-content: center;  
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
