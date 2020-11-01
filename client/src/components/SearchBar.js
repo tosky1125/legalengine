@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Col, Container } from 'react-bootstrap';
-import * as searchList from '../modules/searchList';
-import * as searchWord from '../modules/searchWord';
+import * as searchList from '../modules/SearchList';
+import * as searchWord from '../modules/SearchWord';
 
 function SearchBar(props) {
   const [word, setWord] = useState('');
