@@ -6,9 +6,9 @@ import queryString from 'query-string';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
-import SideInfo from './SideInfo';
-import ArticleLink from './ArticleLink';
-import ConvertToPDF from './ConvertToPDF';
+import SideInfo from '../components/SideInfo';
+import ArticleLink from '../components/ArticleLink';
+import ConvertToPDF from '../components/ConvertToPDF';
 import './ViewPage.css';
 
 function ViewPage(props) {

@@ -71,12 +71,13 @@ div[key] .searchword-highlight {
   color: #161694;
   font-size: x-large;
   font-weight: 600;
-  line-height: 400%;
+  line-height: 3 !important;
 }
 
 .maininfo-contents {
   line-height: 200%;
-  padding-top: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .maininfo-article-title {

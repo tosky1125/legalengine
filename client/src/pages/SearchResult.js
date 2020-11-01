@@ -9,8 +9,8 @@ import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 import * as searchword from '../modules/searchword';
-import SearchBar from './SearchBar';
-import Pagination from './Pagination';
+import SearchBar from '../components/SearchBar';
+import Pagination from '../components/Pagination';
 
 class SearchResult extends React.Component {
   constructor(props) {

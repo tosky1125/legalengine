@@ -14,9 +14,8 @@ function Footer() {
             </Col>
             <Col md={6}>
               <span>
-                &copy;
-                {new Date().getFullYear()}
-                Copyright Inc., All rights reserved.
+                &copy; {new Date().getFullYear()} Carillon Inc., All rights
+                reserved.
               </span>
             </Col>
             <Col md={2}>
