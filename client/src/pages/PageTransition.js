@@ -18,7 +18,7 @@ function PageTransition({ location }) {
         >
           <section className='route-section'>
             <Switch location={location}>
-              <Route path exact='/' component={Main} />
+              <Route path='/' exact component={Main} />
               <Route path='/search' component={SearchResult} />
               <Route path='/law/:key' component={ViewPage} />
             </Switch>
