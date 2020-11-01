@@ -1,0 +1,31 @@
+.sideInfo-body {
+  border-bottom: 0.5px solid #eee;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.sideInfo-title {
+  border: none;
+  background-color: white;
+  text-align: left;
+}
+
+.selected-info {
+  background-color: rgb(236, 234, 232); 
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.selected-title {
+  border: none;
+  background-color: rgb(236, 234, 232)
+}
+
+.sideInfo-title:hover {
+  cursor: pointer;
+}
+
+.sideInfo-info {
+  color: rgb(36, 138, 179);
+}
