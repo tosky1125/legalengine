@@ -9,6 +9,12 @@
 /client
 # production
 /build
+<<<<<<< HEAD:server/.gitignore
+=======
+.vscode
+.gitignore
+
+>>>>>>> eb1c47f48617da70866c949253b914fad97ea637:client/.gitignore
 # misc
 .DS_Store
 .env.local

@@ -9,7 +9,11 @@
     "axios": "^0.20.0",
     "bootstrap": "^4.5.3",
     "core-js": "^3.6.5",
+<<<<<<< HEAD
     "date-fns": "^2.16.1",
+=======
+    "date-fns": "^2.16.1",  
+>>>>>>> eb1c47f48617da70866c949253b914fad97ea637
     "query-string": "^6.13.6",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
