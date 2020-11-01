@@ -1,13 +1,11 @@
 .main-container {
   position: relative;
-  margin: 11rem;
-  height: 52rem;
   text-align: center;
   color: black;
 }
 .main-logo {
   display: block;
-  padding-top: 10rem;
+  padding-top: 15%;
   margin: 0 auto;
 }
 .main-ele-logo-dot {

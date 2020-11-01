@@ -1,18 +1,18 @@
 import { createAction, handleActions } from 'redux-actions';
 
-const SEARCHWORD = 'searchword';
+const SEARCHWORD = 'searchWord';
 
-export const searchword = createAction(SEARCHWORD);
+export const searchWord = createAction(SEARCHWORD);
 
 const initialState = {
-  searchword: '',
+  searchWord: '',
 };
 
 export default handleActions(
   {
     [SEARCHWORD]: (state, action) => ({
-      searchword: action.payload,
+      searchWord: action.payload,
     }),
   },
-  initialState
+  initialState,
 );

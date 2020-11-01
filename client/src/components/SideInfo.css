@@ -2,6 +2,13 @@
   border-bottom: 0.5px solid #eee;
 }
 
+.sideInfo-title {
+  border: none;
+  background-color: white;
+  text-align: left;
+  padding: 0;
+}
+
 .sideInfo-title:hover {
   cursor: pointer;
 }

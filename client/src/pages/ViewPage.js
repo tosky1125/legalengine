@@ -2,60 +2,72 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import * as Law from '../modules/Law';
 import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
-import SideInfo from './SideInfo';
-import ArticleLink from './ArticleLink';
-import './ViewPage.css';
+import SideInfo from '../components/SideInfo';
+import ArticleLink from '../components/ArticleLink';
 import ConvertToPDF from '../components/ConvertToPDF';
-import queryString from 'query-string';
+import './ViewPage.css';
 
 function ViewPage(props) {
   const [isLoaded, setisLoaded] = useState(false);
-  const [name] = useState(props.match.params.key);
-  
-  const changeStr = (str, searchword) => {
+  const { match } = props;
+  const [name] = useState(match.params.key);
+
+  // 검색어 하이라이트
+  const changeStr = (str, searchWord) => {
     const bracket = new Set(['<', '>']);
     let isOn = false;
-    const { length } = searchword;
-    
+    let changeLaw = '';
+    let temp = '';
+
+    const { length } = searchWord;
+
     for (let i = 0; i < str.length; i++) {
       const keyCheck = str.slice(i, i + length);
+
       if (bracket.has(str[i])) {
         isOn = !isOn;
       }
-      if (!isOn && keyCheck === searchword) {
+      if (!isOn && keyCheck === searchWord) {
         const tmp1 = str.slice(0, i);
         const tmp2 = str.slice(i + length, str.length);
-        str = `${tmp1}thishashkey${tmp2}`;
+        temp = `${tmp1}thishashkey${tmp2}`;
       }
     }
-    str = str.replace(
+
+    changeLaw = temp.replace(
       /thishashkey/g,
-      `<span class='searchword-highlight'>${searchword}</span>`
+      `<span class='searchWord-highlight'>${searchWord}</span>`,
     );
-    return str;
+    return changeLaw;
   };
 
+  // 요청 받은 쿼리에 따라 서버에 Post 요청
   useEffect(() => {
     const { Law, Related, Result } = props;
-    const { lawNum, enfDate, searchword } = queryString.parse(
-      props.location.search
-    );
+    const { lawNum, enfDate, searchWord } = queryString.parse(props.location.search);
     const payload = { lawNum, enfDate };
+
     let url = `http://13.125.112.243/law/${encodeURIComponent(
-      name
+      name,
     )}?lawNum=${lawNum}&enfDate=${enfDate}`;
     if (!lawNum) {
       url = `http://13.125.112.243/law/${name}?enfDate=${enfDate}`;
     }
+
     axios
       .post(url, payload)
       .then((data) => {
         Related(data.data.Related);
         Law(data.data.Law);
-        Result(changeStr(data.data.Law.context, searchword));
+        if (searchWord) {
+          Result(changeStr(data.data.Law.context, searchWord));
+        } else {
+          Result(data.data.Law.context);
+        }
         setisLoaded(true);
       })
       .catch((err) => {
@@ -70,9 +82,7 @@ function ViewPage(props) {
         }
         console.log(err.config);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
 
   if (isLoaded === true) {
     return (
@@ -86,16 +96,15 @@ function ViewPage(props) {
         <ConvertToPDF />
       </div>
     );
-  } else {
-    return (
-      <div>
-        <div className='loder-container'>
-          <p className='loader-message'>Loading...</p>
-          <div className='loader'></div>
-        </div>
-      </div>
-    );
   }
+  return (
+    <div>
+      <div className='loder-container'>
+        <p className='loader-message'>Loading...</p>
+        <div className='loader' />
+      </div>
+    </div>
+  );
 }
 
 export default connect(
@@ -108,5 +117,5 @@ export default connect(
     Law: (data) => dispatch(Law.Law(data)),
     Related: (data) => dispatch(Related.Related(data)),
     Result: (data) => dispatch(Result.Result(data)),
-  })
+  }),
 )(withRouter(ViewPage));

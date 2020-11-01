@@ -1,9 +1,10 @@
 import React from 'react';
 import './Main.css';
-import SearchBar from './SearchBar';
 import Typist from 'react-typist';
+import SearchBar from '../components/SearchBar';
 
 function Main() {
+  // Typist 라이브러리 이용 메인페이지 typo 애니메이션 적용
   return (
     <div className='main-container'>
       <h1 className='main-logo'>
@@ -13,7 +14,8 @@ function Main() {
           <span className='main-ele'> 시간 기반 법령 검색 </span>
           <Typist.Backspace count={30} delay={200} />
           <span className='main-ele-logo'>
-            LegalEngine<span className='main-ele-logo-dot'>. </span>
+            LegalEngine
+            <span className='main-ele-logo-dot'>. </span>
           </span>
         </Typist>
       </h1>

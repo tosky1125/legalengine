@@ -1,75 +1,50 @@
 import React from 'react';
-import SearchBar from './SearchBar';
-import Pagination from './Pagination';
+import './SearchResult.css';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { format } from 'date-fns';
-import * as searchlist from '../modules/searchlist';
-import * as Law from '../modules/Law';
-import * as Related from '../modules/Related';
-import * as Result from '../modules/Result';
-import * as searchword from '../modules/searchword';
-import './SearchResult.css';
-import { Row, Col, Card, Table } from 'react-bootstrap';
+import {
+  Row, Col, Card, Table,
+} from 'react-bootstrap';
+import * as searchList from '../modules/SearchList';
+import * as searchWord from '../modules/SearchWord';
+import SearchBar from '../components/SearchBar';
+import Pagination from '../components/Pagination';
 
 class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       pageOfItems: [],
-      isLoaded: false,
     };
     this.onChangePage = this.onChangePage.bind(this);
   }
 
+  // 데이터들의 새로운 페이지로 스테이트 업데이트
   onChangePage(pageOfItems) {
-    // 데이터들의 새로운 페이지로 스테이트 업데이트
-    this.setState({ pageOfItems: pageOfItems });
+    this.setState({ pageOfItems });
   }
 
+  // 검색 결과를 클릭하면 새로운 창을 띄우고 쿼리 요청
   handleClickSearch = (name, lawNum, enfDate) => {
     const { searchTerm } = this.props;
-    const payload = { lawNum, enfDate };
-    axios
-      .post(
-        `http://13.125.112.243:80/law/${encodeURIComponent(
-          name
-        )}?lawNum=${lawNum}&enfDate=${enfDate}`,
-        payload
-      )
-      .then((res) => {
-        this.setState({
-          isLoaded: true,
-        });
-      })
-      .then(() => {
-        window.open(
-          `/law/${encodeURIComponent(
-            name.replace(/[^가-힣^0-9]/g, '')
-          )}?lawNum=${lawNum}&enfDate=${format(
-            new Date(enfDate),
-            'yyyy-MM-dd'
-          )}&searchword=${searchTerm}`,
-          '_blank'
-        );
-      })
-      .catch(function (err) {
-        if (err.res) {
-          console.log(err.res.data);
-          console.log(err.res.status);
-          console.log(err.res.headers);
-        } else if (err.req) {
-          console.log(err.req);
-        } else {
-          console.log('Error', err.message);
-        }
-        console.log(err.config);
-      });
+
+    window.open(
+      `/law/${encodeURIComponent(
+        name.replace(/[^가-힣^0-9]/g, ''),
+      )}?lawNum=${lawNum}&enfDate=${format(
+        new Date(enfDate),
+        'yyyy-MM-dd',
+      )}&searchWord=${searchTerm}`,
+      '_blank',
+      'width=1200, height=800, top=100, left=300',
+    );
   };
 
   render() {
-    if (this.props.lawlist.length === 0) {
+    const { lawList } = this.props;
+    const { pageOfItems } = this.state;
+    if (lawList.length === 0) {
       return (
         <div>
           <div className='searchresult-container'>
@@ -88,28 +63,28 @@ class SearchResult extends React.Component {
       <div className='searchresult-container'>
         <SearchBar />
         <Row>
-          <Col md={1}></Col>
+          <Col md={1} />
           <Col md={10}>
             <Card className='searchresult-form'>
               <Card.Header>
                 <Card.Title as='h5'>
-                  총 {this.props.lawlist.length}건의 결과
+                  총&nbsp;
+                  {lawList.length}
+                  건의 결과
                 </Card.Title>
               </Card.Header>
               <Card.Body className='px-0 py-2'>
                 <Table responsive hover>
                   <tbody>
-                    {this.state.pageOfItems.map((item, index) => (
+                    {pageOfItems.map((item, itemIndex) => (
                       <tr
+                        key={itemIndex}
                         className='searchresult-section'
-                        key={index}
-                        onClick={() =>
-                          this.handleClickSearch(
-                            item.name,
-                            item.number,
-                            item.enforcement_date
-                          )
-                        }
+                        onClick={() => this.handleClickSearch(
+                          item.name,
+                          item.number,
+                          item.enforcement_date,
+                        )}
                       >
                         <td>
                           <h4 className='mb-3'>{item.name}</h4>
@@ -118,7 +93,8 @@ class SearchResult extends React.Component {
                               {item.type}
                             </span>
                             <span className='searchresult-number'>
-                              {item.number}호
+                              {item.number}
+                              호
                             </span>
                             <span className='searchresult-admendment'>
                               {item.amendment_status}
@@ -127,17 +103,17 @@ class SearchResult extends React.Component {
                               {item.ministry}
                             </span>
                             <span className='searchresult-promulgation'>
-                              시행일자 :
+                              시행일자 :&nbsp;
                               {format(
                                 new Date(item.enforcement_date),
-                                'yyyy.MM.dd'
+                                'yyyy.MM.dd',
                               )}
                             </span>
                             <span className='searchresult-enforcement'>
-                              공포일자 :
+                              공포일자 :&nbsp;
                               {format(
                                 new Date(item.promulgation_date),
-                                'yyyy.MM.dd'
+                                'yyyy.MM.dd',
                               )}
                               &nbsp;
                             </span>
@@ -149,14 +125,14 @@ class SearchResult extends React.Component {
                 </Table>
                 <div className='text-center'>
                   <Pagination
-                    items={this.props.lawlist}
+                    items={lawList}
                     onChangePage={this.onChangePage}
                   />
                 </div>
               </Card.Body>
             </Card>
           </Col>
-          <Col md={1}></Col>
+          <Col md={1} />
         </Row>
       </div>
     );
@@ -165,17 +141,11 @@ class SearchResult extends React.Component {
 
 export default connect(
   (state) => ({
-    lawlist: state.searchlist.lawlist,
-    searchTerm: state.searchword.searchword,
-    Law: state.Law.Law,
-    Related: state.Related.Related,
-    Result: state.Result.Result,
+    lawList: state.searchList.lawList,
+    searchTerm: state.searchWord.searchWord,
   }),
   (dispatch) => ({
-    searchlist: (data) => dispatch(searchlist.searchlist(data)),
-    searchword: (data) => dispatch(searchword.searchword(data)),
-    Law: (data) => dispatch(Law.Law(data)),
-    Related: (data) => dispatch(Related.Related(data)),
-    Result: (data) => dispatch(Result.Result(data)),
-  })
+    searchList: (data) => dispatch(searchList.searchList(data)),
+    searchWord: (data) => dispatch(searchWord.searchWord(data)),
+  }),
 )(withRouter(SearchResult));

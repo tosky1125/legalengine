@@ -54,7 +54,6 @@ div[key] .searchword-highlight {
   height: 80%;
   align-content: center;
   padding: 1rem;
-
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -72,15 +71,24 @@ div[key] .searchword-highlight {
   color: #161694;
   font-size: x-large;
   font-weight: 600;
-  line-height: 400%;
+  line-height: 3 !important;
 }
 
 .maininfo-contents {
   line-height: 200%;
-  padding-top: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .maininfo-article-title {
+  display: inline;
+  color: #161694;
+  padding-left: 0.5rem;
+  font-size: medium;
+  font-weight: 500;
+}
+
+.maininfo-addenda-title {
   display: inline;
   color: #161694;
   padding-left: 0.5rem;
@@ -187,6 +195,7 @@ a {
   font-size: 16px;
   transition-duration: 0.4s;
 }
+
 .file-button-pdf {
   background-color: #e20f32;
   border: 1px solid #e20f32;

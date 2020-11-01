@@ -9,19 +9,22 @@ import * as Related from '../modules/Related';
 import * as Result from '../modules/Result';
 
 function SideInfo(props) {
-  // eslint-disable-next-line no-unused-vars
   const [isLoaded, setisLoaded] = useState(false);
+  // 연관법령 데이터
   const { RelatedLaw } = props;
   console.log(RelatedLaw);
+  // 클릭시 syntax url에 맞는 쿼리문으로 포맷해 새창에서 열기
+  // 기존 방식은 IE 에서 팝업창으로 인식하는 경우가 있어, 새탭이 아닌
+  // 완전히 새로운 창에서 여는 방식을 채택. 하지만 고객 선호에 따라 수정해야할 수 있음.
   const handleClickSearch = (name, lawNum, enfDate) => {
     const { Law, Related, Result } = props;
     const payload = { lawNum, enfDate };
     axios
       .post(
         `http://13.125.112.243/law/${encodeURIComponent(
-          name
+          name,
         )}?lawNum=${lawNum}&enfDate=${enfDate}`,
-        payload
+        payload,
       )
       .then((data) => {
         Related(data.data.Related);
@@ -32,15 +35,16 @@ function SideInfo(props) {
       .then(() => {
         window.open(
           `/law/${encodeURIComponent(
-            name.replace(/[^가-힣^0-9]/g, '')
+            name.replace(/[^가-힣^0-9]/g, ''),
           )}?lawNum=${lawNum}&enfDate=${format(
             new Date(enfDate),
-            'yyyy-MM-dd'
+            'yyyy-MM-dd',
           )}`,
-          '_blank'
+          '_blank',
+          'width=1024,height=800,top=70,left=330',
         );
       })
-      .catch(function (err) {
+      .catch((err) => {
         if (err.res) {
           console.log(err.res.data);
           console.log(err.res.status);
@@ -53,6 +57,7 @@ function SideInfo(props) {
         console.log(err.config);
       });
   };
+  // 서버에서 받아온 정보가 없을 경우 (서버와 연결 장애 혹은 데이터 없음)
   if (RelatedLaw.length === 0) {
     return (
       <div>
@@ -69,27 +74,32 @@ function SideInfo(props) {
       />
       {RelatedLaw.map((sideInfo, sideInfoIndex) => (
         <div className='sideInfo-body' key={sideInfoIndex}>
-          <h4
+          <button
             className='sideInfo-title'
-            onClick={() =>
-              handleClickSearch(
-                sideInfo.name,
-                sideInfo.number,
-                sideInfo.enforcement_date
-              )
-            }
+            onClick={() => handleClickSearch(
+              sideInfo.name,
+              sideInfo.number,
+              sideInfo.enforcement_date,
+            )}
+            type='button'
           >
-            {sideInfo.name}
-          </h4>
+            <h4>{sideInfo.name}</h4>
+          </button>
           <p className='sideInfo-info'>
-            [시행 {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}]
+            [시행
+            {' '}
+            {format(new Date(sideInfo.enforcement_date), 'yyyy.MM.dd.')}
+            ]
             <p>
-              [{sideInfo.type}
+              [
+              {sideInfo.type}
               &nbsp;
-              {sideInfo.number}호,&nbsp;
+              {sideInfo.number}
+              호,&nbsp;
               {format(new Date(sideInfo.promulgation_date), 'yyyy.MM.dd.')}
               &nbsp;
-              {sideInfo.amendment_status}]
+              {sideInfo.amendment_status}
+              ]
             </p>
           </p>
         </div>
@@ -100,7 +110,7 @@ function SideInfo(props) {
 
 export default connect(
   (state) => ({
-    lawlist: state.searchlist.lawlist,
+    lawList: state.searchList.lawList,
     Law: state.Law.Law,
     RelatedLaw: state.Related.Related,
     Result: state.Result.Result,
@@ -109,5 +119,5 @@ export default connect(
     Law: (data) => dispatch(Law.Law(data)),
     Related: (data) => dispatch(Related.Related(data)),
     Result: (data) => dispatch(Result.Result(data)),
-  })
+  }),
 )(withRouter(SideInfo));
