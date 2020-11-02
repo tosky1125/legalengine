@@ -828,5 +828,10 @@ const init = async () => {
     law_id: a,
     tag: html,
   });
+  if(k === 10000) return 'hi';
+  k += 1;
+  
+  await init();
 }
+let k = 101;
 init();

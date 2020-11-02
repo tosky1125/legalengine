@@ -15,8 +15,8 @@
   },
   "production": {
     "username": "root",
-    "password": "12345678",
-    "database": "carillon",
+    "password": "carillon_codestates",
+    "database": "carillon_codestates",
     "host": "13.125.112.243",
     "dialect": "mysql"
   }
