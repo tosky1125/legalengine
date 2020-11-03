@@ -63,7 +63,7 @@ const spec = async () => {
   });
   const page = await browser.newPage();
   await page.goto(url, {
-    waitUntil: 'load',
+    waitUntil: 'networkidle0',
     timeout: 0,
   });
 
@@ -829,10 +829,10 @@ const init = async () => {
     law_id: a,
     tag: html,
   });
-  if(k === 40000) return 'hi';
+  if(k === 107500) return 'hi';
   k += 1;
   
   await init();
 }
-let k = 30001;
+let k = 106901;
 init();

@@ -30,3 +30,7 @@
 .sideInfo-info {
   color: rgb(36, 138, 179);
 }
+
+button:focus {
+  outline: none;
+}
