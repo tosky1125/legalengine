@@ -19,7 +19,8 @@
 
 .selected-title {
   border: none;
-  background-color: rgb(236, 234, 232)
+  background-color: rgb(236, 234, 232);
+  text-align: left;
 }
 
 .sideInfo-title:hover {
@@ -28,4 +29,8 @@
 
 .sideInfo-info {
   color: rgb(36, 138, 179);
+}
+
+button:focus {
+  outline: none;
 }
