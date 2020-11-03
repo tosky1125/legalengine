@@ -14,6 +14,9 @@
     font-size: 14px;
     line-height: 18px;
   }
+  a[href]:after {
+    content: none !important;
+  }
   .pdf-button {
     display: none;
   }

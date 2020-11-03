@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './SideInfo.css';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
 import * as Law from '../modules/Law';
