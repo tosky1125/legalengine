@@ -124,12 +124,12 @@ const contDiff = async () => {
   }
   
   await htmlMaker(k);
-  if(k === 80000) return hi;
+  if(k === 107500) return hi;
   k += 1;
   await contDiff();
 }
 
-let k = 60770;
+let k = 105001;
 
 
 const getData = async (data) => {
