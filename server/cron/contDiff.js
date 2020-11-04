@@ -13,20 +13,18 @@ const {
   Subparagraph,
   Item,
 } = require('../models/index');
-const revision = require('../testR');
+const revision = require('../helpers/testR');
 const htmlMaker = require('./tagBuild');
 
 const regex1 = /(<([^>]+)>)/gi;
 const regex2 = /null/gi;
 const regex3 = /\s+/g;
 
-const contDiff = async () => {
+const contDiff = async (k) => {
   const law = await totalData(k);
-  const oldLaw = await getData(law.Law);
-
+  const oldLaw = await getData(law.Law); 
   if (oldLaw) {
     const {
-      promulgation_date,
       number,
       enforcement_date
     } = oldLaw;
@@ -34,7 +32,7 @@ const contDiff = async () => {
     for (chapEle of law.Law.Chapter) {
       let newArtCount = 0;
       for (artEle of chapEle.Article) {
-        
+
         if (artEle.cont_date && artEle.cont_date.includes('신설') && artEle.cont_date.includes(dateForm)) {
           newArtCount -= 1;
         }
@@ -51,7 +49,7 @@ const contDiff = async () => {
               id: artEle.id
             }
           });
-          
+
         }
         let newClaCount = 0;
         for (claEle of artEle.Clause) {
@@ -70,7 +68,7 @@ const contDiff = async () => {
               where: {
                 id: claEle.id
               }
-            });          
+            });
           }
           let newSubCount = 0;
           for (subEle of claEle.subPara) {
@@ -90,7 +88,7 @@ const contDiff = async () => {
                   id: subEle.id
                 }
               })
-              
+
             }
             let newItemCount = 0;
             for (itEle of subEle.Item) {
@@ -110,7 +108,7 @@ const contDiff = async () => {
                     id: itEle.id
                   }
                 })
-                
+
               }
             }
             newItemCount = 0;
@@ -122,14 +120,8 @@ const contDiff = async () => {
       newArtCount = 0;
     }
   }
-  
-  await htmlMaker(k);
-  if(k === 40000) return hi;
-  k += 1;
-  await contDiff();
 }
 
-let k = 20001;
 
 
 const getData = async (data) => {
@@ -145,6 +137,7 @@ const getData = async (data) => {
   const result = justBefore ? justBefore : null;
   return result;
 }
+
 
 const checkRevision = async (law_number, law_eDate, article_id, clause_id = null, sub_id = null, item_id = null) => {
   const result = await revision(law_number,
@@ -170,4 +163,4 @@ const artIdToNum = (artId) => {
   return Number(result);
 }
 
-contDiff();
+module.exports = contDiff;

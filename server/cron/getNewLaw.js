@@ -2,6 +2,7 @@ const axios = require('axios');
 const convert = require('xml-js');
 const spec = require('./getLawDesc');
 const init = require('./dbUpdate');
+const diff = require('./contDiff');
 const tag = require('./tagBuilder');
 const {
   Law,
@@ -76,6 +77,7 @@ const getLaws = async () => {
     });
     const desc = await spec(law);
     await init(desc, law.law_id);
+    await diff(law_id);
     await tag(law);
   }
 };
