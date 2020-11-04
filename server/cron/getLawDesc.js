@@ -659,15 +659,5 @@ const spec = async (data) => {
   return result;
 };
 
-// const checkRevision = async (law_number, law_eDate, article_id, clause_id = null, sub_id = null, item_id = null) => {
-//   const result = await revision(law_number,
-//     law_eDate,
-//     article_id,
-//     clause_id,
-//     sub_id,
-//     item_id);
-//   return result;
-// };
-
 
 module.exports = spec;
